@@ -1,0 +1,47 @@
+package com.ant.mcskyblock.config;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
+
+// Code adapted from Vaskii's Botania source
+// https://github.com/Vazkii/Botania
+public class ConfigHandler {
+    public static final Common COMMON;
+    public static final ForgeConfigSpec COMMON_SPEC;
+    static {
+        final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+        COMMON_SPEC = specPair.getRight();
+        COMMON = specPair.getLeft();
+    }
+
+    public static class Common {
+        public final ForgeConfigSpec.BooleanValue phantomElytra;
+        public final ForgeConfigSpec.BooleanValue witchNetherWart;
+        public final ForgeConfigSpec.BooleanValue enderDragonHead;
+        public final ForgeConfigSpec.BooleanValue masonQuartzTrade;
+        public final ForgeConfigSpec.BooleanValue clericShulkerShellTrade;
+        public final ForgeConfigSpec.BooleanValue wanderingTraderSponge;
+        public final ForgeConfigSpec.BooleanValue wanderingTraderLavaBucket;
+        public final ForgeConfigSpec.BooleanValue wanderingTraderChorusPlant;
+        public final ForgeConfigSpec.BooleanValue wanderingTraderHeartOfTheSea;
+        public final ForgeConfigSpec.BooleanValue wanderingTraderEndPortalFrame;
+
+        public Common(ForgeConfigSpec.Builder builder) {
+            builder.push("lootTables");
+            phantomElytra = builder.comment("Enabling this gives phantoms a 1% chance to drop an elytra when killed by a player").define("phantomElytra", true);
+            witchNetherWart = builder.comment("Enabling this gives witches a chance to drop nether wart").define("witchNetherWart", true);
+            enderDragonHead = builder.comment("Enabling this makes the ender dragon drop its head when killed by a player").define("enderDragonHead", true);
+            builder.pop();
+
+            builder.push("trades");
+            masonQuartzTrade = builder.comment("Enabling this will give mason villagers a chance to trade 2 quartz for 1 emerald").define("masonQuartzTrade", true);
+            clericShulkerShellTrade = builder.comment("Enabling this will give cleric villagers a chance to trade 2 shulker shells for 20+ emeralds").define("clericShulkerShellTrade", true);
+            wanderingTraderSponge = builder.comment("Enabling this will give wandering traders a generic trade of a sponge for 3 emeralds").define("wanderingTraderSponge", true);
+            wanderingTraderLavaBucket = builder.comment("Enabling this will give wandering traders a rare trade of a lava bucket for 5 emeralds").define("wanderingTraderLavaBucket", true);
+            wanderingTraderChorusPlant = builder.comment("Enabling this will give wandering traders a rare trade of a chorus plant for 6 emeralds").define("wanderingTraderChorusPlant", true);
+            wanderingTraderHeartOfTheSea = builder.comment("Enabling this will give wandering traders a rare trade of a heart of the sea for 10 emeralds").define("wanderingTraderHeartOfTheSea", true);
+            wanderingTraderEndPortalFrame = builder.comment("Enabling this will give wandering traders a rare trade of an end portal frame for 50 emeralds").define("wanderingTraderEndPortalFrame", true);
+            builder.pop();
+        }
+    }
+}

@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+[[mods]]
+modId="mcskyblock"
+version="${file.jarVersion}"
+displayName="MC SkyBlock"
+logoFile="mcskyblock.png"
+credits="Vaskii (Botania GoG) - https://github.com/Vazkii/Botania"
+authors="Ant"
+description='''
+This mod adds a new world generation type for a barebones skyblock experience
+'''
+[[dependencies.examplemod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.examplemod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
