@@ -3,6 +3,7 @@ package com.ant.mcskyblock;
 import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.network.PacketHandler;
 import com.ant.mcskyblock.setup.Setup;
+import com.ant.mcskyblock.utils.SpawnUtils;
 import com.ant.mcskyblock.world.SkyblockChunkGenerator;
 import com.ant.mcskyblock.world.SkyblockWorldEvents;
 import com.ant.mcskyblock.world.SkyblockWorldType;
@@ -47,6 +48,7 @@ public class MCSkyblock
 
         MinecraftForge.EVENT_BUS.addListener(SkyblockWorldEvents::syncStatus);
         MinecraftForge.EVENT_BUS.addListener(SkyblockWorldEvents::onPlayerJoin);
+        MinecraftForge.EVENT_BUS.addListener(SpawnUtils::onBiomeLoadingEvent);
 
         event.enqueueWork(() -> {
             SkyblockChunkGenerator.init();

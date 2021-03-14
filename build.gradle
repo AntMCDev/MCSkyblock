@@ -20,7 +20,7 @@ mixin {
     add sourceSets.main, "mcskyblock.refmap.json"
 }
 
-version = '1.0'
+version = '1.1'
 group = 'com.ant.mcskyblock'
 archivesBaseName = 'mcskyblock'
 

@@ -25,6 +25,7 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue wanderingTraderChorusPlant;
         public final ForgeConfigSpec.BooleanValue wanderingTraderHeartOfTheSea;
         public final ForgeConfigSpec.BooleanValue wanderingTraderEndPortalFrame;
+        public final ForgeConfigSpec.BooleanValue stopBatSpawns;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("lootTables");
@@ -41,6 +42,10 @@ public class ConfigHandler {
             wanderingTraderChorusPlant = builder.comment("Enabling this will give wandering traders a rare trade of a chorus plant for 6 emeralds").define("wanderingTraderChorusPlant", true);
             wanderingTraderHeartOfTheSea = builder.comment("Enabling this will give wandering traders a rare trade of a heart of the sea for 10 emeralds").define("wanderingTraderHeartOfTheSea", true);
             wanderingTraderEndPortalFrame = builder.comment("Enabling this will give wandering traders a rare trade of an end portal frame for 50 emeralds").define("wanderingTraderEndPortalFrame", true);
+            builder.pop();
+
+            builder.push("spawns");
+            stopBatSpawns = builder.comment("Enabling this will stop bats from spawning").define("stopBatSpawns", true);
             builder.pop();
         }
     }
