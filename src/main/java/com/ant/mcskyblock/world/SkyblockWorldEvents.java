@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -30,7 +31,7 @@ public final class SkyblockWorldEvents {
         World world = event.getPlayer().world;
         if (SkyblockChunkGenerator.isWorldSkyblock(world)) {
             SkyblockSavedData data = SkyblockSavedData.get((ServerWorld)world);
-            if (!data.generated) {
+            if (!data.generated && world.getDimensionKey() == World.OVERWORLD) {
                 IslandPosition islandPosition = data.getSpawn();
                 ((ServerWorld)world).func_241124_a__(islandPosition.getCenter(), 0);
                 spawnPlayer(event.getPlayer(), islandPosition);
