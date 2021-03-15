@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +38,22 @@ public class LootTableUtils {
             newLootPools.put(new ResourceLocation("minecraft", "entities/ender_dragon"), LootPool.builder().name("enderdragon_dragonhead").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(Items.DRAGON_HEAD).acceptFunction(SetCount.builder(ConstantRange.of(1)))).acceptCondition(KilledByPlayer.builder()).build());
         }
 
-        existingLootPools.put(LootTables.PIGLIN_BARTERING, new LootPoolReference("main", new LootEntry[] {
-                ItemLootEntry.builder(Items.NETHERRACK).acceptFunction(SetCount.builder(RandomValueRange.of(8.0F, 16.0F))).weight(40).build(),
-                ItemLootEntry.builder(Items.CRIMSON_NYLIUM).acceptFunction(SetCount.builder(RandomValueRange.of(4.0F, 8.0F))).weight(20).build(),
-                ItemLootEntry.builder(Items.WARPED_NYLIUM).acceptFunction(SetCount.builder(RandomValueRange.of(4.0F, 8.0F))).weight(20).build(),
-                ItemLootEntry.builder(Items.CRIMSON_FUNGUS).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 2.0F))).weight(10).build(),
-                ItemLootEntry.builder(Items.WARPED_FUNGUS).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 2.0F))).weight(10).build(),
-                ItemLootEntry.builder(Items.ANCIENT_DEBRIS).acceptFunction(SetCount.builder(ConstantRange.of(1))).weight(1).build()
-        }));
+        List<LootEntry> lootEntries = new ArrayList<>();
+        if (ConfigHandler.COMMON.piglinNetherrack.get()) {
+            lootEntries.add(ItemLootEntry.builder(Items.NETHERRACK).acceptFunction(SetCount.builder(RandomValueRange.of(8.0F, 16.0F))).weight(40).build());
+        }
+        if (ConfigHandler.COMMON.piglinNylium.get()) {
+            lootEntries.add(ItemLootEntry.builder(Items.CRIMSON_NYLIUM).acceptFunction(SetCount.builder(RandomValueRange.of(4.0F, 8.0F))).weight(20).build());
+            lootEntries.add(ItemLootEntry.builder(Items.WARPED_NYLIUM).acceptFunction(SetCount.builder(RandomValueRange.of(4.0F, 8.0F))).weight(20).build());
+        }
+        if (ConfigHandler.COMMON.piglinFungus.get()) {
+            lootEntries.add(ItemLootEntry.builder(Items.CRIMSON_FUNGUS).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 2.0F))).weight(10).build());
+            lootEntries.add(ItemLootEntry.builder(Items.WARPED_FUNGUS).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 2.0F))).weight(10).build());
+        }
+        if (ConfigHandler.COMMON.piglinAncientDebris.get()) {
+            lootEntries.add(ItemLootEntry.builder(Items.ANCIENT_DEBRIS).acceptFunction(SetCount.builder(ConstantRange.of(1))).weight(1).build());
+        }
+        existingLootPools.put(LootTables.PIGLIN_BARTERING, new LootPoolReference("main", lootEntries));
     }
 
     @SubscribeEvent
@@ -56,7 +65,7 @@ public class LootTableUtils {
         if (existingLootPools.containsKey(event.getName())) {
             String poolName = existingLootPools.get(event.getName()).getPoolName();
             for (LootEntry l : existingLootPools.get(event.getName()).getEntries()) {
-                ((List<LootEntry>)ObfuscationReflectionHelper.getPrivateValue(LootPool.class, event.getTable().getPool(poolName), "lootEntries")).add(l);
+                ((List<LootEntry>)ObfuscationReflectionHelper.getPrivateValue(LootPool.class, event.getTable().getPool(poolName), "field_186453_a")).add(l);
             }
         }
     }

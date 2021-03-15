@@ -24,6 +24,10 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue wanderingTraderChorusPlant;
         public final ForgeConfigSpec.BooleanValue wanderingTraderHeartOfTheSea;
         public final ForgeConfigSpec.BooleanValue wanderingTraderEndPortalFrame;
+        public final ForgeConfigSpec.BooleanValue piglinNetherrack;
+        public final ForgeConfigSpec.BooleanValue piglinNylium;
+        public final ForgeConfigSpec.BooleanValue piglinFungus;
+        public final ForgeConfigSpec.BooleanValue piglinAncientDebris;
         public final ForgeConfigSpec.BooleanValue stopBatSpawns;
 
         public Common(ForgeConfigSpec.Builder builder) {
@@ -40,6 +44,13 @@ public class ConfigHandler {
             wanderingTraderChorusPlant = builder.comment("Enabling this will give wandering traders a rare trade of a chorus plant for 6 emeralds").define("wanderingTraderChorusPlant", true);
             wanderingTraderHeartOfTheSea = builder.comment("Enabling this will give wandering traders a rare trade of a heart of the sea for 10 emeralds").define("wanderingTraderHeartOfTheSea", true);
             wanderingTraderEndPortalFrame = builder.comment("Enabling this will give wandering traders a rare trade of an end portal frame for 50 emeralds").define("wanderingTraderEndPortalFrame", true);
+            builder.pop();
+
+            builder.push("barters");
+            piglinNetherrack = builder.comment("Enabling this will give piglins a high chance to drop 8-16 netherrack").define("piglinNetherrack", true);
+            piglinNylium = builder.comment("Enabling this will give piglins a moderate chance to drop 4-8 nylium").define("piglinNylium", true);
+            piglinFungus = builder.comment("Enabling this will give piglins a low chance to drop 1-2 fungi").define("piglinFungus", true);
+            piglinAncientDebris = builder.comment("Enabling this will give piglins a very low chance to drop an ancient debris").define("piglinAncientDebris", true);
             builder.pop();
 
             builder.push("spawns");

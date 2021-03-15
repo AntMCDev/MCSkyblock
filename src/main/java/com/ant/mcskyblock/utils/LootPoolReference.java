@@ -2,11 +2,13 @@ package com.ant.mcskyblock.utils;
 
 import net.minecraft.loot.LootEntry;
 
+import java.util.List;
+
 public class LootPoolReference {
     private String poolName;
-    private LootEntry[] entries;
+    private List<LootEntry> entries;
 
-    public LootPoolReference(String poolName, LootEntry[] entries) {
+    public LootPoolReference(String poolName, List<LootEntry> entries) {
         this.poolName = poolName;
         this.entries = entries;
     }
@@ -19,11 +21,11 @@ public class LootPoolReference {
         this.poolName = poolName;
     }
 
-    public LootEntry[] getEntries() {
+    public List<LootEntry> getEntries() {
         return entries;
     }
 
-    public void setEntries(LootEntry[] entries) {
+    public void setEntries(List<LootEntry> entries) {
         this.entries = entries;
     }
 }
