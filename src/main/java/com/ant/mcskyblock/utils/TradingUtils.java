@@ -42,12 +42,6 @@ public class TradingUtils {
             wanderingTradingRareTradeAdditions.add(new BasicTrade(50, new ItemStack(Items.END_PORTAL_FRAME, 1), 1, 1));
         }
 
-        if (ConfigHandler.COMMON.masonQuartzTrade.get()) {
-            trades.put(VillagerProfession.MASON, new LevelledTrade[]{
-                    new LevelledTrade(1, 1, new ItemStack(Items.QUARTZ, 2), 16, 1, 0.05f)
-            });
-        }
-
         if (ConfigHandler.COMMON.clericShulkerShellTrade.get()) {
             trades.put(VillagerProfession.CLERIC, new LevelledTrade[]{
                     new RandomPriceLevelledTrade(5, 20, new ItemStack(Items.SHULKER_SHELL, 2), 3, 1, 0.2f, 10)
