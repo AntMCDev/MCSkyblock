@@ -18,7 +18,6 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue phantomElytra;
         public final ForgeConfigSpec.BooleanValue witchNetherWart;
         public final ForgeConfigSpec.BooleanValue enderDragonHead;
-        public final ForgeConfigSpec.BooleanValue masonQuartzTrade;
         public final ForgeConfigSpec.BooleanValue clericShulkerShellTrade;
         public final ForgeConfigSpec.BooleanValue wanderingTraderSponge;
         public final ForgeConfigSpec.BooleanValue wanderingTraderLavaBucket;
@@ -35,7 +34,6 @@ public class ConfigHandler {
             builder.pop();
 
             builder.push("trades");
-            masonQuartzTrade = builder.comment("Enabling this will give mason villagers a chance to trade 2 quartz for 1 emerald").define("masonQuartzTrade", true);
             clericShulkerShellTrade = builder.comment("Enabling this will give cleric villagers a chance to trade 2 shulker shells for 20+ emeralds").define("clericShulkerShellTrade", true);
             wanderingTraderSponge = builder.comment("Enabling this will give wandering traders a generic trade of a sponge for 3 emeralds").define("wanderingTraderSponge", true);
             wanderingTraderLavaBucket = builder.comment("Enabling this will give wandering traders a rare trade of a lava bucket for 5 emeralds").define("wanderingTraderLavaBucket", true);
