@@ -15,10 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = MCSkyblock.MOD_ID)
 public class LootTableUtils {
@@ -54,6 +51,10 @@ public class LootTableUtils {
             lootEntries.add(ItemLootEntry.builder(Items.ANCIENT_DEBRIS).acceptFunction(SetCount.builder(ConstantRange.of(1))).weight(1).build());
         }
         existingLootPools.put(LootTables.PIGLIN_BARTERING, new LootPoolReference("main", lootEntries));
+
+        if (ConfigHandler.COMMON.heroOfTheVillageClericDiamonds.get()) {
+            existingLootPools.put(LootTables.GAMEPLAY_HERO_OF_THE_VILLAGE_CLERIC_GIFT, new LootPoolReference("main", Collections.singletonList(ItemLootEntry.builder(Items.DIAMOND).build())));
+        }
     }
 
     @SubscribeEvent
