@@ -28,6 +28,7 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue piglinNylium;
         public final ForgeConfigSpec.BooleanValue piglinFungus;
         public final ForgeConfigSpec.BooleanValue piglinAncientDebris;
+        public final ForgeConfigSpec.BooleanValue heroOfTheVillageClericDiamonds;
         public final ForgeConfigSpec.BooleanValue stopBatSpawns;
 
         public Common(ForgeConfigSpec.Builder builder) {
@@ -51,6 +52,10 @@ public class ConfigHandler {
             piglinNylium = builder.comment("Enabling this will give piglins a moderate chance to drop 4-8 nylium").define("piglinNylium", true);
             piglinFungus = builder.comment("Enabling this will give piglins a low chance to drop 1-2 fungi").define("piglinFungus", true);
             piglinAncientDebris = builder.comment("Enabling this will give piglins a very low chance to drop an ancient debris").define("piglinAncientDebris", true);
+            builder.pop();
+
+            builder.push("rewards");
+            heroOfTheVillageClericDiamonds = builder.comment("Enabling this will give Cleric villagers a chance to give a diamond when the player has the Hero of the Village effect").define("heroOfTheVillageClericDiamonds", true);
             builder.pop();
 
             builder.push("spawns");
