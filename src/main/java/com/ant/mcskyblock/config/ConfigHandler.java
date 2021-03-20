@@ -21,7 +21,7 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue clericShulkerShellTrade;
         public final ForgeConfigSpec.BooleanValue wanderingTraderSponge;
         public final ForgeConfigSpec.BooleanValue wanderingTraderLavaBucket;
-        public final ForgeConfigSpec.BooleanValue wanderingTraderChorusPlant;
+        public final ForgeConfigSpec.BooleanValue wanderingTraderChorusFlower;
         public final ForgeConfigSpec.BooleanValue wanderingTraderHeartOfTheSea;
         public final ForgeConfigSpec.BooleanValue wanderingTraderEndPortalFrame;
         public final ForgeConfigSpec.BooleanValue piglinNetherrack;
@@ -42,7 +42,7 @@ public class ConfigHandler {
             clericShulkerShellTrade = builder.comment("Enabling this will give cleric villagers a chance to trade 2 shulker shells for 20+ emeralds").define("clericShulkerShellTrade", true);
             wanderingTraderSponge = builder.comment("Enabling this will give wandering traders a generic trade of a sponge for 3 emeralds").define("wanderingTraderSponge", true);
             wanderingTraderLavaBucket = builder.comment("Enabling this will give wandering traders a rare trade of a lava bucket for 5 emeralds").define("wanderingTraderLavaBucket", true);
-            wanderingTraderChorusPlant = builder.comment("Enabling this will give wandering traders a rare trade of a chorus plant for 6 emeralds").define("wanderingTraderChorusPlant", true);
+            wanderingTraderChorusFlower = builder.comment("Enabling this will give wandering traders a rare trade of a chorus flower for 6 emeralds").define("wanderingTraderChorusPlant", true);
             wanderingTraderHeartOfTheSea = builder.comment("Enabling this will give wandering traders a rare trade of a heart of the sea for 10 emeralds").define("wanderingTraderHeartOfTheSea", true);
             wanderingTraderEndPortalFrame = builder.comment("Enabling this will give wandering traders a rare trade of an end portal frame for 50 emeralds").define("wanderingTraderEndPortalFrame", true);
             builder.pop();
