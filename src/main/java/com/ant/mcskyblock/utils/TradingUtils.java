@@ -30,8 +30,8 @@ public class TradingUtils {
             wanderingTradingRareTradeAdditions.add(new BasicTrade(5, new ItemStack(Items.LAVA_BUCKET, 1), 4, 1));
         }
 
-        if (ConfigHandler.COMMON.wanderingTraderChorusPlant.get()) {
-            wanderingTradingRareTradeAdditions.add(new BasicTrade(6, new ItemStack(Items.CHORUS_PLANT, 1), 6, 1));
+        if (ConfigHandler.COMMON.wanderingTraderChorusFlower.get()) {
+            wanderingTradingRareTradeAdditions.add(new BasicTrade(6, new ItemStack(Items.CHORUS_FLOWER, 1), 6, 1));
         }
 
         if (ConfigHandler.COMMON.wanderingTraderHeartOfTheSea.get()) {
