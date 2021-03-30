@@ -30,6 +30,8 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue piglinAncientDebris;
         public final ForgeConfigSpec.BooleanValue heroOfTheVillageClericDiamonds;
         public final ForgeConfigSpec.BooleanValue stopBatSpawns;
+        public final ForgeConfigSpec.BooleanValue voidNether;
+        public final ForgeConfigSpec.BooleanValue voidEnd;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("lootTables");
@@ -60,6 +62,11 @@ public class ConfigHandler {
 
             builder.push("spawns");
             stopBatSpawns = builder.comment("Enabling this will stop bats from spawning").define("stopBatSpawns", true);
+            builder.pop();
+
+            builder.push("dimensions");
+            voidNether = builder.comment("Enabling this will generate a void nether").define("voidNether", true);
+            voidEnd = builder.comment("Enabling this will generate a void end").define("voidEnd", true);
             builder.pop();
         }
     }
