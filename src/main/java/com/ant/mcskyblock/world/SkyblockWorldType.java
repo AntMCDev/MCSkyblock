@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.world;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.registry.DynamicRegistries;
@@ -13,6 +14,7 @@ import net.minecraft.world.biome.provider.NetherBiomeProvider;
 import net.minecraft.world.biome.provider.OverworldBiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.DimensionSettings;
+import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.settings.DimensionGeneratorSettings;
 import net.minecraftforge.common.world.ForgeWorldType;
 
@@ -55,10 +57,10 @@ public class SkyblockWorldType extends ForgeWorldType {
         SimpleRegistry<Dimension> lvt_5_1_ = new SimpleRegistry(Registry.DIMENSION_KEY, Lifecycle.stable());
         lvt_5_1_.register(Dimension.THE_NETHER, new Dimension(() -> {
             return (DimensionType)p_242718_0_.getOrThrow(DimensionType.THE_NETHER);
-        }, getNetherChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_)), Lifecycle.stable());
+        }, ConfigHandler.COMMON.voidNether.get() ? getNetherChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_) : getDefaultNetherChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_)), Lifecycle.stable());
         lvt_5_1_.register(Dimension.THE_END, new Dimension(() -> {
             return (DimensionType)p_242718_0_.getOrThrow(DimensionType.THE_END);
-        }, getEndChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_)), Lifecycle.stable());
+        }, ConfigHandler.COMMON.voidNether.get() ? getEndChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_) : getDefaultEndChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_)), Lifecycle.stable());
         return lvt_5_1_;
     }
 
@@ -71,6 +73,18 @@ public class SkyblockWorldType extends ForgeWorldType {
     private static ChunkGenerator getNetherChunkGenerator(Registry<Biome> p_242720_0_, Registry<DimensionSettings> p_242720_1_, long p_242720_2_) {
         return new SkyblockChunkGenerator(NetherBiomeProvider.Preset.DEFAULT_NETHER_PROVIDER_PRESET.build(p_242720_0_, p_242720_2_), p_242720_2_, () -> {
             return (DimensionSettings)p_242720_1_.getOrThrow(DimensionSettings.field_242736_e);
+        });
+    }
+
+    private static ChunkGenerator getDefaultEndChunkGenerator(Registry<Biome> lookUpRegistryBiome, Registry<DimensionSettings> settingsRegistry, long seed) {
+        return new NoiseChunkGenerator(new EndBiomeProvider(lookUpRegistryBiome, seed), seed, () -> {
+            return settingsRegistry.getOrThrow(DimensionSettings.field_242737_f);
+        });
+    }
+
+    private static ChunkGenerator getDefaultNetherChunkGenerator(Registry<Biome> lookUpRegistryBiome, Registry<DimensionSettings> lookUpRegistryDimensionType, long seed) {
+        return new NoiseChunkGenerator(NetherBiomeProvider.Preset.DEFAULT_NETHER_PROVIDER_PRESET.build(lookUpRegistryBiome, seed), seed, () -> {
+            return lookUpRegistryDimensionType.getOrThrow(DimensionSettings.field_242736_e);
         });
     }
 }
