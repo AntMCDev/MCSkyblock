@@ -6,7 +6,14 @@
   "refmap": "mcskyblock.refmap.json",
   "mixins": [
     "MixinDimension",
-    "MixinDragonFightManager"
+    "MixinDragonFightManager",
+    "MixinStructurePiece",
+    "MixinConfiguredFeature",
+    "MixinTemplate",
+    "MixinFortressPiecesThrone",
+    "MixinBiome",
+    "MixinOceanRuinPieces",
+    "MixinStrongholdPiecesPortalRoom"
   ],
   "client": [
     "MixinClientWorldInfo",

@@ -3,17 +3,23 @@ package com.ant.mcskyblock.world;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.*;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.server.ServerChunkProvider;
 
 import static com.ant.mcskyblock.utils.ResourceLocationHelper.prefix;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 // Code adapted from Vaskii's Botania GoG source
@@ -64,11 +70,6 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void func_230351_a_(WorldGenRegion p_230351_1_, StructureManager p_230351_2_) {
-
-    }
-
-    @Override
     public int getHeight(int x, int z, Heightmap.Type heightmapType) {
         return 0;
     }
@@ -76,5 +77,13 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
     @Override
     public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
         return new Blockreader(new BlockState[0]);
+    }
+
+    @Override
+    public List<MobSpawnInfo.Spawners> func_230353_a_(Biome p_230353_1_, StructureManager p_230353_2_, EntityClassification p_230353_3_, BlockPos p_230353_4_) {
+        List<MobSpawnInfo.Spawners> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_230353_2_, p_230353_3_, p_230353_4_);
+        if (spawns != null) return spawns;
+
+        return super.func_230353_a_(p_230353_1_, p_230353_2_, p_230353_3_, p_230353_4_);
     }
 }
