@@ -9,6 +9,7 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,6 +20,9 @@ import java.util.Random;
 
 @Mixin(StructurePiece.class)
 public abstract class MixinStructurePiece {
+    @Shadow
+    protected MutableBoundingBox boundingBox;
+
     @Inject(at = @At("HEAD"), method = "setBlockState", cancellable = true)
     protected void setBlockState(ISeedReader worldIn, BlockState blockstateIn, int x, int y, int z, MutableBoundingBox boundingboxIn, CallbackInfo ci) {
         if (SkyblockChunkGenerator.isWorldSkyblock(worldIn.getWorld()))

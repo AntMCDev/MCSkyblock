@@ -30,6 +30,7 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue piglinAncientDebris;
         public final ForgeConfigSpec.BooleanValue heroOfTheVillageClericDiamonds;
         public final ForgeConfigSpec.BooleanValue stopBatSpawns;
+        public final ForgeConfigSpec.BooleanValue witchHutYZero;
         public final ForgeConfigSpec.BooleanValue voidNether;
         public final ForgeConfigSpec.BooleanValue voidEnd;
 
@@ -62,6 +63,7 @@ public class ConfigHandler {
 
             builder.push("spawns");
             stopBatSpawns = builder.comment("Enabling this will stop bats from spawning").define("stopBatSpawns", true);
+            witchHutYZero = builder.comment("Enabling this will generate witch huts at Y:0 instead of Y:64").define("witchHutYZero", false);
             builder.pop();
 
             builder.push("dimensions");
