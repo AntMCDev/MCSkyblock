@@ -13,7 +13,8 @@
     "MixinFortressPiecesThrone",
     "MixinBiome",
     "MixinOceanRuinPieces",
-    "MixinStrongholdPiecesPortalRoom"
+    "MixinStrongholdPiecesPortalRoom",
+    "MixinScatteredStructurePiece"
   ],
   "client": [
     "MixinClientWorldInfo",
