@@ -7,6 +7,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.EndPodiumFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeature;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,7 +25,7 @@ public abstract class MixinConfiguredFeature {
 
     @Inject(at = @At("HEAD"), method = "generate", cancellable = true)
     public void generate(ISeedReader reader, ChunkGenerator chunkGenerator, Random rand, BlockPos pos, CallbackInfoReturnable cir) {
-        if (SkyblockChunkGenerator.isWorldSkyblock(reader.getWorld()) && !(feature instanceof EndPodiumFeature))
+        if (SkyblockChunkGenerator.isWorldSkyblock(reader.getWorld()) && !(feature instanceof EndPodiumFeature) && !(feature instanceof TreeFeature))
             cir.setReturnValue(true);
     }
 }
