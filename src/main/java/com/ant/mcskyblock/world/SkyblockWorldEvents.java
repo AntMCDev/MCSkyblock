@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.world;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.network.PacketHandler;
 import com.ant.mcskyblock.network.PacketSkyblockWorld;
 import net.minecraft.block.Blocks;
@@ -94,13 +95,6 @@ public final class SkyblockWorldEvents {
                     {' ', ' ', 'W', ' ', ' '},
                     {' ', ' ', ' ', ' ', ' '},
                     {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                    {' ', ' ', ' ', ' ', ' '},
-                    {' ', ' ', ' ', ' ', ' '},
-                    {' ', ' ', 'D', ' ', ' '},
-                    {' ', ' ', ' ', ' ', ' '},
-                    {' ', ' ', ' ', ' ', ' '}
                 }
         };
 
@@ -111,10 +105,14 @@ public final class SkyblockWorldEvents {
                         world.setBlockState(new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset), Blocks.OAK_LEAVES.getDefaultState());
                     } else if (tree[y][x][z] == 'W') {
                         world.setBlockState(new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset), Blocks.OAK_LOG.getDefaultState());
-                    } else if (tree[y][x][z] == 'D') {
-                        world.setBlockState(new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset), Blocks.DIRT.getDefaultState());
                     }
                 }
+            }
+        }
+
+        for (int x = -(ConfigHandler.COMMON.islandRadius.get()-1); x <= ConfigHandler.COMMON.islandRadius.get()-1; x++) {
+            for (int z = -(ConfigHandler.COMMON.islandRadius.get()-1); z <= ConfigHandler.COMMON.islandRadius.get()-1; z++) {
+                world.setBlockState(new BlockPos(pos.getX() - x, pos.getY() - tree.length - 1, pos.getZ() - z), Blocks.DIRT.getDefaultState());
             }
         }
     }
