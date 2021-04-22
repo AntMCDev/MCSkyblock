@@ -33,6 +33,7 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue witchHutYZero;
         public final ForgeConfigSpec.BooleanValue voidNether;
         public final ForgeConfigSpec.BooleanValue voidEnd;
+        public final ForgeConfigSpec.IntValue islandRadius;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("lootTables");
@@ -69,6 +70,7 @@ public class ConfigHandler {
             builder.push("dimensions");
             voidNether = builder.comment("Enabling this will generate a void nether").define("voidNether", true);
             voidEnd = builder.comment("Enabling this will generate a void end").define("voidEnd", true);
+            islandRadius = builder.comment("This defines the radius of the starting skyblock island").defineInRange("islandRadius", 1, 1, 10);
             builder.pop();
         }
     }
