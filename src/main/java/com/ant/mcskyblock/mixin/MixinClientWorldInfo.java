@@ -23,15 +23,15 @@ public abstract class MixinClientWorldInfo implements SkyblockWorldInfo {
         skyblock = true;
     }
 
-    @Inject(at = @At("HEAD"), method = "getVoidFogHeight", cancellable = true)
-    private void horizon(CallbackInfoReturnable<Double> cir) {
+    @Inject(at = @At("HEAD"), method = "getHorizonHeight", cancellable = true)
+    public void getHorizonHeight(CallbackInfoReturnable<Double> cir) {
         if (skyblock) {
             cir.setReturnValue(0.0);
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "getFogDistance", cancellable = true)
-    private void fog(CallbackInfoReturnable<Double> cir) {
+    @Inject(at = @At("HEAD"), method = "getClearColorScale", cancellable = true)
+    private void getClearColorScale(CallbackInfoReturnable<Double> cir) {
         if (skyblock) {
             cir.setReturnValue(1.0);
         }

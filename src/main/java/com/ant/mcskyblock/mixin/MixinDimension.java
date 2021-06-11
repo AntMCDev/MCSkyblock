@@ -17,27 +17,27 @@ import java.util.Map;
 
 @Mixin(Dimension.class)
 public abstract class MixinDimension {
-    @Inject(at = @At("RETURN"), method = "func_236060_a_", cancellable = true)
-    private static void func_236060_a_(long p_236060_0_, SimpleRegistry<Dimension> p_236060_2_, CallbackInfoReturnable cir) {
+    @Inject(at = @At("RETURN"), method = "stable", cancellable = true)
+    private static void stable(long p_236060_0_, SimpleRegistry<Dimension> p_236060_2_, CallbackInfoReturnable cir) {
         if (!cir.getReturnValueZ()) {
-            List<Map.Entry<RegistryKey<Dimension>, Dimension>> lvt_3_1_ = Lists.newArrayList(p_236060_2_.getEntries());
+            List<Map.Entry<RegistryKey<Dimension>, Dimension>> lvt_3_1_ = Lists.newArrayList(p_236060_2_.entrySet());
             Map.Entry<RegistryKey<Dimension>, Dimension> lvt_5_1_ = (Map.Entry)lvt_3_1_.get(1);
             Map.Entry<RegistryKey<Dimension>, Dimension> lvt_6_1_ = (Map.Entry)lvt_3_1_.get(2);
 
-            if (((Dimension)lvt_5_1_.getValue()).getChunkGenerator() instanceof SkyblockChunkGenerator && ((Dimension)lvt_6_1_.getValue()).getChunkGenerator() instanceof SkyblockChunkGenerator) {
-                SkyblockChunkGenerator lvt_7_1_ = (SkyblockChunkGenerator)((Dimension)lvt_5_1_.getValue()).getChunkGenerator();
-                SkyblockChunkGenerator lvt_8_1_ = (SkyblockChunkGenerator)((Dimension)lvt_6_1_.getValue()).getChunkGenerator();
-                if (!(lvt_7_1_.getBiomeProvider() instanceof NetherBiomeProvider)) {
+            if (((Dimension)lvt_5_1_.getValue()).generator() instanceof SkyblockChunkGenerator && ((Dimension)lvt_6_1_.getValue()).generator() instanceof SkyblockChunkGenerator) {
+                SkyblockChunkGenerator lvt_7_1_ = (SkyblockChunkGenerator)((Dimension)lvt_5_1_.getValue()).generator();
+                SkyblockChunkGenerator lvt_8_1_ = (SkyblockChunkGenerator)((Dimension)lvt_6_1_.getValue()).generator();
+                if (!(lvt_7_1_.getBiomeSource() instanceof NetherBiomeProvider)) {
                     cir.setReturnValue(false);
                 } else {
-                    NetherBiomeProvider lvt_9_1_ = (NetherBiomeProvider)lvt_7_1_.getBiomeProvider();
-                    if (!lvt_9_1_.isDefaultPreset(p_236060_0_)) {
+                    NetherBiomeProvider lvt_9_1_ = (NetherBiomeProvider)lvt_7_1_.getBiomeSource();
+                    if (!lvt_9_1_.stable(p_236060_0_)) {
                         cir.setReturnValue(false);
-                    } else if (!(lvt_8_1_.getBiomeProvider() instanceof EndBiomeProvider)) {
+                    } else if (!(lvt_8_1_.getBiomeSource() instanceof EndBiomeProvider)) {
                         cir.setReturnValue(false);
                     } else {
-                        EndBiomeProvider lvt_10_1_ = (EndBiomeProvider)lvt_8_1_.getBiomeProvider();
-                        cir.setReturnValue(lvt_10_1_.areProvidersEqual(p_236060_0_));
+                        EndBiomeProvider lvt_10_1_ = (EndBiomeProvider)lvt_8_1_.getBiomeSource();
+                        cir.setReturnValue(lvt_10_1_.stable(p_236060_0_));
                     }
                 }
             }

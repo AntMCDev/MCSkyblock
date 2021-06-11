@@ -34,13 +34,13 @@ public class PacketStructureCheck {
     public static void handle(PacketStructureCheck packet, Supplier<NetworkEvent.Context> context) {
         if (context.get().getDirection().getReceptionSide().isServer()) {
             context.get().enqueueWork(() -> {
-                StructureInfo.SupportedStructures structure = LocationPredicate.forFeature(Structure.FORTRESS).test(context.get().getSender().getServerWorld(), context.get().getSender().getPosX(), context.get().getSender().getPosY(), context.get().getSender().getPosZ()) ? StructureInfo.SupportedStructures.FORTRESS : StructureInfo.SupportedStructures.NONE;
+                StructureInfo.SupportedStructures structure = LocationPredicate.inFeature(Structure.NETHER_BRIDGE).matches(context.get().getSender().getLevel(), context.get().getSender().position().x, context.get().getSender().position().y, context.get().getSender().position().z) ? StructureInfo.SupportedStructures.FORTRESS : StructureInfo.SupportedStructures.NONE;
                 if (structure == StructureInfo.SupportedStructures.NONE) {
-                    structure = LocationPredicate.forFeature(Structure.MONUMENT).test(context.get().getSender().getServerWorld(), context.get().getSender().getPosX(), context.get().getSender().getPosY(), context.get().getSender().getPosZ()) ? StructureInfo.SupportedStructures.MONUMENT : StructureInfo.SupportedStructures.NONE;
+                    structure = LocationPredicate.inFeature(Structure.OCEAN_MONUMENT).matches(context.get().getSender().getLevel(), context.get().getSender().position().x, context.get().getSender().position().y, context.get().getSender().position().z) ? StructureInfo.SupportedStructures.MONUMENT : StructureInfo.SupportedStructures.NONE;
                     if (structure == StructureInfo.SupportedStructures.NONE) {
-                        structure = LocationPredicate.forFeature(Structure.SWAMP_HUT).test(context.get().getSender().getServerWorld(), context.get().getSender().getPosX(), context.get().getSender().getPosY(), context.get().getSender().getPosZ()) ? StructureInfo.SupportedStructures.SWAMP_HUT : StructureInfo.SupportedStructures.NONE;
+                        structure = LocationPredicate.inFeature(Structure.SWAMP_HUT).matches(context.get().getSender().getLevel(), context.get().getSender().position().x, context.get().getSender().position().y, context.get().getSender().position().z) ? StructureInfo.SupportedStructures.SWAMP_HUT : StructureInfo.SupportedStructures.NONE;
                         if (structure == StructureInfo.SupportedStructures.NONE) {
-                            structure = LocationPredicate.forFeature(Structure.PILLAGER_OUTPOST).test(context.get().getSender().getServerWorld(), context.get().getSender().getPosX(), context.get().getSender().getPosY(), context.get().getSender().getPosZ()) ? StructureInfo.SupportedStructures.PILLAGER_OUTPOST : StructureInfo.SupportedStructures.NONE;
+                            structure = LocationPredicate.inFeature(Structure.PILLAGER_OUTPOST).matches(context.get().getSender().getLevel(), context.get().getSender().position().x, context.get().getSender().position().y, context.get().getSender().position().z) ? StructureInfo.SupportedStructures.PILLAGER_OUTPOST : StructureInfo.SupportedStructures.NONE;
                         }
                     }
                 }

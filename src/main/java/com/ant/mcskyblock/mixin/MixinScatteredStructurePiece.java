@@ -20,35 +20,35 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ScatteredStructurePiece.class)
 public abstract class MixinScatteredStructurePiece extends MixinStructurePiece {
     @Shadow
-    protected int hPos = -1;
+    protected int heightPosition = -1;
 
-    @Inject(at = @At("HEAD"), method = "isInsideBounds", cancellable = true)
-    protected void isInsideBounds(IWorld worldIn, MutableBoundingBox boundsIn, int heightIn, CallbackInfoReturnable cir) {
-        if (SkyblockChunkGenerator.isWorldSkyblock(((WorldGenRegion)worldIn).getWorld()) && !ConfigHandler.COMMON.witchHutYZero.get()) {
-            if (this.hPos >= 0) {
+    @Inject(at = @At("HEAD"), method = "updateAverageGroundHeight", cancellable = true)
+    protected void updateAverageGroundHeight(IWorld p_202580_1_, MutableBoundingBox p_202580_2_, int p_202580_3_, CallbackInfoReturnable cir) {
+        if (SkyblockChunkGenerator.isWorldSkyblock(((WorldGenRegion)p_202580_1_).getLevel()) && !ConfigHandler.COMMON.witchHutYZero.get()) {
+            if (this.heightPosition >= 0) {
                 cir.setReturnValue(true);
             } else {
                 int i = 0;
                 int j = 0;
                 BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
-                for (int k = this.boundingBox.minZ; k <= this.boundingBox.maxZ; ++k) {
-                    for (int l = this.boundingBox.minX; l <= this.boundingBox.maxX; ++l) {
-                        blockpos$mutable.setPos(l, 64, k);
-                        if (boundsIn.isVecInside(blockpos$mutable)) {
-                            i += worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, blockpos$mutable).getY();
+                for (int k = this.boundingBox.z0; k <= this.boundingBox.z1; ++k) {
+                    for (int l = this.boundingBox.x0; l <= this.boundingBox.x1; ++l) {
+                        blockpos$mutable.set(l, 64, k);
+                        if (p_202580_2_.isInside(blockpos$mutable)) {
+                            i += p_202580_1_.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, blockpos$mutable).getY();
                             ++j;
                         }
                     }
                 }
 
-                heightIn = 64;
+                p_202580_3_ = 64;
 
                 if (j == 0) {
                     cir.setReturnValue(false);
                 } else {
-                    this.hPos = i / j;
-                    this.boundingBox.offset(0, this.hPos - this.boundingBox.minY + heightIn, 0);
+                    this.heightPosition = i / j;
+                    this.boundingBox.move(0, this.heightPosition - this.boundingBox.y0 + p_202580_3_, 0);
                     cir.setReturnValue(true);
                 }
             }

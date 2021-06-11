@@ -17,9 +17,9 @@ import java.util.Random;
 
 @Mixin(FortressPieces.Throne.class)
 public abstract class MixinFortressPiecesThrone {
-    @Inject(at = @At("HEAD"), method = "func_230383_a_", cancellable = true)
-    public void func_230383_a_(ISeedReader p_230383_1_, StructureManager p_230383_2_, ChunkGenerator p_230383_3_, Random p_230383_4_, MutableBoundingBox p_230383_5_, ChunkPos p_230383_6_, BlockPos p_230383_7_, CallbackInfoReturnable cir) {
-        if (SkyblockChunkGenerator.isWorldSkyblock(p_230383_1_.getWorld()))
+    @Inject(at = @At("HEAD"), method = "postProcess", cancellable = true)
+    public void postProcess(ISeedReader p_230383_1_, StructureManager p_230383_2_, ChunkGenerator p_230383_3_, Random p_230383_4_, MutableBoundingBox p_230383_5_, ChunkPos p_230383_6_, BlockPos p_230383_7_, CallbackInfoReturnable cir) {
+        if (SkyblockChunkGenerator.isWorldSkyblock(p_230383_1_.getLevel()))
             cir.setReturnValue(true);
     }
 }

@@ -35,9 +35,6 @@ public class MCSkyblock
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHandler.COMMON_SPEC);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ForgeWorldType.class, Setup::registerWorldType);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -53,24 +50,5 @@ public class MCSkyblock
         event.enqueueWork(() -> {
             SkyblockChunkGenerator.init();
         });
-    }
-
-    private void doClientStuff(final FMLClientSetupEvent event) {}
-
-    private void enqueueIMC(final InterModEnqueueEvent event) {}
-
-    private void processIMC(final InterModProcessEvent event) {}
-
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        LOGGER.info("HELLO from server starting");
-    }
-
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            LOGGER.info("HELLO from Register Block");
-        }
     }
 }

@@ -16,6 +16,7 @@ import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.server.ServerChunkProvider;
+import net.minecraft.world.server.ServerWorld;
 
 import static com.ant.mcskyblock.utils.ResourceLocationHelper.prefix;
 
@@ -25,65 +26,65 @@ import java.util.function.Supplier;
 // Code adapted from Vaskii's Botania GoG source
 // https://github.com/Vazkii/Botania
 public class SkyblockChunkGenerator extends ChunkGenerator {
-    public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((gen) -> gen.biomeProvider), Codec.LONG.fieldOf("seed").stable().forGetter((gen) -> gen.seed), DimensionSettings.field_236098_b_.fieldOf("settings").forGetter((gen) -> gen.settings)).apply(instance, instance.stable(SkyblockChunkGenerator::new)));
+    public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((gen) -> gen.biomeSource), Codec.LONG.fieldOf("seed").stable().forGetter((gen) -> gen.seed), DimensionSettings.CODEC.fieldOf("settings").forGetter((gen) -> gen.settings)).apply(instance, instance.stable(SkyblockChunkGenerator::new)));
 
     public static void init() {
-        Registry.register(Registry.CHUNK_GENERATOR_CODEC, prefix("skyblock"), SkyblockChunkGenerator.CODEC);
+        Registry.register(Registry.CHUNK_GENERATOR, prefix("skyblock"), SkyblockChunkGenerator.CODEC);
     }
 
     private final long seed;
     private final Supplier<DimensionSettings> settings;
 
     public SkyblockChunkGenerator(BiomeProvider provider, long seed, Supplier<DimensionSettings> settings) {
-        super(provider, provider, settings.get().getStructures(), seed);
+        super(provider, provider, settings.get().structureSettings(), seed);
         this.seed = seed;
         this.settings = settings;
     }
 
     public static boolean isWorldSkyblock(World world) {
-        return world.getChunkProvider() instanceof ServerChunkProvider && ((ServerChunkProvider)world.getChunkProvider()).getChunkGenerator() instanceof SkyblockChunkGenerator;
+        return ((ServerWorld) world).getChunkSource() instanceof ServerChunkProvider && ((ServerWorld) world).getChunkSource().generator instanceof SkyblockChunkGenerator;
     }
 
     @Override
-    protected Codec<? extends ChunkGenerator> func_230347_a_() {
+    public void applyCarvers(long p_230350_1_, BiomeManager p_230350_3_, IChunk p_230350_4_, GenerationStage.Carving p_230350_5_) {
+
+    }
+
+    @Override
+    public List<MobSpawnInfo.Spawners> getMobsAt(Biome p_230353_1_, StructureManager p_230353_2_, EntityClassification p_230353_3_, BlockPos p_230353_4_) {
+        List<MobSpawnInfo.Spawners> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_230353_2_, p_230353_3_, p_230353_4_);
+        if (spawns != null) return spawns;
+
+        return super.getMobsAt(p_230353_1_, p_230353_2_, p_230353_3_, p_230353_4_);
+    }
+
+    @Override
+    protected Codec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
     @Override
-    public ChunkGenerator func_230349_a_(long newSeed) {
-        return new SkyblockChunkGenerator(this.biomeProvider.getBiomeProvider(newSeed), newSeed, settings);
+    public ChunkGenerator withSeed(long l) {
+        return new SkyblockChunkGenerator(this.biomeSource.withSeed(l), l, settings);
     }
 
     @Override
-    public void func_230352_b_(IWorld p_230352_1_, StructureManager p_230352_2_, IChunk p_230352_3_) {
-
-    }
-
-    @Override
-    public void generateSurface(WorldGenRegion p_225551_1_, IChunk p_225551_2_) {
+    public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk iChunk) {
 
     }
 
     @Override
-    public void func_230350_a_(long p_230350_1_, BiomeManager p_230350_3_, IChunk p_230350_4_, GenerationStage.Carving p_230350_5_) {
+    public void fillFromNoise(IWorld iWorld, StructureManager structureManager, IChunk iChunk) {
 
     }
 
     @Override
-    public int getHeight(int x, int z, Heightmap.Type heightmapType) {
+    public int getBaseHeight(int i, int i1, Heightmap.Type type) {
         return 0;
     }
 
     @Override
-    public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
+    public IBlockReader getBaseColumn(int i, int i1) {
         return new Blockreader(new BlockState[0]);
-    }
-
-    @Override
-    public List<MobSpawnInfo.Spawners> func_230353_a_(Biome p_230353_1_, StructureManager p_230353_2_, EntityClassification p_230353_3_, BlockPos p_230353_4_) {
-        List<MobSpawnInfo.Spawners> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_230353_2_, p_230353_3_, p_230353_4_);
-        if (spawns != null) return spawns;
-
-        return super.func_230353_a_(p_230353_1_, p_230353_2_, p_230353_3_, p_230353_4_);
     }
 }

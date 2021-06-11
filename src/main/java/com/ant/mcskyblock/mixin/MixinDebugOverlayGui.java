@@ -13,8 +13,8 @@ import java.util.List;
 
 @Mixin(DebugOverlayGui.class)
 public abstract class MixinDebugOverlayGui {
-    @Inject(at = @At("RETURN"), method = "getDebugInfoRight", cancellable = true)
-    protected void getDebugInfoRight(CallbackInfoReturnable cir) {
+    @Inject(at = @At("RETURN"), method = "getSystemInformation", cancellable = true)
+    protected void getSystemInformation(CallbackInfoReturnable cir) {
         List<String> list = (List<String>)cir.getReturnValue();
         PacketHandler.sendToServer(new PacketStructureCheck());
         if (StructureInfo.structure != StructureInfo.SupportedStructures.NONE) {

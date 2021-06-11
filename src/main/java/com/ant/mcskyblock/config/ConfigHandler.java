@@ -25,6 +25,7 @@ public class ConfigHandler {
         public final ForgeConfigSpec.BooleanValue wanderingTraderHeartOfTheSea;
         public final ForgeConfigSpec.BooleanValue wanderingTraderEndPortalFrame;
         public final ForgeConfigSpec.BooleanValue piglinNetherrack;
+        public final ForgeConfigSpec.BooleanValue piglinSoulSoil;
         public final ForgeConfigSpec.BooleanValue piglinNylium;
         public final ForgeConfigSpec.BooleanValue piglinFungus;
         public final ForgeConfigSpec.BooleanValue piglinAncientDebris;
@@ -53,6 +54,7 @@ public class ConfigHandler {
 
             builder.push("barters");
             piglinNetherrack = builder.comment("Enabling this will give piglins a high chance to drop 8-16 netherrack").define("piglinNetherrack", true);
+            piglinSoulSoil = builder.comment("Enabling this will give piglins a moderate chance to drop an 4-8 soul soil").define("piglinSoulSoil", true);
             piglinNylium = builder.comment("Enabling this will give piglins a moderate chance to drop 4-8 nylium").define("piglinNylium", true);
             piglinFungus = builder.comment("Enabling this will give piglins a low chance to drop 1-2 fungi").define("piglinFungus", true);
             piglinAncientDebris = builder.comment("Enabling this will give piglins a very low chance to drop an ancient debris").define("piglinAncientDebris", true);
