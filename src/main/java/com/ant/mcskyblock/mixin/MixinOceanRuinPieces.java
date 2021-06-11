@@ -15,8 +15,8 @@ import java.util.Random;
 @Mixin(OceanRuinPieces.Piece.class)
 public class MixinOceanRuinPieces {
     @Inject(at = @At("HEAD"), method = "handleDataMarker", cancellable = true)
-    protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb, CallbackInfo ci) {
-        if (SkyblockChunkGenerator.isWorldSkyblock(worldIn.getWorld()))
+    protected void handleDataMarker(String p_186175_1_, BlockPos p_186175_2_, IServerWorld p_186175_3_, Random p_186175_4_, MutableBoundingBox p_186175_5_, CallbackInfo ci) {
+        if (SkyblockChunkGenerator.isWorldSkyblock(p_186175_3_.getLevel()))
             ci.cancel();
     }
 }

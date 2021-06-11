@@ -20,7 +20,7 @@ public class PacketSkyblockWorld {
     public static void handle(PacketSkyblockWorld packet, Supplier<NetworkEvent.Context> context) {
         if (context.get().getDirection().getReceptionSide().isClient()) {
             context.get().enqueueWork(() -> {
-                ClientWorld.ClientWorldInfo info = Minecraft.getInstance().world.getWorldInfo();
+                ClientWorld.ClientWorldInfo info = Minecraft.getInstance().level.getLevelData();
                 if (info instanceof SkyblockWorldInfo) {
                     ((SkyblockWorldInfo)info).markSkyblock();
                 }

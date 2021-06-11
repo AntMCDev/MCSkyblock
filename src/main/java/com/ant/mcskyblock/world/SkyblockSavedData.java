@@ -26,24 +26,24 @@ public class SkyblockSavedData extends WorldSavedData {
     }
 
     public static SkyblockSavedData get(ServerWorld world) {
-        return world.getSavedData().getOrCreate(SkyblockSavedData::new, NAME);
+        return world.getDataStorage().computeIfAbsent(SkyblockSavedData::new, NAME);
     }
 
     public IslandPosition getSpawn() {
         IslandPosition pos = new IslandPosition(0, 0);
         generated = true;
-        markDirty();
+        setDirty();
         return pos;
     }
 
     @Override
-    public void read(CompoundNBT nbt) {
+    public void load(CompoundNBT nbt) {
         generated = nbt.getBoolean("generated");
     }
 
     @Nonnull
     @Override
-    public CompoundNBT write(@Nonnull CompoundNBT nbt) {
+    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         nbt.putBoolean("generated", generated);
         return nbt;
     }

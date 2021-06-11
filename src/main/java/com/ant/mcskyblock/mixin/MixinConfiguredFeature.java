@@ -20,9 +20,9 @@ public abstract class MixinConfiguredFeature {
     @Final
     public Feature feature;
 
-    @Inject(at = @At("HEAD"), method = "generate", cancellable = true)
-    public void generate(ISeedReader reader, ChunkGenerator chunkGenerator, Random rand, BlockPos pos, CallbackInfoReturnable cir) {
-        if (SkyblockChunkGenerator.isWorldSkyblock(reader.getWorld()) && !(feature instanceof EndPodiumFeature) && !(feature instanceof TreeFeature) && !(feature instanceof AbstractBigMushroomFeature) && !(feature instanceof HugeFungusFeature))
+    @Inject(at = @At("HEAD"), method = "place", cancellable = true)
+    public void place(ISeedReader p_242765_1_, ChunkGenerator p_242765_2_, Random p_242765_3_, BlockPos p_242765_4_, CallbackInfoReturnable cir) {
+        if (SkyblockChunkGenerator.isWorldSkyblock(p_242765_1_.getLevel()) && !(feature instanceof EndPodiumFeature) && !(feature instanceof TreeFeature) && !(feature instanceof AbstractBigMushroomFeature) && !(feature instanceof HugeFungusFeature))
             cir.setReturnValue(true);
     }
 }

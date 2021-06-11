@@ -24,36 +24,39 @@ public class LootTableUtils {
 
     static {
         if (ConfigHandler.COMMON.phantomElytra.get()) {
-            newLootPools.put(new ResourceLocation("minecraft", "entities/phantom"), LootPool.builder().name("phantom_elytra").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(Items.ELYTRA)).acceptCondition(KilledByPlayer.builder()).acceptCondition(RandomChanceWithLooting.builder(0.01F, 0.05F)).build());
+            newLootPools.put(new ResourceLocation("minecraft", "entities/phantom"), LootPool.lootPool().name("phantom_elytra").setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(Items.ELYTRA)).when(KilledByPlayer.killedByPlayer()).when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.01F, 0.05F)).build());
         }
 
         if (ConfigHandler.COMMON.witchNetherWart.get()) {
-            newLootPools.put(new ResourceLocation("minecraft", "entities/witch"), LootPool.builder().name("witch_netherwart").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(Items.NETHER_WART).acceptFunction(SetCount.builder(RandomValueRange.of(0.0F, 1.0F))).acceptFunction(LootingEnchantBonus.builder(RandomValueRange.of(0.0F, 1.0F)))).build());
+            newLootPools.put(new ResourceLocation("minecraft", "entities/witch"), LootPool.lootPool().name("witch_netherwart").setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(Items.NETHER_WART).apply(SetCount.setCount(RandomValueRange.between(0.0F, 1.0F))).apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F)))).build());
         }
 
         if (ConfigHandler.COMMON.enderDragonHead.get()) {
-            newLootPools.put(new ResourceLocation("minecraft", "entities/ender_dragon"), LootPool.builder().name("enderdragon_dragonhead").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(Items.DRAGON_HEAD).acceptFunction(SetCount.builder(ConstantRange.of(1)))).acceptCondition(KilledByPlayer.builder()).build());
+            newLootPools.put(new ResourceLocation("minecraft", "entities/ender_dragon"), LootPool.lootPool().name("enderdragon_dragonhead").setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(Items.DRAGON_HEAD).apply(SetCount.setCount(ConstantRange.exactly(1)))).when(KilledByPlayer.killedByPlayer()).build());
         }
 
         List<LootEntry> lootEntries = new ArrayList<>();
         if (ConfigHandler.COMMON.piglinNetherrack.get()) {
-            lootEntries.add(ItemLootEntry.builder(Items.NETHERRACK).acceptFunction(SetCount.builder(RandomValueRange.of(8.0F, 16.0F))).weight(40).build());
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.NETHERRACK).apply(SetCount.setCount(RandomValueRange.between(8.0F, 16.0F))).setWeight(40).build());
+        }
+        if (ConfigHandler.COMMON.piglinSoulSoil.get()) {
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.SOUL_SOIL).apply(SetCount.setCount(RandomValueRange.between(4.0F, 8.0F))).setWeight(20).build());
         }
         if (ConfigHandler.COMMON.piglinNylium.get()) {
-            lootEntries.add(ItemLootEntry.builder(Items.CRIMSON_NYLIUM).acceptFunction(SetCount.builder(RandomValueRange.of(4.0F, 8.0F))).weight(20).build());
-            lootEntries.add(ItemLootEntry.builder(Items.WARPED_NYLIUM).acceptFunction(SetCount.builder(RandomValueRange.of(4.0F, 8.0F))).weight(20).build());
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.CRIMSON_NYLIUM).apply(SetCount.setCount(RandomValueRange.between(4.0F, 8.0F))).setWeight(20).build());
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.WARPED_NYLIUM).apply(SetCount.setCount(RandomValueRange.between(4.0F, 8.0F))).setWeight(20).build());
         }
         if (ConfigHandler.COMMON.piglinFungus.get()) {
-            lootEntries.add(ItemLootEntry.builder(Items.CRIMSON_FUNGUS).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 2.0F))).weight(10).build());
-            lootEntries.add(ItemLootEntry.builder(Items.WARPED_FUNGUS).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 2.0F))).weight(10).build());
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.CRIMSON_FUNGUS).apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F))).setWeight(10).build());
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.WARPED_FUNGUS).apply(SetCount.setCount(RandomValueRange.between(1.0F, 2.0F))).setWeight(10).build());
         }
         if (ConfigHandler.COMMON.piglinAncientDebris.get()) {
-            lootEntries.add(ItemLootEntry.builder(Items.ANCIENT_DEBRIS).acceptFunction(SetCount.builder(ConstantRange.of(1))).weight(1).build());
+            lootEntries.add(ItemLootEntry.lootTableItem(Items.ANCIENT_DEBRIS).apply(SetCount.setCount(ConstantRange.exactly(1))).setWeight(1).build());
         }
         existingLootPools.put(LootTables.PIGLIN_BARTERING, new LootPoolReference("main", lootEntries));
 
         if (ConfigHandler.COMMON.heroOfTheVillageClericDiamonds.get()) {
-            existingLootPools.put(LootTables.GAMEPLAY_HERO_OF_THE_VILLAGE_CLERIC_GIFT, new LootPoolReference("main", Collections.singletonList(ItemLootEntry.builder(Items.DIAMOND).build())));
+            existingLootPools.put(LootTables.CLERIC_GIFT, new LootPoolReference("main", Collections.singletonList(ItemLootEntry.lootTableItem(Items.DIAMOND).build())));
         }
     }
 

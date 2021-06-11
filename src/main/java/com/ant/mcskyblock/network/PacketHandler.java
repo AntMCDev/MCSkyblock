@@ -26,20 +26,20 @@ public final class PacketHandler {
     public static void sendToNearby(World world, BlockPos blockPos, Object toSend) {
         if (world instanceof ServerWorld) {
             ServerWorld ws = (ServerWorld)world;
-            ws.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(blockPos), false).filter(p -> p.getDistanceSq(blockPos.getX(), blockPos.getY(), blockPos.getZ()) < 64 * 64).forEach(p -> HANDLER.send(PacketDistributor.PLAYER.with(() -> p), toSend));
+            ws.getChunkSource().chunkMap.getPlayers(new ChunkPos(blockPos), false).filter(p -> p.distanceToSqr(blockPos.getX(), blockPos.getY(), blockPos.getZ()) < 64 * 64).forEach(p -> HANDLER.send(PacketDistributor.PLAYER.with(() -> p), toSend));
         }
     }
 
     public static void sendToNearby(World world, Entity entity, Object toSend) {
-        sendToNearby(world, entity.getPosition(), toSend);
+        sendToNearby(world, entity.blockPosition(), toSend);
     }
 
     public static void sendTo(ServerPlayerEntity player, Object toSend) {
-        HANDLER.sendTo(toSend, player.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
+        HANDLER.sendTo(toSend, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     public static void sendNonLocal(ServerPlayerEntity player, Object toSend) {
-        if (player.server.isDedicatedServer() || !player.getGameProfile().getName().equals(player.server.getServerOwner())) {
+        if (player.server.isDedicatedServer() || !player.server.isSingleplayerOwner(player.getGameProfile())) {
             sendTo(player, toSend);
         }
     }

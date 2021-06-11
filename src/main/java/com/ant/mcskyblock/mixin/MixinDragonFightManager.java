@@ -21,26 +21,26 @@ import java.util.Random;
 @Mixin(DragonFightManager.class)
 public abstract class MixinDragonFightManager {
     @Shadow
-    private BlockPos exitPortalLocation;
+    private BlockPos portalLocation;
 
     @Shadow
     @Final
-    private ServerWorld world;
+    private ServerWorld level;
 
-    @Inject(at = @At("HEAD"), method = "generatePortal", cancellable = true)
-    private void generatePortal(boolean active, CallbackInfo ci) {
-        if (this.world.getChunkProvider().getChunkGenerator() instanceof SkyblockChunkGenerator) {
-            EndPodiumFeature endpodiumfeature = new EndPodiumFeature(active);
-            if (this.exitPortalLocation == null) {
-                for (this.exitPortalLocation = this.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.END_PODIUM_LOCATION).down(); this.world.getBlockState(this.exitPortalLocation).isIn(Blocks.BEDROCK) && this.exitPortalLocation.getY() > this.world.getSeaLevel(); this.exitPortalLocation = this.exitPortalLocation.down()) {
+    @Inject(at = @At("HEAD"), method = "spawnExitPortal", cancellable = true)
+    private void spawnExitPortal(boolean p_186094_1_, CallbackInfo ci) {
+        if (this.level.getChunkSource().generator instanceof SkyblockChunkGenerator) {
+            EndPodiumFeature endpodiumfeature = new EndPodiumFeature(p_186094_1_);
+            if (this.portalLocation == null) {
+                for (this.portalLocation = this.level.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.END_PODIUM_LOCATION).below(); this.level.getBlockState(this.portalLocation).is(Blocks.BEDROCK) && this.portalLocation.getY() > this.level.getSeaLevel(); this.portalLocation = this.portalLocation.below()) {
                 }
             }
 
-            BlockPos.Mutable pos = this.exitPortalLocation.toMutable();
-            pos.setY(Math.max(this.exitPortalLocation.getY(), 2));
-            this.exitPortalLocation = pos.toImmutable();
+            BlockPos.Mutable pos = this.portalLocation.mutable();
+            pos.setY(Math.max(this.portalLocation.getY(), 2));
+            this.portalLocation = pos.immutable();
 
-            endpodiumfeature.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).generate(this.world, this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation);
+            endpodiumfeature.configured(IFeatureConfig.NONE).place(this.level, this.level.getChunkSource().getGenerator(), new Random(), this.portalLocation);
 
             ci.cancel();
         }
