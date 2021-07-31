@@ -2,28 +2,23 @@ package com.ant.mcskyblock.world;
 
 import com.ant.mcskyblock.config.ConfigHandler;
 import com.mojang.serialization.Lifecycle;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.SimpleRegistry;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.EndBiomeProvider;
-import net.minecraft.world.biome.provider.NetherBiomeProvider;
-import net.minecraft.world.biome.provider.OverworldBiomeProvider;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.DimensionSettings;
-import net.minecraft.world.gen.NoiseChunkGenerator;
-import net.minecraft.world.gen.settings.DimensionGeneratorSettings;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
+import net.minecraft.world.level.biome.OverworldBiomeSource;
+import net.minecraft.world.level.biome.TheEndBiomeSource;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraftforge.common.world.ForgeWorldType;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.function.Supplier;
 
-// Code adapted from Vaskii's Botania GoG source
-// https://github.com/Vazkii/Botania
 public class SkyblockWorldType extends ForgeWorldType {
     public static final SkyblockWorldType INSTANCE = new SkyblockWorldType();
 
@@ -31,8 +26,8 @@ public class SkyblockWorldType extends ForgeWorldType {
         super((IComplexChunkGeneratorFactory) SkyblockWorldType::getChunkGenerator);
     }
 
-    public static ChunkGenerator getChunkGenerator(@Nonnull Registry<Biome> biomeRegistry, @Nonnull Registry<DimensionSettings> dimensionSettingsRegistry, long seed) {
-        return new SkyblockChunkGenerator(new OverworldBiomeProvider(seed, false, false, biomeRegistry), seed, () -> dimensionSettingsRegistry.getOrThrow(DimensionSettings.OVERWORLD));
+    public static ChunkGenerator getChunkGenerator(@Nonnull Registry<Biome> biomeRegistry, @Nonnull Registry<NoiseGeneratorSettings> dimensionSettingsRegistry, long seed) {
+        return new SkyblockChunkGenerator(new OverworldBiomeSource(seed, false, false, biomeRegistry), seed, () -> dimensionSettingsRegistry.getOrThrow(NoiseGeneratorSettings.OVERWORLD));
     }
 
     @Override
@@ -42,49 +37,49 @@ public class SkyblockWorldType extends ForgeWorldType {
 
     public interface IComplexChunkGeneratorFactory extends IBasicChunkGeneratorFactory {
         @Override
-        default DimensionGeneratorSettings createSettings(DynamicRegistries dynamicRegistries, long seed, boolean generateStructures, boolean bonusChest, String generatorSettings) {
-            Registry<Biome> biomeRegistry = dynamicRegistries.registry(Registry.BIOME_REGISTRY).orElse(null);
-            Registry<DimensionType> dimensionTypeRegistry = dynamicRegistries.registry(Registry.DIMENSION_TYPE_REGISTRY).orElse(null);
-            Registry<DimensionSettings> dimensionSettingsRegistry = dynamicRegistries.registry(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY).orElse(null);
-            return new DimensionGeneratorSettings(seed, generateStructures, bonusChest,
-                    DimensionGeneratorSettings.withOverworld(dimensionTypeRegistry,
+        default WorldGenSettings createSettings(RegistryAccess dynamicRegistries, long seed, boolean generateStructures, boolean bonusChest, String generatorSettings) {
+            Registry<Biome> biomeRegistry = dynamicRegistries.registryOrThrow(Registry.BIOME_REGISTRY);
+            Registry<DimensionType> dimensionTypeRegistry = dynamicRegistries.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY);
+            Registry<NoiseGeneratorSettings> dimensionSettingsRegistry = dynamicRegistries.registryOrThrow(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY);
+            return new WorldGenSettings(seed, generateStructures, bonusChest,
+                    WorldGenSettings.withOverworld(dimensionTypeRegistry,
                             getSkyblockSimpleRegistry(dimensionTypeRegistry, biomeRegistry, dimensionSettingsRegistry, seed),
                             createChunkGenerator(biomeRegistry, dimensionSettingsRegistry, seed, generatorSettings)));
         }
     }
 
-    private static SimpleRegistry<Dimension> getSkyblockSimpleRegistry(Registry<DimensionType> p_242718_0_, Registry<Biome> p_242718_1_, Registry<DimensionSettings> p_242718_2_, long p_242718_3_) {
-        SimpleRegistry<Dimension> lvt_5_1_ = new SimpleRegistry(Registry.DIMENSION_REGISTRY, Lifecycle.stable());
-        lvt_5_1_.register(Dimension.NETHER, new Dimension(() -> {
+    private static MappedRegistry<LevelStem> getSkyblockSimpleRegistry(Registry<DimensionType> p_242718_0_, Registry<Biome> p_242718_1_, Registry<NoiseGeneratorSettings> p_242718_2_, long p_242718_3_) {
+        MappedRegistry<LevelStem> lvt_5_1_ = new MappedRegistry(Registry.DIMENSION_REGISTRY, Lifecycle.stable());
+        lvt_5_1_.register(LevelStem.NETHER, new LevelStem(() -> {
             return (DimensionType)p_242718_0_.getOrThrow(DimensionType.NETHER_LOCATION);
         }, ConfigHandler.COMMON.voidNether.get() ? getNetherChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_) : getDefaultNetherChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_)), Lifecycle.stable());
-        lvt_5_1_.register(Dimension.END, new Dimension(() -> {
+        lvt_5_1_.register(LevelStem.END, new LevelStem(() -> {
             return (DimensionType)p_242718_0_.getOrThrow(DimensionType.END_LOCATION);
         }, ConfigHandler.COMMON.voidNether.get() ? getEndChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_) : getDefaultEndChunkGenerator(p_242718_1_, p_242718_2_, p_242718_3_)), Lifecycle.stable());
         return lvt_5_1_;
     }
 
-    private static ChunkGenerator getEndChunkGenerator(Registry<Biome> p_242717_0_, Registry<DimensionSettings> p_242717_1_, long p_242717_2_) {
-        return new SkyblockChunkGenerator(new EndBiomeProvider(p_242717_0_, p_242717_2_), p_242717_2_, () -> {
-            return (DimensionSettings)p_242717_1_.getOrThrow(DimensionSettings.END);
+    private static ChunkGenerator getEndChunkGenerator(Registry<Biome> p_63918_, Registry<NoiseGeneratorSettings> p_63919_, long p_63920_) {
+        return new SkyblockChunkGenerator(new TheEndBiomeSource(p_63918_, p_63920_), p_63920_, () -> {
+            return p_63919_.getOrThrow(NoiseGeneratorSettings.END);
         });
     }
 
-    private static ChunkGenerator getNetherChunkGenerator(Registry<Biome> p_242720_0_, Registry<DimensionSettings> p_242720_1_, long p_242720_2_) {
-        return new SkyblockChunkGenerator(NetherBiomeProvider.Preset.NETHER.biomeSource(p_242720_0_, p_242720_2_), p_242720_2_, () -> {
-            return (DimensionSettings)p_242720_1_.getOrThrow(DimensionSettings.NETHER);
+    private static ChunkGenerator getNetherChunkGenerator(Registry<Biome> p_63943_, Registry<NoiseGeneratorSettings> p_63944_, long p_63945_) {
+        return new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.NETHER.biomeSource(p_63943_, p_63945_), p_63945_, () -> {
+            return p_63944_.getOrThrow(NoiseGeneratorSettings.NETHER);
         });
     }
 
-    private static ChunkGenerator getDefaultEndChunkGenerator(Registry<Biome> lookUpRegistryBiome, Registry<DimensionSettings> settingsRegistry, long seed) {
-        return new NoiseChunkGenerator(new EndBiomeProvider(lookUpRegistryBiome, seed), seed, () -> {
-            return settingsRegistry.getOrThrow(DimensionSettings.END);
+    private static ChunkGenerator getDefaultEndChunkGenerator(Registry<Biome> p_63918_, Registry<NoiseGeneratorSettings> p_63919_, long p_63920_) {
+        return new NoiseBasedChunkGenerator(new TheEndBiomeSource(p_63918_, p_63920_), p_63920_, () -> {
+            return p_63919_.getOrThrow(NoiseGeneratorSettings.END);
         });
     }
 
-    private static ChunkGenerator getDefaultNetherChunkGenerator(Registry<Biome> lookUpRegistryBiome, Registry<DimensionSettings> lookUpRegistryDimensionType, long seed) {
-        return new NoiseChunkGenerator(NetherBiomeProvider.Preset.NETHER.biomeSource(lookUpRegistryBiome, seed), seed, () -> {
-            return lookUpRegistryDimensionType.getOrThrow(DimensionSettings.NETHER);
+    private static ChunkGenerator getDefaultNetherChunkGenerator(Registry<Biome> p_63943_, Registry<NoiseGeneratorSettings> p_63944_, long p_63945_) {
+        return new NoiseBasedChunkGenerator(MultiNoiseBiomeSource.Preset.NETHER.biomeSource(p_63943_, p_63945_), p_63945_, () -> {
+            return p_63944_.getOrThrow(NoiseGeneratorSettings.NETHER);
         });
     }
 }

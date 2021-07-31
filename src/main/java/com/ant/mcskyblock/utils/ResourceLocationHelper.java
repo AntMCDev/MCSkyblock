@@ -1,7 +1,7 @@
 package com.ant.mcskyblock.utils;
 
 import com.ant.mcskyblock.MCSkyblock;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 // Code adapted from Vaskii's Botania source
 // https://github.com/Vazkii/Botania

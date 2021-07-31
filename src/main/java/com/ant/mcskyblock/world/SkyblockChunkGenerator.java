@@ -2,60 +2,58 @@ package com.ant.mcskyblock.world;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.*;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
-import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.*;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.server.ServerChunkProvider;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 
 import static com.ant.mcskyblock.utils.ResourceLocationHelper.prefix;
 
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
-// Code adapted from Vaskii's Botania GoG source
-// https://github.com/Vazkii/Botania
 public class SkyblockChunkGenerator extends ChunkGenerator {
-    public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((gen) -> gen.biomeSource), Codec.LONG.fieldOf("seed").stable().forGetter((gen) -> gen.seed), DimensionSettings.CODEC.fieldOf("settings").forGetter((gen) -> gen.settings)).apply(instance, instance.stable(SkyblockChunkGenerator::new)));
+    public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((gen) -> gen.biomeSource), Codec.LONG.fieldOf("seed").stable().forGetter((gen) -> gen.seed), NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter((gen) -> gen.settings)).apply(instance, instance.stable(SkyblockChunkGenerator::new)));
 
     public static void init() {
         Registry.register(Registry.CHUNK_GENERATOR, prefix("skyblock"), SkyblockChunkGenerator.CODEC);
     }
 
     private final long seed;
-    private final Supplier<DimensionSettings> settings;
+    private final Supplier<NoiseGeneratorSettings> settings;
 
-    public SkyblockChunkGenerator(BiomeProvider provider, long seed, Supplier<DimensionSettings> settings) {
+    public SkyblockChunkGenerator(BiomeSource provider, long seed, Supplier<NoiseGeneratorSettings> settings) {
         super(provider, provider, settings.get().structureSettings(), seed);
         this.seed = seed;
         this.settings = settings;
     }
 
-    public static boolean isWorldSkyblock(World world) {
-        return ((ServerWorld) world).getChunkSource() instanceof ServerChunkProvider && ((ServerWorld) world).getChunkSource().generator instanceof SkyblockChunkGenerator;
+    public static boolean isWorldSkyblock(Level world) {
+        ((ServerLevel) world).getChunkSource();
+        return ((ServerLevel) world).getChunkSource().generator instanceof SkyblockChunkGenerator;
     }
 
     @Override
-    public void applyCarvers(long p_230350_1_, BiomeManager p_230350_3_, IChunk p_230350_4_, GenerationStage.Carving p_230350_5_) {
-
-    }
-
-    @Override
-    public List<MobSpawnInfo.Spawners> getMobsAt(Biome p_230353_1_, StructureManager p_230353_2_, EntityClassification p_230353_3_, BlockPos p_230353_4_) {
-        List<MobSpawnInfo.Spawners> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_230353_2_, p_230353_3_, p_230353_4_);
+    public WeightedRandomList<MobSpawnSettings.SpawnerData> getMobsAt(Biome p_158433_, StructureFeatureManager p_158434_, MobCategory p_158435_, BlockPos p_158436_) {
+        WeightedRandomList<MobSpawnSettings.SpawnerData> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_158434_, p_158435_, p_158436_);
         if (spawns != null) return spawns;
 
-        return super.getMobsAt(p_230353_1_, p_230353_2_, p_230353_3_, p_230353_4_);
+        return super.getMobsAt(p_158433_, p_158434_, p_158435_, p_158436_);
     }
 
     @Override
@@ -69,22 +67,22 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk iChunk) {
+    public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, ChunkAccess iChunk) {
 
     }
 
     @Override
-    public void fillFromNoise(IWorld iWorld, StructureManager structureManager, IChunk iChunk) {
-
+    public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_158463_, StructureFeatureManager p_158464_, ChunkAccess p_158465_) {
+        return CompletableFuture.completedFuture(p_158465_);
     }
 
     @Override
-    public int getBaseHeight(int i, int i1, Heightmap.Type type) {
+    public int getBaseHeight(int p_158405_, int p_158406_, Heightmap.Types p_158407_, LevelHeightAccessor p_158408_) {
         return 0;
     }
 
     @Override
-    public IBlockReader getBaseColumn(int i, int i1) {
-        return new Blockreader(new BlockState[0]);
+    public NoiseColumn getBaseColumn(int p_158401_, int p_158402_, LevelHeightAccessor p_158403_) {
+        return new NoiseColumn(0, new BlockState[0]);
     }
 }

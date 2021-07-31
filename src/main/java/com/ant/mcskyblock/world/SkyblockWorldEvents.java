@@ -3,55 +3,51 @@ package com.ant.mcskyblock.world;
 import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.network.PacketHandler;
 import com.ant.mcskyblock.network.PacketSkyblockWorld;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
-// Code adapted from Vaskii's Botania GoG source
-// https://github.com/Vazkii/Botania
 public final class SkyblockWorldEvents {
     private SkyblockWorldEvents() {}
 
     public static void syncStatus(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof ServerPlayerEntity) {
+        if (event.getEntity() instanceof ServerPlayer) {
             boolean isSkyblock = SkyblockChunkGenerator.isWorldSkyblock(event.getWorld());
             if (isSkyblock) {
-                PacketHandler.sendTo((ServerPlayerEntity)event.getEntity(), new PacketSkyblockWorld());
+                PacketHandler.sendTo((ServerPlayer)event.getEntity(), new PacketSkyblockWorld());
             }
         }
     }
 
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        World world = event.getPlayer().level;
+        Level world = event.getPlayer().level;
         if (SkyblockChunkGenerator.isWorldSkyblock(world)) {
-            SkyblockSavedData data = SkyblockSavedData.get((ServerWorld)world);
-            if (!data.generated && world.dimension() == World.OVERWORLD) {
+            SkyblockSavedData data = SkyblockSavedData.get((ServerLevel)world);
+            if (!data.generated && world.dimension() == Level.OVERWORLD) {
                 IslandPosition islandPosition = data.getSpawn();
-                ((ServerWorld)world).setDefaultSpawnPos(islandPosition.getCenter(), 0);
+                ((ServerLevel)world).setDefaultSpawnPos(islandPosition.getCenter(), 0);
                 spawnPlayer(event.getPlayer(), islandPosition);
             }
         }
     }
 
-    public static void spawnPlayer(PlayerEntity player, IslandPosition islandPosition) {
+    public static void spawnPlayer(Player player, IslandPosition islandPosition) {
         BlockPos pos = islandPosition.getCenter();
         createSkyblock(player.level, pos);
 
-        if (player instanceof ServerPlayerEntity) {
-            ServerPlayerEntity pmp = (ServerPlayerEntity) player;
+        if (player instanceof ServerPlayer) {
+            ServerPlayer pmp = (ServerPlayer) player;
             pmp.moveTo(pos.getX() + 0.5, pos.getY() + 1.6, pos.getZ() + 0.5);
             pmp.setRespawnPosition(pmp.level.dimension(), pos, 0, true, false);
         }
     }
 
-    public static void createSkyblock(World world, BlockPos pos) {
+    public static void createSkyblock(Level world, BlockPos pos) {
         int offset = -2;
         char[][][] tree = new char[][][]{
                 {

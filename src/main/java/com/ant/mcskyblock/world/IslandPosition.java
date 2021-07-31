@@ -1,10 +1,8 @@
 package com.ant.mcskyblock.world;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 
-// Code adapted from Vaskii's Botania GoG source
-// https://github.com/Vazkii/Botania
 public final class IslandPosition {
     private final int x;
     private final int z;
@@ -18,12 +16,12 @@ public final class IslandPosition {
         return new BlockPos(x << 8, 64, z << 8);
     }
 
-    public static IslandPosition fromTag(CompoundNBT tag) {
+    public static IslandPosition fromTag(CompoundTag tag) {
         return new IslandPosition(tag.getInt("IslandX"), tag.getInt("IslandZ"));
     }
 
-    public CompoundNBT toTag() {
-        CompoundNBT tag = new CompoundNBT();
+    public CompoundTag toTag() {
+        CompoundTag tag = new CompoundTag();
         tag.putInt("IslandX", x);
         tag.putInt("IslandZ", z);
         return tag;

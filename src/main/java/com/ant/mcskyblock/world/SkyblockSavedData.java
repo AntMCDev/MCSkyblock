@@ -1,32 +1,20 @@
 package com.ant.mcskyblock.world;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Util;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.saveddata.SavedData;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.UUID;
-
-// Code adapted from Vaskii's Botania GoG source
-// https://github.com/Vazkii/Botania
-public class SkyblockSavedData extends WorldSavedData {
+public class SkyblockSavedData extends SavedData {
     private static final String NAME = "skyblock_islands";
 
     public boolean generated;
 
     public SkyblockSavedData() {
-        super(NAME);
+
     }
 
-    public static SkyblockSavedData get(ServerWorld world) {
-        return world.getDataStorage().computeIfAbsent(SkyblockSavedData::new, NAME);
+    public static SkyblockSavedData get(ServerLevel world) {
+        return world.getDataStorage().computeIfAbsent(SkyblockSavedData::load, SkyblockSavedData::new, NAME);
     }
 
     public IslandPosition getSpawn() {
@@ -36,14 +24,14 @@ public class SkyblockSavedData extends WorldSavedData {
         return pos;
     }
 
-    @Override
-    public void load(CompoundNBT nbt) {
-        generated = nbt.getBoolean("generated");
+    public static SkyblockSavedData load(CompoundTag nbt) {
+        SkyblockSavedData skyblockSavedData = new SkyblockSavedData();
+        skyblockSavedData.generated = nbt.getBoolean("generated");
+        return skyblockSavedData;
     }
 
-    @Nonnull
     @Override
-    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
+    public CompoundTag save(CompoundTag nbt) {
         nbt.putBoolean("generated", generated);
         return nbt;
     }
