@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.utils;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.BasicTrade;
 
 public class LevelledTrade extends BasicTrade {

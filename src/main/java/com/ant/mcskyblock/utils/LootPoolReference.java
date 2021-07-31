@@ -1,14 +1,14 @@
 package com.ant.mcskyblock.utils;
 
-import net.minecraft.loot.LootEntry;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 
 import java.util.List;
 
 public class LootPoolReference {
     private String poolName;
-    private List<LootEntry> entries;
+    private List<LootPoolEntryContainer> entries;
 
-    public LootPoolReference(String poolName, List<LootEntry> entries) {
+    public LootPoolReference(String poolName, List<LootPoolEntryContainer> entries) {
         this.poolName = poolName;
         this.entries = entries;
     }
@@ -21,11 +21,11 @@ public class LootPoolReference {
         this.poolName = poolName;
     }
 
-    public List<LootEntry> getEntries() {
+    public List<LootPoolEntryContainer> getEntries() {
         return entries;
     }
 
-    public void setEntries(List<LootEntry> entries) {
+    public void setEntries(List<LootPoolEntryContainer> entries) {
         this.entries = entries;
     }
 }

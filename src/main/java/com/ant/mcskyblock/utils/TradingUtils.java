@@ -2,10 +2,10 @@ package com.ant.mcskyblock.utils;
 
 import com.ant.mcskyblock.MCSkyblock;
 import com.ant.mcskyblock.config.ConfigHandler;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.entity.merchant.villager.VillagerTrades;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.BasicTrade;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
@@ -16,8 +16,8 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = MCSkyblock.MOD_ID)
 public class TradingUtils {
-    private static List<VillagerTrades.ITrade> wanderingTradingGenericTradeAdditions = new ArrayList<>();
-    private static List<VillagerTrades.ITrade> wanderingTradingRareTradeAdditions = new ArrayList<>();
+    private static List<VillagerTrades.ItemListing> wanderingTradingGenericTradeAdditions = new ArrayList<>();
+    private static List<VillagerTrades.ItemListing> wanderingTradingRareTradeAdditions = new ArrayList<>();
     private static Map<VillagerProfession, LevelledTrade[]> trades = new HashMap<>();
 
     static {
@@ -51,8 +51,8 @@ public class TradingUtils {
 
     @SubscribeEvent
     public static void onWandererTradesEvent(WandererTradesEvent event) {
-        List<VillagerTrades.ITrade> genericTrades =  event.getGenericTrades();
-        List<VillagerTrades.ITrade> rareTrades = event.getRareTrades();
+        List<VillagerTrades.ItemListing> genericTrades =  event.getGenericTrades();
+        List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
 
         genericTrades.addAll(wanderingTradingGenericTradeAdditions);
         rareTrades.addAll(wanderingTradingRareTradeAdditions);
