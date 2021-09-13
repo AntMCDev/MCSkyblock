@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ant.mcskyblock.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "MixinConfiguredFeature",
+    "MixinOceanRuinGeneratorPiece",
+    "MixinStructurePiece",
+    "MixinDimensionOptions",
+    "MixinDefaultBiomeFeatures",
+    "MixinBiome",
+    "MixinStructurePieceWithDimensions",
+    "MixinStrongholdGeneratorPortalRoom",
+    "MixinNetherFortressGeneratorBridgePlatform",
+    "MixinEnderDragonFight",
+    "MixinStructure",
+    "MixinLootTableAccessor",
+    "MixinLootPoolAccessor"
+  ],
+  "client": [
+    "MixinClientWorldProperties",
+    "MixinDebugHud"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
