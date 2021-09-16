@@ -27,8 +27,8 @@ public class SkyblockWorldEvents {
 
     private static void onServerWorldLoad() {
         ServerWorldEvents.LOAD.register((server, world) -> {
-            if (MCSkyBlock.isLogicalServer(world)) {
-                isServerSkyblock = world.getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator;
+            isServerSkyblock = MCSkyBlock.isSkyblockWorld(world.getChunkManager().getChunkGenerator());
+            if (MCSkyBlock.isLogicalServer(world) && isServerSkyblock) {
                 PacketHander.registerServerListener();
             }
         });
@@ -36,8 +36,10 @@ public class SkyblockWorldEvents {
 
     private static void onServerPlayerJoin() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            PacketHander.sendTo(handler.getPlayer(), PacketHander.WORLDTYPE_PACKET.getIdentifier(), PacketByteBufs.empty());
-            spawnPlayer(handler.getPlayer());
+            if (MCSkyBlock.isSkyblockWorld(server.getOverworld().getChunkManager().getChunkGenerator())) {
+                PacketHander.sendTo(handler.getPlayer(), PacketHander.WORLDTYPE_PACKET.getIdentifier(), PacketByteBufs.empty());
+                spawnPlayer(handler.getPlayer());
+            }
         });
     }
 
