@@ -1,5 +1,7 @@
 package com.ant.mcskyblock.mixin;
 
+import com.ant.mcskyblock.MCSkyBlock;
+import com.ant.mcskyblock.world.SkyblockWorldEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.boss.dragon.EnderDragonFight;
 import net.minecraft.server.world.ServerWorld;
@@ -27,18 +29,20 @@ public class MixinEnderDragonFight {
 
     @Inject(at = @At("HEAD"), method = "generateEndPortal", cancellable = true)
     private void generateEndPortal(boolean previouslyKilled, CallbackInfo ci) {
-        EndPortalFeature endPortalFeature = new EndPortalFeature(previouslyKilled);
-        if (this.exitPortalLocation == null) {
-            for(this.exitPortalLocation = this.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPortalFeature.ORIGIN).down(); this.world.getBlockState(this.exitPortalLocation).isOf(Blocks.BEDROCK) && this.exitPortalLocation.getY() > this.world.getSeaLevel(); this.exitPortalLocation = this.exitPortalLocation.down()) {
+        if (MCSkyBlock.isSkyblockWorld(world.getChunkManager().getChunkGenerator())) {
+            EndPortalFeature endPortalFeature = new EndPortalFeature(previouslyKilled);
+            if (this.exitPortalLocation == null) {
+                for (this.exitPortalLocation = this.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPortalFeature.ORIGIN).down(); this.world.getBlockState(this.exitPortalLocation).isOf(Blocks.BEDROCK) && this.exitPortalLocation.getY() > this.world.getSeaLevel(); this.exitPortalLocation = this.exitPortalLocation.down()) {
+                }
             }
+
+            BlockPos.Mutable pos = this.exitPortalLocation.mutableCopy();
+            pos.setY(Math.max(this.exitPortalLocation.getY(), 2));
+            this.exitPortalLocation = pos.toImmutable();
+
+            endPortalFeature.configure(FeatureConfig.DEFAULT).generate(this.world, this.world.getChunkManager().getChunkGenerator(), new Random(), this.exitPortalLocation);
+
+            ci.cancel();
         }
-
-        BlockPos.Mutable pos = this.exitPortalLocation.mutableCopy();
-        pos.setY(Math.max(this.exitPortalLocation.getY(), 2));
-        this.exitPortalLocation = pos.toImmutable();
-
-        endPortalFeature.configure(FeatureConfig.DEFAULT).generate(this.world, this.world.getChunkManager().getChunkGenerator(), new Random(), this.exitPortalLocation);
-
-        ci.cancel();
     }
 }
