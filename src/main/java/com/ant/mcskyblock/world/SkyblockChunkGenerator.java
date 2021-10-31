@@ -1,8 +1,11 @@
 package com.ant.mcskyblock.world;
 
+import com.ant.mcskyblock.mixin.MixinPoolAccessor;
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +26,9 @@ import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -78,31 +84,43 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
 
     @Override
     public Pool<SpawnSettings.SpawnEntry> getEntitySpawnList(Biome biome, StructureAccessor accessor, SpawnGroup group, BlockPos pos) {
+        Pool<SpawnSettings.SpawnEntry> result = null;
+
         if (accessor.getStructureAt(pos, true, StructureFeature.SWAMP_HUT).hasChildren()) {
             if (group == SpawnGroup.MONSTER) {
-                return StructureFeature.SWAMP_HUT.getMonsterSpawns();
+                result = StructureFeature.SWAMP_HUT.getMonsterSpawns();
             }
 
             if (group == SpawnGroup.CREATURE) {
-                return StructureFeature.SWAMP_HUT.getCreatureSpawns();
+                result = StructureFeature.SWAMP_HUT.getCreatureSpawns();
             }
         }
 
-        if (group == SpawnGroup.MONSTER) {
+        if (group == SpawnGroup.MONSTER && result == null) {
             if (accessor.getStructureAt(pos, false, StructureFeature.PILLAGER_OUTPOST).hasChildren()) {
-                return StructureFeature.PILLAGER_OUTPOST.getMonsterSpawns();
+                result = StructureFeature.PILLAGER_OUTPOST.getMonsterSpawns();
             }
 
-            if (accessor.getStructureAt(pos, false, StructureFeature.MONUMENT).hasChildren()) {
-                return StructureFeature.MONUMENT.getMonsterSpawns();
+            if (accessor.getStructureAt(pos, false, StructureFeature.MONUMENT).hasChildren() && result == null) {
+                result = StructureFeature.MONUMENT.getMonsterSpawns();
             }
 
-            if (accessor.getStructureAt(pos, true, StructureFeature.FORTRESS).hasChildren()) {
-                return StructureFeature.FORTRESS.getMonsterSpawns();
+            if (accessor.getStructureAt(pos, true, StructureFeature.FORTRESS).hasChildren() && result == null) {
+                result = StructureFeature.FORTRESS.getMonsterSpawns();
             }
         }
 
-        return group == SpawnGroup.UNDERGROUND_WATER_CREATURE && accessor.getStructureAt(pos, false, StructureFeature.MONUMENT).hasChildren() ? StructureFeature.MONUMENT.getUndergroundWaterCreatureSpawns() : super.getEntitySpawnList(biome, accessor, group, pos);
+        if (result == null) {
+            result = group == SpawnGroup.UNDERGROUND_WATER_CREATURE && accessor.getStructureAt(pos, false, StructureFeature.MONUMENT).hasChildren() ? StructureFeature.MONUMENT.getUndergroundWaterCreatureSpawns() : super.getEntitySpawnList(biome, accessor, group, pos);
+        }
+        List<SpawnSettings.SpawnEntry> mutableList = new ArrayList<>();
+        for (SpawnSettings.SpawnEntry entry : result.getEntries()) {
+            if (entry.type != EntityType.BAT) {
+                mutableList.add(entry);
+            }
+        }
+        ((MixinPoolAccessor<SpawnSettings.SpawnEntry>)result).setEntries(ImmutableList.copyOf((mutableList)));
+        return result;
     }
 
     @Override
