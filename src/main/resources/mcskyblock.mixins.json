@@ -16,7 +16,8 @@
     "MixinEnderDragonFight",
     "MixinStructure",
     "MixinLootTableAccessor",
-    "MixinLootPoolAccessor"
+    "MixinLootPoolAccessor",
+    "MixinPoolAccessor"
   ],
   "client": [
     "MixinClientWorldProperties",
