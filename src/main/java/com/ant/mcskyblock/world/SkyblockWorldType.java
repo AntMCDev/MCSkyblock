@@ -8,7 +8,6 @@ import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 import net.minecraft.world.biome.source.TheEndBiomeSource;
-import net.minecraft.world.biome.source.VanillaLayeredBiomeSource;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GeneratorOptions;
@@ -30,26 +29,34 @@ public class SkyblockWorldType extends GeneratorType {
 
         simpleRegistry.add(DimensionOptions.NETHER, new DimensionOptions(() -> {
             return (DimensionType)dimensionRegistry.getOrThrow(DimensionType.THE_NETHER_REGISTRY_KEY);
-        }, createNetherGenerator(biomeRegistry, seed)), Lifecycle.stable());
+        }, createNetherGenerator(registryManager, biomeRegistry, seed)), Lifecycle.stable());
         simpleRegistry.add(DimensionOptions.END, new DimensionOptions(() -> {
             return (DimensionType)dimensionRegistry.getOrThrow(DimensionType.THE_END_REGISTRY_KEY);
-        }, createEndGenerator(biomeRegistry, seed)), Lifecycle.stable());
+        }, createEndGenerator(registryManager, biomeRegistry, seed)), Lifecycle.stable());
 
-        simpleRegistry = GeneratorOptions.getRegistryWithReplacedOverworldGenerator(dimensionRegistry, simpleRegistry, new SkyblockChunkGenerator(new VanillaLayeredBiomeSource(seed, false, false, biomeRegistry), seed));
+        simpleRegistry = GeneratorOptions.getRegistryWithReplacedOverworldGenerator(dimensionRegistry, simpleRegistry, new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.OVERWORLD.getBiomeSource(registryManager.get(Registry.BIOME_KEY), true), seed, () -> {
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.OVERWORLD);
+        }, registryManager.get(Registry.NOISE_WORLDGEN)));
 
         return new GeneratorOptions(seed, generateStructures, bonusChest, simpleRegistry);
     }
 
     @Override
-    protected ChunkGenerator getChunkGenerator(Registry<Biome> biomeRegistry, Registry<ChunkGeneratorSettings> chunkGeneratorSettingsRegistry, long seed) {
-        return new SkyblockChunkGenerator(new VanillaLayeredBiomeSource(seed, false, false, biomeRegistry), seed);
+    protected ChunkGenerator getChunkGenerator(DynamicRegistryManager registryManager, long seed) {
+        return new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.OVERWORLD.getBiomeSource(registryManager.get(Registry.BIOME_KEY), true), seed, () -> {
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.OVERWORLD);
+        }, registryManager.get(Registry.NOISE_WORLDGEN));
     }
 
-    private static ChunkGenerator createEndGenerator(Registry<Biome> biomeRegistry, long seed) {
-        return new SkyblockChunkGenerator(new TheEndBiomeSource(biomeRegistry, seed), seed);
+    private static ChunkGenerator createEndGenerator(DynamicRegistryManager registryManager, Registry<Biome> biomeRegistry, long seed) {
+        return new SkyblockChunkGenerator(new TheEndBiomeSource(biomeRegistry, seed), seed, () -> {
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.NETHER);
+        }, registryManager.get(Registry.NOISE_WORLDGEN));
     }
 
-    private static ChunkGenerator createNetherGenerator(Registry<Biome> biomeRegistry, long seed) {
-        return new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(biomeRegistry, seed), seed);
+    private static ChunkGenerator createNetherGenerator(DynamicRegistryManager registryManager, Registry<Biome> biomeRegistry, long seed) {
+        return new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(biomeRegistry, true), seed, () -> {
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.END);
+        }, registryManager.get(Registry.NOISE_WORLDGEN));
     }
 }
