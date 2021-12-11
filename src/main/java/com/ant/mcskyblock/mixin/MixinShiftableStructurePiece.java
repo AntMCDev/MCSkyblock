@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.mixin;
 
 import com.ant.mcskyblock.MCSkyBlock;
+import com.ant.mcskyblock.config.ConfigHandler;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.ShiftableStructurePiece;
 import net.minecraft.util.math.BlockBox;
@@ -38,7 +39,7 @@ public class MixinShiftableStructurePiece extends MixinStructurePiece {
                     }
                 }
 
-                deltaY = 64 - ((ServerChunkManager) world.getChunkManager()).getChunkGenerator().getMinimumY();
+                deltaY = (ConfigHandler.Common.WITCH_HUT_Y_ZERO ? 0 : 64) - ((ServerChunkManager) world.getChunkManager()).getChunkGenerator().getMinimumY();
 
                 if (j == 0) {
                     cir.setReturnValue(false);

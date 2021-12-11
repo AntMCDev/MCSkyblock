@@ -1,5 +1,6 @@
 package com.ant.mcskyblock;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.network.PacketHander;
 import com.ant.mcskyblock.world.SkyblockChunkGenerator;
 import com.ant.mcskyblock.world.SkyblockWorldEvents;
@@ -31,6 +32,8 @@ public class MCSkyBlock implements ModInitializer {
 			skyblockWorldType = new SkyblockWorldType(MOD_NAME);
 			PacketHander.registerClientListener();
 		}
+
+		new ConfigHandler.Common();
 
 		SkyblockWorldEvents.init();
 
