@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.world;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.mixin.MixinPoolAccessor;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
@@ -149,7 +150,7 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
         }
         List<SpawnSettings.SpawnEntry> mutableList = new ArrayList<>();
         for (SpawnSettings.SpawnEntry entry : result.getEntries()) {
-            if (entry.type != EntityType.BAT) {
+            if (!(entry.type == EntityType.BAT && ConfigHandler.Common.STOP_BAT_SPAWNS)) {
                 mutableList.add(entry);
             }
         }

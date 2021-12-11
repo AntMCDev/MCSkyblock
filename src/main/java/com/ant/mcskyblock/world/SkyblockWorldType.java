@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.world;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.client.world.GeneratorType;
 import net.minecraft.util.registry.DynamicRegistryManager;
@@ -13,6 +14,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GeneratorOptions;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
+import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 
 public class SkyblockWorldType extends GeneratorType {
     public SkyblockWorldType(String string) {
@@ -29,10 +31,10 @@ public class SkyblockWorldType extends GeneratorType {
 
         simpleRegistry.add(DimensionOptions.NETHER, new DimensionOptions(() -> {
             return (DimensionType)dimensionRegistry.getOrThrow(DimensionType.THE_NETHER_REGISTRY_KEY);
-        }, createNetherGenerator(registryManager, biomeRegistry, seed)), Lifecycle.stable());
+        }, ConfigHandler.Common.VOID_NETHER ? createNetherGenerator(registryManager, biomeRegistry, seed) : createDefaultNetherGenerator(registryManager, biomeRegistry, seed)), Lifecycle.stable());
         simpleRegistry.add(DimensionOptions.END, new DimensionOptions(() -> {
             return (DimensionType)dimensionRegistry.getOrThrow(DimensionType.THE_END_REGISTRY_KEY);
-        }, createEndGenerator(registryManager, biomeRegistry, seed)), Lifecycle.stable());
+        }, ConfigHandler.Common.VOID_END ? createEndGenerator(registryManager, biomeRegistry, seed) : createDefaultEndGenerator(registryManager, biomeRegistry, seed)), Lifecycle.stable());
 
         simpleRegistry = GeneratorOptions.getRegistryWithReplacedOverworldGenerator(dimensionRegistry, simpleRegistry, new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.OVERWORLD.getBiomeSource(registryManager.get(Registry.BIOME_KEY), true), seed, () -> {
             return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.OVERWORLD);
@@ -50,13 +52,25 @@ public class SkyblockWorldType extends GeneratorType {
 
     private static ChunkGenerator createEndGenerator(DynamicRegistryManager registryManager, Registry<Biome> biomeRegistry, long seed) {
         return new SkyblockChunkGenerator(new TheEndBiomeSource(biomeRegistry, seed), seed, () -> {
-            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.NETHER);
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.END);
         }, registryManager.get(Registry.NOISE_WORLDGEN));
     }
 
     private static ChunkGenerator createNetherGenerator(DynamicRegistryManager registryManager, Registry<Biome> biomeRegistry, long seed) {
         return new SkyblockChunkGenerator(MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(biomeRegistry, true), seed, () -> {
-            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.END);
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.NETHER);
         }, registryManager.get(Registry.NOISE_WORLDGEN));
+    }
+
+    private static ChunkGenerator createDefaultEndGenerator(DynamicRegistryManager registryManager, Registry<Biome> biomeRegistry, long seed) {
+        return new NoiseChunkGenerator(registryManager.get(Registry.NOISE_WORLDGEN), new TheEndBiomeSource(biomeRegistry, seed), seed, () -> {
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.END);
+        });
+    }
+
+    private static ChunkGenerator createDefaultNetherGenerator(DynamicRegistryManager registryManager, Registry<Biome> biomeRegistry, long seed) {
+        return new NoiseChunkGenerator(registryManager.get(Registry.NOISE_WORLDGEN), MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(biomeRegistry, true), seed, () -> {
+            return (ChunkGeneratorSettings)registryManager.get(Registry.CHUNK_GENERATOR_SETTINGS_KEY).getOrThrow(ChunkGeneratorSettings.NETHER);
+        });
     }
 }

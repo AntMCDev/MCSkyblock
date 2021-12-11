@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.world;
 
 import com.ant.mcskyblock.MCSkyBlock;
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.network.PacketHander;
 import com.ant.mcskyblock.utils.loot.LootTableUtils;
 import com.ant.mcskyblock.utils.trade.TradingUtils;
@@ -112,6 +113,10 @@ public class SkyblockWorldEvents {
             }
         }
 
-        world.setBlockState(new BlockPos(pos.getX(), pos.getY() - tree.length - 1, pos.getZ()), Blocks.DIRT.getDefaultState());
+        for (long x = -(ConfigHandler.Common.ISLAND_RADIUS-1); x <= ConfigHandler.Common.ISLAND_RADIUS-1; x++) {
+            for (long z = -(ConfigHandler.Common.ISLAND_RADIUS-1); z <= ConfigHandler.Common.ISLAND_RADIUS-1; z++) {
+                world.setBlockState(new BlockPos(pos.getX() - x, pos.getY() - tree.length - 1, pos.getZ() - z), Blocks.DIRT.getDefaultState());
+            }
+        }
     }
 }
