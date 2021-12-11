@@ -33,7 +33,6 @@ public class LootTableUtils {
 
         List<LootPoolEntry> piglinLootTable = new ArrayList<>();
         piglinLootTable.add(ItemEntry.builder(Items.NETHERRACK).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(8f, 16f))).weight(40).build());
-        piglinLootTable.add(ItemEntry.builder(Items.SOUL_SOIL).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(4f, 8f))).weight(20).build());
         piglinLootTable.add(ItemEntry.builder(Items.CRIMSON_NYLIUM).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(4f, 8f))).weight(20).build());
         piglinLootTable.add(ItemEntry.builder(Items.WARPED_NYLIUM).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(4f, 8f))).weight(20).build());
         piglinLootTable.add(ItemEntry.builder(Items.CRIMSON_FUNGUS).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1f, 2f))).weight(10).build());
