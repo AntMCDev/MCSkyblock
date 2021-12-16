@@ -188,7 +188,7 @@ public class ConfigHandler {
             // Dimensions Config Initialisation
             change = populateTOMLTable(DIMENSIONS_TABLE, map) || change;
             Map<String, Object> dimensionsConfig = (HashMap<String, Object>)map.get(DIMENSIONS_TABLE);
-            change = populateTOMLProperty(DIMENSIONS_ISLAND_RADIUS_KEY, dimensionsConfig, 1) || change;
+            change = populateTOMLProperty(DIMENSIONS_ISLAND_RADIUS_KEY, dimensionsConfig, 1L) || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_END_KEY, dimensionsConfig, true) || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_NETHER_KEY, dimensionsConfig, true) || change;
             ISLAND_RADIUS = (Long)dimensionsConfig.get(DIMENSIONS_ISLAND_RADIUS_KEY);
