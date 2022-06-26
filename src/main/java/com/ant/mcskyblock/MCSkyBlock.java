@@ -8,9 +8,6 @@ import com.ant.mcskyblock.world.SkyblockWorldType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.MessageType;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -58,11 +55,5 @@ public class MCSkyBlock implements ModInitializer {
 
 	public static boolean isSkyblockWorld(ChunkGenerator chunkGenerator) {
 		return chunkGenerator instanceof SkyblockChunkGenerator;
-	}
-
-	public static void printToChat(String msg) {
-		if (isPhysicalClient()) {
-			MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText(msg), MinecraftClient.getInstance().player.getUuid());
-		}
 	}
 }

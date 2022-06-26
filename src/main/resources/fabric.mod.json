@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mcskyblock",
-  "version": "${version}",
+  "version": "1.2.0",
 
   "name": "MC Skyblock Fabric",
   "description": "This mod adds a new world generation type for a barebones skyblock experience (Fabric Port)",
@@ -15,7 +15,6 @@
 
   "license": "CC0-1.0",
   "icon": "assets/mcskyblock/icon.png",
-  "accessWidener" : "mcskyblock.accesswidener",
 
   "environment": "*",
   "entrypoints": {
@@ -28,9 +27,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.12.6",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "~1.19",
     "java": ">=17"
   },
   "suggests": {

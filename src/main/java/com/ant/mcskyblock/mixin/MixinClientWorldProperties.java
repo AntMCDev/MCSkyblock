@@ -17,9 +17,9 @@ public class MixinClientWorldProperties {
         }
     }
     @Inject(at = @At("HEAD"), method = "getHorizonShadingRatio", cancellable = true)
-    public void getHorizonShadingRatio(CallbackInfoReturnable<Double> cir) {
+    public void getHorizonShadingRatio(CallbackInfoReturnable<Float> cir) {
         if (SkyblockWorldEvents.isClientSkyblock) {
-            cir.setReturnValue(1.0d);
+            cir.setReturnValue(1.0f);
         }
     }
 }

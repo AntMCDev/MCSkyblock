@@ -12,10 +12,16 @@
     "MixinStrongholdGeneratorPortalRoom",
     "MixinNetherFortressGeneratorBridgePlatform",
     "MixinEnderDragonFight",
-    "MixinStructure",
+    "MixinStructureTemplate",
     "MixinLootTableAccessor",
     "MixinLootPoolAccessor",
-    "MixinPoolAccessor"
+    "MixinPoolAccessor",
+    "MixinWorldPresets",
+    "MixinWorldPresetsRegistrar",
+    "MixinChunkGeneratorSettings",
+    "MixinMoreOptionsDialog",
+    "MixinChunkNoiseSamplerAccessor",
+    "MixinThreadedAnvilChunkStorage"
   ],
   "client": [
     "MixinClientWorldProperties",

@@ -1,70 +1,75 @@
 package com.ant.mcskyblock.world;
 
-import com.ant.mcskyblock.config.ConfigHandler;
-import com.ant.mcskyblock.mixin.MixinPoolAccessor;
-import com.google.common.collect.ImmutableList;
+import com.ant.mcskyblock.mixin.MixinChunkNoiseSamplerAccessor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.util.collection.Pool;
-import net.minecraft.util.dynamic.RegistryLookupCodec;
+import net.minecraft.block.Blocks;
+import net.minecraft.structure.StructureSet;
+import net.minecraft.util.Util;
+import net.minecraft.util.dynamic.RegistryOps;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
+import net.minecraft.util.math.random.CheckedRandom;
+import net.minecraft.util.math.random.ChunkRandom;
+import net.minecraft.util.math.random.RandomSeed;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.biome.source.util.MultiNoiseUtil;
+import net.minecraft.world.biome.source.BiomeSupplier;
+import net.minecraft.world.chunk.BelowZeroRetrogen;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.NoiseColumnSampler;
 import net.minecraft.world.gen.StructureAccessor;
+import net.minecraft.world.gen.StructureWeightSampler;
 import net.minecraft.world.gen.chunk.*;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.random.AtomicSimpleRandom;
-import net.minecraft.world.gen.random.ChunkRandom;
-import net.minecraft.world.gen.random.RandomSeed;
+import net.minecraft.world.gen.densityfunction.DensityFunction;
+import net.minecraft.world.gen.densityfunction.DensityFunctions;
+import net.minecraft.world.gen.noise.NoiseConfig;
+import net.minecraft.world.gen.noise.NoiseRouter;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.function.Supplier;
 
 public class SkyblockChunkGenerator extends ChunkGenerator {
     public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((skyblockChunkGenerator) -> {
-            return skyblockChunkGenerator.populationSource;
-        }), Codec.LONG.fieldOf("seed").stable().forGetter((skyblockChunkGenerator) -> {
-            return skyblockChunkGenerator.seed;
-        }), ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter((skyblockChunkGenerator) -> {
-            return skyblockChunkGenerator.settings;
-        }), RegistryLookupCodec.of(Registry.NOISE_WORLDGEN).forGetter((noiseChunkGenerator) -> {
-            return noiseChunkGenerator.noiseRegistry;
-        })).apply(instance, instance.stable(SkyblockChunkGenerator::new));
+        return createStructureSetRegistryGetter(instance).and(instance.group(RegistryOps.createRegistryCodec(Registry.NOISE_KEY).forGetter((generator) -> {
+            return generator.noiseRegistry;
+        }), BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> {
+            return generator.biomeSource;
+        }), ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter((generator) -> {
+            return generator.settings;
+        }))).apply(instance, instance.stable(SkyblockChunkGenerator::new));
     });
-    private final long seed;
-    private final Supplier<ChunkGeneratorSettings> settings;
+    private static final BlockState AIR;
+    protected final BlockState defaultBlock;
     private final Registry<DoublePerlinNoiseSampler.NoiseParameters> noiseRegistry;
-    private final NoiseColumnSampler noiseColumnSampler;
+    protected final RegistryEntry<ChunkGeneratorSettings> settings;
+    private final AquiferSampler.FluidLevelSampler fluidLevelSampler;
 
-    public SkyblockChunkGenerator(BiomeSource biomeSource, long seed, Supplier<ChunkGeneratorSettings> settings, Registry<DoublePerlinNoiseSampler.NoiseParameters> noiseRegistry) {
-        super(biomeSource, new StructuresConfig(true));
-        this.seed = seed;
-        this.settings = settings;
+    static {
+        AIR = Blocks.AIR.getDefaultState();
+    }
+
+    public SkyblockChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<DoublePerlinNoiseSampler.NoiseParameters> noiseRegistry, BiomeSource populationSource, RegistryEntry<ChunkGeneratorSettings> registryEntry) {
+        super(structureSetRegistry, Optional.empty(), populationSource);
         this.noiseRegistry = noiseRegistry;
-        ChunkGeneratorSettings chunkGeneratorSettings = (ChunkGeneratorSettings)this.settings.get();
-        GenerationShapeConfig generationShapeConfig = chunkGeneratorSettings.getGenerationShapeConfig();
-        this.noiseColumnSampler = new NoiseColumnSampler(generationShapeConfig, chunkGeneratorSettings.hasNoiseCaves(), seed, noiseRegistry, chunkGeneratorSettings.getRandomProvider());
+        this.settings = registryEntry;
+        ChunkGeneratorSettings chunkGeneratorSettings = (ChunkGeneratorSettings)this.settings.value();
+        this.defaultBlock = chunkGeneratorSettings.defaultBlock();
+        AquiferSampler.FluidLevel fluidLevel = new AquiferSampler.FluidLevel(DimensionType.MIN_HEIGHT * 2, Blocks.AIR.getDefaultState());
+        this.fluidLevelSampler = (x, y, z) -> fluidLevel;
     }
 
     @Override
@@ -73,38 +78,32 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public ChunkGenerator withSeed(long seed) {
-        return new SkyblockChunkGenerator(this.populationSource.withSeed(seed), seed, this.settings, this.noiseRegistry);
-    }
-
-    @Override
-    public MultiNoiseUtil.MultiNoiseSampler getMultiNoiseSampler() {
-        return this.noiseColumnSampler;
-    }
-
-    @Override
-    public void carve(ChunkRegion chunkRegion, long seed, BiomeAccess biomeAccess, StructureAccessor structureAccessor, Chunk chunk, GenerationStep.Carver generationStep) {
+    public void carve(ChunkRegion chunkRegion, long seed, NoiseConfig noiseConfig, BiomeAccess world, StructureAccessor structureAccessor, Chunk chunk, GenerationStep.Carver carverStep) {
 
     }
 
     @Override
-    public void buildSurface(ChunkRegion region, StructureAccessor structures, Chunk chunk) {
+    public void buildSurface(ChunkRegion region, StructureAccessor structures, NoiseConfig noiseConfig, Chunk chunk) {
 
     }
 
     @Override
-    public CompletableFuture<Chunk> populateNoise(Executor executor, Blender blender, StructureAccessor structureAccessor, Chunk chunk) {
+    public void populateEntities(ChunkRegion region) {
+        ChunkPos chunkPos = region.getCenterPos();
+        RegistryEntry<Biome> registryEntry = region.getBiome(chunkPos.getStartPos().withY(region.getTopY() - 1));
+        ChunkRandom chunkRandom = new ChunkRandom(new CheckedRandom(RandomSeed.getSeed()));
+        chunkRandom.setPopulationSeed(region.getSeed(), chunkPos.getStartX(), chunkPos.getStartZ());
+        SpawnHelper.populateEntities(region, registryEntry, chunkPos, chunkRandom);
+    }
+
+    @Override
+    public int getWorldHeight() {
+        return this.settings.value().generationShapeConfig().height();
+    }
+
+    @Override
+    public CompletableFuture<Chunk> populateNoise(Executor executor, Blender blender, NoiseConfig noiseConfig, StructureAccessor structureAccessor, Chunk chunk) {
         return CompletableFuture.completedFuture(chunk);
-    }
-
-    @Override
-    public int getHeight(int x, int z, Heightmap.Type heightmap, HeightLimitView world) {
-        return 0;
-    }
-
-    @Override
-    public VerticalBlockSample getColumnSample(int x, int z, HeightLimitView world) {
-        return new VerticalBlockSample(0, new BlockState[0]);
     }
 
     @Override
@@ -114,61 +113,48 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
 
     @Override
     public int getMinimumY() {
-        return ((ChunkGeneratorSettings)this.settings.get()).getGenerationShapeConfig().minimumY();
+        return ((ChunkGeneratorSettings)this.settings.value()).generationShapeConfig().minimumY();
     }
 
     @Override
-    public Pool<SpawnSettings.SpawnEntry> getEntitySpawnList(Biome biome, StructureAccessor accessor, SpawnGroup group, BlockPos pos) {
-        Pool<SpawnSettings.SpawnEntry> result = null;
-
-        if (accessor.getStructureAt(pos, StructureFeature.SWAMP_HUT).hasChildren()) {
-            if (group == SpawnGroup.MONSTER) {
-                result = SwampHutFeature.MONSTER_SPAWNS;
-            }
-
-            if (group == SpawnGroup.CREATURE) {
-                result = SwampHutFeature.CREATURE_SPAWNS;
-            }
-        }
-
-        if (group == SpawnGroup.MONSTER && result == null) {
-            if (accessor.getStructureAt(pos, StructureFeature.PILLAGER_OUTPOST).hasChildren()) {
-                result = PillagerOutpostFeature.MONSTER_SPAWNS;
-            }
-
-            if (accessor.getStructureAt(pos, StructureFeature.MONUMENT).hasChildren() && result == null) {
-                result = OceanMonumentFeature.MONSTER_SPAWNS;
-            }
-
-            if (accessor.getStructureAt(pos, StructureFeature.FORTRESS).hasChildren() && result == null) {
-                result = NetherFortressFeature.MONSTER_SPAWNS;
-            }
-        }
-
-        if (result == null) {
-            result = group == SpawnGroup.UNDERGROUND_WATER_CREATURE && accessor.getStructureAt(pos, StructureFeature.MONUMENT).hasChildren() ? SpawnSettings.EMPTY_ENTRY_POOL : super.getEntitySpawnList(biome, accessor, group, pos);
-        }
-        List<SpawnSettings.SpawnEntry> mutableList = new ArrayList<>();
-        for (SpawnSettings.SpawnEntry entry : result.getEntries()) {
-            if (!(entry.type == EntityType.BAT && ConfigHandler.Common.STOP_BAT_SPAWNS)) {
-                mutableList.add(entry);
-            }
-        }
-        ((MixinPoolAccessor<SpawnSettings.SpawnEntry>)result).setEntries(ImmutableList.copyOf((mutableList)));
-        return result;
+    public int getHeight(int x, int z, Heightmap.Type heightmap, HeightLimitView world, NoiseConfig noiseConfig) {
+        return 0;
     }
 
     @Override
-    public void populateEntities(ChunkRegion region) {
-        ChunkPos chunkPos = region.getCenterPos();
-        Biome biome = region.getBiome(chunkPos.getStartPos());
-        ChunkRandom chunkRandom = new ChunkRandom(new AtomicSimpleRandom(RandomSeed.getSeed()));
-        chunkRandom.setPopulationSeed(region.getSeed(), chunkPos.getStartX(), chunkPos.getStartZ());
-        SpawnHelper.populateEntities(region, biome, chunkPos, chunkRandom);
+    public VerticalBlockSample getColumnSample(int x, int z, HeightLimitView world, NoiseConfig noiseConfig) {
+        return new VerticalBlockSample(0, new BlockState[0]);
     }
 
     @Override
-    public int getWorldHeight() {
-        return ((ChunkGeneratorSettings)this.settings.get()).getGenerationShapeConfig().height();
+    public void getDebugHudText(List<String> text, NoiseConfig noiseConfig, BlockPos pos) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.000");
+        NoiseRouter noiseRouter = noiseConfig.getNoiseRouter();
+        DensityFunction.UnblendedNoisePos unblendedNoisePos = new DensityFunction.UnblendedNoisePos(pos.getX(), pos.getY(), pos.getZ());
+        double d = noiseRouter.ridges().sample(unblendedNoisePos);
+        String var10001 = decimalFormat.format(noiseRouter.temperature().sample(unblendedNoisePos));
+        text.add("NoiseRouter T: " + var10001 + " V: " + decimalFormat.format(noiseRouter.vegetation().sample(unblendedNoisePos)) + " C: " + decimalFormat.format(noiseRouter.continents().sample(unblendedNoisePos)) + " E: " + decimalFormat.format(noiseRouter.erosion().sample(unblendedNoisePos)) + " D: " + decimalFormat.format(noiseRouter.depth().sample(unblendedNoisePos)) + " W: " + decimalFormat.format(d) + " PV: " + decimalFormat.format((double) DensityFunctions.method_41546((float)d)) + " AS: " + decimalFormat.format(noiseRouter.initialDensityWithoutJaggedness().sample(unblendedNoisePos)) + " N: " + decimalFormat.format(noiseRouter.finalDensity().sample(unblendedNoisePos)));
+    }
+
+    public RegistryEntry<ChunkGeneratorSettings> getSettings() {
+        return this.settings;
+    }
+
+    @Override
+    public CompletableFuture<Chunk> populateBiomes(Registry<Biome> biomeRegistry, Executor executor, NoiseConfig noiseConfig, Blender blender, StructureAccessor structureAccessor, Chunk chunk) {
+        return CompletableFuture.supplyAsync(Util.debugSupplier("init_biomes", () -> {
+            this.populateBiomes(blender, noiseConfig, structureAccessor, chunk);
+            return chunk;
+        }), Util.getMainWorkerExecutor());
+    }
+
+    private void populateBiomes(Blender blender, NoiseConfig noiseConfig, StructureAccessor structureAccessor, Chunk chunk2) {
+        ChunkNoiseSampler chunkNoiseSampler = chunk2.getOrCreateChunkNoiseSampler(chunk -> this.method_41537((Chunk)chunk, structureAccessor, blender, noiseConfig));
+        BiomeSupplier biomeSupplier = BelowZeroRetrogen.getBiomeSupplier(blender.getBiomeSupplier(this.biomeSource), chunk2);
+        chunk2.populateBiomes(biomeSupplier, ((MixinChunkNoiseSamplerAccessor)chunkNoiseSampler).createMultiNoiseSampler(noiseConfig.getNoiseRouter(), this.settings.value().spawnTarget()));
+    }
+
+    private ChunkNoiseSampler method_41537(Chunk chunk, StructureAccessor structureAccessor, Blender blender, NoiseConfig noiseConfig) {
+        return ChunkNoiseSampler.create(chunk, noiseConfig, StructureWeightSampler.method_42695(structureAccessor, chunk.getPos()), this.settings.value(), this.fluidLevelSampler, blender);
     }
 }

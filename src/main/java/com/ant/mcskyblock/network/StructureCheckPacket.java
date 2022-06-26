@@ -7,13 +7,10 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.feature.StructureFeature;
 
 public class StructureCheckPacket extends AbstractPacket {
     private static final Identifier IDENTIFIER = new Identifier(MCSkyBlock.MOD_NAME + ":structurecheck");
@@ -35,7 +32,7 @@ public class StructureCheckPacket extends AbstractPacket {
     @Override
     public void executeOnServer(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         server.execute(() -> {
-            StructureInfo.SupportedStructures structure = LocationPredicate.feature(StructureFeature.FORTRESS).test((ServerWorld)player.world, player.getPos().x, player.getPos().y, player.getPos().z) ? StructureInfo.SupportedStructures.FORTRESS : StructureInfo.SupportedStructures.NONE;
+            /*StructureInfo.SupportedStructures structure = LocationPredicate.feature(StructureFeature.FORTRESS).test((ServerWorld)player.world, player.getPos().x, player.getPos().y, player.getPos().z) ? StructureInfo.SupportedStructures.FORTRESS : StructureInfo.SupportedStructures.NONE;
             if (structure == StructureInfo.SupportedStructures.NONE) {
                 structure = LocationPredicate.feature(StructureFeature.MONUMENT).test((ServerWorld)player.world, player.getPos().x, player.getPos().y, player.getPos().z) ? StructureInfo.SupportedStructures.MONUMENT : StructureInfo.SupportedStructures.NONE;
                 if (structure == StructureInfo.SupportedStructures.NONE) {
@@ -44,7 +41,8 @@ public class StructureCheckPacket extends AbstractPacket {
                         structure = LocationPredicate.feature(StructureFeature.PILLAGER_OUTPOST).test((ServerWorld)player.world, player.getPos().x, player.getPos().y, player.getPos().z) ? StructureInfo.SupportedStructures.PILLAGER_OUTPOST : StructureInfo.SupportedStructures.NONE;
                     }
                 }
-            }
+            }*/
+            StructureInfo.SupportedStructures structure = StructureInfo.SupportedStructures.NONE;
 
             PacketByteBuf responseBuffer = PacketByteBufs.create();
             responseBuffer.writeEnumConstant(structure);
