@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.world.SkyblockWorldEvents;
+import com.ant.mcskyblock.skyblock.SkyblockWorldEvents;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.HeightLimitView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,9 +17,9 @@ public class MixinClientWorldProperties {
         }
     }
     @Inject(at = @At("HEAD"), method = "getHorizonShadingRatio", cancellable = true)
-    public void getHorizonShadingRatio(CallbackInfoReturnable<Double> cir) {
+    public void getHorizonShadingRatio(CallbackInfoReturnable<Float> cir) {
         if (SkyblockWorldEvents.isClientSkyblock) {
-            cir.setReturnValue(1.0d);
+            cir.setReturnValue(1.0f);
         }
     }
 }

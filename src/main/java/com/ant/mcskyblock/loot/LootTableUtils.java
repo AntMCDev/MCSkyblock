@@ -1,11 +1,10 @@
-package com.ant.mcskyblock.utils.loot;
+package com.ant.mcskyblock.loot;
 
 import com.ant.mcskyblock.MCSkyBlock;
 import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.mixin.MixinLootTableAccessor;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -28,16 +27,17 @@ public class LootTableUtils {
 
     static {
         if (ConfigHandler.Common.PHANTOM_ELYTRA) {
-            newLootPools.put(EntityType.PHANTOM.getLootTableId(), FabricLootPoolBuilder.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.ELYTRA)).withCondition(KilledByPlayerLootCondition.builder().build()).withCondition(RandomChanceWithLootingLootCondition.builder(0.01f, 0.05f).build()).build());
+            newLootPools.put(EntityType.PHANTOM.getLootTableId(), LootPool.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.ELYTRA)).conditionally(KilledByPlayerLootCondition.builder().build()).conditionally(RandomChanceWithLootingLootCondition.builder(0.01f, 0.05f).build()).build());
+            newLootPools.put(EntityType.PHANTOM.getLootTableId(), LootPool.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.ELYTRA)).conditionally(KilledByPlayerLootCondition.builder().build()).conditionally(RandomChanceWithLootingLootCondition.builder(0.01f, 0.05f).build()).build());
         }
         if (ConfigHandler.Common.WITCH_NETHER_WART) {
-            newLootPools.put(EntityType.WITCH.getLootTableId(), FabricLootPoolBuilder.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.NETHER_WART)).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0f, 1f))).withFunction(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0f, 1f)).build()).build());
+            newLootPools.put(EntityType.WITCH.getLootTableId(), LootPool.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.NETHER_WART)).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0f, 1f))).apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0f, 1f)).build()).build());
         }
         if (ConfigHandler.Common.ENDER_DRAGON_HEAD) {
-            newLootPools.put(EntityType.ENDER_DRAGON.getLootTableId(), FabricLootPoolBuilder.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.DRAGON_HEAD)).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1f))).build());
+            newLootPools.put(EntityType.ENDER_DRAGON.getLootTableId(), LootPool.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.DRAGON_HEAD)).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1f))).build());
         }
         if (ConfigHandler.Common.DROWNED_GOLD) {
-            newLootPools.put(EntityType.DROWNED.getLootTableId(), FabricLootPoolBuilder.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.GOLD_INGOT)).withCondition(KilledByPlayerLootCondition.builder().build()).withCondition(RandomChanceWithLootingLootCondition.builder(0.05f, 0.05f).build()).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1f))).build());
+            newLootPools.put(EntityType.DROWNED.getLootTableId(), LootPool.builder().rolls(ConstantLootNumberProvider.create(1f)).with(ItemEntry.builder(Items.GOLD_INGOT)).conditionally(KilledByPlayerLootCondition.builder().build()).conditionally(RandomChanceWithLootingLootCondition.builder(0.05f, 0.05f).build()).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1f))).build());
         }
 
         List<LootPoolEntry> piglinLootTable = new ArrayList<>();
@@ -68,17 +68,16 @@ public class LootTableUtils {
     }
 
     public static void register() {
-        LootTableLoadingCallback.EVENT.register((resourceManager, manager, id, supplier, setter) -> {
-            MCSkyBlock.LOGGER.info(id.toString());
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (newLootPools.containsKey(id)) {
                 MCSkyBlock.LOGGER.info("Adding new loot pool for: " + id);
-                supplier.withPool(newLootPools.get(id));
+                tableBuilder.pool(newLootPools.get(id));
             }
 
             if (existingLootPools.containsKey(id)) {
                 MCSkyBlock.LOGGER.info("Modifying existing loot pool [" + existingLootPools.get(id).getPoolIndex()  + "] for: " + id);
 
-                LootPoolEntry[] entries = ((MixinLootPoolAccessor)((MixinLootTableAccessor)manager.getTable(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).getEntries();
+                LootPoolEntry[] entries = ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.getTable(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).getEntries();
                 LootPoolEntry[] newEntries = new LootPoolEntry[entries.length + existingLootPools.get(id).getEntries().size()];
 
                 System.arraycopy(entries, 0, newEntries, 0, entries.length);
@@ -87,7 +86,7 @@ public class LootTableUtils {
                     newEntries[entries.length + i] = existingLootPools.get(id).getEntries().get(i);
                 }
 
-                ((MixinLootPoolAccessor)((MixinLootTableAccessor)manager.getTable(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).setEntries(newEntries);
+                ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.getTable(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).setEntries(newEntries);
             }
         });
     }

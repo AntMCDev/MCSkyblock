@@ -1,12 +1,12 @@
-package com.ant.mcskyblock.utils.trade;
+package com.ant.mcskyblock.trade;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
-
-import java.util.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class BasicTradeFactory implements TradeOffers.Factory {
     protected final int price;
@@ -31,6 +31,7 @@ public class BasicTradeFactory implements TradeOffers.Factory {
         this.multiplier = multiplier;
     }
 
+    @Nullable
     @Override
     public TradeOffer create(Entity entity, Random random) {
         return new TradeOffer(new ItemStack(Items.EMERALD, this.price), this.buy, this.maxUses, this.experience, this.multiplier);

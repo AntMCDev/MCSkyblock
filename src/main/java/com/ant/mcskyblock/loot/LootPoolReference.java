@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.utils.loot;
+package com.ant.mcskyblock.loot;
 
 import net.minecraft.loot.entry.LootPoolEntry;
 

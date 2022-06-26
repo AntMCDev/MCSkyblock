@@ -5,17 +5,19 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MixinConfiguredFeature",
-    "MixinOceanRuinGeneratorPiece",
-    "MixinStructurePiece",
     "MixinDimensionOptions",
-    "MixinShiftableStructurePiece",
-    "MixinStrongholdGeneratorPortalRoom",
-    "MixinNetherFortressGeneratorBridgePlatform",
     "MixinEnderDragonFight",
-    "MixinStructure",
-    "MixinLootTableAccessor",
     "MixinLootPoolAccessor",
-    "MixinPoolAccessor"
+    "MixinLootTableAccessor",
+    "MixinNetherFortressGeneratorBridgePlatform",
+    "MixinOceanRuinGeneratorPiece",
+    "MixinShiftableStructurePiece",
+    "MixinSpawnHelper",
+    "MixinStrongholdGeneratorPortalRoom",
+    "MixinStructurePiece",
+    "MixinStructureTemplate",
+    "MixinThreadedAnvilChunkStorage",
+    "MixinWorldPresetsRegistrar"
   ],
   "client": [
     "MixinClientWorldProperties",

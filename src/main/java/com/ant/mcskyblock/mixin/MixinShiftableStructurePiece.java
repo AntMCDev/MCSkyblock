@@ -1,7 +1,7 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.MCSkyBlock;
 import com.ant.mcskyblock.config.ConfigHandler;
+import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.ShiftableStructurePiece;
 import net.minecraft.util.math.BlockBox;
@@ -21,7 +21,7 @@ public class MixinShiftableStructurePiece extends MixinStructurePiece {
 
     @Inject(at = @At("HEAD"), method = "adjustToAverageHeight", cancellable = true)
     protected void adjustToAverageHeight(WorldAccess world, BlockBox boundingBox, int deltaY, CallbackInfoReturnable<Boolean> cir) {
-        if (MCSkyBlock.isSkyblockWorld(((ServerChunkManager)world.getChunkManager()).getChunkGenerator())) {
+        if (((ServerChunkManager)world.getChunkManager()).getChunkGenerator() instanceof SkyblockChunkGenerator) {
             if (this.hPos >= 0) {
                 cir.setReturnValue(true);
             } else {
