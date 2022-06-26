@@ -1,6 +1,6 @@
-package com.ant.mcskyblock.world;
+package com.ant.mcskyblock.structurecheck;
 
-public class StructureInfo {
+public class ClientStructureTracker {
     public enum SupportedStructures {
         NONE, FORTRESS, MONUMENT, SWAMP_HUT, PILLAGER_OUTPOST
     }

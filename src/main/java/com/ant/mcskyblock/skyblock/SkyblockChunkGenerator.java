@@ -1,12 +1,9 @@
-package com.ant.mcskyblock.world;
+package com.ant.mcskyblock.skyblock;
 
-import com.ant.mcskyblock.mixin.MixinChunkNoiseSamplerAccessor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.structure.StructureSet;
-import net.minecraft.util.Util;
 import net.minecraft.util.dynamic.RegistryOps;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -23,13 +20,9 @@ import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.biome.source.BiomeSupplier;
-import net.minecraft.world.chunk.BelowZeroRetrogen;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.world.gen.StructureWeightSampler;
 import net.minecraft.world.gen.chunk.*;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 import net.minecraft.world.gen.densityfunction.DensityFunctions;
@@ -43,38 +36,31 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 public class SkyblockChunkGenerator extends ChunkGenerator {
-    public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> {
-        return createStructureSetRegistryGetter(instance).and(instance.group(RegistryOps.createRegistryCodec(Registry.NOISE_KEY).forGetter((generator) -> {
-            return generator.noiseRegistry;
-        }), BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> {
-            return generator.biomeSource;
-        }), ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter((generator) -> {
-            return generator.settings;
-        }))).apply(instance, instance.stable(SkyblockChunkGenerator::new));
-    });
-    private static final BlockState AIR;
-    protected final BlockState defaultBlock;
+    public static final Codec<SkyblockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
+        createStructureSetRegistryGetter(instance).and(
+            instance.group(
+                RegistryOps.createRegistryCodec(Registry.NOISE_KEY).forGetter((generator) -> generator.noiseRegistry),
+                BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> generator.biomeSource),
+                ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter((generator) -> generator.settings)
+            )
+        ).apply(instance, instance.stable(SkyblockChunkGenerator::new))
+    );
     private final Registry<DoublePerlinNoiseSampler.NoiseParameters> noiseRegistry;
     protected final RegistryEntry<ChunkGeneratorSettings> settings;
-    private final AquiferSampler.FluidLevelSampler fluidLevelSampler;
-
-    static {
-        AIR = Blocks.AIR.getDefaultState();
-    }
 
     public SkyblockChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<DoublePerlinNoiseSampler.NoiseParameters> noiseRegistry, BiomeSource populationSource, RegistryEntry<ChunkGeneratorSettings> registryEntry) {
         super(structureSetRegistry, Optional.empty(), populationSource);
         this.noiseRegistry = noiseRegistry;
         this.settings = registryEntry;
-        ChunkGeneratorSettings chunkGeneratorSettings = (ChunkGeneratorSettings)this.settings.value();
-        this.defaultBlock = chunkGeneratorSettings.defaultBlock();
-        AquiferSampler.FluidLevel fluidLevel = new AquiferSampler.FluidLevel(DimensionType.MIN_HEIGHT * 2, Blocks.AIR.getDefaultState());
-        this.fluidLevelSampler = (x, y, z) -> fluidLevel;
     }
 
     @Override
     protected Codec<? extends ChunkGenerator> getCodec() {
         return CODEC;
+    }
+
+    public RegistryEntry<ChunkGeneratorSettings> getSettings() {
+        return this.settings;
     }
 
     @Override
@@ -108,12 +94,12 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
 
     @Override
     public int getSeaLevel() {
-        return 0;
+        return this.settings.value().seaLevel();
     }
 
     @Override
     public int getMinimumY() {
-        return ((ChunkGeneratorSettings)this.settings.value()).generationShapeConfig().minimumY();
+        return this.settings.value().generationShapeConfig().minimumY();
     }
 
     @Override
@@ -132,29 +118,6 @@ public class SkyblockChunkGenerator extends ChunkGenerator {
         NoiseRouter noiseRouter = noiseConfig.getNoiseRouter();
         DensityFunction.UnblendedNoisePos unblendedNoisePos = new DensityFunction.UnblendedNoisePos(pos.getX(), pos.getY(), pos.getZ());
         double d = noiseRouter.ridges().sample(unblendedNoisePos);
-        String var10001 = decimalFormat.format(noiseRouter.temperature().sample(unblendedNoisePos));
-        text.add("NoiseRouter T: " + var10001 + " V: " + decimalFormat.format(noiseRouter.vegetation().sample(unblendedNoisePos)) + " C: " + decimalFormat.format(noiseRouter.continents().sample(unblendedNoisePos)) + " E: " + decimalFormat.format(noiseRouter.erosion().sample(unblendedNoisePos)) + " D: " + decimalFormat.format(noiseRouter.depth().sample(unblendedNoisePos)) + " W: " + decimalFormat.format(d) + " PV: " + decimalFormat.format((double) DensityFunctions.method_41546((float)d)) + " AS: " + decimalFormat.format(noiseRouter.initialDensityWithoutJaggedness().sample(unblendedNoisePos)) + " N: " + decimalFormat.format(noiseRouter.finalDensity().sample(unblendedNoisePos)));
-    }
-
-    public RegistryEntry<ChunkGeneratorSettings> getSettings() {
-        return this.settings;
-    }
-
-    @Override
-    public CompletableFuture<Chunk> populateBiomes(Registry<Biome> biomeRegistry, Executor executor, NoiseConfig noiseConfig, Blender blender, StructureAccessor structureAccessor, Chunk chunk) {
-        return CompletableFuture.supplyAsync(Util.debugSupplier("init_biomes", () -> {
-            this.populateBiomes(blender, noiseConfig, structureAccessor, chunk);
-            return chunk;
-        }), Util.getMainWorkerExecutor());
-    }
-
-    private void populateBiomes(Blender blender, NoiseConfig noiseConfig, StructureAccessor structureAccessor, Chunk chunk2) {
-        ChunkNoiseSampler chunkNoiseSampler = chunk2.getOrCreateChunkNoiseSampler(chunk -> this.method_41537((Chunk)chunk, structureAccessor, blender, noiseConfig));
-        BiomeSupplier biomeSupplier = BelowZeroRetrogen.getBiomeSupplier(blender.getBiomeSupplier(this.biomeSource), chunk2);
-        chunk2.populateBiomes(biomeSupplier, ((MixinChunkNoiseSamplerAccessor)chunkNoiseSampler).createMultiNoiseSampler(noiseConfig.getNoiseRouter(), this.settings.value().spawnTarget()));
-    }
-
-    private ChunkNoiseSampler method_41537(Chunk chunk, StructureAccessor structureAccessor, Blender blender, NoiseConfig noiseConfig) {
-        return ChunkNoiseSampler.create(chunk, noiseConfig, StructureWeightSampler.method_42695(structureAccessor, chunk.getPos()), this.settings.value(), this.fluidLevelSampler, blender);
+        text.add("NoiseRouter T: " + decimalFormat.format(noiseRouter.temperature().sample(unblendedNoisePos)) + " V: " + decimalFormat.format(noiseRouter.vegetation().sample(unblendedNoisePos)) + " C: " + decimalFormat.format(noiseRouter.continents().sample(unblendedNoisePos)) + " E: " + decimalFormat.format(noiseRouter.erosion().sample(unblendedNoisePos)) + " D: " + decimalFormat.format(noiseRouter.depth().sample(unblendedNoisePos)) + " W: " + decimalFormat.format(d) + " PV: " + decimalFormat.format(DensityFunctions.method_41546((float)d)) + " AS: " + decimalFormat.format(noiseRouter.initialDensityWithoutJaggedness().sample(unblendedNoisePos)) + " N: " + decimalFormat.format(noiseRouter.finalDensity().sample(unblendedNoisePos)));
     }
 }

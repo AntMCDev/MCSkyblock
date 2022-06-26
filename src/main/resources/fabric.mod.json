@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mcskyblock",
-  "version": "1.2.0",
+  "version": "2.0.0",
 
   "name": "MC Skyblock Fabric",
   "description": "This mod adds a new world generation type for a barebones skyblock experience (Fabric Port)",
@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "com.ant.mcskyblock.MCSkyBlock"
+    ],
+    "fabric-datagen": [
+      "com.ant.mcskyblock._build.SkyblockDataGenerator"
     ]
   },
   "mixins": [

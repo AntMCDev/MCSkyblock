@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.utils.loot;
+package com.ant.mcskyblock.loot;
 
 import com.ant.mcskyblock.MCSkyBlock;
 import com.ant.mcskyblock.config.ConfigHandler;

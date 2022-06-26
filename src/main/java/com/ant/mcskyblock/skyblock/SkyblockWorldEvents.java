@@ -1,10 +1,10 @@
-package com.ant.mcskyblock.world;
+package com.ant.mcskyblock.skyblock;
 
 import com.ant.mcskyblock.MCSkyBlock;
 import com.ant.mcskyblock.config.ConfigHandler;
+import com.ant.mcskyblock.loot.LootTableUtils;
 import com.ant.mcskyblock.network.PacketHander;
-import com.ant.mcskyblock.utils.loot.LootTableUtils;
-import com.ant.mcskyblock.utils.trade.TradingUtils;
+import com.ant.mcskyblock.trade.TradingUtils;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -28,7 +28,7 @@ public class SkyblockWorldEvents {
 
     private static void onServerWorldLoad() {
         ServerWorldEvents.LOAD.register((server, world) -> {
-            isServerSkyblock = MCSkyBlock.isSkyblockWorld(world.getChunkManager().getChunkGenerator());
+            isServerSkyblock = world.getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator;
             if (MCSkyBlock.isLogicalServer(world) && isServerSkyblock) {
                 PacketHander.registerServerListener();
             }
@@ -37,7 +37,7 @@ public class SkyblockWorldEvents {
 
     private static void onServerPlayerJoin() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            if (MCSkyBlock.isSkyblockWorld(server.getOverworld().getChunkManager().getChunkGenerator())) {
+            if (server.getOverworld().getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator) {
                 PacketHander.sendTo(handler.getPlayer(), PacketHander.WORLDTYPE_PACKET.getIdentifier(), PacketByteBufs.empty());
                 spawnPlayer(handler.getPlayer());
             }

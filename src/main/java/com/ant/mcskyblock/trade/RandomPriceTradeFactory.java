@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.utils.trade;
+package com.ant.mcskyblock.trade;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;

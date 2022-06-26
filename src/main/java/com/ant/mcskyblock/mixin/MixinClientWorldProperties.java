@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.world.SkyblockWorldEvents;
+import com.ant.mcskyblock.skyblock.SkyblockWorldEvents;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.HeightLimitView;
 import org.spongepowered.asm.mixin.Mixin;

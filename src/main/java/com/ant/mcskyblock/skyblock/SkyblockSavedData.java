@@ -1,10 +1,8 @@
-package com.ant.mcskyblock.world;
+package com.ant.mcskyblock.skyblock;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentState;
-
-import java.util.Iterator;
 
 public class SkyblockSavedData extends PersistentState {
     private static final String NAME = "skyblock_islands";

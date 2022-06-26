@@ -1,7 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.MCSkyBlock;
-import com.ant.mcskyblock.world.SkyblockChunkGenerator;
+import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import net.minecraft.structure.OceanRuinGenerator;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinOceanRuinGeneratorPiece {
     @Inject(at = @At("HEAD"), method = "handleMetadata", cancellable = true)
     protected void handleMetadata(String metadata, BlockPos pos, ServerWorldAccess world, Random random, BlockBox boundingBox, CallbackInfo ci) {
-        if (MCSkyBlock.isSkyblockWorld(world.toServerWorld().getChunkManager().getChunkGenerator())) {
+        if (world.toServerWorld().getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator) {
             ci.cancel();
         }
     }

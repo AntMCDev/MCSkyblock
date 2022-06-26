@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.world.SkyblockChunkGenerator;
+import com.ant.mcskyblock.MCSkyBlock;
+import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import com.mojang.datafixers.DataFixer;
 import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.world.ServerWorld;
@@ -12,7 +13,6 @@ import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.chunk.ChunkProvider;
 import net.minecraft.world.chunk.ChunkStatusChangeListener;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 import net.minecraft.world.gen.noise.NoiseConfig;
 import net.minecraft.world.level.storage.LevelStorage;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,6 +32,7 @@ public class MixinThreadedAnvilChunkStorage {
     @Inject(at = @At("RETURN"), method = "<init>*")
     private void init(ServerWorld world, LevelStorage.Session session, DataFixer dataFixer, StructureTemplateManager structureTemplateManager, Executor executor, ThreadExecutor<Runnable> mainThreadExecutor, ChunkProvider chunkProvider, ChunkGenerator chunkGenerator, WorldGenerationProgressListener worldGenerationProgressListener, ChunkStatusChangeListener chunkStatusChangeListener, Supplier<PersistentStateManager> persistentStateManagerFactory, int viewDistance, boolean dsync, CallbackInfo ci) {
         if (chunkGenerator instanceof SkyblockChunkGenerator) {
+            MCSkyBlock.LOGGER.info("Creating Anvil noise settings for skyblock");
             this.noiseConfig = NoiseConfig.create(((SkyblockChunkGenerator)chunkGenerator).getSettings().value(), world.getRegistryManager().get(Registry.NOISE_KEY), world.getSeed());
         }
     }

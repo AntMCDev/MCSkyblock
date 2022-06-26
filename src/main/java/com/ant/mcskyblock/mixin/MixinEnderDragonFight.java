@@ -1,7 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.MCSkyBlock;
-import com.ant.mcskyblock.world.SkyblockWorldEvents;
+import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.boss.dragon.EnderDragonFight;
 import net.minecraft.server.world.ServerWorld;
@@ -28,7 +27,7 @@ public class MixinEnderDragonFight {
 
     @Inject(at = @At("HEAD"), method = "generateEndPortal", cancellable = true)
     private void generateEndPortal(boolean previouslyKilled, CallbackInfo ci) {
-        if (MCSkyBlock.isSkyblockWorld(world.getChunkManager().getChunkGenerator())) {
+        if (world.getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator) {
             EndPortalFeature endPortalFeature = new EndPortalFeature(previouslyKilled);
             if (this.exitPortalLocation == null) {
                 for (this.exitPortalLocation = this.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EndPortalFeature.ORIGIN).down(); this.world.getBlockState(this.exitPortalLocation).isOf(Blocks.BEDROCK) && this.exitPortalLocation.getY() > this.world.getSeaLevel(); this.exitPortalLocation = this.exitPortalLocation.down()) {

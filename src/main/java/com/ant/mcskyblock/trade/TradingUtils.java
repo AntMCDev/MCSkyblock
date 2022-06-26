@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.utils.trade;
+package com.ant.mcskyblock.trade;
 
 import com.ant.mcskyblock.config.ConfigHandler;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;

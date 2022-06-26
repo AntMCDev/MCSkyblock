@@ -1,7 +1,7 @@
 package com.ant.mcskyblock.mixin;
 
 import com.ant.mcskyblock.network.PacketHander;
-import com.ant.mcskyblock.world.StructureInfo;
+import com.ant.mcskyblock.structurecheck.ClientStructureTracker;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.hud.DebugHud;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +17,8 @@ public class MixinDebugHud {
     protected void getRightText(CallbackInfoReturnable<List<String>> cir) {
         List<String> list = (List<String>)cir.getReturnValue();
         PacketHander.sendToServer(PacketHander.STRUCTURECHECK_PACKET.getIdentifier(), PacketByteBufs.empty());
-        if (StructureInfo.structure != StructureInfo.SupportedStructures.NONE) {
-            list.add("Structure: " + StructureInfo.structure.name().toLowerCase());
+        if (ClientStructureTracker.structure != ClientStructureTracker.SupportedStructures.NONE) {
+            list.add("Structure: " + ClientStructureTracker.structure.name().toLowerCase());
         }
         cir.setReturnValue(list);
     }
