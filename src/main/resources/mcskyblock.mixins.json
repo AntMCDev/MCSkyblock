@@ -12,6 +12,7 @@
     "MixinNetherFortressGeneratorBridgePlatform",
     "MixinOceanRuinGeneratorPiece",
     "MixinShiftableStructurePiece",
+    "MixinSpawnHelper",
     "MixinStrongholdGeneratorPortalRoom",
     "MixinStructurePiece",
     "MixinStructureTemplate",
