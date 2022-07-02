@@ -16,8 +16,7 @@
     "MixinStrongholdGeneratorPortalRoom",
     "MixinStructurePiece",
     "MixinStructureTemplate",
-    "MixinThreadedAnvilChunkStorage",
-    "MixinWorldPresetsRegistrar"
+    "MixinThreadedAnvilChunkStorage"
   ],
   "client": [
     "MixinClientWorldProperties",

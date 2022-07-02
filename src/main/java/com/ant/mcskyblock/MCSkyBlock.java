@@ -4,6 +4,7 @@ import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.network.PacketHander;
 import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import com.ant.mcskyblock.skyblock.SkyblockWorldEvents;
+import com.ant.mcskyblock.skyblock.SkyblockWorldPreset;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -25,6 +26,8 @@ public class MCSkyBlock implements ModInitializer {
 		}
 
 		new ConfigHandler.Common();
+
+		SkyblockWorldPreset.register();
 
 		SkyblockWorldEvents.init();
 
