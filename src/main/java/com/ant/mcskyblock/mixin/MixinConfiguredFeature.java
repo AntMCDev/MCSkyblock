@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -23,7 +24,8 @@ public class MixinConfiguredFeature<FC extends FeatureConfig, F extends Feature<
                 !(feature instanceof EndPortalFeature) &&
                 !(feature instanceof TreeFeature) &&
                 !(feature instanceof HugeMushroomFeature) &&
-                !(feature instanceof HugeFungusFeature)) {
+                !(feature instanceof HugeFungusFeature) &&
+                !(feature instanceof EndGatewayFeature && ConfigHandler.Common.GENERATE_END_GATEWAYS)) {
             cir.setReturnValue(true);
         }
     }
