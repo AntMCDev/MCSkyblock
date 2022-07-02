@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.skyblock;
 
 import com.ant.mcskyblock.MCSkyBlock;
+import com.ant.mcskyblock.config.ConfigHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -44,7 +45,12 @@ public class SkyblockWorldPreset {
     }
 
     private static ChunkGenerator netherChunkGenerator() {
-        return new SkyblockChunkGenerator(
+        return ConfigHandler.Common.VOID_NETHER ? new SkyblockChunkGenerator(
+                BuiltinRegistries.STRUCTURE_SET,
+                BuiltinRegistries.NOISE_PARAMETERS,
+                MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(BuiltinRegistries.BIOME),
+                BuiltinRegistries.CHUNK_GENERATOR_SETTINGS.getOrCreateEntry(ChunkGeneratorSettings.NETHER)
+        ) : new NoiseChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SET,
                 BuiltinRegistries.NOISE_PARAMETERS,
                 MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(BuiltinRegistries.BIOME),
@@ -53,7 +59,12 @@ public class SkyblockWorldPreset {
     }
 
     private static ChunkGenerator endChunkGenerator() {
-        return new SkyblockChunkGenerator(
+        return ConfigHandler.Common.VOID_END ? new SkyblockChunkGenerator(
+                BuiltinRegistries.STRUCTURE_SET,
+                BuiltinRegistries.NOISE_PARAMETERS,
+                new TheEndBiomeSource(BuiltinRegistries.BIOME),
+                BuiltinRegistries.CHUNK_GENERATOR_SETTINGS.getOrCreateEntry(ChunkGeneratorSettings.END)
+        ) : new NoiseChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SET,
                 BuiltinRegistries.NOISE_PARAMETERS,
                 new TheEndBiomeSource(BuiltinRegistries.BIOME),

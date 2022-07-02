@@ -94,9 +94,11 @@ public class ConfigHandler {
         private static final String DIMENSIONS_ISLAND_RADIUS_KEY = "islandRadius";
         private static final String DIMENSIONS_VOID_END_KEY = "voidEnd";
         private static final String DIMENSIONS_VOID_NETHER_KEY = "voidNether";
+        private static final String DIMENSIONS_GENERATE_FORTRESS_KEY = "generateFortress";
         public static final Long ISLAND_RADIUS;
         public static final Boolean VOID_END;
         public static final Boolean VOID_NETHER;
+        public static final Boolean GENERATE_FORTRESS;
 
         static {
             File configDir = new File(CONFIG_DIR);
@@ -211,9 +213,11 @@ public class ConfigHandler {
             change = populateTOMLProperty(DIMENSIONS_ISLAND_RADIUS_KEY, dimensionsConfig, 1L) || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_END_KEY, dimensionsConfig, true) || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_NETHER_KEY, dimensionsConfig, true) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_FORTRESS_KEY, dimensionsConfig, false) || change;
             ISLAND_RADIUS = (Long)dimensionsConfig.get(DIMENSIONS_ISLAND_RADIUS_KEY);
             VOID_END = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_END_KEY);
             VOID_NETHER = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_NETHER_KEY);
+            GENERATE_FORTRESS = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_FORTRESS_KEY);
 
             if (change) {
                 TomlWriter writer = new TomlWriter.Builder()

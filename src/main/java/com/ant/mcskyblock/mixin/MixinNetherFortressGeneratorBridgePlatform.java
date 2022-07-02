@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
+import com.ant.mcskyblock.config.ConfigHandler;
 import com.ant.mcskyblock.skyblock.SkyblockChunkGenerator;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.NetherFortressGenerator;
@@ -20,7 +21,9 @@ public class MixinNetherFortressGeneratorBridgePlatform {
     @Inject(at = @At("HEAD"), method = "generate", cancellable = true)
     public void generate(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox chunkBox, ChunkPos chunkPos, BlockPos pivot, CallbackInfo ci) {
         if (((ServerChunkManager)world.getChunkManager()).getChunkGenerator() instanceof SkyblockChunkGenerator) {
-            ci.cancel();
+            if (!ConfigHandler.Common.GENERATE_FORTRESS) {
+                ci.cancel();
+            }
         }
     }
 }
