@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.config;
 
+import com.ant.mcskyblock.MCSkyBlock;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 import net.minecraft.client.MinecraftClient;
@@ -95,12 +96,22 @@ public class ConfigHandler {
         private static final String DIMENSIONS_VOID_END_KEY = "voidEnd";
         private static final String DIMENSIONS_VOID_NETHER_KEY = "voidNether";
         private static final String DIMENSIONS_GENERATE_FORTRESS_KEY = "generateFortress";
+        private static final String DIMENSIONS_GENERATE_BASTION_KEY = "generateBastion";
+        private static final String DIMENSIONS_GENERATE_ANCIENT_CITY_KEY = "generateAncientCity";
+        private static final String DIMENSIONS_GENERATE_END_GATEWAYS_KEY = "generateEndGateways";
+        private static final String DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY = "generateEndGateways";
         public static final Long ISLAND_RADIUS;
         public static final Boolean VOID_END;
         public static final Boolean VOID_NETHER;
         public static final Boolean GENERATE_FORTRESS;
+        public static final Boolean GENERATE_BASTION;
+        public static final Boolean GENERATE_ANCIENT_CITY;
+        public static final Boolean GENERATE_PILLAGER_OUTPOST;
+        public static final Boolean GENERATE_END_GATEWAYS;
 
         static {
+            MCSkyBlock.LOGGER.info("Loading config file");
+
             File configDir = new File(CONFIG_DIR);
             if (!configDir.exists()) {
                 boolean success = configDir.mkdir();
@@ -214,10 +225,18 @@ public class ConfigHandler {
             change = populateTOMLProperty(DIMENSIONS_VOID_END_KEY, dimensionsConfig, true) || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_NETHER_KEY, dimensionsConfig, true) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_FORTRESS_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_BASTION_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_ANCIENT_CITY_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_END_GATEWAYS_KEY, dimensionsConfig, false) || change;
             ISLAND_RADIUS = (Long)dimensionsConfig.get(DIMENSIONS_ISLAND_RADIUS_KEY);
             VOID_END = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_END_KEY);
             VOID_NETHER = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_NETHER_KEY);
             GENERATE_FORTRESS = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_FORTRESS_KEY);
+            GENERATE_BASTION = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_BASTION_KEY);
+            GENERATE_ANCIENT_CITY = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_ANCIENT_CITY_KEY);
+            GENERATE_PILLAGER_OUTPOST = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY);
+            GENERATE_END_GATEWAYS = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_END_GATEWAYS_KEY);
 
             if (change) {
                 TomlWriter writer = new TomlWriter.Builder()
