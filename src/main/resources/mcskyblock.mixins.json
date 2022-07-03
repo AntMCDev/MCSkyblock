@@ -7,15 +7,17 @@
     "MixinConfiguredFeature",
     "MixinDimensionOptions",
     "MixinEnderDragonFight",
+    "MixinFossilFeature",
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
     "MixinNetherFortressGeneratorBridgePlatform",
     "MixinOceanRuinGeneratorPiece",
     "MixinShiftableStructurePiece",
+    "MixinSimpleStructurePiece",
+    "MixinSinglePoolElement",
     "MixinSpawnHelper",
     "MixinStrongholdGeneratorPortalRoom",
     "MixinStructurePiece",
-    "MixinStructureTemplate",
     "MixinThreadedAnvilChunkStorage"
   ],
   "client": [
