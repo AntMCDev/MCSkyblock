@@ -45,6 +45,7 @@ public class ConfigHandler {
         private static final String TRADES_WANDERING_TRADER_DISC_OTHERSIDE_KEY = "wanderingTraderDiscOtherside";
         private static final String TRADES_WANDERING_TRADER_DISC_5_KEY = "wanderingTraderDisc5";
         private static final String TRADES_WANDERING_TRADER_DISC_PIGSTEP_KEY = "wanderingTraderDiscPigstep";
+        private static final String TRADES_WANDERING_TRADER_REDSTONE_KEY = "wanderingTraderRedstone";
         private static final String TRADES_MASON_DEEPSLATE_KEY = "masonDeepslateTrade";
         private static final String TRADES_MASON_TUFF_KEY = "masonTuffTrade";
         private static final String TRADES_MASON_CALCITE_KEY = "masonCalciteTrade";
@@ -62,6 +63,7 @@ public class ConfigHandler {
         public static final Boolean WANDERING_TRADER_DISC_OTHERSIDE;
         public static final Boolean WANDERING_TRADER_DISC_5;
         public static final Boolean WANDERING_TRADER_DISC_PIGSTEP;
+        public static final Boolean WANDERING_TRADER_REDSTONE;
         public static final Boolean MASON_DEEPSLATE;
         public static final Boolean MASON_TUFF;
         public static final Boolean MASON_CALCITE;
@@ -166,6 +168,7 @@ public class ConfigHandler {
             change = populateTOMLProperty(TRADES_WANDERING_TRADER_DISC_OTHERSIDE_KEY, tradesConfig, true) || change;
             change = populateTOMLProperty(TRADES_WANDERING_TRADER_DISC_5_KEY, tradesConfig, true) || change;
             change = populateTOMLProperty(TRADES_WANDERING_TRADER_DISC_PIGSTEP_KEY, tradesConfig, true) || change;
+            change = populateTOMLProperty(TRADES_WANDERING_TRADER_REDSTONE_KEY, tradesConfig, false) || change;
             change = populateTOMLProperty(TRADES_MASON_DEEPSLATE_KEY, tradesConfig, true) || change;
             change = populateTOMLProperty(TRADES_MASON_TUFF_KEY, tradesConfig, true) || change;
             change = populateTOMLProperty(TRADES_MASON_CALCITE_KEY, tradesConfig, true) || change;
@@ -183,6 +186,7 @@ public class ConfigHandler {
             WANDERING_TRADER_DISC_OTHERSIDE = (Boolean)tradesConfig.get(TRADES_WANDERING_TRADER_DISC_OTHERSIDE_KEY);
             WANDERING_TRADER_DISC_5 = (Boolean)tradesConfig.get(TRADES_WANDERING_TRADER_DISC_5_KEY);
             WANDERING_TRADER_DISC_PIGSTEP = (Boolean)tradesConfig.get(TRADES_WANDERING_TRADER_DISC_PIGSTEP_KEY);
+            WANDERING_TRADER_REDSTONE = (Boolean)tradesConfig.get(TRADES_WANDERING_TRADER_REDSTONE_KEY);
             MASON_DEEPSLATE = (Boolean)tradesConfig.get(TRADES_MASON_DEEPSLATE_KEY);
             MASON_TUFF = (Boolean)tradesConfig.get(TRADES_MASON_TUFF_KEY);
             MASON_CALCITE = (Boolean)tradesConfig.get(TRADES_MASON_CALCITE_KEY);
