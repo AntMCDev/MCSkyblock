@@ -7,7 +7,6 @@ import net.minecraft.client.MinecraftClient;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,8 +99,11 @@ public class ConfigHandler {
         private static final String DIMENSIONS_GENERATE_FORTRESS_KEY = "generateFortress";
         private static final String DIMENSIONS_GENERATE_BASTION_KEY = "generateBastion";
         private static final String DIMENSIONS_GENERATE_ANCIENT_CITY_KEY = "generateAncientCity";
+        private static final String DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY = "generatePillagerOutpost";
+        private static final String DIMENSIONS_GENERATE_VILLAGE_KEY = "generateVillage";
+        private static final String DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY = "generateMiscStructures";
         private static final String DIMENSIONS_GENERATE_END_GATEWAYS_KEY = "generateEndGateways";
-        private static final String DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY = "generateEndGateways";
+        private static final String DIMENSIONS_ADJUST_STRUCTURE_Y_KEY = "adjustStructureY";
         public static final Long ISLAND_RADIUS;
         public static final Boolean VOID_END;
         public static final Boolean VOID_NETHER;
@@ -109,7 +111,10 @@ public class ConfigHandler {
         public static final Boolean GENERATE_BASTION;
         public static final Boolean GENERATE_ANCIENT_CITY;
         public static final Boolean GENERATE_PILLAGER_OUTPOST;
+        public static final Boolean GENERATE_VILLAGE;
+        public static final Boolean GENERATE_MISC_STRUCTURES;
         public static final Boolean GENERATE_END_GATEWAYS;
+        public static final Integer ADJUST_STRUCTURE_Y;
 
         static {
             MCSkyBlock.LOGGER.info("Loading config file");
@@ -232,7 +237,10 @@ public class ConfigHandler {
             change = populateTOMLProperty(DIMENSIONS_GENERATE_BASTION_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_ANCIENT_CITY_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_VILLAGE_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_END_GATEWAYS_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_ADJUST_STRUCTURE_Y_KEY, dimensionsConfig, 0L) || change;
             ISLAND_RADIUS = (Long)dimensionsConfig.get(DIMENSIONS_ISLAND_RADIUS_KEY);
             VOID_END = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_END_KEY);
             VOID_NETHER = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_NETHER_KEY);
@@ -240,7 +248,10 @@ public class ConfigHandler {
             GENERATE_BASTION = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_BASTION_KEY);
             GENERATE_ANCIENT_CITY = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_ANCIENT_CITY_KEY);
             GENERATE_PILLAGER_OUTPOST = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY);
+            GENERATE_VILLAGE = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_VILLAGE_KEY);
+            GENERATE_MISC_STRUCTURES = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY);
             GENERATE_END_GATEWAYS = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_END_GATEWAYS_KEY);
+            ADJUST_STRUCTURE_Y = Math.toIntExact((Long)dimensionsConfig.get(DIMENSIONS_ADJUST_STRUCTURE_Y_KEY));
 
             if (change) {
                 TomlWriter writer = new TomlWriter.Builder()
