@@ -25,6 +25,7 @@ public class MixinConfiguredFeature<FC extends FeatureConfig, F extends Feature<
                 !(feature instanceof TreeFeature) &&
                 !(feature instanceof HugeMushroomFeature) &&
                 !(feature instanceof HugeFungusFeature) &&
+                !(feature instanceof SimpleBlockFeature) &&
                 !(feature instanceof EndGatewayFeature && ConfigHandler.Common.GENERATE_END_GATEWAYS)) {
             cir.setReturnValue(true);
         }
