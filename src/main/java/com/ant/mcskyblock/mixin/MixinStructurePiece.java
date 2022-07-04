@@ -32,7 +32,7 @@ public class MixinStructurePiece {
     @Inject(at = @At("HEAD"), method = "addBlock", cancellable = true)
     protected void addBlock(StructureWorldAccess world, BlockState block, int x, int y, int z, BlockBox box, CallbackInfo ci) {
         if (world.toServerWorld().getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator) {
-            if (!ConfigHandler.Common.GENERATE_FORTRESS || !isNetherFortress()) {
+            if (!isSpawnable()) {
                 ci.cancel();
             }
         }
@@ -41,10 +41,23 @@ public class MixinStructurePiece {
     @Inject(at = @At("HEAD"), method = "fillDownwards", cancellable = true)
     protected void fillDownwards(StructureWorldAccess world, BlockState state, int x, int y, int z, BlockBox box, CallbackInfo ci) {
         if (world.toServerWorld().getChunkManager().getChunkGenerator() instanceof SkyblockChunkGenerator) {
-            if (!ConfigHandler.Common.GENERATE_FORTRESS || !isNetherFortress()) {
+            if (!isSpawnable()) {
                 ci.cancel();
             }
         }
+    }
+
+    private boolean isSpawnable() {
+        if (!ConfigHandler.Common.GENERATE_FORTRESS || !isNetherFortress()) {
+            if (!ConfigHandler.Common.GENERATE_STRONGHOLD || !isStronghold()) {
+                if (!ConfigHandler.Common.GENERATE_OCEAN_MONUMENT || !isOceanMonument()) {
+                    if (!ConfigHandler.Common.GENERATE_SWAMP_HUT || !isSwampHut()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private boolean isNetherFortress() {
@@ -63,6 +76,41 @@ public class MixinStructurePiece {
                 type == StructurePieceType.NETHER_FORTRESS_CORRIDOR_STAIRS ||
                 type == StructurePieceType.NETHER_FORTRESS_SMALL_CORRIDOR ||
                 type == StructurePieceType.NETHER_FORTRESS_START;
+    }
+
+    private boolean isStronghold() {
+        return type == StructurePieceType.STRONGHOLD_CHEST_CORRIDOR ||
+                type == StructurePieceType.STRONGHOLD_CORRIDOR ||
+                type == StructurePieceType.STRONGHOLD_FIVE_WAY_CROSSING ||
+                type == StructurePieceType.STRONGHOLD_LEFT_TURN ||
+                type == StructurePieceType.STRONGHOLD_LIBRARY ||
+                type == StructurePieceType.STRONGHOLD_PORTAL_ROOM ||
+                type == StructurePieceType.STRONGHOLD_PRISON_HALL ||
+                type == StructurePieceType.STRONGHOLD_RIGHT_TURN ||
+                type == StructurePieceType.STRONGHOLD_SMALL_CORRIDOR ||
+                type == StructurePieceType.STRONGHOLD_SPIRAL_STAIRCASE ||
+                type == StructurePieceType.STRONGHOLD_SQUARE_ROOM ||
+                type == StructurePieceType.STRONGHOLD_STAIRS ||
+                type == StructurePieceType.STRONGHOLD_START;
+    }
+
+    private boolean isOceanMonument() {
+        return type == StructurePieceType.OCEAN_MONUMENT_BASE ||
+                type == StructurePieceType.OCEAN_MONUMENT_CORE_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_DOUBLE_X_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_DOUBLE_X_Y_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_DOUBLE_Y_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_DOUBLE_Y_Z_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_DOUBLE_Z_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_ENTRY_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_PENTHOUSE ||
+                type == StructurePieceType.OCEAN_MONUMENT_SIMPLE_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_SIMPLE_TOP_ROOM ||
+                type == StructurePieceType.OCEAN_MONUMENT_WING_ROOM;
+    }
+
+    private boolean isSwampHut() {
+        return type == StructurePieceType.SWAMP_HUT;
     }
 
     @Inject(at = @At("HEAD"), method = "addChest(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/util/math/BlockBox;Lnet/minecraft/util/math/random/Random;IIILnet/minecraft/util/Identifier;)Z", cancellable = true)
