@@ -103,6 +103,9 @@ public class ConfigHandler {
         private static final String DIMENSIONS_GENERATE_ANCIENT_CITY_KEY = "generateAncientCity";
         private static final String DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY = "generatePillagerOutpost";
         private static final String DIMENSIONS_GENERATE_VILLAGE_KEY = "generateVillage";
+        private static final String DIMENSIONS_GENERATE_STRONGHOLD_KEY = "generateStronghold";
+        private static final String DIMENSIONS_GENERATE_OCEAN_MONUMENT_KEY = "generateOceanMonument";
+        private static final String DIMENSIONS_GENERATE_SWAMP_HUT_KEY = "generateSwampHut";
         private static final String DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY = "generateMiscStructures";
         private static final String DIMENSIONS_GENERATE_END_GATEWAYS_KEY = "generateEndGateways";
         private static final String DIMENSIONS_ADJUST_STRUCTURE_Y_KEY = "adjustStructureY";
@@ -116,6 +119,9 @@ public class ConfigHandler {
         public static final Boolean GENERATE_ANCIENT_CITY;
         public static final Boolean GENERATE_PILLAGER_OUTPOST;
         public static final Boolean GENERATE_VILLAGE;
+        public static final Boolean GENERATE_STRONGHOLD;
+        public static final Boolean GENERATE_OCEAN_MONUMENT;
+        public static final Boolean GENERATE_SWAMP_HUT;
         public static final Boolean GENERATE_MISC_STRUCTURES;
         public static final Boolean GENERATE_END_GATEWAYS;
         public static final Integer ADJUST_STRUCTURE_Y;
@@ -244,6 +250,9 @@ public class ConfigHandler {
             change = populateTOMLProperty(DIMENSIONS_GENERATE_ANCIENT_CITY_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_VILLAGE_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_STRONGHOLD_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_OCEAN_MONUMENT_KEY, dimensionsConfig, false) || change;
+            change = populateTOMLProperty(DIMENSIONS_GENERATE_SWAMP_HUT_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_END_GATEWAYS_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_ADJUST_STRUCTURE_Y_KEY, dimensionsConfig, 0L) || change;
@@ -257,6 +266,9 @@ public class ConfigHandler {
             GENERATE_ANCIENT_CITY = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_ANCIENT_CITY_KEY);
             GENERATE_PILLAGER_OUTPOST = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_PILLAGER_OUTPOST_KEY);
             GENERATE_VILLAGE = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_VILLAGE_KEY);
+            GENERATE_STRONGHOLD = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_STRONGHOLD_KEY);
+            GENERATE_OCEAN_MONUMENT = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_OCEAN_MONUMENT_KEY);
+            GENERATE_SWAMP_HUT = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_SWAMP_HUT_KEY);
             GENERATE_MISC_STRUCTURES = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY);
             GENERATE_END_GATEWAYS = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_END_GATEWAYS_KEY);
             ADJUST_STRUCTURE_Y = Math.toIntExact((Long)dimensionsConfig.get(DIMENSIONS_ADJUST_STRUCTURE_Y_KEY));
