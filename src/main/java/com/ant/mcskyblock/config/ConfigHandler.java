@@ -94,6 +94,8 @@ public class ConfigHandler {
 
         // Dimensions Config
         private static final String DIMENSIONS_ISLAND_RADIUS_KEY = "islandRadius";
+        private static final String DIMENSIONS_SPAWN_ISLAND_KEY = "spawnIsland";
+        private static final String DIMENSIONS_SPAWN_POSITION_KEY = "spawnPosition";
         private static final String DIMENSIONS_VOID_END_KEY = "voidEnd";
         private static final String DIMENSIONS_VOID_NETHER_KEY = "voidNether";
         private static final String DIMENSIONS_GENERATE_FORTRESS_KEY = "generateFortress";
@@ -104,6 +106,8 @@ public class ConfigHandler {
         private static final String DIMENSIONS_GENERATE_MISC_STRUCTURES_KEY = "generateMiscStructures";
         private static final String DIMENSIONS_GENERATE_END_GATEWAYS_KEY = "generateEndGateways";
         private static final String DIMENSIONS_ADJUST_STRUCTURE_Y_KEY = "adjustStructureY";
+        public static final Boolean SPAWN_ISLAND;
+        public static final String SPAWN_POSITION;
         public static final Long ISLAND_RADIUS;
         public static final Boolean VOID_END;
         public static final Boolean VOID_NETHER;
@@ -231,6 +235,8 @@ public class ConfigHandler {
             change = populateTOMLTable(DIMENSIONS_TABLE, map) || change;
             Map<String, Object> dimensionsConfig = (HashMap<String, Object>)map.get(DIMENSIONS_TABLE);
             change = populateTOMLProperty(DIMENSIONS_ISLAND_RADIUS_KEY, dimensionsConfig, 1L) || change;
+            change = populateTOMLProperty(DIMENSIONS_SPAWN_ISLAND_KEY, dimensionsConfig, true) || change;
+            change = populateTOMLProperty(DIMENSIONS_SPAWN_POSITION_KEY, dimensionsConfig, "0,64,0") || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_END_KEY, dimensionsConfig, true) || change;
             change = populateTOMLProperty(DIMENSIONS_VOID_NETHER_KEY, dimensionsConfig, true) || change;
             change = populateTOMLProperty(DIMENSIONS_GENERATE_FORTRESS_KEY, dimensionsConfig, false) || change;
@@ -242,6 +248,8 @@ public class ConfigHandler {
             change = populateTOMLProperty(DIMENSIONS_GENERATE_END_GATEWAYS_KEY, dimensionsConfig, false) || change;
             change = populateTOMLProperty(DIMENSIONS_ADJUST_STRUCTURE_Y_KEY, dimensionsConfig, 0L) || change;
             ISLAND_RADIUS = (Long)dimensionsConfig.get(DIMENSIONS_ISLAND_RADIUS_KEY);
+            SPAWN_ISLAND = (Boolean)dimensionsConfig.get(DIMENSIONS_SPAWN_ISLAND_KEY);
+            SPAWN_POSITION = dimensionsConfig.get(DIMENSIONS_SPAWN_POSITION_KEY).toString();
             VOID_END = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_END_KEY);
             VOID_NETHER = (Boolean)dimensionsConfig.get(DIMENSIONS_VOID_NETHER_KEY);
             GENERATE_FORTRESS = (Boolean)dimensionsConfig.get(DIMENSIONS_GENERATE_FORTRESS_KEY);

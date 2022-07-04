@@ -47,10 +47,21 @@ public class SkyblockWorldEvents {
     private static void spawnPlayer(ServerPlayerEntity player) {
         SkyblockSavedData skyblockSavedData = SkyblockSavedData.get((ServerWorld) player.world);
         if (!skyblockSavedData.generated) {
-            buildSkyblock(player.world, new BlockPos(0, 64, 0));
+            String[] configPos = ConfigHandler.Common.SPAWN_POSITION.split(",");
+            double[] pos = new double[3];
+            try {
+                pos[0] = Double.parseDouble(configPos[0]);
+                pos[1] = Double.parseDouble(configPos[1]);
+                pos[2] = Double.parseDouble(configPos[2]);
+            } catch (Exception ex) {
+                pos = new double[] { 0, 64, 0 };
+            }
+            if (ConfigHandler.Common.SPAWN_ISLAND) {
+                buildSkyblock(player.world, new BlockPos(pos[0], pos[1], pos[2]));
+            }
             skyblockSavedData.setGenerated();
-            player.teleport(0.5, 65.6, 0);
-            player.setSpawnPoint(player.world.getRegistryKey(), new BlockPos(0, 65.6, 0), 0, true, false);
+            player.teleport(pos[0]+0.5, pos[1]+1.6, pos[2]+0.5);
+            player.setSpawnPoint(player.world.getRegistryKey(), new BlockPos(pos[0]+0.5, pos[1]+1.6, pos[2]+0.5), 0, true, false);
         }
     }
 
