@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -138,7 +139,7 @@ public class ConfigHandler {
             }
 
             Toml toml = new Toml();
-            File f = new File(MinecraftClient.getInstance().runDirectory, CONFIG_DIR + MOD_CONFIG_DIR);
+            File f = new File(CONFIG_DIR + MOD_CONFIG_DIR);
             boolean change = false;
             Map<String, Object> map = new HashMap<>();
 
