@@ -80,11 +80,9 @@ public class ConfigHandler {
         // Barters Config
         private static final String BARTERING_PIGLIN_ANCIENT_DEBRIS_KEY = "piglinAncientDebris";
         private static final String BARTERING_PIGLIN_NETHERRACK_KEY = "piglinNetherrack";
-        private static final String BARTERING_PIGLIN_FUNGUS_KEY = "piglinFungus";
         private static final String BARTERING_PIGLIN_NYLIUM_KEY = "piglinNylium";
         public static final Boolean PIGLIN_ANCIENT_DEBRIS;
         public static final Boolean PIGLIN_NETHERRACK;
-        public static final Boolean PIGLIN_FUNGUS;
         public static final Boolean PIGLIN_NYLIUM;
 
         // Rewards Config
@@ -223,11 +221,9 @@ public class ConfigHandler {
             Map<String, Object> bartersConfig = (HashMap<String, Object>)map.get(BARTERS_TABLE);
             change = populateTOMLProperty(BARTERING_PIGLIN_ANCIENT_DEBRIS_KEY, bartersConfig, true) || change;
             change = populateTOMLProperty(BARTERING_PIGLIN_NETHERRACK_KEY, bartersConfig, true) || change;
-            change = populateTOMLProperty(BARTERING_PIGLIN_FUNGUS_KEY, bartersConfig, true) || change;
             change = populateTOMLProperty(BARTERING_PIGLIN_NYLIUM_KEY, bartersConfig, true) || change;
             PIGLIN_ANCIENT_DEBRIS = (Boolean)bartersConfig.get(BARTERING_PIGLIN_ANCIENT_DEBRIS_KEY);
             PIGLIN_NETHERRACK = (Boolean)bartersConfig.get(BARTERING_PIGLIN_NETHERRACK_KEY);
-            PIGLIN_FUNGUS = (Boolean)bartersConfig.get(BARTERING_PIGLIN_FUNGUS_KEY);
             PIGLIN_NYLIUM = (Boolean)bartersConfig.get(BARTERING_PIGLIN_NYLIUM_KEY);
 
             // Rewards Config Initialisation
