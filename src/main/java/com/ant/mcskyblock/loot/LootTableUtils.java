@@ -48,10 +48,6 @@ public class LootTableUtils {
             piglinLootTable.add(ItemEntry.builder(Items.CRIMSON_NYLIUM).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(4f, 8f))).weight(20).build());
             piglinLootTable.add(ItemEntry.builder(Items.WARPED_NYLIUM).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(4f, 8f))).weight(20).build());
         }
-        if (ConfigHandler.Common.PIGLIN_FUNGUS) {
-            piglinLootTable.add(ItemEntry.builder(Items.CRIMSON_FUNGUS).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1f, 2f))).weight(10).build());
-            piglinLootTable.add(ItemEntry.builder(Items.WARPED_FUNGUS).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1f, 2f))).weight(10).build());
-        }
         if (ConfigHandler.Common.PIGLIN_ANCIENT_DEBRIS) {
             piglinLootTable.add(ItemEntry.builder(Items.ANCIENT_DEBRIS).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1f))).weight(1).build());
         }
