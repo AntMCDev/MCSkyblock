@@ -111,4 +111,10 @@ public class SkyBlockConfigManager {
     public static boolean enderDragonDropsHead(){ return MOB_DROPS.ENDER_DRAGON_HEAD; }
     public static boolean drownDropsGold(){ return MOB_DROPS.DROWNED_GOLD; }
 
+    public static boolean huskDropSand(){ return MOB_DROPS.HUSK_SAND; }
+
+    public static boolean witherDropAncientDebris(){return MOB_DROPS.WITHER_ANCIENT_DEBRIS; }
+
+    public static boolean tropicalFishDropCoral(){ return MOB_DROPS.TROPICAL_FISH_CORAL; }
+
 }

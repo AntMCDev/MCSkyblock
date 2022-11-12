@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -26,6 +27,8 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.*;
+
+import static java.util.Map.entry;
 // REQ FABRIC
 
 public class LootTableUtils {
@@ -46,6 +49,7 @@ public class LootTableUtils {
                             .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
                             .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build() ).build());
         }
+
         if (SkyBlockConfigManager.witchDropsNetherWart()) {
             newLootPools.put(EntityType.WITCH.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
@@ -53,6 +57,42 @@ public class LootTableUtils {
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
                             .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 1f) ).build() ).build());
         }
+
+        if (SkyBlockConfigManager.huskDropSand()) {
+            newLootPools.put(EntityType.HUSK.getDefaultLootTable(),
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                            .with(LootItem.lootTableItem( Items.SAND ).build())
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
+                            .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 1f) ).build() ).build());
+        }
+
+        if (SkyBlockConfigManager.witherDropAncientDebris()) {
+            newLootPools.put(EntityType.WITHER.getDefaultLootTable(),
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                            .with(LootItem.lootTableItem( Items.ANCIENT_DEBRIS ).build())
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
+                            .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 0.05f) ).build() ).build());
+        }
+
+        if (SkyBlockConfigManager.tropicalFishDropCoral()) {
+            newLootPools.put(EntityType.TROPICAL_FISH.getDefaultLootTable(),
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                            .with(LootItem.lootTableItem( Items.FIRE_CORAL_FAN   ).build())
+                            .with(LootItem.lootTableItem( Items.TUBE_CORAL_FAN   ).build())
+                            .with(LootItem.lootTableItem( Items.BRAIN_CORAL_FAN  ).build())
+                            .with(LootItem.lootTableItem( Items.BUBBLE_CORAL_FAN ).build())
+                            .with(LootItem.lootTableItem( Items.FIRE_CORAL_FAN   ).build())
+                            .with(LootItem.lootTableItem( Items.HORN_CORAL_FAN   ).build())
+                            .with(LootItem.lootTableItem( Items.TUBE_CORAL       ).build())
+                            .with(LootItem.lootTableItem( Items.BRAIN_CORAL      ).build())
+                            .with(LootItem.lootTableItem( Items.BUBBLE_CORAL     ).build())
+                            .with(LootItem.lootTableItem( Items.FIRE_CORAL       ).build())
+                            .with(LootItem.lootTableItem( Items.HORN_CORAL       ).build())
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
+                            .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0.7f, 1.0f) ).build() ).build());
+        }
+
+
         if (SkyBlockConfigManager.enderDragonDropsHead()) {
             newLootPools.put(EntityType.ENDER_DRAGON.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))

@@ -76,6 +76,11 @@ public class SkyBlockConfigs  implements ConfigData {
         public boolean PHANTOM_ELYTRA = false;;
         public boolean ENDER_DRAGON_HEAD = false;;
         public boolean DROWNED_GOLD = false;;
+
+        public boolean HUSK_SAND = true;
+
+        public boolean WITHER_ANCIENT_DEBRIS = true;
+        public boolean TROPICAL_FISH_CORAL = true;
     };
 
     public static class TradingConfigs{

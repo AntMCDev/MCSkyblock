@@ -4,6 +4,7 @@ import com.ant.mcskyblock.common.MCSkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import com.ant.mcskyblock.common.world.level.biome.SkyBlockEndBiomeSource;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
+
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -20,8 +21,6 @@ import net.minecraft.world.level.levelgen.presets.WorldPreset;
 
 import java.util.Map;
 
-// NON FABRIC
-
 public class SkyBlockWorldPreset {
 
     public static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
@@ -29,25 +28,24 @@ public class SkyBlockWorldPreset {
     );
 
     public static void register() {
-        // register the preset
+
         BuiltinRegistries.register(
                 BuiltinRegistries.WORLD_PRESET,
                 SB_PRESET_KEY,
                 build()
         );
+
         Registry.register(
                 Registry.CHUNK_GENERATOR,
                 new ResourceLocation( MCSkyBlock.MOD_NAME, MCSkyBlock.CHUNK_GENERATOR_ID ),
                 SkyBlockChunkGenerator.CODEC
         );
 
-
         Registry.register(
                 Registry.BIOME_SOURCE,
                 new ResourceLocation(MCSkyBlock.MOD_NAME, MCSkyBlock.END_BIOMESOURCE_ID),
                 SkyBlockEndBiomeSource.CODEC
         );
-
 
     }
 

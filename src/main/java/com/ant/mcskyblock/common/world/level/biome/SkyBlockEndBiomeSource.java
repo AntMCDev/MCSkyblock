@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.ant.mcskyblock.common.world.level.biome;
 
 import com.google.common.collect.ImmutableList;
@@ -12,7 +7,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -30,6 +24,8 @@ public class SkyBlockEndBiomeSource extends BiomeSource {
     private final Holder<Biome> highlands;
     private final Holder<Biome> midlands;
     private final Holder<Biome> barrens;
+
+    private final int chunkHalf = 8;
 
     public SkyBlockEndBiomeSource(Registry<Biome> registry) {
         this( registry.getOrCreateHolderOrThrow(Biomes.THE_END),
@@ -62,15 +58,15 @@ public class SkyBlockEndBiomeSource extends BiomeSource {
             return this.end;
         } else {
 
-            int finalX = (SectionPos.blockToSectionCoord(startX) * 2 + 1) * 8;
-            int finalZ = (SectionPos.blockToSectionCoord(startZ) * 2 + 1) * 8;
+            int finalX = (SectionPos.blockToSectionCoord(startX) * 2 + 1) * chunkHalf;
+            int finalZ = (SectionPos.blockToSectionCoord(startZ) * 2 + 1) * chunkHalf;
             double erosion = sampler.erosion().compute(new DensityFunction.SinglePointContext(finalX, startY, finalZ));
             if (erosion > 0.25) {
                 return this.highlands;
             } else if (erosion >= -0.0625) {
                 return this.midlands;
             } else {
-                // lets never return the islands and jsut reurn barrens ?
+                // let's never return the islands and jsut reurn barrens ?
                 // return erosion < -0.21875 ? this.islands : this.barrens;
                 return this.barrens;
             }
