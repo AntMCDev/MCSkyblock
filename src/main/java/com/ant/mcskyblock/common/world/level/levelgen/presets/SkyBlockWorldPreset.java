@@ -94,7 +94,7 @@ public class SkyBlockWorldPreset {
 
     // FIXME figure out what to do with the end lol
     private static ChunkGenerator endChunkGenerator() {
-        boolean CUSTOM_END = false;
+        boolean CUSTOM_END = true;
         return CUSTOM_END ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
