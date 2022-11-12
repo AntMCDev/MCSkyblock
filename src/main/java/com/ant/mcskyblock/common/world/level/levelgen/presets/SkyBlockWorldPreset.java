@@ -1,6 +1,8 @@
 package com.ant.mcskyblock.common.world.level.levelgen.presets;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.world.level.biome.SkyBlockEndBiomeSource;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -38,7 +40,14 @@ public class SkyBlockWorldPreset {
                 new ResourceLocation( MCSkyBlock.MOD_NAME, MCSkyBlock.CHUNK_GENERATOR_ID ),
                 SkyBlockChunkGenerator.CODEC
         );
-        // WE should add a biome for exclude list. Not sure that anyone would want that but whatever.
+
+
+        Registry.register(
+                Registry.BIOME_SOURCE,
+                new ResourceLocation(MCSkyBlock.MOD_NAME, MCSkyBlock.END_BIOMESOURCE_ID),
+                SkyBlockEndBiomeSource.CODEC
+        );
+
 
     }
 
@@ -62,12 +71,11 @@ public class SkyBlockWorldPreset {
     }
 
     private static ChunkGenerator overworldChunkGenerator() {
-        boolean CUSTOM_OVERWORLD = true;
-        return CUSTOM_OVERWORLD ? new SkyBlockChunkGenerator(
+        return SkyBlockConfigManager.overworldIsSkyBlock()  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
+                // TODO BIOME HERE(SkyBlockBiomeSource)
                 MultiNoiseBiomeSource.Preset.OVERWORLD.biomeSource(BuiltinRegistries.BIOME),
-                // TODO BIOME HERE
                 BuiltinRegistries.NOISE_GENERATOR_SETTINGS.getOrCreateHolderOrThrow(NoiseGeneratorSettings.OVERWORLD )
         ) : new NoiseBasedChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
@@ -78,8 +86,7 @@ public class SkyBlockWorldPreset {
     }
 
     private static ChunkGenerator netherChunkGenerator() {
-        boolean CUSTOM_NETHER = true;
-        return CUSTOM_NETHER ? new SkyBlockChunkGenerator(
+        return SkyBlockConfigManager.endIsSkyblock()  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 MultiNoiseBiomeSource.Preset.NETHER.biomeSource(BuiltinRegistries.BIOME),
@@ -92,18 +99,16 @@ public class SkyBlockWorldPreset {
         );
     }
 
-    // FIXME figure out what to do with the end lol
     private static ChunkGenerator endChunkGenerator() {
-        boolean CUSTOM_END = true;
-        return CUSTOM_END ? new SkyBlockChunkGenerator(
+        return SkyBlockConfigManager.endIsSkyblock() ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
-                new TheEndBiomeSource(BuiltinRegistries.BIOME),  // FIXME this is well old.
+                new SkyBlockEndBiomeSource(BuiltinRegistries.BIOME),
                 BuiltinRegistries.NOISE_GENERATOR_SETTINGS.getOrCreateHolderOrThrow( NoiseGeneratorSettings.END )
         ) : new NoiseBasedChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
-                new TheEndBiomeSource(BuiltinRegistries.BIOME), // FIXME
+                new TheEndBiomeSource(BuiltinRegistries.BIOME),
                 BuiltinRegistries.NOISE_GENERATOR_SETTINGS.getOrCreateHolderOrThrow(NoiseGeneratorSettings.END)
         );
     }

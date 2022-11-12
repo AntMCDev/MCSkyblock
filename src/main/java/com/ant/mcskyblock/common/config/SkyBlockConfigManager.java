@@ -6,6 +6,11 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 public class SkyBlockConfigManager {
     public static SkyBlockConfigs GENERIC;
 
+    public static boolean overworldIsSkyBlock(){return GENERIC.overworldIsSkyBlock; }
+    public static boolean netherIsSkyblock(){return GENERIC.netherIsSkyblock; }
+    public static boolean endIsSkyblock(){return GENERIC.endIsSkyblock; }
+
+
     public static SkyBlockConfigs.TradingConfigs TRADES;
     public static SkyBlockConfigs.StructureConfigs STRUCTURES;
     public static SkyBlockConfigs.MobDropsConfigs MOB_DROPS;

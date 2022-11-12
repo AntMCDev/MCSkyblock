@@ -1,6 +1,9 @@
 {
   "generator.mcskyblock.skyblock_preset": "Skyblock",
   "text.autoconfig.mcskyblock.title" : "Skyblock Settings",
+  "text.autoconfig.mcskyblock.option.overworldIsSkyBlock" : "Skyblock in the Overworld",
+  "text.autoconfig.mcskyblock.option.netherIsSkyblock" : "Skyblock in the Nether",
+  "text.autoconfig.mcskyblock.option.endIsSkyblock" : "Skyblock in the End",
   "text.autoconfig.mcskyblock.option.spawnMainIsland" : "Spawn Main Island",
   "text.autoconfig.mcskyblock.option.mainIslandRadius" : "Main Island Radius",
   "text.autoconfig.mcskyblock.option.spawnCords" : "Spawn",

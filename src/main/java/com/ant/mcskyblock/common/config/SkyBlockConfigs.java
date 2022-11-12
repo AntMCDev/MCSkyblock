@@ -11,6 +11,10 @@ public class SkyBlockConfigs  implements ConfigData {
 
     public boolean spawnMainIsland = true;
 
+    public boolean overworldIsSkyBlock = true;
+    public boolean netherIsSkyblock = true;
+    public boolean endIsSkyblock = true;
+
     @Comment("Radius of the center island")
     public int mainIslandRadius = 8;
     @Comment("Where to spawn the player")

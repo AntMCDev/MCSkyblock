@@ -18,7 +18,7 @@ public class MCSkyBlock {
 
     public static final String PRESET_ID = "skyblock_preset";
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
-//    public static final String BIOMESOURCE_ID = "skyblock_biomes";
+    public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
 
     public static SkyBlockConfigManager CONFIGS = new SkyBlockConfigManager();
     public static StructureTracker STRUCTURE_TRACKER = new StructureTracker();
