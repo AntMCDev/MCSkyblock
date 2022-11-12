@@ -69,9 +69,10 @@ public class LootTableUtils {
         if (SkyBlockConfigManager.witherDropAncientDebris()) {
             newLootPools.put(EntityType.WITHER.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                            .with(LootItem.lootTableItem( Items.ANCIENT_DEBRIS ).build())
-                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
-                            .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 0.05f) ).build() ).build());
+                            .with(LootItem.lootTableItem(Items.ANCIENT_DEBRIS).build())
+                            .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
+                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
+                            .apply( SetItemCountFunction.setCount(ConstantValue.exactly(1f) ) ).build());
         }
 
         if (SkyBlockConfigManager.tropicalFishDropCoral()) {
@@ -91,7 +92,6 @@ public class LootTableUtils {
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
                             .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0.7f, 1.0f) ).build() ).build());
         }
-
 
         if (SkyBlockConfigManager.enderDragonDropsHead()) {
             newLootPools.put(EntityType.ENDER_DRAGON.getDefaultLootTable(),
@@ -123,11 +123,11 @@ public class LootTableUtils {
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(4f, 8f)))
                     .setWeight(20).build());
         }
-        if (SkyBlockConfigManager.piglinAncientDebris()) {
-            piglinLootTable.add(LootItem.lootTableItem(Items.ANCIENT_DEBRIS)
-                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-                    .setWeight(1).build());
-        }
+//        if (SkyBlockConfigManager.piglinAncientDebris()) {
+//            piglinLootTable.add(LootItem.lootTableItem(Items.ANCIENT_DEBRIS)
+//                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+//                    .setWeight(1).build());
+//        }
         existingLootPools.put(BuiltInLootTables.PIGLIN_BARTERING, new LootPoolReference(0, piglinLootTable));
 
         List<LootPoolEntryContainer> clericHotVLootTable = new ArrayList<>();
