@@ -1,11 +1,12 @@
 package com.ant.mcskyblock.mixin;
 
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
+// KEEP
 @Mixin(LootTable.class)
 public interface MixinLootTableAccessor {
     @Final
