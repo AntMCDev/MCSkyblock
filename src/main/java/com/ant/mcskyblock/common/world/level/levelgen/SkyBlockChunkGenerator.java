@@ -1,19 +1,23 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
+import com.google.common.annotations.VisibleForTesting;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
+import net.minecraft.Util;
 import net.minecraft.core.*;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,7 +46,7 @@ import java.util.stream.Stream;
 
 
 // NON FABRIC
-public class SkyBlockChunkGenerator extends ChunkGenerator {
+public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     public static final Codec<SkyBlockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> {
         return commonCodec(instance)
                 .and(
@@ -66,17 +70,32 @@ public class SkyBlockChunkGenerator extends ChunkGenerator {
     protected final BlockState defaultBlock;
     private final Registry<NormalNoise.NoiseParameters> noises;
     protected final Holder<NoiseGeneratorSettings> settings;
+    private final Aquifer.FluidPicker globalFluidPicker;
+    private static int seaLevel = 63;
 
     public SkyBlockChunkGenerator(Registry<StructureSet> registry,
                                   Registry<NormalNoise.NoiseParameters> registry2,
                                   BiomeSource biomeSource,
                                   Holder<NoiseGeneratorSettings> holder)
     {
-        super(registry, Optional.empty(), biomeSource);
+        super(registry, registry2, biomeSource, holder);
         this.noises = registry2;
         this.settings = holder;
         NoiseGeneratorSettings noiseGeneratorSettings = this.settings.value();
         this.defaultBlock = noiseGeneratorSettings.defaultBlock();
+
+
+
+        Aquifer.FluidStatus fluidStatus = new Aquifer.FluidStatus(-54, Blocks.LAVA.defaultBlockState());
+        this.seaLevel = noiseGeneratorSettings.seaLevel();
+        Aquifer.FluidStatus fluidStatus2 = new Aquifer.FluidStatus( seaLevel, noiseGeneratorSettings.defaultFluid());
+
+        // FIXME
+        this.globalFluidPicker = (j, k, l) -> {
+            return k < Math.min(-54, seaLevel) ? fluidStatus : fluidStatus2;
+        };
+
+
 
     }
 
@@ -122,6 +141,30 @@ public class SkyBlockChunkGenerator extends ChunkGenerator {
     ///////////////////////////////
     // NOISE AND HEIGHTMAP
     ///////////////////////////////
+
+    @Override
+    public Holder<NoiseGeneratorSettings> generatorSettings() {
+        return this.settings;
+    }
+
+    private NoiseChunk createNoiseChunk(ChunkAccess chunkAccess, StructureManager structureManager,
+                                        Blender blender, RandomState randomState)
+    {
+        return NoiseChunk.forChunk(
+                chunkAccess,
+                randomState,
+                Beardifier.forStructuresInChunk(structureManager, chunkAccess.getPos()),
+                this.settings.value(),
+                this.globalFluidPicker,
+                blender
+        );
+    }
+
+    @Override
+    public boolean stable(ResourceKey<NoiseGeneratorSettings> resourceKey) {
+        return this.settings.is(resourceKey);
+    }
+
     @Override
     public int getBaseHeight(int i, int j, Heightmap.Types types, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
         return this.settings.value().noiseSettings().height();
@@ -144,7 +187,11 @@ public class SkyBlockChunkGenerator extends ChunkGenerator {
     ///////////////////////////////
     @Override
     public void buildSurface(WorldGenRegion worldGenRegion, StructureManager structureManager, RandomState randomState, ChunkAccess chunkAccess) {}
-
+    @VisibleForTesting
+    @Override
+    public void buildSurface(ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState,
+                             StructureManager structureManager, BiomeManager biomeManager, Registry<Biome> registry, Blender blender)
+    {}
 
     ////////////////////////////////
     // FILL HEIGHTMAP (DO ALMOST NOTHING)
@@ -154,6 +201,32 @@ public class SkyBlockChunkGenerator extends ChunkGenerator {
                                                         StructureManager structureManager, ChunkAccess chunkAccess)
     {
         return CompletableFuture.completedFuture(chunkAccess);
+    }
+
+
+    ///////////////////////////////
+    // BIOMES
+    ///////////////////////////////
+    @Override
+    public CompletableFuture<ChunkAccess> createBiomes(Registry<Biome> registry, Executor executor, RandomState randomState, Blender blender,
+                                                       StructureManager structureManager, ChunkAccess chunkAccess) {
+
+        return CompletableFuture.supplyAsync(Util.wrapThreadWithTaskName("init_biomes", () -> {
+            this.doCreateBiomes(blender, randomState, structureManager, chunkAccess);
+            return chunkAccess;
+        }), Util.backgroundExecutor());
+    }
+
+    private void doCreateBiomes(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunkAccess) {
+
+        NoiseChunk noiseChunk = chunkAccess.getOrCreateNoiseChunk((chunkAccessx) -> {
+            return this.createNoiseChunk(chunkAccessx, structureManager, blender, randomState);
+        });
+        BiomeResolver biomeResolver = BelowZeroRetrogen.getBiomeResolver(blender.getBiomeResolver(this.biomeSource), chunkAccess);
+        chunkAccess.fillBiomesFromNoise(
+                biomeResolver,
+                noiseChunk.cachedClimateSampler(randomState.router(), this.settings.value().spawnTarget())
+        );
     }
 
     ///////////////////////////////
@@ -173,12 +246,6 @@ public class SkyBlockChunkGenerator extends ChunkGenerator {
 
     static {
         AIR = Blocks.AIR.defaultBlockState();
-    }
-
-
-    // for later
-    public Holder<NoiseGeneratorSettings> generatorSettings() {
-        return this.settings;
     }
 
 
