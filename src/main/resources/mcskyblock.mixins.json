@@ -8,7 +8,9 @@
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
     "MixinNaturalSpawner",
-    "MixinEndDragonFight"
+    "MixinEndDragonFight",
+    "MixinCactusBlock",
+    "MixinSugarCaneBlock"
   ],
   "client": [
     "MixinClientLevelClientLevelData"
