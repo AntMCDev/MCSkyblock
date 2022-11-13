@@ -8,16 +8,22 @@ import com.ant.mcskyblock.fabric.network.PacketHander;
 import com.ant.mcskyblock.fabric.world.entity.npc.TradingUtils;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 
 
 // REQ FABRIC
@@ -28,12 +34,11 @@ public class SkyBlockWorldEvents {
     public static void init() {
         TradingUtils.register();
         LootTableUtils.register();
-
         onServerStarting();
-
         onServerWorldLoad();
         onServerPlayerJoin();
     }
+
 
     // we should really rescan-settings at STARTING and not LOADING
     private static void onServerStarting(){
@@ -64,7 +69,7 @@ public class SkyBlockWorldEvents {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
             String[] configPos = SkyBlockConfigManager.spawnCords();
-                    //ConfigHandler.Common.SPAWN_POSITION.split(",");
+                    //ConfigHandler.Common.SPAWN_POSITION.  it(",");
             double[] pos = new double[3];
             try {
                 pos[0] = Double.parseDouble(configPos[0]);
@@ -161,9 +166,12 @@ public class SkyBlockWorldEvents {
             for (long z = -(SkyBlockConfigManager.mainIslandRadius()-1); z <= SkyBlockConfigManager.mainIslandRadius()-1; z++) {
                 world.setBlockAndUpdate(
                         new BlockPos(pos.getX() - x, pos.getY() - tree.length - 1, pos.getZ() - z),
-                        Blocks.DIRT.defaultBlockState()
+                        Blocks.GRASS_BLOCK.defaultBlockState()
                 );
             }
         }
     }
+
+
+
 }

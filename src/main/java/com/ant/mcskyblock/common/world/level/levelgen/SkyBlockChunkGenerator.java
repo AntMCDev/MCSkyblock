@@ -1,29 +1,21 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import com.google.common.annotations.VisibleForTesting;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
-import net.minecraft.ReportedException;
-import net.minecraft.Util;
+import net.minecraft.*;
 import net.minecraft.core.*;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeManager;
-import net.minecraft.world.level.biome.BiomeResolver;
-import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.chunk.StructureAccess;
+import net.minecraft.world.level.chunk.*;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -39,9 +31,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 
@@ -90,13 +79,10 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         this.seaLevel = noiseGeneratorSettings.seaLevel();
         Aquifer.FluidStatus fluidStatus2 = new Aquifer.FluidStatus( seaLevel, noiseGeneratorSettings.defaultFluid());
 
-        // FIXME
+        // FIXME Make this perisland
         this.globalFluidPicker = (j, k, l) -> {
             return k < Math.min(-54, seaLevel) ? fluidStatus : fluidStatus2;
         };
-
-
-
     }
 
     @Override
@@ -183,15 +169,50 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     }
 
     ///////////////////////////////
-    // SURFACE (DO NOTHING)
+    // SURFACE (Build Islands)
     ///////////////////////////////
     @Override
-    public void buildSurface(WorldGenRegion worldGenRegion, StructureManager structureManager, RandomState randomState, ChunkAccess chunkAccess) {}
+    public void buildSurface(WorldGenRegion worldGenRegion, StructureManager structureManager, RandomState randomState, ChunkAccess chunkAccess) {
+        if (!SharedConstants.debugVoidTerrain(chunkAccess.getPos())) {
+            WorldGenerationContext worldGenerationContext = new WorldGenerationContext(this, worldGenRegion);
+            this.buildSurface(
+                    worldGenRegion,
+                    chunkAccess,
+                    worldGenerationContext,
+                    randomState,
+                    structureManager,
+                    worldGenRegion.getBiomeManager(),
+                    worldGenRegion.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY),
+                    Blender.of(worldGenRegion)
+            );
+        }
+    }
+    public void buildSurface(WorldGenRegion  worldGenRegion, ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState,
+                             StructureManager structureManager, BiomeManager biomeManager, Registry<Biome> registry, Blender blender)
+    {
+        if( SkyBlockConfigManager.generateIslands() ){
+            int centerX = chunkAccess.getPos().getMinBlockX() + ((chunkAccess.getPos().getMaxBlockX() - chunkAccess.getPos().getMinBlockX()) / 2);
+            int centerZ = chunkAccess.getPos().getMinBlockZ() + ((chunkAccess.getPos().getMaxBlockZ() - chunkAccess.getPos().getMinBlockZ()) / 2);
+            int xSection = SectionPos.blockToSectionCoord(centerX);
+            int zSection = SectionPos.blockToSectionCoord(centerZ);
+            long outA = (long)xSection * (long)xSection + (long)zSection * (long)zSection;
+            // is then island more than 256 blocks out ?
+            // MCSkyBlock.LOGGER.log(Level.INFO, "Current distance out " + outA );
+            if ( outA >= 1024L) {
+                BlockPos bPos = new BlockPos(centerX, this.getSeaLevel(), centerZ);
+                Holder<Biome> hb = worldGenRegion.getBiomeManager().getBiome(bPos);
+                ResourceKey<Biome> bPath = hb.unwrapKey().map( resourceKey -> resourceKey).get();
+                MCSkyBlock.ISLAND_MANAGER.addIsland(bPath, worldGenRegion, bPos);
+            }
+        }
+    }
+
     @VisibleForTesting
     @Override
     public void buildSurface(ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState,
                              StructureManager structureManager, BiomeManager biomeManager, Registry<Biome> registry, Blender blender)
-    {}
+    {
+    }
 
     ////////////////////////////////
     // FILL HEIGHTMAP (DO ALMOST NOTHING)
@@ -207,10 +228,18 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     ///////////////////////////////
     // BIOMES
     ///////////////////////////////
+
+    @Override
+    public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
+
+        // FIXME add options for this and also expose the super->super
+    }
+
+
+    // FIXME this is kinnda heavey on world generation. If we create our own biomeSource it could help just a bit.
     @Override
     public CompletableFuture<ChunkAccess> createBiomes(Registry<Biome> registry, Executor executor, RandomState randomState, Blender blender,
                                                        StructureManager structureManager, ChunkAccess chunkAccess) {
-
         return CompletableFuture.supplyAsync(Util.wrapThreadWithTaskName("init_biomes", () -> {
             this.doCreateBiomes(blender, randomState, structureManager, chunkAccess);
             return chunkAccess;
@@ -244,6 +273,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     }
 
 
+    //FIXME add static lava and water blocks along with others that the mod uses a bunch
     static {
         AIR = Blocks.AIR.defaultBlockState();
     }
@@ -304,6 +334,8 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
             List<StructureSet.StructureSelectionEntry> list = holder.value().structures();
             for (StructureSet.StructureSelectionEntry structureSelectionEntry : list) {
                 // is the structure in our map and enabled ?
+                // FIXME with the goal of the strucutre only generating blocks if enabled.
+                // FIXME but we always want the bounding boxes this needs to be refactored.
                 if (MCSkyBlock.STRUCTURE_TRACKER.isEnabled(structureSelectionEntry.structure())) {
                     StructureStart structureStart = structureManager.getStartForStructure(
                             sectionPos,

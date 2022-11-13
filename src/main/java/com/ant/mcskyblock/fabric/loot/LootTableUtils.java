@@ -15,6 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.levelgen.feature.GeodeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -36,28 +38,34 @@ public class LootTableUtils {
     private static Map<ResourceLocation, LootPoolReference> existingLootPools = new HashMap<>();
 
     static {
-        if (SkyBlockConfigManager.phantomsDropElytra()) {
-            newLootPools.put(EntityType.PHANTOM.getDefaultLootTable(),
-                    LootPool.lootPool().setRolls( ConstantValue.exactly(1f) )
-                            .with(LootItem.lootTableItem( Items.ELYTRA ).build())
-                            .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
-                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build() ).build());
 
-            newLootPools.put(EntityType.PHANTOM.getDefaultLootTable(),
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                            .with(LootItem.lootTableItem(Items.ELYTRA).build())
-                            .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
-                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build() ).build());
+        if( !SkyBlockConfigManager.endCities() ) {
+            if (SkyBlockConfigManager.phantomsDropElytra()) {
+                newLootPools.put(EntityType.PHANTOM.getDefaultLootTable(),
+                        LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                                .with(LootItem.lootTableItem(Items.ELYTRA).build())
+                                .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
+                                .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build()).build());
+
+                newLootPools.put(EntityType.PHANTOM.getDefaultLootTable(),
+                        LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                                .with(LootItem.lootTableItem(Items.ELYTRA).build())
+                                .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
+                                .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build()).build());
+            }
         }
 
-        if (SkyBlockConfigManager.witchDropsNetherWart()) {
-            newLootPools.put(EntityType.WITCH.getDefaultLootTable(),
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                            .with(LootItem.lootTableItem( Items.NETHER_WART ).build())
-                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
-                            .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 1f) ).build() ).build());
+        if( !SkyBlockConfigManager.fortress() ) {
+            if (SkyBlockConfigManager.witchDropsNetherWart()) {
+                newLootPools.put(EntityType.WITCH.getDefaultLootTable(),
+                        LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                                .with(LootItem.lootTableItem(Items.NETHER_WART).build())
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0f, 1f)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0f, 1f)).build()).build());
+            }
         }
 
+        // husk always drop ?
         if (SkyBlockConfigManager.huskDropSand()) {
             newLootPools.put(EntityType.HUSK.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
@@ -99,6 +107,8 @@ public class LootTableUtils {
                             .with(LootItem.lootTableItem( Items.DRAGON_HEAD ).build())
                             .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f))).build());
         }
+
+        /*
         if (SkyBlockConfigManager.drownDropsGold()) {
             newLootPools.put(EntityType.DROWNED.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
@@ -107,6 +117,7 @@ public class LootTableUtils {
                             .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
                             .apply( SetItemCountFunction.setCount(ConstantValue.exactly(1f) ) ).build());
         }
+        */
 
         List<LootPoolEntryContainer> piglinLootTable = new ArrayList<>();
         if (SkyBlockConfigManager.piglinNetherrack()) {
@@ -123,22 +134,23 @@ public class LootTableUtils {
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(4f, 8f)))
                     .setWeight(20).build());
         }
-//        if (SkyBlockConfigManager.piglinAncientDebris()) {
-//            piglinLootTable.add(LootItem.lootTableItem(Items.ANCIENT_DEBRIS)
-//                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
-//                    .setWeight(1).build());
-//        }
+        if (SkyBlockConfigManager.piglinAncientDebris() && !SkyBlockConfigManager.witherDropAncientDebris() ) {
+            piglinLootTable.add(LootItem.lootTableItem(Items.ANCIENT_DEBRIS)
+                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)))
+                    .setWeight(1).build());
+        }
         existingLootPools.put(BuiltInLootTables.PIGLIN_BARTERING, new LootPoolReference(0, piglinLootTable));
 
         List<LootPoolEntryContainer> clericHotVLootTable = new ArrayList<>();
-        if (SkyBlockConfigManager.hotvClericDiamond()) {
+        if (SkyBlockConfigManager.hotvClericDiamond() && !SkyBlockConfigManager.endCities() ) {
             clericHotVLootTable.add(LootItem.lootTableItem(Items.DIAMOND).build());
         }
-        if (SkyBlockConfigManager.hotvClericBuddingAmethyst()) {
+        if ( SkyBlockConfigManager.hotvClericBuddingAmethyst() ) {
             clericHotVLootTable.add(LootItem.lootTableItem(Items.BUDDING_AMETHYST).build());
         }
         existingLootPools.put(BuiltInLootTables.CLERIC_GIFT, new LootPoolReference(0, clericHotVLootTable));
     }
+
 
     public static void register() {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {

@@ -7,6 +7,8 @@ public class SkyBlockConfigManager {
     public static SkyBlockConfigs GENERIC;
 
     public static boolean overworldIsSkyBlock(){return GENERIC.overworldIsSkyBlock; }
+    public static boolean applyBiomeDecoration(){ return GENERIC.applyBiomeDecoration; }
+    public static boolean generateIslands(){return GENERIC.generateIslands;}
     public static boolean netherIsSkyblock(){return GENERIC.netherIsSkyblock; }
     public static boolean endIsSkyblock(){return GENERIC.endIsSkyblock; }
 
@@ -109,7 +111,7 @@ public class SkyBlockConfigManager {
     public static boolean witchDropsNetherWart(){ return MOB_DROPS.WITCH_NETHER_WART; }
     public static boolean phantomsDropElytra(){return  MOB_DROPS.PHANTOM_ELYTRA; }
     public static boolean enderDragonDropsHead(){ return MOB_DROPS.ENDER_DRAGON_HEAD; }
-    public static boolean drownDropsGold(){ return MOB_DROPS.DROWNED_GOLD; }
+//    public static boolean drownDropsGold(){ return MOB_DROPS.DROWNED_GOLD; }
 
     public static boolean huskDropSand(){ return MOB_DROPS.HUSK_SAND; }
 

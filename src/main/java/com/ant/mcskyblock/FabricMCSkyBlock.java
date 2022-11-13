@@ -11,7 +11,6 @@ import net.fabricmc.loader.api.FabricLoader;
 
 // FIXME make this so it calls on common so that its not fabric driven and that this class becomes very small
 
-
 public class FabricMCSkyBlock implements ModInitializer {
 
 	public static MCSkyBlock MC_SKY_BLOCK;
