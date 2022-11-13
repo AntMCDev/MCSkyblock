@@ -1,28 +1,32 @@
 {
   "schemaVersion": 1,
   "id": "mcskyblock",
-  "version": "2.0.10",
+  "version": "${version}",
 
   "name": "MC Skyblock Fabric",
   "description": "This mod adds a new world generation type for a barebones skyblock experience (Fabric Port)",
   "authors": [
-    "Ant"
+    "Ant",
+    "m_jimmer"
   ],
   "contact": {
     "homepage": "https://github.com/AntMCDev/MCSkyblockFabric",
     "sources": "https://github.com/AntMCDev/MCSkyblockFabric"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/mcskyblock/icon.png",
-
+  "accessWidener": "mcskyblock.accesswidener",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.ant.mcskyblock.MCSkyBlock"
+      "com.ant.mcskyblock.FabricMCSkyBlock"
     ],
     "fabric-datagen": [
-      "com.ant.mcskyblock._build.SkyblockDataGenerator"
+      "com.ant.mcskyblock.fabric._build.SkyblockDataGenerator"
+    ],
+    "modmenu": [
+      "com.ant.mcskyblock.common.config.SkyBlockModMenu"
     ]
   },
   "mixins": [
@@ -30,7 +34,7 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=0.14.9",
     "fabric": "*",
     "minecraft": "~1.19",
     "java": ">=17"

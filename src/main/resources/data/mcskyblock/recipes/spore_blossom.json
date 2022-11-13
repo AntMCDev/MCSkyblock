@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "#F#",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:moss_block"
+        },
+        "F": {
+            "item": "minecraft:flowering_azalea"
+        }
+    },
+    "result": {
+        "item": "minecraft:spore_blossom",
+        "count": 1
+    }
+}

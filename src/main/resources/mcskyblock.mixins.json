@@ -4,25 +4,14 @@
   "package": "com.ant.mcskyblock.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MixinConfiguredFeature",
-    "MixinDimensionOptions",
-    "MixinEnderDragonFight",
-    "MixinFossilFeature",
+    "MixinLevelStem",
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
-    "MixinNetherFortressGeneratorBridgePlatform",
-    "MixinOceanRuinGeneratorPiece",
-    "MixinShiftableStructurePiece",
-    "MixinSimpleStructurePiece",
-    "MixinSinglePoolElement",
-    "MixinSpawnHelper",
-    "MixinStrongholdGeneratorPortalRoom",
-    "MixinStructurePiece",
-    "MixinThreadedAnvilChunkStorage"
+    "MixinNaturalSpawner",
+    "MixinEndDragonFight"
   ],
   "client": [
-    "MixinClientWorldProperties",
-    "MixinDebugHud"
+    "MixinClientLevelClientLevelData"
   ],
   "injectors": {
     "defaultRequire": 1
