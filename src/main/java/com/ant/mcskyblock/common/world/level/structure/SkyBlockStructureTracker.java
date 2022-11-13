@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.structurecheck;
+package com.ant.mcskyblock.common.world.level.structure;
 
 // On start up we check our options and
 // inject
@@ -6,7 +6,6 @@ package com.ant.mcskyblock.structurecheck;
 import com.ant.mcskyblock.common.MCSkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.Structures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.Level;
 
@@ -14,10 +13,10 @@ import java.util.HashMap;
 
 // NON FABRIC
 
-public class StructureTracker{
+public class SkyBlockStructureTracker {
 
     private static HashMap<String, Boolean> enabledMap = new HashMap<String, Boolean>();
-    public StructureTracker(){
+    public SkyBlockStructureTracker(){
     }
     public static void rescan(){
         enabledMap.clear();

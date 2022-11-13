@@ -2,11 +2,10 @@ package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.block.StaticBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
-import com.ant.mcskyblock.common.config.SkyBlockConfigs;
 import com.ant.mcskyblock.common.world.level.levelgen.biome.SkyBlockIslandBiomeManager;
 
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
-import com.ant.mcskyblock.structurecheck.StructureTracker;
+import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,7 @@ public class MCSkyBlock {
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
 
     public static SkyBlockConfigManager CONFIGS = new SkyBlockConfigManager();
-    public static StructureTracker STRUCTURE_TRACKER = new StructureTracker();
+    public static SkyBlockStructureTracker STRUCTURE_TRACKER = new SkyBlockStructureTracker();
 
     public static SkyBlockIslandBiomeManager ISLAND_MANAGER  = new SkyBlockIslandBiomeManager();
     public MCSkyBlock(){
