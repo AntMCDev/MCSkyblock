@@ -1,9 +1,8 @@
 package com.ant.mcskyblock.common;
 
+import com.ant.mcskyblock.common.block.StaticBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
-import com.ant.mcskyblock.common.config.SkyBlockConfigs;
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
-
 import com.ant.mcskyblock.structurecheck.StructureTracker;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +25,7 @@ public class MCSkyBlock {
         CONFIGS.initialize();
         STRUCTURE_TRACKER.rescan();
         SkyBlockWorldPreset.register();
+        new StaticBlock();
     }
 
     public static boolean isLogicalClient(Level level) {return level.isClientSide;}

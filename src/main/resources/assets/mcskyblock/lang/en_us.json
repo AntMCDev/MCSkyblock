@@ -70,5 +70,10 @@
   "text.autoconfig.mcskyblock.option.tradingConfigs.PIGLIN_NETHERRACK" : "Piglin Netherrack",
   "text.autoconfig.mcskyblock.option.tradingConfigs.PIGLIN_NYLIUM" : "Piglin Nylium",
   "text.autoconfig.mcskyblock.option.tradingConfigs.HOTV_CLERIC_BUDDING_AMETHYST" : "HOTF(Cleric) Gives Budding Amethst",
-  "text.autoconfig.mcskyblock.option.tradingConfigs.HOTV_CLERIC_DIAMOND" : "HOTF(Cleric) Gives Diamonds"
+  "text.autoconfig.mcskyblock.option.tradingConfigs.HOTV_CLERIC_DIAMOND" : "HOTF(Cleric) Gives Diamonds",
+
+  "block.mcskyblock.static_sand" :  "Static Sand",
+  "block.mcskyblock.static_red_sand" :  "Static Red Sand",
+  "item.mcskyblock.static_sand" :  "Static Sand",
+  "item.mcskyblock.static_red_sand" :  "Static Red Sand"
 }

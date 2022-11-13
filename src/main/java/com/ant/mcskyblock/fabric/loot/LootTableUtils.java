@@ -1,19 +1,13 @@
 package com.ant.mcskyblock.fabric.loot;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
-
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import com.ant.mcskyblock.common.loot.LootPoolReference;
-
 import com.ant.mcskyblock.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.mixin.MixinLootTableAccessor;
-
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -26,9 +20,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWit
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-import java.util.*;
-
-import static java.util.Map.entry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 // REQ FABRIC
 
 public class LootTableUtils {
@@ -40,12 +35,6 @@ public class LootTableUtils {
             newLootPools.put(EntityType.PHANTOM.getDefaultLootTable(),
                     LootPool.lootPool().setRolls( ConstantValue.exactly(1f) )
                             .with(LootItem.lootTableItem( Items.ELYTRA ).build())
-                            .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
-                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build() ).build());
-
-            newLootPools.put(EntityType.PHANTOM.getDefaultLootTable(),
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                            .with(LootItem.lootTableItem(Items.ELYTRA).build())
                             .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
                             .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.01f, 0.05f).build() ).build());
         }
