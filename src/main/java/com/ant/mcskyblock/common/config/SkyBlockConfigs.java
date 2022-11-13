@@ -12,6 +12,8 @@ public class SkyBlockConfigs  implements ConfigData {
     public boolean spawnMainIsland = true;
 
     public boolean overworldIsSkyBlock = true;
+    public boolean applyBiomeDecoration = false;
+    public boolean generateIslands = true;
     public boolean netherIsSkyblock = true;
     public boolean endIsSkyblock = true;
 
@@ -75,7 +77,7 @@ public class SkyBlockConfigs  implements ConfigData {
         public boolean WITCH_NETHER_WART = false;;
         public boolean PHANTOM_ELYTRA = false;;
         public boolean ENDER_DRAGON_HEAD = false;;
-        public boolean DROWNED_GOLD = false;;
+//        public boolean DROWNED_GOLD = false;;
 
         public boolean HUSK_SAND = true;
 

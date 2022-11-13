@@ -2,6 +2,9 @@ package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.block.StaticBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.config.SkyBlockConfigs;
+import com.ant.mcskyblock.common.world.level.levelgen.biome.SkyBlockIslandBiomeManager;
+
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.structurecheck.StructureTracker;
 import net.minecraft.world.level.Level;
@@ -21,6 +24,8 @@ public class MCSkyBlock {
 
     public static SkyBlockConfigManager CONFIGS = new SkyBlockConfigManager();
     public static StructureTracker STRUCTURE_TRACKER = new StructureTracker();
+
+    public static SkyBlockIslandBiomeManager ISLAND_MANAGER  = new SkyBlockIslandBiomeManager();
     public MCSkyBlock(){
         CONFIGS.initialize();
         STRUCTURE_TRACKER.rescan();
