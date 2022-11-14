@@ -15,11 +15,22 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 public class SkyblockPacket extends AbstractPacket {
     private static final ResourceLocation IDENTIFIER = new ResourceLocation(MCSkyBlock.MOD_NAME + ":worldtype");
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ResourceLocation getIdentifier() {
         return IDENTIFIER;
     }
 
+    /**
+     *
+     * @param client
+     * @param handler
+     * @param buf
+     * @param responseSender
+     */
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {
@@ -27,6 +38,14 @@ public class SkyblockPacket extends AbstractPacket {
         });
     }
 
+    /**
+     *
+     * @param server
+     * @param player
+     * @param handler
+     * @param buf
+     * @param responseSender
+     */
     @Override
     public void executeOnServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler,
                                 FriendlyByteBuf buf, PacketSender responseSender)

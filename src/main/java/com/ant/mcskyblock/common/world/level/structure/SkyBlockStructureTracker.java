@@ -16,8 +16,15 @@ import java.util.HashMap;
 public class SkyBlockStructureTracker {
 
     private static HashMap<String, Boolean> enabledMap = new HashMap<String, Boolean>();
-    public SkyBlockStructureTracker(){
-    }
+
+    /**
+     *
+     */
+    public SkyBlockStructureTracker(){}
+
+    /**
+     *
+     */
     public static void rescan(){
         enabledMap.clear();
         enabledMap.put( "minecraft:pillager_outpost",        SkyBlockConfigManager.pillagerOutpost() );
@@ -56,6 +63,9 @@ public class SkyBlockStructureTracker {
         importModedStructures();
     }
 
+    /**
+     *
+     */
     private static void importModedStructures() {
         if( SkyBlockConfigManager.customStructures().length > 0 ) {
             for (String resourceKey : SkyBlockConfigManager.customStructures()) {
@@ -66,8 +76,11 @@ public class SkyBlockStructureTracker {
         }
     }
 
-
-
+    /**
+     *
+     * @param structure
+     * @return
+     */
     public static Boolean isEnabled(Holder<Structure> structure){
         Boolean ret = false;
         String ssKey = structure.unwrapKey().map(resourceKey -> resourceKey.location().toString() ).orElse("[unregistered]");

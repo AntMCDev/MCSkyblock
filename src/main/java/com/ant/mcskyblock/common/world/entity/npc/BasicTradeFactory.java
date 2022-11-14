@@ -17,6 +17,14 @@ public class BasicTradeFactory implements VillagerTrades.ItemListing {
     protected final int experience;
     protected final float multiplier;
 
+
+    /**
+     *
+     * @param price
+     * @param buy
+     * @param maxUses
+     * @param experience
+     */
     public BasicTradeFactory(int price, ItemStack buy, int maxUses, int experience) {
         this.price = price;
         this.buy = buy;
@@ -25,6 +33,15 @@ public class BasicTradeFactory implements VillagerTrades.ItemListing {
         this.multiplier = 1f;
     }
 
+
+    /**
+     *
+     * @param price
+     * @param buy
+     * @param maxUses
+     * @param experience
+     * @param multiplier
+     */
     public BasicTradeFactory(int price, ItemStack buy, int maxUses, int experience, float multiplier) {
         this.price = price;
         this.buy = buy;
@@ -33,6 +50,13 @@ public class BasicTradeFactory implements VillagerTrades.ItemListing {
         this.multiplier = multiplier;
     }
 
+
+    /**
+     *
+     * @param entity
+     * @param randomSource
+     * @return
+     */
     @Nullable
     @Override
     public MerchantOffer getOffer(Entity entity, RandomSource randomSource) {

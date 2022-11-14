@@ -35,7 +35,7 @@ public class SkyBlockIslandBiomeManager {
 // String      = ResourceKey.location.value()
 // Pair.first  = The Floor Block
 // Pair.secon   d = The Sapling
-public static Map<String, Pair<Block,Block>> biomeDataMap = Map.ofEntries(
+    public static Map<String, Pair<Block,Block>> biomeDataMap = Map.ofEntries(
         entry( "the_void"                  , new Pair<Block,Block>( Blocks.AIR,                Blocks.AIR )    ),
         entry( "plains"                    , new Pair<Block,Block>( Blocks.GRASS_BLOCK,        Blocks.POTTED_OAK_SAPLING )    ),
         entry( "sunflower_plains"          , new Pair<Block,Block>( Blocks.GRASS_BLOCK,        Blocks.SUNFLOWER )    ),
@@ -102,10 +102,23 @@ public static Map<String, Pair<Block,Block>> biomeDataMap = Map.ofEntries(
     );
 
 
+    /**
+     * Creates a new biome island manager. The goal of the manager is to keep track of what biomes islands have been generated.
+     * What the blocks are used in the generationof a biome and refreshing the island if need be(later)
+     */
     public SkyBlockIslandBiomeManager(){}
 
+    /**
+     *  The tracking map at run time. In the furture I guess this will use NBT to store the data for presestence.
+     */
     private static HashMap<String, SkyBlockIsland> trackingMap = new HashMap<String, SkyBlockIsland>();
 
+    /**
+     *  Addes a biome island to the game and also to the tracking system.
+     * @param biomeResourceKey The Biome in which to be generated.
+     * @param level The world that it is going to be generated on.
+     * @param pos   Wherethe biome going to be generated.
+     */
     public static void addIsland(ResourceKey<Biome> biomeResourceKey, WorldGenRegion level, BlockPos pos ){
         String uuid = biomeResourceKey.location().getPath();
 

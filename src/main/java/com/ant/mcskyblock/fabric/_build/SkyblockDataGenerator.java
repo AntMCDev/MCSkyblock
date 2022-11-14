@@ -8,8 +8,16 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.tags.WorldPresetTags;
 
+/**
+ *
+ */
 // REQ FABRIC
 public class SkyblockDataGenerator implements DataGeneratorEntrypoint {
+
+    /**
+     *
+     * @param fabricDataGenerator The {@link FabricDataGenerator} instance
+     */
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         fabricDataGenerator.addProvider(

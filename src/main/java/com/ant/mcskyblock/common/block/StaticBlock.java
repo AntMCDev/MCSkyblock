@@ -38,6 +38,12 @@ public class StaticBlock {
     public static final Block RED_CONCRETE_POWDER = register("static_red_concrete_powder", new StaticConcretePowderBlock(Blocks.RED_CONCRETE, BlockBehaviour.Properties.of(Material.SAND, DyeColor.WHITE).strength(0.5f).sound(SoundType.SAND)));
     public static final Block BLACK_CONCRETE_POWDER = register("static_black_concrete_powder", new StaticConcretePowderBlock(Blocks.BLACK_CONCRETE, BlockBehaviour.Properties.of(Material.SAND, DyeColor.WHITE).strength(0.5f).sound(SoundType.SAND)));
 
+    /**
+     *
+      * @param key
+     * @param block
+     * @return
+     */
     private static Block register(String key, Block block) {
         Block result = Registry.register(Registry.BLOCK, new ResourceLocation(MCSkyBlock.MOD_NAME, key), block);
         Registry.register(Registry.ITEM, new ResourceLocation(MCSkyBlock.MOD_NAME, key), new BlockItem(result, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));

@@ -8,29 +8,30 @@ import com.ant.mcskyblock.fabric.network.PacketHander;
 import com.ant.mcskyblock.fabric.world.entity.npc.TradingUtils;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
-
 
 // REQ FABRIC
+
+/**
+ *
+ */
 public class SkyBlockWorldEvents {
     public static boolean isServerSkyblock = false;
     public static boolean isClientSkyblock = false;
 
+
+    /**
+     *
+     */
     public static void init() {
         TradingUtils.register();
         LootTableUtils.register();
@@ -39,7 +40,9 @@ public class SkyBlockWorldEvents {
         onServerPlayerJoin();
     }
 
-
+    /**
+     *
+     */
     // we should really rescan-settings at STARTING and not LOADING
     private static void onServerStarting(){
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
@@ -47,6 +50,9 @@ public class SkyBlockWorldEvents {
         });
     }
 
+    /**
+     *
+     */
     private static void onServerWorldLoad() {
         ServerWorldEvents.LOAD.register((server, level) -> {
             isServerSkyblock = level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
@@ -56,6 +62,9 @@ public class SkyBlockWorldEvents {
         });
     }
 
+    /**
+     *
+     */
     private static void onServerPlayerJoin() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             if (server.overworld().getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator) {
@@ -65,6 +74,10 @@ public class SkyBlockWorldEvents {
         });
     }
 
+    /**
+     *
+     * @param player
+     */
     private static void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
@@ -93,6 +106,12 @@ public class SkyBlockWorldEvents {
         }
     }
 
+
+    /**
+     *
+     * @param world
+     * @param pos
+     */
     private static void buildSkyblock(Level world, BlockPos pos) {
         int offset = -2;
         char[][][] tree = new char[][][]{
@@ -171,7 +190,5 @@ public class SkyBlockWorldEvents {
             }
         }
     }
-
-
 
 }

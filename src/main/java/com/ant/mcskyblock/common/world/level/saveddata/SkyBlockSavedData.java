@@ -12,10 +12,18 @@ public class SkyBlockSavedData extends SavedData {
 
     public boolean generated;
 
+    /**
+     *
+     */
     public SkyBlockSavedData() {
         generated = false;
     }
 
+    /**
+     *
+     * @param world
+     * @return
+     */
     public static SkyBlockSavedData get(ServerLevel world) {
         return world.getServer().overworld().getDataStorage().computeIfAbsent(
                 SkyBlockSavedData::readNbt,
@@ -23,18 +31,32 @@ public class SkyBlockSavedData extends SavedData {
                 NAME
         );    }
 
+
+    /**
+     *
+      * @param nbt
+     * @return
+     */
     private static SkyBlockSavedData readNbt(CompoundTag nbt) {
         SkyBlockSavedData savedData = new SkyBlockSavedData();
         savedData.generated = nbt.getBoolean(GENERATED_KEY);
         return savedData;
     }
 
+    /**
+     *
+      * @param nbt
+     * @return
+     */
     @Override
     public CompoundTag save(CompoundTag nbt) {
         nbt.putBoolean(GENERATED_KEY, true);
         return nbt;
     }
 
+    /**
+     *
+     */
     public void setGenerated() {
         generated = true;
         this.setDirty();

@@ -17,6 +17,10 @@ public class TradingUtils {
     private static final int WANDERING_TRADER_COMMON_OFFER = 1;
     private static final int WANDERING_TRADER_RARE_OFFER = 2;
 
+
+    /**
+     *
+     */
     private static class LevelledTradeOffer {
         private int level;
         private final VillagerTrades.ItemListing factory;
@@ -27,9 +31,20 @@ public class TradingUtils {
         }
     }
 
+    /**
+     *
+     */
     private static List<LevelledTradeOffer> wanderingTrades = new ArrayList<>();
+
+    /**
+     *
+     */
     private static Map<VillagerProfession, List<LevelledTradeOffer>> trades = new HashMap<>();
 
+
+    /**
+     *
+     */
     static {
         if (SkyBlockConfigManager.wanderingTraderSponge()) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(3, new ItemStack(Items.SPONGE, 1), 8, 1)));
@@ -101,6 +116,10 @@ public class TradingUtils {
         }
     }
 
+
+    /**
+     *
+     */
     public static void register() {
         for (LevelledTradeOffer wanderingTrade : wanderingTrades) {
             TradeOfferHelper.registerWanderingTraderOffers(wanderingTrade.level, factories -> {

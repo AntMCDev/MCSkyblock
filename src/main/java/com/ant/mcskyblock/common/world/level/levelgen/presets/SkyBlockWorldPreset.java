@@ -27,6 +27,9 @@ public class SkyBlockWorldPreset {
             Registry.WORLD_PRESET_REGISTRY, new ResourceLocation( MCSkyBlock.MOD_NAME, MCSkyBlock.PRESET_ID )
     );
 
+    /**
+     * Registers all the things that are needed as far as world generation for the world preset.
+     */
     public static void register() {
 
         BuiltinRegistries.register(
@@ -49,6 +52,10 @@ public class SkyBlockWorldPreset {
 
     }
 
+    /**
+     * Registers the Map of the skyblock presets into the game for the nether,overworld and end dimentions.
+     * @return The world preset map that is available for minecraft to load.
+     */
     private static WorldPreset build() {
         return new WorldPreset(
                 Map.of(
@@ -68,6 +75,10 @@ public class SkyBlockWorldPreset {
         );
     }
 
+    /**
+     * This function creates the overworld generator. That is if the configuration of the mod settings for overworldChunkGenerator() are set to true.
+     * @return Returns the ChunkGenerator that is used in the world generation of the preset generators. For the overworld
+     */
     private static ChunkGenerator overworldChunkGenerator() {
         return SkyBlockConfigManager.overworldIsSkyBlock()  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
@@ -83,6 +94,11 @@ public class SkyBlockWorldPreset {
         );
     }
 
+
+    /**
+     * This function creates the nether generator. That is if the configuration of the mod settings for netherChunkGenerator() are set to true.
+     * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the nether.
+     */
     private static ChunkGenerator netherChunkGenerator() {
         return SkyBlockConfigManager.endIsSkyblock()  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
@@ -97,6 +113,11 @@ public class SkyBlockWorldPreset {
         );
     }
 
+
+    /**
+     * This function creates the end generator. That is if the configuration of the mod settings for endChunkGenerator() are set to true.
+     * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the end.
+     */
     private static ChunkGenerator endChunkGenerator() {
         return SkyBlockConfigManager.endIsSkyblock() ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,

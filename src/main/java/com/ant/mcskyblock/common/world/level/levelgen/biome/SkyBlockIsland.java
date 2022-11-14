@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.Level;
 
-import javax.security.auth.login.AccountLockedException;
-
 
 public class SkyBlockIsland {
 
@@ -24,6 +22,13 @@ public class SkyBlockIsland {
 
     private static boolean generated = false;
 
+    /**
+     * Creates a New and uniq island that only should generate once in the map.
+     * @param biomeKey which biome island is this. the key is used to check against a map
+     * @param radius   how wide should the top of the island be. At the moment this does nothing.
+     * @param floorBlock The upper most layer Block
+     * @param treeSapling The block that you want to place on the on top the island.
+     */
     public SkyBlockIsland(ResourceKey<Biome> biomeKey, Integer radius, Block floorBlock, Block treeSapling ){
         this.biomeKey = biomeKey;
         this.radius = radius;
@@ -31,6 +36,11 @@ public class SkyBlockIsland {
         this.floorBlock = floorBlock;
     }
 
+    /**
+     *
+     * @param level The world generation region that is getting a island.
+     * @param pos Where to spawn the Island
+     */
     public static void createIsland(WorldGenRegion level, BlockPos pos){
         // the floor blocks
         //DDDDDD
@@ -85,8 +95,17 @@ public class SkyBlockIsland {
         setGenerated(true);
     }
 
+    /**
+     * Function for the future that uses create Island again.
+     * @param hasGenerated sets the generation to false as if it has never been generated.
+     */
     private static void setGenerated(boolean hasGenerated){
         generated = hasGenerated;
     }
+
+    /**
+     * Checks to see if the Island has been generated.
+     * @return
+     */
     public static boolean hasGenerated(){return generated; }
 }

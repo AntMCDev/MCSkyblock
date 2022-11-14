@@ -34,8 +34,15 @@ import java.util.concurrent.Executor;
 import java.util.stream.Stream;
 
 
-// NON FABRIC
+/**
+ * The Skyblock Generator. This is the class that takes care of management for thing like
+ * ........ TODO
+ */
 public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
+
+    /**
+     * The [de]serilized data for minecraft's networkd package management system.
+     */
     public static final Codec<SkyBlockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> {
         return commonCodec(instance)
                 .and(
@@ -62,6 +69,21 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     private final Aquifer.FluidPicker globalFluidPicker;
     private static int seaLevel = 63;
 
+
+    /**
+     * Creates a new Skyblock chunk generator. The chunk generator is responsible for.
+     * all blocks that are placed including void and air. it also handles the structure placement of the chunk.
+     * As well it handles all the \" Heightmaping \" of the chunk.
+     * It is also responsible for creating the surface of the generation per biome.
+     * It is also responsible for creating all the caves and there respected decorations.
+     *
+     * chunk that it is generating.
+     *
+     * @param registry The Structure set registery that will be added to the game.
+     * @param registry2 The "normal" noise generator parameters that will be used multiple times over again to create multi forms of noise
+     * @param biomeSource  The biome management allocated to the chuck generator. See also BiomeSource
+     * @param holder The noise generation settings that are used with the noise parameters
+     */
     public SkyBlockChunkGenerator(Registry<StructureSet> registry,
                                   Registry<NormalNoise.NoiseParameters> registry2,
                                   BiomeSource biomeSource,
@@ -85,26 +107,50 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         };
     }
 
+    /**
+     * TODO DOC
+     * @return
+     */
     @Override
     public int getGenDepth() {
         return this.settings.value().noiseSettings().height();
     }
 
+    /**
+     * The sea level that is going to be used to generate the islands.
+     * @return most the time this returns 63
+     */
     @Override
     public int getSeaLevel() {
         return this.settings.value().seaLevel();
     }
 
+    /**
+     *
+     * @return the min y for the chunk based on the noise settings.
+     */
     @Override
     public int getMinY() {
         return this.settings.value().noiseSettings().minY();
     }
 
+    /**
+     * minecraft's network and other serlizations.
+     * @return returns codec of this chunk generator
+     */
     @Override
     protected Codec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
+
+    /**
+     * Adds the variants of the (T)temperature, (V)vegetation, (C)continents,
+     * (E)erosion, (D)depth, (W)ridges, (PV)peaks and valleys and density to the f3 screen
+     * @param list the list to add to the debug screen
+     * @param randomState The current random state for the router
+     * @param blockPos the block position in focus
+     */
     @Override
     public void addDebugScreenInfo(List<String> list, RandomState randomState, BlockPos blockPos) {
         DecimalFormat decimalFormat = new DecimalFormat("0.000");
@@ -128,11 +174,23 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     // NOISE AND HEIGHTMAP
     ///////////////////////////////
 
+    /**
+     * Gets the Holder to thenoise generation settings
+      * @return
+     */
     @Override
     public Holder<NoiseGeneratorSettings> generatorSettings() {
         return this.settings;
     }
 
+    /**
+     * Internal function to generate the Noise based on the chunk. this is mainly used in to gather the biome for the chunk
+     * @param chunkAccess The chunk in which you are going to alter
+     * @param structureManager the structure manager to append for the chunk
+     * @param blender The Biome Blender that is in focus
+     * @param randomState the random state for the Noise of the chunk
+     * @return a noised based chunk.
+     */
     private NoiseChunk createNoiseChunk(ChunkAccess chunkAccess, StructureManager structureManager,
                                         Blender blender, RandomState randomState)
     {
@@ -146,23 +204,59 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         );
     }
 
+    /**
+     *
+     * @param resourceKey
+     * @return
+     */
     @Override
     public boolean stable(ResourceKey<NoiseGeneratorSettings> resourceKey) {
         return this.settings.is(resourceKey);
     }
 
+    /**
+     *
+     * @param i
+     * @param j
+     * @param types
+     * @param levelHeightAccessor
+     * @param randomState
+     * @return
+     */
     @Override
     public int getBaseHeight(int i, int j, Heightmap.Types types, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
         return this.settings.value().noiseSettings().height();
     }
+
+
+    /**
+     *
+     * @param i
+     * @param j
+     * @param levelHeightAccessor
+     * @param randomState
+     * @return
+     */
     @Override
     public NoiseColumn getBaseColumn(int i, int j, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
         return new NoiseColumn(0, new BlockState[0]);
     }
 
+
     ////////////////////////////
     // CAVES (DO NOTHING)
     ////////////////////////
+
+    /**
+     *
+     * @param worldGenRegion
+     * @param l
+     * @param randomState
+     * @param biomeManager
+     * @param structureManager
+     * @param chunkAccess
+     * @param carving
+     */
     @Override
     public void applyCarvers(WorldGenRegion worldGenRegion, long l, RandomState randomState, BiomeManager biomeManager,
                              StructureManager structureManager, ChunkAccess chunkAccess, GenerationStep.Carving carving) {
@@ -171,6 +265,14 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     ///////////////////////////////
     // SURFACE (Build Islands)
     ///////////////////////////////
+
+    /**
+     *
+     * @param worldGenRegion
+     * @param structureManager
+     * @param randomState
+     * @param chunkAccess
+     */
     @Override
     public void buildSurface(WorldGenRegion worldGenRegion, StructureManager structureManager, RandomState randomState, ChunkAccess chunkAccess) {
         if (!SharedConstants.debugVoidTerrain(chunkAccess.getPos())) {
@@ -207,6 +309,16 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         }
     }
 
+    /**
+     *
+     * @param chunkAccess
+     * @param worldGenerationContext
+     * @param randomState
+     * @param structureManager
+     * @param biomeManager
+     * @param registry
+     * @param blender
+     */
     @VisibleForTesting
     @Override
     public void buildSurface(ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState,
@@ -217,6 +329,16 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     ////////////////////////////////
     // FILL HEIGHTMAP (DO ALMOST NOTHING)
     ///////////////////////////////
+
+    /**
+     *
+     * @param executor
+     * @param blender
+     * @param randomState
+     * @param structureManager
+     * @param chunkAccess
+     * @return
+     */
     @Override
     public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, RandomState randomState,
                                                         StructureManager structureManager, ChunkAccess chunkAccess)
@@ -229,6 +351,12 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     // BIOMES
     ///////////////////////////////
 
+    /**
+     *
+     * @param worldGenLevel
+     * @param chunkAccess
+     * @param structureManager
+     */
     @Override
     public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
 
@@ -237,6 +365,17 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
 
 
     // FIXME this is kinnda heavey on world generation. If we create our own biomeSource it could help just a bit.
+
+    /**
+     *
+     * @param registry
+     * @param executor
+     * @param randomState
+     * @param blender
+     * @param structureManager
+     * @param chunkAccess
+     * @return
+     */
     @Override
     public CompletableFuture<ChunkAccess> createBiomes(Registry<Biome> registry, Executor executor, RandomState randomState, Blender blender,
                                                        StructureManager structureManager, ChunkAccess chunkAccess) {
@@ -246,6 +385,14 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         }), Util.backgroundExecutor());
     }
 
+
+    /**
+     *
+     * @param blender
+     * @param randomState
+     * @param structureManager
+     * @param chunkAccess
+     */
     private void doCreateBiomes(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunkAccess) {
 
         NoiseChunk noiseChunk = chunkAccess.getOrCreateNoiseChunk((chunkAccessx) -> {
@@ -261,6 +408,11 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     ///////////////////////////////
     // MOBS
     ///////////////////////////////
+
+    /**
+     *
+     * @param worldGenRegion
+     */
     @Override
     public void spawnOriginalMobs(WorldGenRegion worldGenRegion) {
         if (!((NoiseGeneratorSettings) this.settings.value()).disableMobGeneration()) {
@@ -274,6 +426,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
 
 
     //FIXME add static lava and water blocks along with others that the mod uses a bunch
+
     static {
         AIR = Blocks.AIR.defaultBlockState();
     }
@@ -283,6 +436,11 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     // STRUCTURES
     ///////////////////////////////////////
 
+
+    /**
+     *
+     * @return
+     */
     @Override
     public Stream<Holder<StructureSet>> possibleStructureSets() {
         if (this.structureOverrides.isPresent()) {
@@ -292,6 +450,11 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     }
 
     // this is the overall generation it runs at startup once before anything is "placed"
+
+    /**
+     *
+     * @param randomState
+     */
     @Override
     protected void generatePositions(RandomState randomState) {
         Set<Holder<Biome>> set = this.biomeSource.possibleBiomes();
@@ -319,6 +482,16 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         });
     }
 
+
+    /**
+     *
+     * @param registryAccess
+     * @param randomState
+     * @param structureManager
+     * @param chunkAccess
+     * @param structureTemplateManager
+     * @param seed
+     */
     @Override
     public void createStructures(RegistryAccess registryAccess,
                                  RandomState randomState,
@@ -410,6 +583,12 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         });
     }
 
+    /**
+     *
+     * @param worldGenLevel
+     * @param structureManager
+     * @param chunkAccess
+     */
     @Override
     public void createReferences(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkAccess chunkAccess){
         ChunkPos chunkPos = chunkAccess.getPos();

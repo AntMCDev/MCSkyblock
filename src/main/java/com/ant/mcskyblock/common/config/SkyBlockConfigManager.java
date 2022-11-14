@@ -3,20 +3,59 @@ package com.ant.mcskyblock.common.config;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 
+
+//FIXME document after 3.x is in beta
+
+
 public class SkyBlockConfigManager {
     public static SkyBlockConfigs GENERIC;
 
+    /**
+     *
+     * @return
+     */
     public static boolean overworldIsSkyBlock(){return GENERIC.overworldIsSkyBlock; }
+
+
+    // FIXME before 3.0.X alpha
+    /**
+     *
+     * @return
+     */
     public static boolean applyBiomeDecoration(){ return GENERIC.applyBiomeDecoration; }
+    /**
+     *
+     * @return
+     */
     public static boolean generateIslands(){return GENERIC.generateIslands;}
+    /**
+     *
+     * @return
+     */
     public static boolean netherIsSkyblock(){return GENERIC.netherIsSkyblock; }
     public static boolean endIsSkyblock(){return GENERIC.endIsSkyblock; }
 
 
+    /**
+     *
+     * @return
+     */
     public static SkyBlockConfigs.TradingConfigs TRADES;
+    /**
+     *
+     * @return
+     */
     public static SkyBlockConfigs.StructureConfigs STRUCTURES;
+
+    /**
+     *
+     * @return
+     */
     public static SkyBlockConfigs.MobDropsConfigs MOB_DROPS;
 
+    /**
+     *
+     */
     public void initialize() {
         AutoConfig.register(SkyBlockConfigs.class, GsonConfigSerializer::new);
         this.GENERIC =  AutoConfig.getConfigHolder(SkyBlockConfigs.class).getConfig();
@@ -28,15 +67,36 @@ public class SkyBlockConfigManager {
     //////////////////////////////
     // generic settings
     /////////////////////////////
+
+    /**
+     *
+     * @return
+     */
     public static String[] spawnCords(){return GENERIC.spawnCords;}
+
+    /**
+     *
+     * @return
+     */
     public static boolean spawnMainIsland(){return GENERIC.spawnMainIsland;}
+
+    /**
+     *
+     * @return
+     */
     public static int mainIslandRadius(){ return GENERIC.mainIslandRadius;}
+
+    /**
+     *
+     * @return
+     */
     public static boolean stopBatSpawns(){ return  GENERIC.stopBatSpawns; }
 
     //////////////////////////////
     // structures
     /////////////////////////////
     // overworld
+
     public static boolean ancientCities(){ return STRUCTURES.GEN_ANCIENT_CITY; }
     public static boolean igloo(){ return STRUCTURES.GEN_IGLOO; }
     public static boolean jungleTemple(){ return STRUCTURES.GEN_JUNGLE_TEMPLE; }

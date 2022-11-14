@@ -15,11 +15,21 @@ import net.minecraft.world.level.block.state.BlockState;
 public class StaticConcretePowderBlock extends Block {
     private final BlockState concrete;
 
+    /**
+     *
+     * @param block
+     * @param properties
+     */
     StaticConcretePowderBlock(Block block, BlockBehaviour.Properties properties) {
         super(properties);
         this.concrete = block.defaultBlockState();
     }
 
+    /**
+     *
+     * @param blockPlaceContext
+     * @return
+     */
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext blockPlaceContext) {
         BlockState blockState;
@@ -31,12 +41,25 @@ public class StaticConcretePowderBlock extends Block {
         return super.getStateForPlacement(blockPlaceContext);
     }
 
+    /**
+     *
+     * @param blockGetter
+     * @param blockPos
+     * @param blockState
+     * @return
+     */
     private static boolean shouldSolidify(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState) {
         return canSolidify(blockState) || touchesLiquid(blockGetter, blockPos);
     }
 
+    /**
+     *
+     * @param blockGetter
+     * @param blockPos
+     * @return
+     */
     private static boolean touchesLiquid(BlockGetter blockGetter, BlockPos blockPos) {
-        boolean bl = false;
+        boolean ret = false;
         BlockPos.MutableBlockPos mutableBlockPos = blockPos.mutable();
         for (Direction direction : Direction.values()) {
             BlockState blockState = blockGetter.getBlockState(mutableBlockPos);
@@ -44,16 +67,32 @@ public class StaticConcretePowderBlock extends Block {
             mutableBlockPos.setWithOffset((Vec3i)blockPos, direction);
             blockState = blockGetter.getBlockState(mutableBlockPos);
             if (!canSolidify(blockState) || blockState.isFaceSturdy(blockGetter, blockPos, direction.getOpposite())) continue;
-            bl = true;
+            ret = true;
             break;
         }
-        return bl;
+        return ret;
     }
 
+
+    /**
+     *
+     * @param blockState
+     * @return
+     */
     private static boolean canSolidify(BlockState blockState) {
         return blockState.getFluidState().is(FluidTags.WATER);
     }
 
+    /**
+     *
+     * @param blockState
+     * @param direction
+     * @param blockState2
+     * @param levelAccessor
+     * @param blockPos
+     * @param blockPos2
+     * @return
+     */
     @Override
     public BlockState updateShape(BlockState blockState, Direction direction, BlockState blockState2, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos2) {
         if (touchesLiquid(levelAccessor, blockPos)) {

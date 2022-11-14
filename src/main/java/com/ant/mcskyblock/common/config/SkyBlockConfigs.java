@@ -5,7 +5,7 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
-// NON FABRIC
+//FIXME document after 3.x is in beta
 @Config(name = "mcskyblock" )
 public class SkyBlockConfigs  implements ConfigData {
 

@@ -146,6 +146,9 @@ public class LootTableUtils {
     }
 
 
+    /**
+     *
+     */
     public static void register() {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (newLootPools.containsKey(id)) {

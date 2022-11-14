@@ -21,18 +21,39 @@ public class MCSkyBlock {
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
 
+    // the configuration
     public static SkyBlockConfigManager CONFIGS = new SkyBlockConfigManager();
+
+    // The Structures that will or will not get generated in skyblock
     public static SkyBlockStructureTracker STRUCTURE_TRACKER = new SkyBlockStructureTracker();
 
+    // The Outer Island manager
     public static SkyBlockIslandBiomeManager ISLAND_MANAGER  = new SkyBlockIslandBiomeManager();
+
+    // Blocks that would fall but do not and frop the vanilla variant
+    public static StaticBlock NON_FALING_BLOCKS = new StaticBlock();
+
+    /**
+     *
+     */
     public MCSkyBlock(){
         CONFIGS.initialize();
         STRUCTURE_TRACKER.rescan();
-        SkyBlockWorldPreset.register();
-        new StaticBlock();
+        SkyBlockWorldPreset.register();;
     }
 
+    /**
+     *
+     * @param level
+     * @return
+     */
     public static boolean isLogicalClient(Level level) {return level.isClientSide;}
+
+    /**
+     *
+     * @param level
+     * @return
+     */
     public static boolean isLogicalServer(Level level) {
         return !isLogicalClient(level);
     }
