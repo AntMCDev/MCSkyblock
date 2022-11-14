@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Level;
 
 
 public class SkyBlockIsland {
+    private String biomeKey;
     private Integer radius;
     private Block treeSapling;
     private Block floorBlock;
@@ -25,7 +26,8 @@ public class SkyBlockIsland {
      * @param floorBlock The upper most layer Block
      * @param treeSapling The block that you want to place on the on top the island.
      */
-    public SkyBlockIsland(Integer radius, Block floorBlock, Block treeSapling, BlockPos blockPos ){
+    public SkyBlockIsland(String biomeKey, Integer radius, Block floorBlock, Block treeSapling, BlockPos blockPos ){
+        this.biomeKey = biomeKey;
         this.radius = radius;
         this.treeSapling = treeSapling;
         this.floorBlock = floorBlock;
@@ -87,11 +89,11 @@ public class SkyBlockIsland {
          level.setBlock( new BlockPos( pos.getX(), level.getSeaLevel()+1, pos.getZ() ), treeSapling.defaultBlockState(), 0 );
     }
 
-    public BlockPos getBlockPos() {
-        return blockPos;
+    public String getBiomeKey() {
+        return biomeKey;
     }
 
-    public void setBlockPos(BlockPos blockPos) {
-        this.blockPos = blockPos;
+    public BlockPos getBlockPos() {
+        return blockPos;
     }
 }

@@ -120,12 +120,14 @@ public class SkyBlockIslandBiomeManager {
      * @param pos   Wherethe biome going to be generated.
      */
     public void addIsland(ResourceKey<Biome> biomeResourceKey, WorldGenRegion level, BlockPos pos ){
+        // TODO: uuid += x,z when multi-island config is set
         String uuid = biomeResourceKey.location().getPath();
 
         // TODO Add a map for each sector and only generate based on Sector.
         // TODO This will make it so that there is a Island in a circle around the center Island
         if( !trackingMap.containsKey(uuid) && biomeDataMap.containsKey(uuid) && biomeDataMap.get(uuid).getFirst() != Blocks.AIR ) {
             SkyBlockIsland sbi = new SkyBlockIsland(
+                    biomeResourceKey.location().getPath(),
                     SkyBlockConfigManager.mainIslandRadius(),
                     biomeDataMap.get(uuid).getFirst(),
                     biomeDataMap.get(uuid).getSecond(),
@@ -138,17 +140,24 @@ public class SkyBlockIslandBiomeManager {
     }
 
     public BlockPos findNearest(BlockPos pos) {
+        return findNearestInBiome(pos, null);
+    }
+
+    public BlockPos findNearestInBiome(BlockPos pos, String biomeKey) {
         int x = pos.getX();
         int z = pos.getZ();
 
         String[] uuids = trackingMap.keySet().toArray(new String[0]);
         String uuid = null;
-        int max = Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE;
         for (int i = 0, j = uuids.length; i < j; ++i) {
-            BlockPos tPos = trackingMap.get(uuids[i]).getBlockPos();
-            int dist = Math.abs(tPos.getX() - x) + Math.abs(tPos.getZ() - z);
-            if (dist < max) {
-                uuid = uuids[i]; max = dist;
+            if (biomeKey == null || trackingMap.get(uuids[i]).getBiomeKey().equals(biomeKey)) {
+                BlockPos tPos = trackingMap.get(uuids[i]).getBlockPos();
+                int dist = Math.abs(tPos.getX() - x) + Math.abs(tPos.getZ() - z);
+                if (dist < min) {
+                    uuid = uuids[i];
+                    min = dist;
+                }
             }
         }
         return trackingMap.containsKey(uuid) ? trackingMap.get(uuid).getBlockPos() : null;
