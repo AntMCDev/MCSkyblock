@@ -6,6 +6,7 @@ package com.ant.mcskyblock.common.world.level.structure;
 import com.ant.mcskyblock.common.MCSkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.Level;
 
@@ -88,6 +89,20 @@ public class SkyBlockStructureTracker {
             ret = enabledMap.get( ssKey );
         } else  {
             MCSkyBlock.LOGGER.log(Level.INFO,"Ummmmm ......" + ssKey );
+        }
+        return ret;
+    }
+
+    /**
+     *
+     * @param structure
+     * @return
+     */
+    public static Boolean areAllEnabled(HolderSet<Structure> structure){
+        boolean ret = true;
+        for (int i = 0, j = structure.size(); i < j; ++i) {
+            ret = isEnabled(structure.get(i));
+            if (!ret) { break; }
         }
         return ret;
     }

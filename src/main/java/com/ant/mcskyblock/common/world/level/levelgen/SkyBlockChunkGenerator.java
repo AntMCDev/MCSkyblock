@@ -2,7 +2,9 @@ package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.google.common.annotations.VisibleForTesting;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.*;
@@ -10,6 +12,7 @@ import net.minecraft.core.*;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.*;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -628,6 +632,16 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                     }
                 }
             }
+        }
+    }
+
+    @Nullable
+    @Override
+    public Pair<BlockPos, Holder<Structure>> findNearestMapStructure(ServerLevel serverLevel, HolderSet<Structure> holderSet, BlockPos blockPos, int i, boolean bl) {
+        if (!SkyBlockStructureTracker.areAllEnabled(holderSet)) {
+            return null;
+        } else {
+            return super.findNearestMapStructure(serverLevel, holderSet, blockPos, i, bl);
         }
     }
 }
