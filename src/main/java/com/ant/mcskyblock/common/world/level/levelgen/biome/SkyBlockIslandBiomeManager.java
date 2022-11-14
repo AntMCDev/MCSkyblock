@@ -111,7 +111,7 @@ public class SkyBlockIslandBiomeManager {
     /**
      *  The tracking map at run time. In the furture I guess this will use NBT to store the data for presestence.
      */
-    private static HashMap<String, SkyBlockIsland> trackingMap = new HashMap<String, SkyBlockIsland>();
+    private HashMap<String, SkyBlockIsland> trackingMap = new HashMap<String, SkyBlockIsland>();
 
     /**
      *  Addes a biome island to the game and also to the tracking system.
@@ -119,22 +119,38 @@ public class SkyBlockIslandBiomeManager {
      * @param level The world that it is going to be generated on.
      * @param pos   Wherethe biome going to be generated.
      */
-    public static void addIsland(ResourceKey<Biome> biomeResourceKey, WorldGenRegion level, BlockPos pos ){
+    public void addIsland(ResourceKey<Biome> biomeResourceKey, WorldGenRegion level, BlockPos pos ){
         String uuid = biomeResourceKey.location().getPath();
 
         // TODO Add a map for each sector and only generate based on Sector.
         // TODO This will make it so that there is a Island in a circle around the center Island
-        if( !trackingMap.containsKey( uuid ) && biomeDataMap.containsKey(uuid) &&
-                biomeDataMap.get(uuid).getFirst() != Blocks.AIR  ){
+        if( !trackingMap.containsKey(uuid) && biomeDataMap.containsKey(uuid) && biomeDataMap.get(uuid).getFirst() != Blocks.AIR ) {
             SkyBlockIsland sbi = new SkyBlockIsland(
-                    biomeResourceKey,
-                    SkyBlockConfigManager.mainIslandRadius() ,
+                    SkyBlockConfigManager.mainIslandRadius(),
                     biomeDataMap.get(uuid).getFirst(),
-                    biomeDataMap.get(uuid).getSecond()
-                    );
-            trackingMap.put( uuid, sbi );
+                    biomeDataMap.get(uuid).getSecond(),
+                    pos
+            );
+            trackingMap.put(uuid, sbi);
             MCSkyBlock.LOGGER.log(org.apache.logging.log4j.Level.INFO, uuid + " island generated x " + pos.getX() + " y " + pos.getY() + " z " + pos.getZ() ) ;
             sbi.createIsland( level, pos );
         }
+    }
+
+    public BlockPos findNearest(BlockPos pos) {
+        int x = pos.getX();
+        int z = pos.getZ();
+
+        String[] uuids = trackingMap.keySet().toArray(new String[0]);
+        String uuid = null;
+        int max = Integer.MAX_VALUE;
+        for (int i = 0, j = uuids.length; i < j; ++i) {
+            BlockPos tPos = trackingMap.get(uuids[i]).getBlockPos();
+            int dist = Math.abs(tPos.getX() - x) + Math.abs(tPos.getZ() - z);
+            if (dist < max) {
+                uuid = uuids[i]; max = dist;
+            }
+        }
+        return trackingMap.containsKey(uuid) ? trackingMap.get(uuid).getBlockPos() : null;
     }
 }

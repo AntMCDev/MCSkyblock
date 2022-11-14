@@ -14,26 +14,22 @@ import org.apache.logging.log4j.Level;
 
 
 public class SkyBlockIsland {
-
-    private static ResourceKey<Biome> biomeKey;
-    private static Integer radius = 4; //SkyBlockConfigManager.mainIslandRadius();
-    private static Block treeSapling = Blocks.OAK_SAPLING;
-    private static Block floorBlock = Blocks.GRASS_BLOCK;
-
-    private static boolean generated = false;
+    private Integer radius;
+    private Block treeSapling;
+    private Block floorBlock;
+    private BlockPos blockPos;
 
     /**
      * Creates a New and uniq island that only should generate once in the map.
-     * @param biomeKey which biome island is this. the key is used to check against a map
      * @param radius   how wide should the top of the island be. At the moment this does nothing.
      * @param floorBlock The upper most layer Block
      * @param treeSapling The block that you want to place on the on top the island.
      */
-    public SkyBlockIsland(ResourceKey<Biome> biomeKey, Integer radius, Block floorBlock, Block treeSapling ){
-        this.biomeKey = biomeKey;
+    public SkyBlockIsland(Integer radius, Block floorBlock, Block treeSapling, BlockPos blockPos ){
         this.radius = radius;
         this.treeSapling = treeSapling;
         this.floorBlock = floorBlock;
+        this.blockPos = blockPos;
     }
 
     /**
@@ -41,7 +37,7 @@ public class SkyBlockIsland {
      * @param level The world generation region that is getting a island.
      * @param pos Where to spawn the Island
      */
-    public static void createIsland(WorldGenRegion level, BlockPos pos){
+    public void createIsland(WorldGenRegion level, BlockPos pos){
         // the floor blocks
         //DDDDDD
         // DDDD
@@ -88,24 +84,14 @@ public class SkyBlockIsland {
         } // y
 
         // the tree or whatever
-         level.setBlock(
-                new BlockPos( pos.getX(), level.getSeaLevel()+1, pos.getZ() ),
-                treeSapling.defaultBlockState(), 0 );
-
-        setGenerated(true);
+         level.setBlock( new BlockPos( pos.getX(), level.getSeaLevel()+1, pos.getZ() ), treeSapling.defaultBlockState(), 0 );
     }
 
-    /**
-     * Function for the future that uses create Island again.
-     * @param hasGenerated sets the generation to false as if it has never been generated.
-     */
-    private static void setGenerated(boolean hasGenerated){
-        generated = hasGenerated;
+    public BlockPos getBlockPos() {
+        return blockPos;
     }
 
-    /**
-     * Checks to see if the Island has been generated.
-     * @return
-     */
-    public static boolean hasGenerated(){return generated; }
+    public void setBlockPos(BlockPos blockPos) {
+        this.blockPos = blockPos;
+    }
 }

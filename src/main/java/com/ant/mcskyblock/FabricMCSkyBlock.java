@@ -3,6 +3,7 @@ package com.ant.mcskyblock;
 import com.ant.mcskyblock.common.MCSkyBlock;
 
 import com.ant.mcskyblock.fabric.SkyBlockWorldEvents;
+import com.ant.mcskyblock.fabric.command.LocateIslandCommand;
 import com.ant.mcskyblock.fabric.network.PacketHander;
 
 import net.fabricmc.api.EnvType;
@@ -18,6 +19,7 @@ public class FabricMCSkyBlock implements ModInitializer {
 			PacketHander.registerClientListener();
 		}
 		SkyBlockWorldEvents.init();
+		LocateIslandCommand.register();
 	}
 	public static boolean isPhysicalClient() {
 		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
