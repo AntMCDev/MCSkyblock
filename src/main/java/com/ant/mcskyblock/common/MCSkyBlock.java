@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common;
 
-import com.ant.mcskyblock.common.block.StaticBlock;
+import com.ant.mcskyblock.common.world.level.block.StaticBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import com.ant.mcskyblock.common.world.level.levelgen.biome.SkyBlockIslandBiomeManager;
 

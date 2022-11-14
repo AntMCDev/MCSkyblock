@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.common.block;
+package com.ant.mcskyblock.common.world.level.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

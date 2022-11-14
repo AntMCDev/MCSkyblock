@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.common.block.StaticBlock;
+import com.ant.mcskyblock.common.world.level.block.StaticBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
