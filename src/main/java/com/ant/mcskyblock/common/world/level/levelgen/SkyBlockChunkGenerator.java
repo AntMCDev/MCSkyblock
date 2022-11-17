@@ -1,8 +1,6 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
-import com.ant.mcskyblock.common.world.level.levelgen.biome.SkyBlockIslandBiomeManager;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.datafixers.util.Pair;
@@ -297,21 +295,11 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     public void buildSurface(WorldGenRegion  worldGenRegion, ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState,
                              StructureManager structureManager, BiomeManager biomeManager, Registry<Biome> registry, Blender blender)
     {
-        if( SkyBlockConfigManager.generateIslands() ){
-            int centerX = chunkAccess.getPos().getMinBlockX() + ((chunkAccess.getPos().getMaxBlockX() - chunkAccess.getPos().getMinBlockX()) / 2);
-            int centerZ = chunkAccess.getPos().getMinBlockZ() + ((chunkAccess.getPos().getMaxBlockZ() - chunkAccess.getPos().getMinBlockZ()) / 2);
-            int xSection = SectionPos.blockToSectionCoord(centerX);
-            int zSection = SectionPos.blockToSectionCoord(centerZ);
-            long outA = (long)xSection * (long)xSection + (long)zSection * (long)zSection;
-            // is then island more than 256 blocks out ?
-            // MCSkyBlock.LOGGER.log(Level.INFO, "Current distance out " + outA );
-            if ( outA >= 1024L) {
-                BlockPos bPos = new BlockPos(centerX, this.getSeaLevel(), centerZ);
-                Holder<Biome> hb = worldGenRegion.getBiomeManager().getBiome(bPos);
-                ResourceKey<Biome> bPath = hb.unwrapKey().map( resourceKey -> resourceKey).get();
-                MCSkyBlock.ISLAND_MANAGER.addIsland(bPath, worldGenRegion, bPos);
-            }
-        }
+        IslandGenerator.generate(worldGenRegion, new BlockPos(
+                chunkAccess.getPos().getMinBlockX() + ((chunkAccess.getPos().getMaxBlockX() - chunkAccess.getPos().getMinBlockX()) / 2),
+                this.getSeaLevel(),
+                chunkAccess.getPos().getMinBlockZ() + ((chunkAccess.getPos().getMaxBlockZ() - chunkAccess.getPos().getMinBlockZ()) / 2)
+        ));
     }
 
     /**

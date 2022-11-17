@@ -2,7 +2,6 @@ package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.world.level.block.StaticBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
-import com.ant.mcskyblock.common.world.level.levelgen.biome.SkyBlockIslandBiomeManager;
 
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
@@ -26,9 +25,6 @@ public class MCSkyBlock {
 
     // The Structures that will or will not get generated in skyblock
     public static SkyBlockStructureTracker STRUCTURE_TRACKER = new SkyBlockStructureTracker();
-
-    // The Outer Island manager
-    public static SkyBlockIslandBiomeManager ISLAND_MANAGER  = new SkyBlockIslandBiomeManager();
 
     // Blocks that would fall but do not and frop the vanilla variant
     public static StaticBlock NON_FALING_BLOCKS = new StaticBlock();
