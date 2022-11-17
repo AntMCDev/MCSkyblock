@@ -90,6 +90,12 @@ public class SkyBlockConfigManager {
      *
      * @return
      */
+    public static int mainIslandDepth(){ return GENERIC.mainIslandDepth;}
+
+    /**
+     *
+     * @return
+     */
     public static int subIslandRadius(){ return GENERIC.subIslandRadius;}
 
     /**

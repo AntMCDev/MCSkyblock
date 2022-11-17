@@ -18,7 +18,9 @@ public class SkyBlockConfigs  implements ConfigData {
     public boolean endIsSkyblock = true;
 
     @Comment("Radius of the center island")
-    public int mainIslandRadius = 8;
+    public int mainIslandRadius = 4;
+    @Comment("Depth of the main island")
+    public int mainIslandDepth = 3;
     @Comment("Radius of the sub islands")
     public int subIslandRadius = 4;
     @Comment("Depth of the sub islands")

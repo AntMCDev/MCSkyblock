@@ -181,12 +181,17 @@ public class SkyBlockWorldEvents {
             }
         }
 
-        for (long x = -(SkyBlockConfigManager.mainIslandRadius()-1); x <= SkyBlockConfigManager.mainIslandRadius()-1; x++) {
-            for (long z = -(SkyBlockConfigManager.mainIslandRadius()-1); z <= SkyBlockConfigManager.mainIslandRadius()-1; z++) {
-                world.setBlockAndUpdate(
-                        new BlockPos(pos.getX() - x, pos.getY() - tree.length - 1, pos.getZ() - z),
-                        Blocks.GRASS_BLOCK.defaultBlockState()
-                );
+        int r = SkyBlockConfigManager.mainIslandRadius();
+        for (int i = 0, d = SkyBlockConfigManager.mainIslandDepth(); i < d; ++i) {
+            for (int j = -r+i; j <= r-i; ++j) {
+                for (int k = -r+i; k <= r-i; ++k) {
+                    if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {
+                        world.setBlockAndUpdate(
+                                new BlockPos(pos.getX() + j, pos.getY() - tree.length - 1 - i, pos.getZ() + k),
+                                Blocks.GRASS_BLOCK.defaultBlockState()
+                        );
+                    }
+                }
             }
         }
     }
