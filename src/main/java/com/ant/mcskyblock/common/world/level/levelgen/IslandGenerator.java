@@ -67,10 +67,10 @@ public class IslandGenerator {
 
         public Island generate(WorldGenRegion region) {
             Pair<Block, Block> b = BiomeIslands.SETTINGS.getOrDefault(biome, new Pair<>(Blocks.AIR, Blocks.AIR));
-            int r = SkyBlockConfigManager.mainIslandRadius();
-            for (int i = 0; i < 3; i++) {
-                for (int j = -r+i; j <= r-i; j++) {
-                    for (int k = -r+i; k <= r-i; k++) {
+            int r = SkyBlockConfigManager.subIslandRadius();
+            for (int i = 0, d = SkyBlockConfigManager.subIslandDepth(); i < d; ++i) {
+                for (int j = -r+i; j <= r-i; ++j) {
+                    for (int k = -r+i; k <= r-i; ++k) {
                         if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {
                             region.setBlock(new BlockPos(x + j, y - i, z + k), b.getFirst().defaultBlockState(), 0);
                         }

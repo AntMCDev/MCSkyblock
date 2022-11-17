@@ -58,10 +58,10 @@ public class SkyBlockConfigManager {
      */
     public void initialize() {
         AutoConfig.register(SkyBlockConfigs.class, GsonConfigSerializer::new);
-        this.GENERIC =  AutoConfig.getConfigHolder(SkyBlockConfigs.class).getConfig();
-        this.TRADES = this.GENERIC.tradingConfigs;
-        this.STRUCTURES = this.GENERIC.structureConfigs;
-        this.MOB_DROPS = this.GENERIC.mobDropsConfigs;
+        GENERIC =  AutoConfig.getConfigHolder(SkyBlockConfigs.class).getConfig();
+        TRADES = GENERIC.tradingConfigs;
+        STRUCTURES = GENERIC.structureConfigs;
+        MOB_DROPS = GENERIC.mobDropsConfigs;
     }
 
     //////////////////////////////
@@ -85,6 +85,18 @@ public class SkyBlockConfigManager {
      * @return
      */
     public static int mainIslandRadius(){ return GENERIC.mainIslandRadius;}
+
+    /**
+     *
+     * @return
+     */
+    public static int subIslandRadius(){ return GENERIC.subIslandRadius;}
+
+    /**
+     *
+     * @return
+     */
+    public static int subIslandDepth(){ return GENERIC.subIslandDepth;}
 
     /**
      *

@@ -19,6 +19,10 @@ public class SkyBlockConfigs  implements ConfigData {
 
     @Comment("Radius of the center island")
     public int mainIslandRadius = 8;
+    @Comment("Radius of the sub islands")
+    public int subIslandRadius = 4;
+    @Comment("Depth of the sub islands")
+    public int subIslandDepth = 3;
     @Comment("Where to spawn the player")
     public String[] spawnCords = {"0", "64", "0"};
 
