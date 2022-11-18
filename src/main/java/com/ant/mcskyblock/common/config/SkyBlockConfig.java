@@ -67,6 +67,8 @@ public class SkyBlockConfig implements ConfigData {
         public static boolean GEN_VILLAGE_SNOWY           = false;
         public static boolean GEN_VILLAGE_TAIGA           = false;
         public static boolean GEN_WOODLAND_MANSION        = true;
+        public static boolean GEN_ICEBERGS                = false;
+        public static boolean GEN_GEODES                  = false;
         public static String[] CUSTOM_STRUCTURES = new String[0];
     };
 
