@@ -11,16 +11,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricMCSkyBlock implements ModInitializer {
-	public static MCSkyBlock MC_SKY_BLOCK;
 	@Override
 	public void onInitialize() {
-		MC_SKY_BLOCK = new MCSkyBlock();
+		MCSkyBlock.init();
 		if (isPhysicalClient()) {
 			PacketHander.registerClientListener();
 		}
 		SkyBlockWorldEvents.init();
 		LocateIslandCommand.register();
 	}
+
 	public static boolean isPhysicalClient() {
 		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
 	}

@@ -1,7 +1,7 @@
 package com.ant.mcskyblock.common.world.level.levelgen.presets;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.biome.SkyBlockEndBiomeSource;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 
@@ -80,7 +80,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators. For the overworld
      */
     private static ChunkGenerator overworldChunkGenerator() {
-        return SkyBlockConfigManager.overworldIsSkyBlock()  ? new SkyBlockChunkGenerator(
+        return SkyBlockConfig.WorldGen.IS_OVERWORLD_SKYBLOCK  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 // TODO BIOME HERE(SkyBlockBiomeSource)
@@ -100,7 +100,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the nether.
      */
     private static ChunkGenerator netherChunkGenerator() {
-        return SkyBlockConfigManager.endIsSkyblock()  ? new SkyBlockChunkGenerator(
+        return SkyBlockConfig.WorldGen.IS_NETHER_SKYBLOCK ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 MultiNoiseBiomeSource.Preset.NETHER.biomeSource(BuiltinRegistries.BIOME),
@@ -119,7 +119,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the end.
      */
     private static ChunkGenerator endChunkGenerator() {
-        return SkyBlockConfigManager.endIsSkyblock() ? new SkyBlockChunkGenerator(
+        return SkyBlockConfig.WorldGen.IS_END_SKYBLOCK ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 new SkyBlockEndBiomeSource(BuiltinRegistries.BIOME),

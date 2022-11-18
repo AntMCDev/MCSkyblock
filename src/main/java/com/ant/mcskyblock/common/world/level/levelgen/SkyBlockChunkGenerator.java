@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.datafixers.util.Pair;
@@ -352,8 +353,9 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
-
-        // FIXME add options for this and also expose the super->super
+        if (SkyBlockConfig.WorldGen.APPLY_BIOME_DECORATIONS) {
+            super.applyBiomeDecoration(worldGenLevel, chunkAccess, structureManager);
+        }
     }
 
 
@@ -502,7 +504,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                 // is the structure in our map and enabled ?
                 // FIXME with the goal of the strucutre only generating blocks if enabled.
                 // FIXME but we always want the bounding boxes this needs to be refactored.
-                if (MCSkyBlock.STRUCTURE_TRACKER.isEnabled(structureSelectionEntry.structure())) {
+                if (SkyBlockStructureTracker.isEnabled(structureSelectionEntry.structure())) {
                     StructureStart structureStart = structureManager.getStartForStructure(
                             sectionPos,
                             structureSelectionEntry.structure().value(),

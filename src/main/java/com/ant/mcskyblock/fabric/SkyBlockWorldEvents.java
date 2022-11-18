@@ -1,8 +1,9 @@
 package com.ant.mcskyblock.fabric;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.saveddata.SkyBlockSavedData;
+import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.ant.mcskyblock.fabric.loot.LootTableUtils;
 import com.ant.mcskyblock.fabric.network.PacketHander;
 import com.ant.mcskyblock.fabric.world.entity.npc.TradingUtils;
@@ -46,7 +47,7 @@ public class SkyBlockWorldEvents {
     // we should really rescan-settings at STARTING and not LOADING
     private static void onServerStarting(){
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            MCSkyBlock.STRUCTURE_TRACKER.rescan();
+            SkyBlockStructureTracker.rescan();
         });
     }
 
@@ -81,7 +82,7 @@ public class SkyBlockWorldEvents {
     private static void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
-            String[] configPos = SkyBlockConfigManager.spawnCords();
+            String[] configPos = SkyBlockConfig.WorldGen.SPAWN_COORDS;
                     //ConfigHandler.Common.SPAWN_POSITION.  it(",");
             double[] pos = new double[3];
             try {
@@ -91,7 +92,7 @@ public class SkyBlockWorldEvents {
             } catch (Exception ex) {
                 pos = new double[] { 0, 64, 0 };
             }
-            if (SkyBlockConfigManager.spawnMainIsland()) {
+            if (SkyBlockConfig.WorldGen.GENERATE_MAIN_ISLAND) {
                 buildSkyblock(player.level, new BlockPos(pos[0], pos[1], pos[2]));
             }
             skyblockSavedData.setGenerated();
@@ -181,8 +182,8 @@ public class SkyBlockWorldEvents {
             }
         }
 
-        int r = SkyBlockConfigManager.mainIslandRadius();
-        for (int i = 0, d = SkyBlockConfigManager.mainIslandDepth(); i < d; ++i) {
+        int r = SkyBlockConfig.WorldGen.MAIN_ISLAND_RADIUS;
+        for (int i = 0, d = SkyBlockConfig.WorldGen.MAIN_ISLAND_DEPTH; i < d; ++i) {
             for (int j = -r+i; j <= r-i; ++j) {
                 for (int k = -r+i; k <= r-i; ++k) {
                     if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {

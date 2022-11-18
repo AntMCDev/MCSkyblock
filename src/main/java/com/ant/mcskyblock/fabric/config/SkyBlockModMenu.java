@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.fabric.config;
 
-import com.ant.mcskyblock.common.config.SkyBlockConfigs;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -20,6 +20,6 @@ public class SkyBlockModMenu  implements ModMenuApi {
      */
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> AutoConfig.getConfigScreen(SkyBlockConfigs.class, parent).get();
+        return parent -> AutoConfig.getConfigScreen(SkyBlockConfig.class, parent).get();
     }
 }

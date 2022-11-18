@@ -1,7 +1,6 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,18 +20,17 @@ public class IslandGenerator {
     private IslandGenerator () {}
 
     public static void generate(WorldGenRegion region, BlockPos pos) {
-        if (region.getServer() != null) {
-            islandSavedData = region.getServer().overworld().getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
-        }
-
         String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().getPath();
         if (canGenerate(biome, pos)) {
+            if (region.getServer() != null) {
+                islandSavedData = region.getServer().overworld().getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
+            }
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
         }
     }
 
     private static boolean canGenerate(String biome, BlockPos pos) {
-        return SkyBlockConfigManager.generateIslands() && (Math.abs(pos.getX()) > 1024 || Math.abs(pos.getZ()) > 1024) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
+        return SkyBlockConfig.WorldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > 64 || Math.abs(pos.getZ()) > 64) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
     }
 
     public static BlockPos nearest(BlockPos pos, String biome) {
@@ -67,8 +65,8 @@ public class IslandGenerator {
 
         public Island generate(WorldGenRegion region) {
             Pair<Block, Block> b = BiomeIslands.SETTINGS.getOrDefault(biome, new Pair<>(Blocks.AIR, Blocks.AIR));
-            int r = SkyBlockConfigManager.subIslandRadius();
-            for (int i = 0, d = SkyBlockConfigManager.subIslandDepth(); i < d; ++i) {
+            int r = SkyBlockConfig.WorldGen.SUB_ISLAND_RADIUS;
+            for (int i = 0, d = SkyBlockConfig.WorldGen.SUB_ISLAND_DEPTH; i < d; ++i) {
                 for (int j = -r+i; j <= r-i; ++j) {
                     for (int k = -r+i; k <= r-i; ++k) {
                         if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {

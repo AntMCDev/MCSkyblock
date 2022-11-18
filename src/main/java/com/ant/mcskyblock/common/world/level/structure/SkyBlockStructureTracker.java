@@ -1,18 +1,13 @@
 package com.ant.mcskyblock.common.world.level.structure;
 
-// On start up we check our options and
-// inject
-
 import com.ant.mcskyblock.common.MCSkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.Level;
 
 import java.util.HashMap;
-
-// NON FABRIC
 
 public class SkyBlockStructureTracker {
 
@@ -21,55 +16,52 @@ public class SkyBlockStructureTracker {
     /**
      *
      */
-    public SkyBlockStructureTracker(){}
+    private SkyBlockStructureTracker(){}
 
     /**
      *
      */
     public static void rescan(){
         enabledMap.clear();
-        enabledMap.put( "minecraft:pillager_outpost",        SkyBlockConfigManager.pillagerOutpost() );
-        enabledMap.put( "minecraft:mineshaft",               SkyBlockConfigManager.mineshaft() );
-        enabledMap.put( "minecraft:mineshaft_mesa",          SkyBlockConfigManager.mineshaftMesa() );
-        enabledMap.put( "minecraft:mansion",                 SkyBlockConfigManager.mansion() );
-        enabledMap.put( "minecraft:jungle_pyramid",          SkyBlockConfigManager.jungleTemple() );
-        enabledMap.put( "minecraft:desert_pyramid",          SkyBlockConfigManager.desertPyramid() );
-        enabledMap.put( "minecraft:igloo",                   SkyBlockConfigManager.igloo() );
-        enabledMap.put( "minecraft:shipwreck",               SkyBlockConfigManager.shipwreck() );
-        enabledMap.put( "minecraft:shipwreck_beached",       SkyBlockConfigManager.shipwreckBeached() );
-        enabledMap.put( "minecraft:swamp_hut",               SkyBlockConfigManager.witchHut() );
-        enabledMap.put( "minecraft:stronghold",              SkyBlockConfigManager.stronghold() );
-        enabledMap.put( "minecraft:monument",                SkyBlockConfigManager.oceanMonument() );
-        enabledMap.put( "minecraft:ocean_ruin_cold",         SkyBlockConfigManager.oceanRuinCold() );
-        enabledMap.put( "minecraft:ocean_ruin_warm",         SkyBlockConfigManager.oceanRuinWarm() );
-        enabledMap.put( "minecraft:fortress",                SkyBlockConfigManager.fortress() );
-        enabledMap.put( "minecraft:nether_fossil",           SkyBlockConfigManager.netherFossil() );
-        enabledMap.put( "minecraft:end_city",                SkyBlockConfigManager.endCities() );
-        enabledMap.put( "minecraft:buried_treasure",         SkyBlockConfigManager.buiredTreasure() );
-        enabledMap.put( "minecraft:bastion_remnant",         SkyBlockConfigManager.bastions() );
-        enabledMap.put( "minecraft:village_plains",          SkyBlockConfigManager.villagePlains() );
-        enabledMap.put( "minecraft:village_desert",          SkyBlockConfigManager.villageDesert() );
-        enabledMap.put( "minecraft:village_savanna",         SkyBlockConfigManager.villageSavanna() );
-        enabledMap.put( "minecraft:village_snowy",           SkyBlockConfigManager.villageSnowy() );
-        enabledMap.put( "minecraft:village_taiga",           SkyBlockConfigManager.villageTiaga() );
-        enabledMap.put( "minecraft:ruined_portal",           SkyBlockConfigManager.ruinedPortalStandard() );
-        enabledMap.put( "minecraft:ruined_portal_desert",    SkyBlockConfigManager.ruinedPortalDesert() );
-        enabledMap.put( "minecraft:ruined_portal_jungle",    SkyBlockConfigManager.ruinedPortalJungle() );
-        enabledMap.put( "minecraft:ruined_portal_swamp",     SkyBlockConfigManager.ruinedPortalSwamp() );
-        enabledMap.put( "minecraft:ruined_portal_mountain",  SkyBlockConfigManager.ruinedPortalMountain() );
-        enabledMap.put( "minecraft:ruined_portal_ocean",     SkyBlockConfigManager.ruinedPortalOcean() );
-        enabledMap.put( "minecraft:ruined_portal_nether",    SkyBlockConfigManager.ruinedPortalNether() );
-        enabledMap.put( "minecraft:ancient_city",            SkyBlockConfigManager.ancientCities() );
+        enabledMap.put( "minecraft:pillager_outpost",        SkyBlockConfig.Structures.GEN_PILLAGER_OUTPOST);
+        enabledMap.put( "minecraft:mineshaft",               SkyBlockConfig.Structures.GEN_MINESHAFT);
+        enabledMap.put( "minecraft:mineshaft_mesa",          SkyBlockConfig.Structures.GEN_MINESHAFT_MESA);
+        enabledMap.put( "minecraft:mansion",                 SkyBlockConfig.Structures.GEN_WOODLAND_MANSION);
+        enabledMap.put( "minecraft:jungle_pyramid",          SkyBlockConfig.Structures.GEN_JUNGLE_TEMPLE);
+        enabledMap.put( "minecraft:desert_pyramid",          SkyBlockConfig.Structures.GEN_DESERT_PYRAMID);
+        enabledMap.put( "minecraft:igloo",                   SkyBlockConfig.Structures.GEN_IGLOO);
+        enabledMap.put( "minecraft:shipwreck",               SkyBlockConfig.Structures.GEN_SHIPWRECK);
+        enabledMap.put( "minecraft:shipwreck_beached",       SkyBlockConfig.Structures.GEN_SHIPWRECK_BEACHED);
+        enabledMap.put( "minecraft:swamp_hut",               SkyBlockConfig.Structures.GEN_SWAMP_HUT);
+        enabledMap.put( "minecraft:stronghold",              SkyBlockConfig.Structures.GEN_STRONGHOLD);
+        enabledMap.put( "minecraft:monument",                SkyBlockConfig.Structures.GEN_OCEAN_MONUMENT);
+        enabledMap.put( "minecraft:ocean_ruin_cold",         SkyBlockConfig.Structures.GEN_OCEAN_RUIN_COLD);
+        enabledMap.put( "minecraft:ocean_ruin_warm",         SkyBlockConfig.Structures.GEN_OCEAN_RUIN_WARM);
+        enabledMap.put( "minecraft:fortress",                SkyBlockConfig.Structures.GEN_FORTRESS);
+        enabledMap.put( "minecraft:nether_fossil",           SkyBlockConfig.Structures.GEN_NETHER_FOSSIL);
+        enabledMap.put( "minecraft:end_city",                SkyBlockConfig.Structures.GEN_END_CITY);
+        enabledMap.put( "minecraft:buried_treasure",         SkyBlockConfig.Structures.GEN_BURIED_TREASURE);
+        enabledMap.put( "minecraft:bastion_remnant",         SkyBlockConfig.Structures.GEN_BASTION_REMNANT);
+        enabledMap.put( "minecraft:village_plains",          SkyBlockConfig.Structures.GEN_VILLAGE_PLAINS);
+        enabledMap.put( "minecraft:village_desert",          SkyBlockConfig.Structures.GEN_VILLAGE_DESERT);
+        enabledMap.put( "minecraft:village_savanna",         SkyBlockConfig.Structures.GEN_VILLAGE_SAVANNA);
+        enabledMap.put( "minecraft:village_snowy",           SkyBlockConfig.Structures.GEN_VILLAGE_SNOWY);
+        enabledMap.put( "minecraft:village_taiga",           SkyBlockConfig.Structures.GEN_VILLAGE_TAIGA);
+        enabledMap.put( "minecraft:ruined_portal",           SkyBlockConfig.Structures.GEN_RUINED_PORTAL_STANDARD);
+        enabledMap.put( "minecraft:ruined_portal_desert",    SkyBlockConfig.Structures.GEN_RUINED_PORTAL_DESERT);
+        enabledMap.put( "minecraft:ruined_portal_jungle",    SkyBlockConfig.Structures.GEN_RUINED_PORTAL_JUNGLE);
+        enabledMap.put( "minecraft:ruined_portal_swamp",     SkyBlockConfig.Structures.GEN_RUINED_PORTAL_SWAMP);
+        enabledMap.put( "minecraft:ruined_portal_mountain",  SkyBlockConfig.Structures.GEN_RUINED_PORTAL_MOUNTAIN);
+        enabledMap.put( "minecraft:ruined_portal_ocean",     SkyBlockConfig.Structures.GEN_RUINED_PORTAL_OCEAN);
+        enabledMap.put( "minecraft:ruined_portal_nether",    SkyBlockConfig.Structures.GEN_RUINED_PORTAL_NETHER);
+        enabledMap.put( "minecraft:ancient_city",            SkyBlockConfig.Structures.GEN_ANCIENT_CITY);
 
-        importModedStructures();
+        importModdedStructures();
     }
 
-    /**
-     *
-     */
-    private static void importModedStructures() {
-        if( SkyBlockConfigManager.customStructures().length > 0 ) {
-            for (String resourceKey : SkyBlockConfigManager.customStructures()) {
+    private static void importModdedStructures() {
+        if( SkyBlockConfig.Structures.CUSTOM_STRUCTURES.length > 0 ) {
+            for (String resourceKey : SkyBlockConfig.Structures.CUSTOM_STRUCTURES) {
                 if (!enabledMap.containsKey(resourceKey)) {
                     enabledMap.put(resourceKey, true);
                 }
@@ -77,11 +69,6 @@ public class SkyBlockStructureTracker {
         }
     }
 
-    /**
-     *
-     * @param structure
-     * @return
-     */
     public static Boolean isEnabled(Holder<Structure> structure){
         Boolean ret = false;
         String ssKey = structure.unwrapKey().map(resourceKey -> resourceKey.location().toString() ).orElse("[unregistered]");
@@ -93,11 +80,6 @@ public class SkyBlockStructureTracker {
         return ret;
     }
 
-    /**
-     *
-     * @param structure
-     * @return
-     */
     public static Boolean areAllEnabled(HolderSet<Structure> structure){
         boolean ret = true;
         for (int i = 0, j = structure.size(); i < j; ++i) {
