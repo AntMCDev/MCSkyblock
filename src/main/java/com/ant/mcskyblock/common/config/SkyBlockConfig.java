@@ -20,6 +20,8 @@ public class SkyBlockConfig implements ConfigData {
     public static final Trading trading = new Trading();
 
     public static class WorldGen {
+
+        @Comment("This is a ToolTip")
         public static boolean IS_OVERWORLD_SKYBLOCK       = true;
         public static boolean IS_NETHER_SKYBLOCK          = true;
         public static boolean IS_END_SKYBLOCK             = true;
