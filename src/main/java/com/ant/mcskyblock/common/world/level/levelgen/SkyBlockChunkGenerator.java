@@ -1,6 +1,5 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.google.common.annotations.VisibleForTesting;

@@ -97,10 +97,7 @@ public class TradingUtils {
 
         List<LevelledTradeOffer> masonTrades = new ArrayList<>();
         if (SkyBlockConfig.Trading.MASON_CALCITE) {
-            masonTrades.add(
-                    new LevelledTradeOffer(3,
-                            new BasicTradeFactory(1, new ItemStack(Items.CALCITE, 16),
-                                    16, 20, 0.05f ) ) );
+            masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.CALCITE, 16), 16, 20, 0.05f ) ) );
         }
         if (SkyBlockConfig.Trading.MASON_DEEPSLATE) {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.DEEPSLATE, 16), 16, 20, 0.05f)));
