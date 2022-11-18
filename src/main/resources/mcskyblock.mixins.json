@@ -10,7 +10,8 @@
     "MixinNaturalSpawner",
     "MixinEndDragonFight",
     "MixinCactusBlock",
-    "MixinSugarCaneBlock"
+    "MixinSugarCaneBlock",
+    "MixinIcebergFeature"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

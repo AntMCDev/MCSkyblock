@@ -12,7 +12,7 @@ public class SkyBlockConfigs  implements ConfigData {
     public boolean spawnMainIsland = true;
 
     public boolean overworldIsSkyBlock = true;
-    public boolean applyBiomeDecoration = false;
+    public boolean applyBiomeDecoration = true;
     public boolean generateIslands = true;
     public boolean netherIsSkyblock = true;
     public boolean endIsSkyblock = true;
@@ -30,6 +30,8 @@ public class SkyBlockConfigs  implements ConfigData {
 
     @Comment("Stop Bat's from spawning")
     public boolean stopBatSpawns = true;
+
+    public boolean iceBergs = false;
 
     @ConfigEntry.Gui.CollapsibleObject
     public StructureConfigs structureConfigs = new StructureConfigs();

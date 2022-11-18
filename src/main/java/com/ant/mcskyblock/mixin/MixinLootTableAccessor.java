@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-// KEEP
 @Mixin(LootTable.class)
 public interface MixinLootTableAccessor {
     @Final

@@ -41,9 +41,8 @@ public class SkyBlockWorldEvents {
     }
 
     /**
-     *
+     * Used at the moment to rescan the list of generated structures
      */
-    // we should really rescan-settings at STARTING and not LOADING
     private static void onServerStarting(){
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             MCSkyBlock.STRUCTURE_TRACKER.rescan();
@@ -51,7 +50,7 @@ public class SkyBlockWorldEvents {
     }
 
     /**
-     *
+     * Registers the Server network connection to the client. If the generator is skyblock
      */
     private static void onServerWorldLoad() {
         ServerWorldEvents.LOAD.register((server, level) -> {
@@ -63,7 +62,7 @@ public class SkyBlockWorldEvents {
     }
 
     /**
-     *
+     * Registers the packet handler to the server and runs the local function spawn player.
      */
     private static void onServerPlayerJoin() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -75,9 +74,11 @@ public class SkyBlockWorldEvents {
     }
 
     /**
-     *
-     * @param player
+     * This function checks to see if the player has already joined the world. If they have not. Then create the main island at spawn
+     * if enabled. It then teleports the player to the spawn cords that are in the settings of this mod.
+     * @param player the player object that has just joined.
      */
+    // TODO add better configurations for the spawn of the player. Like if we would like the vanilla spawn cords from the seed.
     private static void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
@@ -108,9 +109,9 @@ public class SkyBlockWorldEvents {
 
 
     /**
-     *
-     * @param world
-     * @param pos
+     * Creates a single tree with an island under it.
+     * @param world The world that we are going to place blocks in.
+     * @param pos the Block Position of the spawn area.
      */
     private static void buildSkyblock(Level world, BlockPos pos) {
         int offset = -2;

@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.config.SkyBlockConfigManager;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.google.common.annotations.VisibleForTesting;
 import com.mojang.datafixers.util.Pair;
@@ -300,6 +301,8 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                 this.getSeaLevel(),
                 chunkAccess.getPos().getMinBlockZ() + ((chunkAccess.getPos().getMaxBlockZ() - chunkAccess.getPos().getMinBlockZ()) / 2)
         ));
+
+
     }
 
     /**
@@ -352,8 +355,10 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
-
         // FIXME add options for this and also expose the super->super
+        if(SkyBlockConfigManager.applyBiomeDecoration()){
+            super.applyBiomeDecoration(worldGenLevel,chunkAccess,structureManager);
+        }
     }
 
 

@@ -110,6 +110,11 @@ public class SkyBlockConfigManager {
      */
     public static boolean stopBatSpawns(){ return  GENERIC.stopBatSpawns; }
 
+
+    public static boolean iceBerg(){ return GENERIC.iceBergs; }
+
+
+
     //////////////////////////////
     // structures
     /////////////////////////////

@@ -11,9 +11,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.*;
 
+/**
+ * The LocateIsland Command is for in-game use. It is used to locate a island that has already been generated.
+ */
 public class LocateIslandCommand {
+
+    /**
+     * throw if there is no such biome.
+     */
     private static final DynamicCommandExceptionType ERROR_BIOME_INVALID = new DynamicCommandExceptionType(object -> Component.translatable("commands.locate.biome.invalid", object));
 
+
+    /**
+     * Registers the commands for the skyblock mod.  At the moment there is only the locate-island biome-arg command.
+     */
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
                 Commands.literal("locate-island")

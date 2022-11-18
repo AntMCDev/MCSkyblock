@@ -11,6 +11,7 @@ import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +27,9 @@ public class IslandGenerator {
         }
 
         String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().getPath();
+
         if (canGenerate(biome, pos)) {
+            // MCSkyBlock.LOGGER.log(Level.INFO, "created Island @  " + pos.getX() +  " " + pos.getZ() );
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
         }
     }
