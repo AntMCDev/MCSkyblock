@@ -9,6 +9,13 @@ import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = "mcskyblock" )
 public class SkyBlockConfig implements ConfigData {
+    public enum Preset {
+        BEGINNER, TECHNICAL, CUSTOM
+    }
+
+    @ConfigEntry.Gui.EnumHandler
+    public Preset preset = Preset.CUSTOM;
+
     @ConfigEntry.Gui.CollapsibleObject
     private WorldGen worldGen = new WorldGen();
 
@@ -54,25 +61,13 @@ public class SkyBlockConfig implements ConfigData {
         public boolean GEN_MINESHAFT_MESA           = false;
         public boolean GEN_NETHER_FOSSIL            = true;
         public boolean GEN_OCEAN_MONUMENT           = true;
-        public boolean GEN_OCEAN_RUIN_COLD          = true;
-        public boolean GEN_OCEAN_RUIN_WARM          = true;
+        public boolean GEN_OCEAN_RUIN               = true;
         public boolean GEN_PILLAGER_OUTPOST         = true;
-        public boolean GEN_RUINED_PORTAL_DESERT     = true;
-        public boolean GEN_RUINED_PORTAL_JUNGLE     = true;
-        public boolean GEN_RUINED_PORTAL_MOUNTAIN   = true;
-        public boolean GEN_RUINED_PORTAL_NETHER     = true;
-        public boolean GEN_RUINED_PORTAL_OCEAN      = true;
-        public boolean GEN_RUINED_PORTAL_STANDARD   = true;
-        public boolean GEN_RUINED_PORTAL_SWAMP      = true;
+        public boolean GEN_RUINED_PORTAL            = true;
         public boolean GEN_SHIPWRECK                = false;
-        public boolean GEN_SHIPWRECK_BEACHED        = false;
         public boolean GEN_STRONGHOLD               = true;
         public boolean GEN_SWAMP_HUT                = true;
-        public boolean GEN_VILLAGE_DESERT           = false;
-        public boolean GEN_VILLAGE_PLAINS           = false;
-        public boolean GEN_VILLAGE_SAVANNA          = false;
-        public boolean GEN_VILLAGE_SNOWY            = false;
-        public boolean GEN_VILLAGE_TAIGA            = false;
+        public boolean GEN_VILLAGE                  = false;
         public boolean GEN_WOODLAND_MANSION         = true;
         public boolean GEN_ICEBERGS                 = false;
         public boolean GEN_GEODES                   = false;
@@ -128,6 +123,8 @@ public class SkyBlockConfig implements ConfigData {
     public static SkyBlockConfig.Trading TRADING;
     @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.Spawning SPAWNING;
+    @ConfigEntry.Gui.Excluded
+    public static Preset PRESET;
 
     public static void register() {
         AutoConfig.register(SkyBlockConfig.class, GsonConfigSerializer::new);
@@ -137,5 +134,6 @@ public class SkyBlockConfig implements ConfigData {
         DROPS = instance.drops;
         TRADING = instance.trading;
         SPAWNING = instance.spawning;
+        PRESET = instance.preset;
     }
 }
