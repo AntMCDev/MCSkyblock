@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MCSkyBlock {
+public class SkyBlock {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_NAME = "mcskyblock";
 
@@ -15,7 +15,7 @@ public class MCSkyBlock {
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
 
-    private MCSkyBlock(){}
+    private SkyBlock(){}
 
     public static void init() {
         SkyBlockConfig.register();

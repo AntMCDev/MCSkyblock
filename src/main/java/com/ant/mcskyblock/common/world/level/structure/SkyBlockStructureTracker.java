@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common.world.level.structure;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -75,7 +75,7 @@ public class SkyBlockStructureTracker {
         if(enabledMap.containsKey( ssKey )){
             ret = enabledMap.get( ssKey );
         } else  {
-            MCSkyBlock.LOGGER.log(Level.INFO,"Ummmmm ......" + ssKey );
+            SkyBlock.LOGGER.log(Level.INFO,"Ummmmm ......" + ssKey );
         }
         return ret;
     }

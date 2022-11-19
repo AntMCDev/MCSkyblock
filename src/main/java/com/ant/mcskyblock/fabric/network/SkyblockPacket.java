@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.fabric.network;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.fabric.SkyBlockWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 // REQ FABRIC
 public class SkyblockPacket extends AbstractPacket {
-    private static final ResourceLocation IDENTIFIER = new ResourceLocation(MCSkyBlock.MOD_NAME + ":worldtype");
+    private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":worldtype");
 
     /**
      *
