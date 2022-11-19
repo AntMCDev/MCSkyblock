@@ -1,14 +1,20 @@
 package com.ant.mcskyblock.common.config;
 
+import com.ant.mcskyblock.common.SkyBlock;
+import com.ant.mcskyblock.fabric.network.PacketHander;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.world.InteractionResult;
+
+import java.io.*;
 
 @Config(name = "mcskyblock" )
-public class SkyBlockConfig implements ConfigData {
+public class SkyBlockConfig implements ConfigData, Serializable {
     public enum Preset {
         BEGINNER, TECHNICAL, CUSTOM
     }
@@ -31,7 +37,7 @@ public class SkyBlockConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     private Spawning spawning = new Spawning();
 
-    public static class WorldGen {
+    public static class WorldGen implements Serializable {
         @Comment("This is a ToolTip")
         public boolean IS_OVERWORLD_SKYBLOCK    = true;
         public boolean IS_NETHER_SKYBLOCK       = true;
@@ -48,7 +54,7 @@ public class SkyBlockConfig implements ConfigData {
         public int SUB_ISLAND_DEPTH             = 3;
     }
 
-    public static class Structures {
+    public static class Structures implements Serializable {
         public boolean GEN_ANCIENT_CITY             = true;
         public boolean GEN_BASTION_REMNANT          = true;
         public boolean GEN_BURIED_TREASURE          = false;
@@ -74,7 +80,7 @@ public class SkyBlockConfig implements ConfigData {
         public String[] CUSTOM_STRUCTURES           = new String[0];
     };
 
-    public static class Drops {
+    public static class Drops implements Serializable {
         public boolean PHANTOM_ELYTRA           = false;
         public boolean ENDER_DRAGON_HEAD        = false;
         public boolean DROWNED_GOLD             = false;
@@ -83,7 +89,7 @@ public class SkyBlockConfig implements ConfigData {
         public boolean TROPICAL_FISH_CORAL      = true;
     };
 
-    public static class Trading {
+    public static class Trading implements Serializable {
         public boolean WANDERING_TRADER_END_PORTAL_FRAME    = false;
         public boolean WANDERING_TRADER_SPONGE              = false;
         public boolean WANDERING_TRADER_GLOW_LICHEN         = false;
@@ -108,11 +114,13 @@ public class SkyBlockConfig implements ConfigData {
         public boolean HOTV_CLERIC_DIAMOND                  = false;
     }
 
-    public static class Spawning {
+    public static class Spawning implements Serializable {
         public String[] SPAWN_COORDS    = { "0", "64", "0" };
         public boolean STOP_BAT_SPAWNS  = true;
     }
 
+    @ConfigEntry.Gui.Excluded
+    public static SkyBlockConfig INSTANCE;
     @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.WorldGen WORLD_GEN;
     @ConfigEntry.Gui.Excluded
@@ -128,12 +136,47 @@ public class SkyBlockConfig implements ConfigData {
 
     public static void register() {
         AutoConfig.register(SkyBlockConfig.class, GsonConfigSerializer::new);
-        SkyBlockConfig instance = AutoConfig.getConfigHolder(SkyBlockConfig.class).getConfig();
-        WORLD_GEN = instance.worldGen;
-        STRUCTURES = instance.structures;
-        DROPS = instance.drops;
-        TRADING = instance.trading;
-        SPAWNING = instance.spawning;
-        PRESET = instance.preset;
+        AutoConfig.getConfigHolder(SkyBlockConfig.class).registerSaveListener((a, b) -> { requestSync(); return InteractionResult.PASS; });
+        AutoConfig.getConfigHolder(SkyBlockConfig.class).registerLoadListener((a, b) -> { load(b); return InteractionResult.PASS; });
+        load(AutoConfig.getConfigHolder(SkyBlockConfig.class).getConfig());
+    }
+
+    private static void load(SkyBlockConfig config) {
+        INSTANCE = config;
+        WORLD_GEN = config.worldGen;
+        STRUCTURES = config.structures;
+        DROPS = config.drops;
+        TRADING = config.trading;
+        SPAWNING = config.spawning;
+        PRESET = config.preset;
+    }
+
+    private static void requestSync() {
+        PacketHander.sendToServer(PacketHander.CONFIG_PACKET.getIdentifier(), PacketByteBufs.empty());
+    }
+
+    public static void loadConfigBytes(byte[] data) {
+        AutoConfig.getConfigHolder(SkyBlockConfig.class).setConfig(fromBytes(data));
+        load(AutoConfig.getConfigHolder(SkyBlockConfig.class).getConfig());
+    }
+
+    public static byte[] toBytes(SkyBlockConfig data) {
+        byte[] result = null;
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(data);
+            out.flush();
+            result = bos.toByteArray();
+        } catch (IOException ignore) {}
+        return result;
+    }
+
+    private static SkyBlockConfig fromBytes(byte[] data) {
+        SkyBlockConfig result = null;
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(data)) {
+            ObjectInputStream in = new ObjectInputStream(bis);
+            result = (SkyBlockConfig)in.readObject();
+        } catch (ClassNotFoundException | IOException ignore) {}
+        return result;
     }
 }

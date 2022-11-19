@@ -14,6 +14,7 @@ public class PacketHander {
      *
      */
     public static final IPacket WORLDTYPE_PACKET = new SkyblockPacket();
+    public static final IPacket CONFIG_PACKET = new ConfigPacket();
 
 
     /**
@@ -21,6 +22,7 @@ public class PacketHander {
      */
     private static final IPacket[] PACKETS = new IPacket[] {
             WORLDTYPE_PACKET,
+            CONFIG_PACKET
     };
 
     /**
@@ -64,6 +66,8 @@ public class PacketHander {
      * @param buf
      */
     public static void sendToServer(ResourceLocation identifier, FriendlyByteBuf buf) {
-        ClientPlayNetworking.send(identifier, buf);
+        if (ClientPlayNetworking.canSend(identifier)) {
+            ClientPlayNetworking.send(identifier, buf);
+        }
     }
 }
