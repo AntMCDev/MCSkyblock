@@ -1,6 +1,5 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.common.world.level.block.StaticBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -24,7 +23,7 @@ public class MixinSugarCaneBlock {
             if (blockState2.is(Blocks.SUGAR_CANE)) {
                 cir.setReturnValue(true); return;
             }
-            if (blockState2.is(BlockTags.DIRT) || blockState2.is(Blocks.SAND) || blockState2.is(Blocks.RED_SAND) || blockState2.is(StaticBlock.SAND) || blockState2.is(StaticBlock.RED_SAND)) {
+            if (blockState2.is(BlockTags.DIRT) || blockState2.is(Blocks.SAND) || blockState2.is(Blocks.RED_SAND) || blockState2.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_SAND) || blockState2.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_RED_SAND)) {
                 BlockPos blockPos2 = blockPos.below();
                 for (Direction direction : Direction.Plane.HORIZONTAL) {
                     BlockState blockState3 = levelReader.getBlockState(blockPos2.relative(direction));

@@ -101,6 +101,7 @@
   "block.mcskyblock.static_red_concrete_powder"                                 : "Static Red Concrete Powder",
   "block.mcskyblock.static_white_concrete_powder"                               : "Static White Concrete Powder",
   "block.mcskyblock.static_yellow_concrete_powder"                              : "Static Yellow Concrete Powder",
+  "block.mcskyblock.active_sculk_shrieker"                                      : "Active Sculk Shrieker",
 
   "item.mcskyblock.static_sand"                                                 : "Static Sand",
   "item.mcskyblock.static_red_sand"                                             : "Static Red Sand",
@@ -120,5 +121,6 @@
   "item.mcskyblock.static_purple_concrete_powder"                               : "Static Purple Concrete Powder",
   "item.mcskyblock.static_red_concrete_powder"                                  : "Static Red Concrete Powder",
   "item.mcskyblock.static_white_concrete_powder"                                : "Static White Concrete Powder",
-  "item.mcskyblock.static_yellow_concrete_powder"                               : "Static Yellow Concrete Powder"
+  "item.mcskyblock.static_yellow_concrete_powder"                               : "Static Yellow Concrete Powder",
+  "item.mcskyblock.active_sculk_shrieker"                                       : "Active Sculk Shrieker"
 }
