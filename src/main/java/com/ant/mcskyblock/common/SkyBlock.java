@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.world.level.block.StaticBlock;
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import net.minecraft.world.level.Level;
@@ -18,6 +19,7 @@ public class SkyBlock {
     private SkyBlock(){}
 
     public static void init() {
+        new StaticBlock();
         SkyBlockConfig.register();
         SkyBlockStructureTracker.rescan();
         SkyBlockWorldPreset.register();
