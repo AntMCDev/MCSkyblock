@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common.world.level.block;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -44,8 +44,8 @@ public class StaticBlock {
      * @return
      */
     private static Block register(String key, Block block) {
-        Block result = Registry.register(Registry.BLOCK, new ResourceLocation(MCSkyBlock.MOD_NAME, key), block);
-        Registry.register(Registry.ITEM, new ResourceLocation(MCSkyBlock.MOD_NAME, key), new BlockItem(result, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+        Block result = Registry.register(Registry.BLOCK, new ResourceLocation(SkyBlock.MOD_NAME, key), block);
+        Registry.register(Registry.ITEM, new ResourceLocation(SkyBlock.MOD_NAME, key), new BlockItem(result, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
         return result;
     }
 }

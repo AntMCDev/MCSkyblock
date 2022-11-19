@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common.world.level.levelgen.presets;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.biome.SkyBlockEndBiomeSource;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class SkyBlockWorldPreset {
 
     public static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
-            Registry.WORLD_PRESET_REGISTRY, new ResourceLocation( MCSkyBlock.MOD_NAME, MCSkyBlock.PRESET_ID )
+            Registry.WORLD_PRESET_REGISTRY, new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.PRESET_ID )
     );
 
     /**
@@ -40,13 +40,13 @@ public class SkyBlockWorldPreset {
 
         Registry.register(
                 Registry.CHUNK_GENERATOR,
-                new ResourceLocation( MCSkyBlock.MOD_NAME, MCSkyBlock.CHUNK_GENERATOR_ID ),
+                new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.CHUNK_GENERATOR_ID ),
                 SkyBlockChunkGenerator.CODEC
         );
 
         Registry.register(
                 Registry.BIOME_SOURCE,
-                new ResourceLocation(MCSkyBlock.MOD_NAME, MCSkyBlock.END_BIOMESOURCE_ID),
+                new ResourceLocation(SkyBlock.MOD_NAME, SkyBlock.END_BIOMESOURCE_ID),
                 SkyBlockEndBiomeSource.CODEC
         );
 

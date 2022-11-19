@@ -1,6 +1,5 @@
 package com.ant.mcskyblock.fabric.command;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
 import com.ant.mcskyblock.common.world.level.levelgen.IslandGenerator;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;

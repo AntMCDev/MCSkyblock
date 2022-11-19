@@ -1,6 +1,6 @@
 package com.ant.mcskyblock;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 
 import com.ant.mcskyblock.fabric.SkyBlockWorldEvents;
 import com.ant.mcskyblock.fabric.command.LocateIslandCommand;
@@ -13,7 +13,7 @@ import net.fabricmc.loader.api.FabricLoader;
 public class FabricMCSkyBlock implements ModInitializer {
 	@Override
 	public void onInitialize() {
-		MCSkyBlock.init();
+		SkyBlock.init();
 		if (isPhysicalClient()) {
 			PacketHander.registerClientListener();
 		}

@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.fabric;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.saveddata.SkyBlockSavedData;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
@@ -56,7 +56,7 @@ public class SkyBlockWorldEvents {
     private static void onServerWorldLoad() {
         ServerWorldEvents.LOAD.register((server, level) -> {
             isServerSkyblock = level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
-            if (MCSkyBlock.isLogicalServer(level) && isServerSkyblock) {
+            if (SkyBlock.isLogicalServer(level) && isServerSkyblock) {
                 PacketHander.registerServerListener();
             }
         });

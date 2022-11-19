@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.fabric.loot;
 
-import com.ant.mcskyblock.common.MCSkyBlock;
+import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.loot.LootPoolReference;
 import com.ant.mcskyblock.mixin.MixinLootPoolAccessor;
@@ -128,12 +128,12 @@ public class LootTableUtils {
     public static void register() {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (newLootPools.containsKey(id)) {
-                MCSkyBlock.LOGGER.info("Adding new loot pool for: " + id);
+                SkyBlock.LOGGER.info("Adding new loot pool for: " + id);
                 tableBuilder.pool(newLootPools.get(id));
             }
 
             if (existingLootPools.containsKey(id)) {
-                MCSkyBlock.LOGGER.info("Modifying existing loot pool [" + existingLootPools.get(id).getPoolIndex()  + "] for: " + id);
+                SkyBlock.LOGGER.info("Modifying existing loot pool [" + existingLootPools.get(id).getPoolIndex()  + "] for: " + id);
 
                 LootPoolEntryContainer[] entries = ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.get(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).getEntries();
                 LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[entries.length + existingLootPools.get(id).getEntries().size()];
