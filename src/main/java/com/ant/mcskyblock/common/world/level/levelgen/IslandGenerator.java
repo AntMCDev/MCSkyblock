@@ -33,7 +33,8 @@ public class IslandGenerator {
     }
 
     private static boolean canGenerate(String biome, BlockPos pos) {
-        return SkyBlockConfig.WORLD_GEN.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > 64 || Math.abs(pos.getZ()) > 64) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
+        return SkyBlockConfig.WORLD_GEN.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DISTANCE ||
+                Math.abs(pos.getZ()) > SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
     }
 
     public static BlockPos nearest(BlockPos pos, String biome) {

@@ -11,6 +11,7 @@
   "text.autoconfig.mcskyblock.option.worldGen.MAIN_ISLAND_RADIUS"               : "Main Island Radius",
   "text.autoconfig.mcskyblock.option.worldGen.MAIN_ISLAND_DEPTH"                : "Main Island Depth",
   "text.autoconfig.mcskyblock.option.worldGen.GENERATE_SUB_ISLANDS"             : "Generate Sub Islands",
+  "text.autoconfig.mcskyblock.option.worldGen.SUB_ISLAND_DISTANCE"              : "Sub Island Distance From Center",
   "text.autoconfig.mcskyblock.option.worldGen.SUB_ISLAND_RADIUS"                : "Sub Island Radius",
   "text.autoconfig.mcskyblock.option.worldGen.SUB_ISLAND_DEPTH"                 : "Sub Island Depth",
   "text.autoconfig.mcskyblock.option.worldGen.APPLY_BIOME_DECORATIONS"          : "Apply Biome Decorations",

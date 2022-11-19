@@ -35,6 +35,8 @@ public class SkyBlockConfig implements ConfigData {
         public boolean APPLY_BIOME_DECORATIONS  = false;
         public int MAIN_ISLAND_RADIUS           = 4;
         public int MAIN_ISLAND_DEPTH            = 3;
+        @Comment("How far out from the main island will sub islands generate")
+        public int SUB_ISLAND_DISTANCE          = 64;
         public int SUB_ISLAND_RADIUS            = 4;
         public int SUB_ISLAND_DEPTH             = 3;
     }
