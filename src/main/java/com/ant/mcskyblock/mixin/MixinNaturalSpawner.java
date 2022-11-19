@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinNaturalSpawner {
     @Inject(at = @At("RETURN"), method = "isSpawnPositionOk", cancellable = true)
     private static void canSpawn(SpawnPlacements.Type location, LevelReader world, BlockPos pos, @Nullable EntityType<?> entityType, CallbackInfoReturnable<Boolean> cir) {
-        if (SkyBlockConfig.WORLD_GEN.STOP_BAT_SPAWNS && entityType == EntityType.BAT) {
+        if (SkyBlockConfig.SPAWNING.STOP_BAT_SPAWNS && entityType == EntityType.BAT) {
             cir.setReturnValue(false);
         }
     }

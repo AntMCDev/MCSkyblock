@@ -83,7 +83,7 @@ public class SkyBlockWorldEvents {
     private static void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
-            String[] configPos = SkyBlockConfig.WORLD_GEN.SPAWN_COORDS;
+            String[] configPos = SkyBlockConfig.SPAWNING.SPAWN_COORDS;
                     //ConfigHandler.Common.SPAWN_POSITION.  it(",");
             double[] pos = new double[3];
             try {
