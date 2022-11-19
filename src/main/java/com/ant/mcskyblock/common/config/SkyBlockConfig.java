@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionResult;
 
 import java.io.*;
 
+@Config(name = "mcskyblock" )
 @Config.Gui.Background("minecraft:textures/block/dirt.png")
 public class SkyBlockConfig implements ConfigData, Serializable {
     public enum Preset {
