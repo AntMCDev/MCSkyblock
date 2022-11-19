@@ -9,6 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.ArrayList;
@@ -75,7 +76,11 @@ public class IslandGenerator {
                     }
                 }
             }
-            region.setBlock(new BlockPos(x, y+1, z), b.getSecond().defaultBlockState(), 0);
+            if (b.getSecond() instanceof DoublePlantBlock) {
+                DoublePlantBlock.placeAt(region, b.getSecond().defaultBlockState(), new BlockPos(x, y + 1, z), 0);
+            } else {
+                region.setBlock(new BlockPos(x, y + 1, z), b.getSecond().defaultBlockState(), 0);
+            }
             return this;
         }
     }
