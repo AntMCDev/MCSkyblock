@@ -30,6 +30,7 @@ public class SkyBlockConfig implements ConfigData {
         public boolean IS_NETHER_SKYBLOCK       = true;
         public boolean IS_END_SKYBLOCK          = true;
         public boolean GENERATE_MAIN_ISLAND     = true;
+        public boolean MAIN_ISLAND_TREE         = true;
         public boolean GENERATE_SUB_ISLANDS     = true;
         public boolean APPLY_BIOME_DECORATIONS  = false;
         public int MAIN_ISLAND_RADIUS           = 4;
@@ -115,10 +116,15 @@ public class SkyBlockConfig implements ConfigData {
         public boolean STOP_BAT_SPAWNS  = true;
     }
 
+    @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.WorldGen WORLD_GEN;
+    @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.Structures STRUCTURES;
+    @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.Drops DROPS;
+    @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.Trading TRADING;
+    @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.Spawning SPAWNING;
 
     public static void register() {
