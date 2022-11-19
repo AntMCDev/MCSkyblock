@@ -30,7 +30,7 @@ public class IslandGenerator {
     }
 
     private static boolean canGenerate(String biome, BlockPos pos) {
-        return SkyBlockConfig.WorldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > 64 || Math.abs(pos.getZ()) > 64) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
+        return SkyBlockConfig.WORLD_GEN.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > 64 || Math.abs(pos.getZ()) > 64) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
     }
 
     public static BlockPos nearest(BlockPos pos, String biome) {
@@ -65,8 +65,8 @@ public class IslandGenerator {
 
         public Island generate(WorldGenRegion region) {
             Pair<Block, Block> b = BiomeIslands.SETTINGS.getOrDefault(biome, new Pair<>(Blocks.AIR, Blocks.AIR));
-            int r = SkyBlockConfig.WorldGen.SUB_ISLAND_RADIUS;
-            for (int i = 0, d = SkyBlockConfig.WorldGen.SUB_ISLAND_DEPTH; i < d; ++i) {
+            int r = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_RADIUS;
+            for (int i = 0, d = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DEPTH; i < d; ++i) {
                 for (int j = -r+i; j <= r-i; ++j) {
                     for (int k = -r+i; k <= r-i; ++k) {
                         if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {

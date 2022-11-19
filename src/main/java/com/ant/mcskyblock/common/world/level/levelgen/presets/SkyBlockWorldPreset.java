@@ -80,7 +80,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators. For the overworld
      */
     private static ChunkGenerator overworldChunkGenerator() {
-        return SkyBlockConfig.WorldGen.IS_OVERWORLD_SKYBLOCK  ? new SkyBlockChunkGenerator(
+        return SkyBlockConfig.WORLD_GEN.IS_OVERWORLD_SKYBLOCK  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 // TODO BIOME HERE(SkyBlockBiomeSource)
@@ -100,7 +100,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the nether.
      */
     private static ChunkGenerator netherChunkGenerator() {
-        return SkyBlockConfig.WorldGen.IS_NETHER_SKYBLOCK ? new SkyBlockChunkGenerator(
+        return SkyBlockConfig.WORLD_GEN.IS_NETHER_SKYBLOCK ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 MultiNoiseBiomeSource.Preset.NETHER.biomeSource(BuiltinRegistries.BIOME),
@@ -119,7 +119,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the end.
      */
     private static ChunkGenerator endChunkGenerator() {
-        return SkyBlockConfig.WorldGen.IS_END_SKYBLOCK ? new SkyBlockChunkGenerator(
+        return SkyBlockConfig.WORLD_GEN.IS_END_SKYBLOCK ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 new SkyBlockEndBiomeSource(BuiltinRegistries.BIOME),

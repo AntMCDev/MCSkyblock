@@ -83,7 +83,7 @@ public class SkyBlockWorldEvents {
     private static void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
-            String[] configPos = SkyBlockConfig.WorldGen.SPAWN_COORDS;
+            String[] configPos = SkyBlockConfig.WORLD_GEN.SPAWN_COORDS;
                     //ConfigHandler.Common.SPAWN_POSITION.  it(",");
             double[] pos = new double[3];
             try {
@@ -93,7 +93,7 @@ public class SkyBlockWorldEvents {
             } catch (Exception ex) {
                 pos = new double[] { 0, 64, 0 };
             }
-            if (SkyBlockConfig.WorldGen.GENERATE_MAIN_ISLAND) {
+            if (SkyBlockConfig.WORLD_GEN.GENERATE_MAIN_ISLAND) {
                 buildSkyblock(player.level, new BlockPos(pos[0], pos[1], pos[2]));
             }
             skyblockSavedData.setGenerated();
@@ -183,8 +183,8 @@ public class SkyBlockWorldEvents {
             }
         }
 
-        int r = SkyBlockConfig.WorldGen.MAIN_ISLAND_RADIUS;
-        for (int i = 0, d = SkyBlockConfig.WorldGen.MAIN_ISLAND_DEPTH; i < d; ++i) {
+        int r = SkyBlockConfig.WORLD_GEN.MAIN_ISLAND_RADIUS;
+        for (int i = 0, d = SkyBlockConfig.WORLD_GEN.MAIN_ISLAND_DEPTH; i < d; ++i) {
             for (int j = -r+i; j <= r-i; ++j) {
                 for (int k = -r+i; k <= r-i; ++k) {
                     if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {

@@ -3,8 +3,6 @@ package com.ant.mcskyblock.common;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +18,7 @@ public class MCSkyBlock {
     private MCSkyBlock(){}
 
     public static void init() {
-        AutoConfig.register(SkyBlockConfig.class, GsonConfigSerializer::new);
+        SkyBlockConfig.register();
         SkyBlockStructureTracker.rescan();
         SkyBlockWorldPreset.register();
     }

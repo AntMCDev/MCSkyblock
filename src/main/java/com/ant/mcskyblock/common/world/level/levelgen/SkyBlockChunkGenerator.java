@@ -352,7 +352,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
-        if (SkyBlockConfig.WorldGen.APPLY_BIOME_DECORATIONS) {
+        if (SkyBlockConfig.WORLD_GEN.APPLY_BIOME_DECORATIONS) {
             super.applyBiomeDecoration(worldGenLevel, chunkAccess, structureManager);
         }
     }

@@ -15,7 +15,7 @@ public class MixinIcebergFeature {
     @Inject(at = @At("HEAD"), method = "place", cancellable = true)
     public void place(FeaturePlaceContext<BlockStateConfiguration> featurePlaceContext, CallbackInfoReturnable<Boolean> cir) {
         if (featurePlaceContext.chunkGenerator() instanceof SkyBlockChunkGenerator) {
-            if(!SkyBlockConfig.Structures.GEN_ICEBERGS){
+            if(!SkyBlockConfig.STRUCTURES.GEN_ICEBERGS){
                 cir.setReturnValue(false);
             }
         }
