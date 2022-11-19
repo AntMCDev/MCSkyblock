@@ -17,8 +17,6 @@ public class SkyBlockConfig implements ConfigData {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public Preset preset = Preset.CUSTOM;
 
-//    @ConfigEntry.Gui.CollapsibleObject
-
 
     @ConfigEntry.Category("worldGen")
     @ConfigEntry.Gui.TransitiveObject
@@ -48,11 +46,19 @@ public class SkyBlockConfig implements ConfigData {
         public boolean MAIN_ISLAND_TREE         = true;
         public boolean GENERATE_SUB_ISLANDS     = true;
         public boolean APPLY_BIOME_DECORATIONS  = false;
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 50)
         public int MAIN_ISLAND_RADIUS           = 4;
+
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 5)
         public int MAIN_ISLAND_DEPTH            = 3;
         @Comment("How far out from the main island will sub islands generate")
+        @ConfigEntry.BoundedDiscrete(min = 64, max = 5026)
         public int SUB_ISLAND_DISTANCE          = 64;
+
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 50)
         public int SUB_ISLAND_RADIUS            = 4;
+
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 5)
         public int SUB_ISLAND_DEPTH             = 3;
     }
 
