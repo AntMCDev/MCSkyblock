@@ -8,6 +8,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = "mcskyblock" )
+@Config.Gui.Background("minecraft:textures/block/end_portal_frame_top.png")
 public class SkyBlockConfig implements ConfigData {
     public enum Preset {
         BEGINNER, TECHNICAL, CUSTOM
@@ -16,23 +17,30 @@ public class SkyBlockConfig implements ConfigData {
     @ConfigEntry.Gui.EnumHandler
     public Preset preset = Preset.CUSTOM;
 
-    @ConfigEntry.Gui.CollapsibleObject
+//    @ConfigEntry.Gui.CollapsibleObject
+
+
+    @ConfigEntry.Category("worldGen")
+    @ConfigEntry.Gui.TransitiveObject
     private WorldGen worldGen = new WorldGen();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("structures")
+    @ConfigEntry.Gui.TransitiveObject
     private Structures structures = new Structures();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("drops")
+    @ConfigEntry.Gui.TransitiveObject
     private Drops drops = new Drops();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("trading")
+    @ConfigEntry.Gui.TransitiveObject
     private Trading trading = new Trading();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("spawning")
+    @ConfigEntry.Gui.TransitiveObject
     private Spawning spawning = new Spawning();
 
     public static class WorldGen {
-        @Comment("This is a ToolTip")
         public boolean IS_OVERWORLD_SKYBLOCK    = true;
         public boolean IS_NETHER_SKYBLOCK       = true;
         public boolean IS_END_SKYBLOCK          = true;

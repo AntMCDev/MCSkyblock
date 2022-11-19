@@ -3,9 +3,11 @@
 
   "text.autoconfig.mcskyblock.title"                                            : "Skyblock Settings",
 
+  "text.autoconfig.mcskyblock.category.default"                                 : "Base Settings",
+
   "text.autoconfig.mcskyblock.option.preset"                                    : "Difficulty Preset",
 
-  "text.autoconfig.mcskyblock.option.worldGen"                                  : "World Gen",
+  "text.autoconfig.mcskyblock.category.worldGen"                                : "Generation Settings",
   "text.autoconfig.mcskyblock.option.worldGen.IS_OVERWORLD_SKYBLOCK"            : "Overworld Skyblock",
   "text.autoconfig.mcskyblock.option.worldGen.IS_NETHER_SKYBLOCK"               : "Nether Skyblock",
   "text.autoconfig.mcskyblock.option.worldGen.IS_END_SKYBLOCK"                  : "End Skyblock",
@@ -19,7 +21,7 @@
   "text.autoconfig.mcskyblock.option.worldGen.SUB_ISLAND_DEPTH"                 : "Sub Island Depth",
   "text.autoconfig.mcskyblock.option.worldGen.APPLY_BIOME_DECORATIONS"          : "Apply Biome Decorations",
 
-  "text.autoconfig.mcskyblock.option.structures"                                : "Structure Settings",
+  "text.autoconfig.mcskyblock.category.structures"                              : "Structure Settings",
   "text.autoconfig.mcskyblock.option.structures.GEN_ANCIENT_CITY"               : "Ancient Cities",
   "text.autoconfig.mcskyblock.option.structures.GEN_BASTION_REMNANT"            : "Bastions",
   "text.autoconfig.mcskyblock.option.structures.GEN_BURIED_TREASURE"            : "Buried Treasure",
@@ -44,7 +46,7 @@
   "text.autoconfig.mcskyblock.option.structures.GEN_GEODES"                     : "Geodes",
   "text.autoconfig.mcskyblock.option.structures.CUSTOM_STRUCTURES"              : "List of Custom Structures",
 
-  "text.autoconfig.mcskyblock.option.drops"                                     : "Mob Drop Settings",
+  "text.autoconfig.mcskyblock.category.drops"                                   : "Loot Settings",
   "text.autoconfig.mcskyblock.option.drops.PHANTOM_ELYTRA"                      : "Phantoms Elytra",
   "text.autoconfig.mcskyblock.option.drops.ENDER_DRAGON_HEAD"                   : "Ender Dragons Dragon Head",
   "text.autoconfig.mcskyblock.option.drops.DROWNED_GOLD"                        : "Drowned Gold Ingots",
@@ -52,7 +54,7 @@
   "text.autoconfig.mcskyblock.option.drops.WITHER_ANCIENT_DEBRIS"               : "Withers Ancient Debris",
   "text.autoconfig.mcskyblock.option.drops.TROPICAL_FISH_CORAL"                 : "Tropical Fish Coral",
 
-  "text.autoconfig.mcskyblock.option.trading"                                   : "Trading Setting",
+  "text.autoconfig.mcskyblock.category.trading"                                 : "Trading Setting",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_END_PORTAL_FRAME" : "W.Traders End Portal Frame",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_SPONGE"           : "W.Traders Sponge",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_GLOW_LICHEN"      : "W.Traders Glow Lichen",
@@ -76,7 +78,7 @@
   "text.autoconfig.mcskyblock.option.trading.HOTV_CLERIC_BUDDING_AMETHYST"      : "Cleric (HOTV) Budding Amethyst",
   "text.autoconfig.mcskyblock.option.trading.HOTV_CLERIC_DIAMOND"               : "Cleric (HOTV) Diamonds",
 
-  "text.autoconfig.mcskyblock.option.spawning"                                  : "Spawning",
+  "text.autoconfig.mcskyblock.category.spawning"                                : "Spawning",
   "text.autoconfig.mcskyblock.option.spawning.SPAWN_COORDS"                     : "Spawn Co-ordinates",
   "text.autoconfig.mcskyblock.option.spawning.STOP_BAT_SPAWNS"                  : "Stop Bat Spawns",
 
