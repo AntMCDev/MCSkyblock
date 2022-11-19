@@ -109,6 +109,54 @@ public class SkyBlockWorldEvents {
     }
 
 
+    private static final char[][][] tree = new char[][][]{
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', 'L', ' ', ' '},
+                    {' ', 'L', 'L', 'L', ' '},
+                    {' ', ' ', 'L', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            },
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', 'L', 'L', 'L', ' '},
+                    {' ', 'L', 'W', 'L', ' '},
+                    {' ', 'L', 'L', 'L', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            },
+            {
+                    {' ', 'L', 'L', 'L', ' '},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'W', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {' ', 'L', 'L', 'L', ' '}
+            },
+            {
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'W', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'}
+            },
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', 'W', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            },
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', 'W', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            }
+    };
+
+
+
+
     /**
      * Creates a single tree with an island under it.
      * @param world The world that we are going to place blocks in.
@@ -116,80 +164,37 @@ public class SkyBlockWorldEvents {
      */
     private static void buildSkyblock(Level world, BlockPos pos) {
         int offset = -2;
-        char[][][] tree = new char[][][]{
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', 'L', ' ', ' '},
-                        {' ', 'L', 'L', 'L', ' '},
-                        {' ', ' ', 'L', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', 'L', 'L', 'L', ' '},
-                        {' ', 'L', 'W', 'L', ' '},
-                        {' ', 'L', 'L', 'L', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                        {' ', 'L', 'L', 'L', ' '},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'W', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {' ', 'L', 'L', 'L', ' '}
-                },
-                {
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'W', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'}
-                },
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', 'W', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', 'W', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                }
-        };
 
-        for (int y = 0; y < tree.length; y++) {
-            for (int x = 0; x < tree[y].length; x++) {
-                for (int z = 0; z < tree[y][x].length; z++) {
-                    if (tree[y][x][z] == 'L') {
 
-                        world.setBlockAndUpdate(
-                                new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset),
-                                Blocks.OAK_LEAVES.defaultBlockState()
-                        );
+        if( SkyBlockConfig.WORLD_GEN.MAIN_ISLAND_TREE ) {
+            for (int y = 0; y < tree.length; y++) {
+                for (int x = 0; x < tree[y].length; x++) {
+                    for (int z = 0; z < tree[y][x].length; z++) {
+                        if (tree[y][x][z] == 'L') {
+                            world.setBlockAndUpdate(
+                                    new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset),
+                                    Blocks.OAK_LEAVES.defaultBlockState()
+                            );
 
-                    } else if (tree[y][x][z] == 'W') {
-
-                        world.setBlockAndUpdate(
-                                new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset),
-                                Blocks.OAK_LOG.defaultBlockState()
-                        );
-
+                        } else if (tree[y][x][z] == 'W') {
+                            world.setBlockAndUpdate(
+                                    new BlockPos(pos.getX() - x - offset, pos.getY() - y - 1, pos.getZ() - z - offset),
+                                    Blocks.OAK_LOG.defaultBlockState()
+                            );
+                        }
                     }
                 }
             }
         }
 
+        int treeHeight = SkyBlockConfig.WORLD_GEN.MAIN_ISLAND_TREE ? tree.length : 0;
         int r = SkyBlockConfig.WORLD_GEN.MAIN_ISLAND_RADIUS;
         for (int i = 0, d = SkyBlockConfig.WORLD_GEN.MAIN_ISLAND_DEPTH; i < d; ++i) {
             for (int j = -r+i; j <= r-i; ++j) {
                 for (int k = -r+i; k <= r-i; ++k) {
                     if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {
                         world.setBlockAndUpdate(
-                                new BlockPos(pos.getX() + j, pos.getY() - tree.length - 1 - i, pos.getZ() + k),
+                                new BlockPos(pos.getX() + j, pos.getY() - treeHeight - 1 - i, pos.getZ() + k),
                                 Blocks.GRASS_BLOCK.defaultBlockState()
                         );
                     }

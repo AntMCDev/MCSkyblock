@@ -7,6 +7,7 @@
   "text.autoconfig.mcskyblock.option.worldGen.IS_NETHER_SKYBLOCK"               : "Nether Skyblock",
   "text.autoconfig.mcskyblock.option.worldGen.IS_END_SKYBLOCK"                  : "End Skyblock",
   "text.autoconfig.mcskyblock.option.worldGen.GENERATE_MAIN_ISLAND"             : "Generate Main Island",
+  "text.autoconfig.mcskyblock.option.worldGen.MAIN_ISLAND_TREE"                 : "Main Island Has Tree",
   "text.autoconfig.mcskyblock.option.worldGen.MAIN_ISLAND_RADIUS"               : "Main Island Radius",
   "text.autoconfig.mcskyblock.option.worldGen.MAIN_ISLAND_DEPTH"                : "Main Island Depth",
   "text.autoconfig.mcskyblock.option.worldGen.GENERATE_SUB_ISLANDS"             : "Generate Sub Islands",
