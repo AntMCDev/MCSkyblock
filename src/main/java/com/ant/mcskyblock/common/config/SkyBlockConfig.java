@@ -14,7 +14,7 @@ public class SkyBlockConfig implements ConfigData {
         BEGINNER, TECHNICAL, CUSTOM
     }
 
-    @ConfigEntry.Gui.EnumHandler
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public Preset preset = Preset.CUSTOM;
 
 //    @ConfigEntry.Gui.CollapsibleObject
