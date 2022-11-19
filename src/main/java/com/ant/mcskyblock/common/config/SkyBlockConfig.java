@@ -13,8 +13,9 @@ import net.minecraft.world.InteractionResult;
 
 import java.io.*;
 
-@Config(name = "mcskyblock" )
 public class SkyBlockConfig implements ConfigData, Serializable {
+@Config.Gui.Background("minecraft:textures/block/dirt.png")
+public class SkyBlockConfig implements ConfigData {
     public enum Preset {
         BEGINNER, TECHNICAL, CUSTOM
     }
@@ -22,19 +23,25 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public Preset preset = Preset.CUSTOM;
 
-    @ConfigEntry.Gui.CollapsibleObject
+
+    @ConfigEntry.Category("worldGen")
+    @ConfigEntry.Gui.TransitiveObject
     private WorldGen worldGen = new WorldGen();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("structures")
+    @ConfigEntry.Gui.TransitiveObject
     private Structures structures = new Structures();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("drops")
+    @ConfigEntry.Gui.TransitiveObject
     private Drops drops = new Drops();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("trading")
+    @ConfigEntry.Gui.TransitiveObject
     private Trading trading = new Trading();
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("spawning")
+    @ConfigEntry.Gui.TransitiveObject
     private Spawning spawning = new Spawning();
 
     public static class WorldGen implements Serializable {
@@ -46,11 +53,19 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean MAIN_ISLAND_TREE         = true;
         public boolean GENERATE_SUB_ISLANDS     = true;
         public boolean APPLY_BIOME_DECORATIONS  = false;
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 50)
         public int MAIN_ISLAND_RADIUS           = 4;
+
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 5)
         public int MAIN_ISLAND_DEPTH            = 3;
         @Comment("How far out from the main island will sub islands generate")
+        @ConfigEntry.BoundedDiscrete(min = 64, max = 5026)
         public int SUB_ISLAND_DISTANCE          = 64;
+
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 50)
         public int SUB_ISLAND_RADIUS            = 4;
+
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 5)
         public int SUB_ISLAND_DEPTH             = 3;
     }
 
