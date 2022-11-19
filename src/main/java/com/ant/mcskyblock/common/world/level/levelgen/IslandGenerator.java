@@ -1,7 +1,8 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
-import com.mojang.datafixers.util.Pair;
+import com.ant.mcskyblock.common.world.level.levelgen.islandtype.IslandType;
+import com.ant.mcskyblock.common.world.level.levelgen.islandtype.VoidIslandType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -10,6 +11,7 @@ import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.ArrayList;
@@ -65,21 +67,41 @@ public class IslandGenerator {
         }
 
         public Island generate(WorldGenRegion region) {
-            Pair<Block, Block> b = BiomeIslands.SETTINGS.getOrDefault(biome, new Pair<>(Blocks.AIR, Blocks.AIR));
-            int r = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_RADIUS;
-            for (int i = 0, d = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DEPTH; i < d; ++i) {
-                for (int j = -r+i; j <= r-i; ++j) {
-                    for (int k = -r+i; k <= r-i; ++k) {
-                        if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r-i, 2)) {
-                            region.setBlock(new BlockPos(x + j, y - i, z + k), b.getFirst().defaultBlockState(), 0);
+            IslandType b = BiomeIslands.SETTINGS.getOrDefault(biome, new VoidIslandType());
+            BlockState base = b.getBase().defaultBlockState();
+            BlockState fluid = b.getFluid().defaultBlockState();
+            BlockState accessory = b.getAccessory().defaultBlockState();
+
+            if (!(base.is(Blocks.AIR))) {
+                int r = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_RADIUS;
+                for (int i = 0, d = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DEPTH; i < d; ++i) {
+                    for (int j = -r + i; j <= r - i; ++j) {
+                        for (int k = -r + i; k <= r - i; ++k) {
+                            if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - i, 2)) {
+                                region.setBlock(new BlockPos(x + j, y - i, z + k), base, 0);
+                            }
                         }
                     }
                 }
             }
-            if (b.getSecond() instanceof DoublePlantBlock) {
-                DoublePlantBlock.placeAt(region, b.getSecond().defaultBlockState(), new BlockPos(x, y + 1, z), 0);
-            } else {
-                region.setBlock(new BlockPos(x, y + 1, z), b.getSecond().defaultBlockState(), 0);
+
+            if (!(fluid.is(Blocks.AIR))) {
+                int r = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_RADIUS - 1;
+                for (int i = -r; i <= r; ++i) {
+                    for (int j = -r; j <= r; ++j) {
+                        if (Math.pow(i, 2) + Math.pow(j, 2) < Math.pow(r, 2)) {
+                            region.setBlock(new BlockPos(x + i, y, z + j), fluid, 0);
+                        }
+                    }
+                }
+            }
+
+            if (!(accessory.is(Blocks.AIR))) {
+                if (b.getBase() instanceof DoublePlantBlock) {
+                    DoublePlantBlock.placeAt(region, accessory, new BlockPos(x, y + 1, z), 0);
+                } else {
+                    region.setBlock(new BlockPos(x, y + 1, z), accessory, 0);
+                }
             }
             return this;
         }
