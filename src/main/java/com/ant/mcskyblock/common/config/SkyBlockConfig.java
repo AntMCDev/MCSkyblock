@@ -13,9 +13,8 @@ import net.minecraft.world.InteractionResult;
 
 import java.io.*;
 
-public class SkyBlockConfig implements ConfigData, Serializable {
 @Config.Gui.Background("minecraft:textures/block/dirt.png")
-public class SkyBlockConfig implements ConfigData {
+public class SkyBlockConfig implements ConfigData, Serializable {
     public enum Preset {
         BEGINNER, TECHNICAL, CUSTOM
     }
