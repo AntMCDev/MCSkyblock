@@ -8,7 +8,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = "mcskyblock" )
-@Config.Gui.Background("minecraft:textures/block/end_portal_frame_top.png")
+@Config.Gui.Background("minecraft:textures/block/dirt.png")
 public class SkyBlockConfig implements ConfigData {
     public enum Preset {
         BEGINNER, TECHNICAL, CUSTOM

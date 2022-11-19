@@ -3,7 +3,7 @@
 
   "text.autoconfig.mcskyblock.title"                                            : "Skyblock Settings",
 
-  "text.autoconfig.mcskyblock.category.default"                                 : "Base Settings",
+  "text.autoconfig.mcskyblock.category.default"                                 : "Presets",
 
   "text.autoconfig.mcskyblock.option.preset"                                    : "Difficulty Preset",
 
