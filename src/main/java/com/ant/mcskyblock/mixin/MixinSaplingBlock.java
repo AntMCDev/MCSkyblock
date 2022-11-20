@@ -23,8 +23,12 @@ public class MixinSaplingBlock extends BushBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
-        return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND) || blockState.is(Blocks.SAND) || blockState.is(Blocks.RED_SAND) ||
-                blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_SAND) || blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_RED_SAND);
+        if (SkyBlockConfig.SPAWNING.SAPLINGS_DIE_ON_SAND) {
+            return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND) || blockState.is(Blocks.SAND) || blockState.is(Blocks.RED_SAND) ||
+                    blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_SAND) || blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_RED_SAND);
+        } else {
+            return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND);
+        }
     }
 
     @Inject(at = @At("HEAD"), method = "advanceTree", cancellable = true)
