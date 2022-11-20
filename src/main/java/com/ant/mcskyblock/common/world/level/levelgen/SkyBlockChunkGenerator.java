@@ -589,10 +589,10 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     @Nullable
     @Override
     public Pair<BlockPos, Holder<Structure>> findNearestMapStructure(ServerLevel serverLevel, HolderSet<Structure> holderSet, BlockPos blockPos, int i, boolean bl) {
-        //if (!SkyBlockStructureTracker.areAllEnabled(holderSet)) {
-        //    return null;
-        //} else {
+        if (!SkyBlockStructureTracker.areAllEnabled(holderSet)) {
+            return null;
+        } else {
             return super.findNearestMapStructure(serverLevel, holderSet, blockPos, i, bl);
-        //}
+        }
     }
 }
