@@ -34,6 +34,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -492,87 +493,47 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                                  StructureManager structureManager,
                                  ChunkAccess chunkAccess,
                                  StructureTemplateManager structureTemplateManager,
-                                 long seed)
+                                 long l)
     {
         ChunkPos chunkPos = chunkAccess.getPos();
         SectionPos sectionPos = SectionPos.bottomOf(chunkAccess);
         this.possibleStructureSets().forEach(holder -> {
-            StructurePlacement structurePlacement = holder.value().placement();
-            List<StructureSet.StructureSelectionEntry> list = holder.value().structures();
+            StructurePlacement structurePlacement = ((StructureSet)holder.value()).placement();
+            List<StructureSet.StructureSelectionEntry> list = ((StructureSet) holder.value()).structures().stream().filter(s -> SkyBlockStructureTracker.isEnabled(s.structure())).toList();
             for (StructureSet.StructureSelectionEntry structureSelectionEntry : list) {
-                // is the structure in our map and enabled ?
-                // FIXME with the goal of the strucutre only generating blocks if enabled.
-                // FIXME but we always want the bounding boxes this needs to be refactored.
-                if (SkyBlockStructureTracker.isEnabled(structureSelectionEntry.structure())) {
-                    StructureStart structureStart = structureManager.getStartForStructure(
-                            sectionPos,
-                            structureSelectionEntry.structure().value(),
-                            chunkAccess
-                    );
-                    if (structureStart == null || !structureStart.isValid()) {
-                        continue;
-                    }
-                }
+                StructureStart structureStart = structureManager.getStartForStructure(sectionPos, structureSelectionEntry.structure().value(), chunkAccess);
+                if (structureStart == null || !structureStart.isValid()) continue;
                 return;
             }
-            if (!structurePlacement.isStructureChunk(this, randomState, seed, chunkPos.x, chunkPos.z)) {
+            if (!structurePlacement.isStructureChunk(this, randomState, l, chunkPos.x, chunkPos.z)) {
                 return;
             }
-
-            //////////////////
-            //   SINGLE
-            //////////////////
-
             if (list.size() == 1) {
-                this.tryGenerateStructure(
-                        list.get(0),
-                        structureManager,
-                        registryAccess,
-                        randomState,
-                        structureTemplateManager,
-                        seed,
-                        chunkAccess,
-                        chunkPos,
-                        sectionPos);
-                // MCSkyBlock.LOGGER.log(Level.INFO, "Added(SINGLE) Internal structure" + list.get(0).structure().value().toString());
+                this.tryGenerateStructure(list.get(0), structureManager, registryAccess, randomState, structureTemplateManager, l, chunkAccess, chunkPos, sectionPos);
                 return;
             }
-
-            ////////////////
-            // Multi
-            ///////////////
             ArrayList<StructureSet.StructureSelectionEntry> arrayList = new ArrayList<StructureSet.StructureSelectionEntry>(list.size());
             arrayList.addAll(list);
             WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
-            worldgenRandom.setLargeFeatureSeed(seed, chunkPos.x, chunkPos.z);
-            int structureWeight = 0;
+            worldgenRandom.setLargeFeatureSeed(l, chunkPos.x, chunkPos.z);
+            int i = 0;
             for (StructureSet.StructureSelectionEntry structureSelectionEntry2 : arrayList) {
-                structureWeight += structureSelectionEntry2.weight();
+                i += structureSelectionEntry2.weight();
             }
             while (!arrayList.isEmpty()) {
-                int randInt = worldgenRandom.nextInt(structureWeight);
-                int structureEntryCounter = 0;
+                StructureSet.StructureSelectionEntry structureSelectionEntry3;
+                int j = worldgenRandom.nextInt(i);
+                int k = 0;
                 Iterator iterator = arrayList.iterator();
-                while (iterator.hasNext() && (randInt -= ((StructureSet.StructureSelectionEntry) iterator.next()).weight()) >= 0) {
-                    ++structureEntryCounter;
+                while (iterator.hasNext() && (j -= (structureSelectionEntry3 = (StructureSet.StructureSelectionEntry)iterator.next()).weight()) >= 0) {
+                    ++k;
                 }
-                StructureSet.StructureSelectionEntry structureSelectionEntry4 = arrayList.get(structureEntryCounter);
-                if (this.tryGenerateStructure(
-                        structureSelectionEntry4,
-                        structureManager,
-                        registryAccess,
-                        randomState,
-                        structureTemplateManager,
-                        seed,
-                        chunkAccess,
-                        chunkPos,
-                        sectionPos)
-                ) {
-                    // MCSkyBlock.LOGGER.log(Level.INFO, "Added(MULTI) Internal structure" + structureSelectionEntry4.structure().value().toString());
+                StructureSet.StructureSelectionEntry structureSelectionEntry4 = (StructureSet.StructureSelectionEntry)arrayList.get(k);
+                if (this.tryGenerateStructure(structureSelectionEntry4, structureManager, registryAccess, randomState, structureTemplateManager, l, chunkAccess, chunkPos, sectionPos)) {
                     return;
                 }
-                arrayList.remove(structureEntryCounter);
-                structureWeight -= structureSelectionEntry4.weight();
+                arrayList.remove(k);
+                i -= structureSelectionEntry4.weight();
             }
         });
     }
@@ -628,10 +589,10 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     @Nullable
     @Override
     public Pair<BlockPos, Holder<Structure>> findNearestMapStructure(ServerLevel serverLevel, HolderSet<Structure> holderSet, BlockPos blockPos, int i, boolean bl) {
-        if (!SkyBlockStructureTracker.areAllEnabled(holderSet)) {
-            return null;
-        } else {
+        //if (!SkyBlockStructureTracker.areAllEnabled(holderSet)) {
+        //    return null;
+        //} else {
             return super.findNearestMapStructure(serverLevel, holderSet, blockPos, i, bl);
-        }
+        //}
     }
 }
