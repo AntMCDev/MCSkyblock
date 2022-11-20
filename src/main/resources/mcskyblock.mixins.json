@@ -12,6 +12,8 @@
     "MixinCactusBlock",
     "MixinSugarCaneBlock",
     "MixinIcebergFeature",
+    "MixinGeodeFeature",
+    "MixinGeodeConfigurationAccessor",
     "MixinDebugScreenOverlay"
   ],
   "client": [

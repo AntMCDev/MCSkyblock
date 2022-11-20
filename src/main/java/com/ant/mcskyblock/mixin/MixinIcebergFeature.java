@@ -14,10 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinIcebergFeature {
     @Inject(at = @At("HEAD"), method = "place", cancellable = true)
     public void place(FeaturePlaceContext<BlockStateConfiguration> featurePlaceContext, CallbackInfoReturnable<Boolean> cir) {
-        if (featurePlaceContext.chunkGenerator() instanceof SkyBlockChunkGenerator) {
-            if(!SkyBlockConfig.STRUCTURES.GEN_ICEBERGS){
-                cir.setReturnValue(false);
-            }
+        if (featurePlaceContext.chunkGenerator() instanceof SkyBlockChunkGenerator && !SkyBlockConfig.STRUCTURES.GEN_ICEBERGS) {
+            cir.setReturnValue(false);
         }
     }
 }
