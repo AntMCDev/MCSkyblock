@@ -11,7 +11,9 @@
     "MixinEndDragonFight",
     "MixinCactusBlock",
     "MixinSugarCaneBlock",
-    "MixinIcebergFeature"
+    "MixinIcebergFeature",
+    "MixinGeodeFeature",
+    "MixinGeodeConfigurationAccessor"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

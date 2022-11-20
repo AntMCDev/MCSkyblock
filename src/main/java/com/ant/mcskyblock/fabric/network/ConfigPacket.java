@@ -23,9 +23,10 @@ public class ConfigPacket extends AbstractPacket {
 
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+        final byte[] bytes = PacketHander.byteBufToBytes(buf);
         client.execute(() -> {
                 SkyBlock.LOGGER.info("Config packet received from server");
-                SkyBlockConfig.loadConfigBytes(SkyBlockConfig.toBytes(SkyBlockConfig.INSTANCE));
+                SkyBlockConfig.loadConfigBytes(bytes);
         });
     }
 
@@ -33,8 +34,10 @@ public class ConfigPacket extends AbstractPacket {
     public void executeOnServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler,
                                 FriendlyByteBuf buf, PacketSender responseSender) {
         SkyBlock.LOGGER.info("Config packet received from client");
-        FriendlyByteBuf responseBuffer = PacketByteBufs.create();
-        responseBuffer.writeBytes(SkyBlockConfig.toBytes(SkyBlockConfig.INSTANCE));
-        PacketHander.sendTo(player, getIdentifier(), responseBuffer);
+        if (player.hasPermissions(4)) {
+            SkyBlock.LOGGER.info("Syncing server manager config with server");
+            SkyBlockConfig.loadConfigBytes(PacketHander.byteBufToBytes(buf));
+        }
+        PacketHander.sendTo(player, getIdentifier(), PacketHander.bytesToByteBuf(SkyBlockConfig.toBytes(SkyBlockConfig.INSTANCE)));
     }
 }

@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.fabric.network;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -69,5 +70,15 @@ public class PacketHander {
         if (ClientPlayNetworking.canSend(identifier)) {
             ClientPlayNetworking.send(identifier, buf);
         }
+    }
+
+    public static FriendlyByteBuf bytesToByteBuf(byte[] data) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeBytes(data);
+        return buf;
+    }
+
+    public static byte[] byteBufToBytes(FriendlyByteBuf buf) {
+        return buf.asByteBuf().array();
     }
 }
