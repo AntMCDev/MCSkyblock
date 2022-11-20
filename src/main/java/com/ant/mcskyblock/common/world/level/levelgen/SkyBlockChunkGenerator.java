@@ -6,6 +6,8 @@ import com.google.common.annotations.VisibleForTesting;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.ints.IntArraySet;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.*;
 import net.minecraft.core.*;
 import net.minecraft.network.protocol.game.DebugPackets;
@@ -20,6 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
@@ -34,6 +38,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -345,6 +350,16 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     // BIOMES
     ///////////////////////////////
 
+    private static BoundingBox getWritableArea(ChunkAccess chunkAccess) {
+        ChunkPos chunkPos = chunkAccess.getPos();
+        int i = chunkPos.getMinBlockX();
+        int j = chunkPos.getMinBlockZ();
+        LevelHeightAccessor levelHeightAccessor = chunkAccess.getHeightAccessorForGeneration();
+        int k = levelHeightAccessor.getMinBuildHeight() + 1;
+        int l = levelHeightAccessor.getMaxBuildHeight() - 1;
+        return new BoundingBox(i, k, j, i + 15, l, j + 15);
+    }
+
     /**
      *
      * @param worldGenLevel
@@ -353,8 +368,84 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
-        if (SkyBlockConfig.WORLD_GEN.APPLY_BIOME_DECORATIONS) {
-            super.applyBiomeDecoration(worldGenLevel, chunkAccess, structureManager);
+        ChunkPos chunkPos2 = chunkAccess.getPos();
+        if (SharedConstants.debugVoidTerrain(chunkPos2)) {
+            return;
+        }
+        SectionPos sectionPos = SectionPos.of(chunkPos2, worldGenLevel.getMinSection());
+        BlockPos blockPos = sectionPos.origin();
+        Registry<Structure> registry = worldGenLevel.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        Map<Integer, List<Structure>> map = registry.stream().filter(s -> SkyBlockStructureTracker.isEnabled(registry.getResourceKey(s).orElseThrow())).collect(Collectors.groupingBy(structure -> structure.step().ordinal()));
+        List<FeatureSorter.StepFeatureData> list = this.featuresPerStep.get();
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new XoroshiroRandomSource(RandomSupport.generateUniqueSeed()));
+        long l = worldgenRandom.setDecorationSeed(worldGenLevel.getSeed(), blockPos.getX(), blockPos.getZ());
+        ObjectArraySet<Holder> set = new ObjectArraySet<>();
+        ChunkPos.rangeClosed(sectionPos.chunk(), 1).forEach(chunkPos -> {
+            ChunkAccess chunkAccess2 = worldGenLevel.getChunk(chunkPos.x, chunkPos.z);
+            for (LevelChunkSection levelChunkSection : chunkAccess2.getSections()) {
+                levelChunkSection.getBiomes().getAll(set::add);
+            }
+        });
+        set.retainAll(this.biomeSource.possibleBiomes());
+        int i = list.size();
+        try {
+            Registry<PlacedFeature> registry2 = worldGenLevel.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY);
+            int j = Math.max(GenerationStep.Decoration.values().length, i);
+            for (int k = 0; k < j; ++k) {
+                int m = 0;
+                if (structureManager.shouldGenerateStructures()) {
+                    List<Structure> list2 = map.getOrDefault(k, Collections.emptyList());
+                    for (Structure structure2 : list2) {
+                        worldgenRandom.setFeatureSeed(l, m, k);
+                        Supplier<String> supplier = () -> registry.getResourceKey(structure2).map(Object::toString).orElseGet(structure2::toString);
+                        try {
+                            worldGenLevel.setCurrentlyGenerating(supplier);
+                            structureManager.startsForStructure(sectionPos, structure2).forEach(structureStart -> structureStart.placeInChunk(worldGenLevel, structureManager, this, worldgenRandom, getWritableArea(chunkAccess), chunkPos2));
+                        }
+                        catch (Exception exception) {
+                            CrashReport crashReport = CrashReport.forThrowable(exception, "Feature placement");
+                            crashReport.addCategory("Feature").setDetail("Description", supplier::get);
+                            throw new ReportedException(crashReport);
+                        }
+                        ++m;
+                    }
+                }
+                if (k >= i) continue;
+                IntArraySet intSet = new IntArraySet();
+                for (Holder holder : set) {
+                    List<HolderSet<PlacedFeature>> list3 = this.generationSettingsGetter.apply(holder).features();
+                    if (k >= list3.size()) continue;
+                    HolderSet<PlacedFeature> holderSet = list3.get(k);
+                    FeatureSorter.StepFeatureData stepFeatureData = list.get(k);
+                    holderSet.stream().map(Holder::value).forEach(placedFeature -> intSet.add(stepFeatureData.indexMapping().applyAsInt((PlacedFeature)placedFeature)));
+                }
+                int n = intSet.size();
+                int[] is = intSet.toIntArray();
+                Arrays.sort(is);
+                FeatureSorter.StepFeatureData stepFeatureData2 = list.get(k);
+                for (int o = 0; o < n; ++o) {
+                    int p = is[o];
+                    PlacedFeature placedFeature2 = stepFeatureData2.features().get(p);
+                    Supplier<String> supplier2 = () -> registry2.getResourceKey(placedFeature2).map(Object::toString).orElseGet(placedFeature2::toString);
+                    worldgenRandom.setFeatureSeed(l, p, k);
+                    try {
+                        worldGenLevel.setCurrentlyGenerating(supplier2);
+                        placedFeature2.placeWithBiomeCheck(worldGenLevel, this, worldgenRandom, blockPos);
+                        continue;
+                    }
+                    catch (Exception exception2) {
+                        CrashReport crashReport2 = CrashReport.forThrowable(exception2, "Feature placement");
+                        crashReport2.addCategory("Feature").setDetail("Description", supplier2::get);
+                        throw new ReportedException(crashReport2);
+                    }
+                }
+            }
+            worldGenLevel.setCurrentlyGenerating(null);
+        }
+        catch (Exception exception3) {
+            CrashReport crashReport3 = CrashReport.forThrowable(exception3, "Biome decoration");
+            crashReport3.addCategory("Generation").setDetail("CenterX", chunkPos2.x).setDetail("CenterZ", chunkPos2.z).setDetail("Seed", l);
+            throw new ReportedException(crashReport3);
         }
     }
 
@@ -485,7 +576,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      * @param structureManager
      * @param chunkAccess
      * @param structureTemplateManager
-     * @param seed
+     * @param l
      */
     @Override
     public void createStructures(RegistryAccess registryAccess,
@@ -499,7 +590,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         SectionPos sectionPos = SectionPos.bottomOf(chunkAccess);
         this.possibleStructureSets().forEach(holder -> {
             StructurePlacement structurePlacement = ((StructureSet)holder.value()).placement();
-            List<StructureSet.StructureSelectionEntry> list = ((StructureSet) holder.value()).structures().stream().filter(s -> SkyBlockStructureTracker.isEnabled(s.structure())).toList();
+            List<StructureSet.StructureSelectionEntry> list = ((StructureSet) holder.value()).structures();
             for (StructureSet.StructureSelectionEntry structureSelectionEntry : list) {
                 StructureStart structureStart = structureManager.getStartForStructure(sectionPos, structureSelectionEntry.structure().value(), chunkAccess);
                 if (structureStart == null || !structureStart.isValid()) continue;

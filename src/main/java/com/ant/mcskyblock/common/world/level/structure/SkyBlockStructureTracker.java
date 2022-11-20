@@ -4,6 +4,7 @@ import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -70,6 +71,17 @@ public class SkyBlockStructureTracker {
                 }
             }
         }
+    }
+
+    public static Boolean isEnabled(ResourceKey<Structure> structure){
+        Boolean ret = false;
+        String ssKey = structure.location().toString();
+        if(enabledMap.containsKey( ssKey )){
+            ret = enabledMap.get( ssKey );
+        } else  {
+            SkyBlock.LOGGER.log(Level.INFO,"Ummmmm ......" + ssKey );
+        }
+        return ret;
     }
 
     public static Boolean isEnabled(Holder<Structure> structure){

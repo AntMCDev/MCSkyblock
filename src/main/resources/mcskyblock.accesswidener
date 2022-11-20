@@ -2,25 +2,27 @@ accessWidener   v2  named
 ## GENERATOR(HEIGHTMAP)
 extendable    class     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator
 accessible    class     net/minecraft/world/level/levelgen/DensityFunctions$BeardifierMarker
-accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cellWidth               ()I
-accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cellHeight              ()I
-accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   getInterpolatedState    ()Lnet/minecraft/world/level/block/state/BlockState;
-accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cachedClimateSampler    (Lnet/minecraft/world/level/levelgen/NoiseRouter;Ljava/util/List;)Lnet/minecraft/world/level/biome/Climate$Sampler;
-accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     noises                  Lnet/minecraft/core/Registry;
-accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  biomeSource             Lnet/minecraft/world/level/biome/BiomeSource;
-accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     settings                Lnet/minecraft/core/Holder;
+accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cellWidth                   ()I
+accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cellHeight                  ()I
+accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   getInterpolatedState        ()Lnet/minecraft/world/level/block/state/BlockState;
+accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cachedClimateSampler        (Lnet/minecraft/world/level/levelgen/NoiseRouter;Ljava/util/List;)Lnet/minecraft/world/level/biome/Climate$Sampler;
+accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     noises                      Lnet/minecraft/core/Registry;
+accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  biomeSource                 Lnet/minecraft/world/level/biome/BiomeSource;
+accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     settings                    Lnet/minecraft/core/Holder;
 ## BIOME_SOURCE
 accessible    class     net/minecraft/world/level/biome/MultiNoiseBiomeSource$PresetInstance
-accessible    method    net/minecraft/world/level/biome/MultiNoiseBiomeSource           <init>                  (Lnet/minecraft/world/level/biome/Climate$ParameterList;Ljava/util/Optional;)V
-accessible    method    net/minecraft/world/level/biome/OverworldBiomeBuilder           addBiomes               (Ljava/util/function/Consumer;)V
-accessible    method    net/minecraft/world/level/biome/MultiNoiseBiomeSource           preset                  ()Ljava/util/Optional;
-accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource           parameters              Lnet/minecraft/world/level/biome/Climate$ParameterList;
-accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource$Preset    name                    Lnet/minecraft/resources/ResourceLocation;
-accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource$Preset    parameterSource         Ljava/util/function/Function;
+accessible    method    net/minecraft/world/level/biome/MultiNoiseBiomeSource           <init>                      (Lnet/minecraft/world/level/biome/Climate$ParameterList;Ljava/util/Optional;)V
+accessible    method    net/minecraft/world/level/biome/OverworldBiomeBuilder           addBiomes                   (Ljava/util/function/Consumer;)V
+accessible    method    net/minecraft/world/level/biome/MultiNoiseBiomeSource           preset                      ()Ljava/util/Optional;
+accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource           parameters                  Lnet/minecraft/world/level/biome/Climate$ParameterList;
+accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource$Preset    name                        Lnet/minecraft/resources/ResourceLocation;
+accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource$Preset    parameterSource             Ljava/util/function/Function;
 ## STRUCTURES
-extendable    method    net/minecraft/world/level/chunk/ChunkGenerator                  generatePositions       (Lnet/minecraft/world/level/levelgen/RandomState;)V
-accessible    method    net/minecraft/world/level/chunk/ChunkGenerator                  tryGenerateStructure    (Lnet/minecraft/world/level/levelgen/structure/StructureSet$StructureSelectionEntry;Lnet/minecraft/world/level/StructureManager;Lnet/minecraft/core/RegistryAccess;Lnet/minecraft/world/level/levelgen/RandomState;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplateManager;JLnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/core/SectionPos;)Z
-accessible    method    net/minecraft/world/level/chunk/ChunkGenerator                  generateRingPositions   (Lnet/minecraft/core/Holder;Lnet/minecraft/world/level/levelgen/RandomState;Lnet/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement;)Ljava/util/concurrent/CompletableFuture;
-accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  placementsForStructure  Ljava/util/Map;
-accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  ringPositions           Ljava/util/Map;
-accessible    method    net/minecraft/world/level/chunk/ChunkGenerator                  fetchReferences         (Lnet/minecraft/world/level/StructureManager;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/core/SectionPos;Lnet/minecraft/world/level/levelgen/structure/Structure;)I
+extendable    method    net/minecraft/world/level/chunk/ChunkGenerator                  generatePositions           (Lnet/minecraft/world/level/levelgen/RandomState;)V
+accessible    method    net/minecraft/world/level/chunk/ChunkGenerator                  tryGenerateStructure        (Lnet/minecraft/world/level/levelgen/structure/StructureSet$StructureSelectionEntry;Lnet/minecraft/world/level/StructureManager;Lnet/minecraft/core/RegistryAccess;Lnet/minecraft/world/level/levelgen/RandomState;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplateManager;JLnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/core/SectionPos;)Z
+accessible    method    net/minecraft/world/level/chunk/ChunkGenerator                  generateRingPositions       (Lnet/minecraft/core/Holder;Lnet/minecraft/world/level/levelgen/RandomState;Lnet/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement;)Ljava/util/concurrent/CompletableFuture;
+accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  placementsForStructure      Ljava/util/Map;
+accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  ringPositions               Ljava/util/Map;
+accessible    method    net/minecraft/world/level/chunk/ChunkGenerator                  fetchReferences             (Lnet/minecraft/world/level/StructureManager;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/core/SectionPos;Lnet/minecraft/world/level/levelgen/structure/Structure;)I
+accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  featuresPerStep             Ljava/util/function/Supplier;
+accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  generationSettingsGetter    Ljava/util/function/Function;
