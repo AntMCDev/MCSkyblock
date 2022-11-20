@@ -128,8 +128,9 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     }
 
     public static class Spawning implements Serializable {
-        public String[] SPAWN_COORDS    = { "0", "64", "0" };
-        public boolean STOP_BAT_SPAWNS  = true;
+        public String[] SPAWN_COORDS        = { "0", "64", "0" };
+        public boolean STOP_BAT_SPAWNS      = true;
+        public boolean SAPLINGS_DIE_ON_SAND = true;
     }
 
     @ConfigEntry.Gui.Excluded
@@ -268,6 +269,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         config.trading.HOTV_CLERIC_DIAMOND                  = true;
 
         config.spawning.STOP_BAT_SPAWNS                     = true;
+        config.spawning.SAPLINGS_DIE_ON_SAND                = true;
     }
 
     private static void toTechnical(SkyBlockConfig config) {
@@ -338,5 +340,6 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         config.trading.HOTV_CLERIC_DIAMOND                  = true;
 
         config.spawning.STOP_BAT_SPAWNS                     = true;
+        config.spawning.SAPLINGS_DIE_ON_SAND                = false;
     }
 }

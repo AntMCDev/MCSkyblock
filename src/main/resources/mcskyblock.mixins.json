@@ -14,7 +14,8 @@
     "MixinIcebergFeature",
     "MixinGeodeFeature",
     "MixinGeodeConfigurationAccessor",
-    "MixinDebugScreenOverlay"
+    "MixinDebugScreenOverlay",
+    "MixinSaplingBlock"
   ],
   "client": [
     "MixinClientLevelClientLevelData"
