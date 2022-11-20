@@ -11,7 +11,8 @@
     "MixinEndDragonFight",
     "MixinCactusBlock",
     "MixinSugarCaneBlock",
-    "MixinIcebergFeature"
+    "MixinIcebergFeature",
+    "MixinDebugScreenOverlay"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

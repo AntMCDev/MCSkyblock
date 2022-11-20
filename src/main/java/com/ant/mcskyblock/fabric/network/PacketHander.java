@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.fabric.network;
 
+import com.ant.mcskyblock.fabric.structurecheck.StructureCheckPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
@@ -15,14 +16,15 @@ public class PacketHander {
      */
     public static final IPacket WORLDTYPE_PACKET = new SkyblockPacket();
     public static final IPacket CONFIG_PACKET = new ConfigPacket();
-
+    public static final IPacket STRUCTURECHECK_PACKET = new StructureCheckPacket();
 
     /**
      *
      */
     private static final IPacket[] PACKETS = new IPacket[] {
             WORLDTYPE_PACKET,
-            CONFIG_PACKET
+            CONFIG_PACKET,
+            STRUCTURECHECK_PACKET
     };
 
     /**

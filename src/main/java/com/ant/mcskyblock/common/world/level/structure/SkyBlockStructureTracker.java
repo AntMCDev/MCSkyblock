@@ -6,8 +6,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SkyBlockStructureTracker {
 
