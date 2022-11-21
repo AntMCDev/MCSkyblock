@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.common.config;
 
+import com.ant.mcskyblock.fabric.config.preset.*;
 import com.ant.mcskyblock.fabric.network.PacketHander;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
@@ -10,17 +11,22 @@ import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 import net.minecraft.world.InteractionResult;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Config(name = "mcskyblock" )
 @Config.Gui.Background("minecraft:textures/block/end_portal_frame_top.png")
 public class SkyBlockConfig implements ConfigData, Serializable {
-
-
-    // comparing presets to vanilla presets fo super flat world
-    // Classic, Trogs, RedStoneReady, OneBlock, Insane, Custom
-
     public enum Preset {
         Classic, Hybrid, OneBlock, Insane, Custom
+    }
+    @ConfigEntry.Gui.Excluded
+    public static final Map<Preset, IPreset> PRESET_CONVERTERS = new HashMap<>();
+    static {
+        PRESET_CONVERTERS.put(Preset.Classic, new Classic());
+        PRESET_CONVERTERS.put(Preset.Hybrid, new Hybrid());
+        PRESET_CONVERTERS.put(Preset.OneBlock, new OneBlock());
+        PRESET_CONVERTERS.put(Preset.Insane, new Insane());
     }
 
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
@@ -29,23 +35,23 @@ public class SkyBlockConfig implements ConfigData, Serializable {
 
     @ConfigEntry.Category("worldGen")
     @ConfigEntry.Gui.TransitiveObject
-    private WorldGen worldGen = new WorldGen();
+    public WorldGen worldGen = new WorldGen();
 
     @ConfigEntry.Category("structures")
     @ConfigEntry.Gui.TransitiveObject
-    private Structures structures = new Structures();
+    public Structures structures = new Structures();
 
     @ConfigEntry.Category("drops")
     @ConfigEntry.Gui.TransitiveObject
-    private Drops drops = new Drops();
+    public Drops drops = new Drops();
 
     @ConfigEntry.Category("trading")
     @ConfigEntry.Gui.TransitiveObject
-    private Trading trading = new Trading();
+    public Trading trading = new Trading();
 
     @ConfigEntry.Category("spawning")
     @ConfigEntry.Gui.TransitiveObject
-    private Spawning spawning = new Spawning();
+    public Spawning spawning = new Spawning();
 
     public static class WorldGen implements Serializable {
         @Comment("This is a ToolTip")
@@ -156,12 +162,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     public static void register() {
         AutoConfig.register(SkyBlockConfig.class, GsonConfigSerializer::new);
         AutoConfig.getConfigHolder(SkyBlockConfig.class).registerSaveListener((a, b) -> {
-            switch (b.preset) {
-                case Classic -> toClassic(b);
-                case Hybrid -> toHybrid(b);
-                case OneBlock -> toOneBlockMode(b);
-                case Insane -> toInsaneMode(b);
-            }
+            if (PRESET_CONVERTERS.containsKey(b.preset)) { PRESET_CONVERTERS.get(b.preset).convert(b); }
             requestSync(toBytes(b));
             return InteractionResult.PASS;
         });
@@ -206,289 +207,5 @@ public class SkyBlockConfig implements ConfigData, Serializable {
             result = (SkyBlockConfig)in.readObject();
         } catch (ClassNotFoundException | IOException ignore) {}
         return result;
-    }
-
-    private static void toClassic(SkyBlockConfig config) {
-        config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
-        config.worldGen.IS_NETHER_SKYBLOCK                  = true;
-        config.worldGen.IS_END_SKYBLOCK                     = true;
-        config.worldGen.GENERATE_MAIN_ISLAND                = true;
-        config.worldGen.MAIN_ISLAND_RADIUS                  = 12;
-        config.worldGen.MAIN_ISLAND_DEPTH                   = 5;
-        config.worldGen.MAIN_ISLAND_TREE                    = true;
-        config.worldGen.GENERATE_SUB_ISLANDS                = false;
-        config.worldGen.SUB_ISLAND_DISTANCE                 = 128;
-        config.worldGen.SUB_ISLAND_RADIUS                   = 7;
-        config.worldGen.SUB_ISLAND_DEPTH                    = 5;
-        config.worldGen.APPLY_BIOME_DECORATIONS             = true;
-
-        config.structures.GEN_ANCIENT_CITY                  = false;
-        config.structures.GEN_BASTION_REMNANT               = false;
-        config.structures.GEN_BURIED_TREASURE               = false;
-        config.structures.GEN_DESERT_PYRAMID                = false;
-        config.structures.GEN_END_CITY                      = false;
-        config.structures.GEN_FORTRESS                      = false;
-        config.structures.GEN_IGLOO                         = false;
-        config.structures.GEN_JUNGLE_TEMPLE                 = false;
-        config.structures.GEN_MINESHAFT                     = false;
-        config.structures.GEN_MINESHAFT_MESA                = false;
-        config.structures.GEN_NETHER_FOSSIL                 = false;
-        config.structures.GEN_OCEAN_MONUMENT                = false;
-        config.structures.GEN_OCEAN_RUIN                    = false;
-        config.structures.GEN_PILLAGER_OUTPOST              = false;
-        config.structures.GEN_RUINED_PORTAL                 = false;
-        config.structures.GEN_SHIPWRECK                     = false;
-        config.structures.GEN_STRONGHOLD                    = false;
-        config.structures.GEN_SWAMP_HUT                     = false;
-        config.structures.GEN_VILLAGE                       = false;
-        config.structures.GEN_WOODLAND_MANSION              = false;
-        config.structures.GEN_ICEBERGS                      = false;
-        config.structures.GEN_GEODES                        = false;
-
-        config.drops.PHANTOM_ELYTRA                         = true;
-        config.drops.ENDER_DRAGON_HEAD                      = true;
-        config.drops.DROWNED_GOLD                           = true;
-        config.drops.HUSK_SAND                              = true;
-        config.drops.WITHER_ANCIENT_DEBRIS                  = true;
-        config.drops.TROPICAL_FISH_CORAL                    = true;
-
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = true;
-        config.trading.WANDERING_TRADER_SPONGE              = true;
-        config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
-        config.trading.WANDERING_TRADER_SCULK_CATALYST      = true;
-        config.trading.WANDERING_TRADER_LAVA_BUCKET         = true;
-        config.trading.WANDERING_TRADER_GLOW_BERRIES        = true;
-        config.trading.WANDERING_TRADER_CHORUS_PLANT        = true;
-        config.trading.WANDERING_TRADER_HEART_OF_THE_SEA    = true;
-        config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = true;
-        config.trading.WANDERING_TRADER_DISC_5              = true;
-        config.trading.WANDERING_TRADER_DISC_PIGSTEP        = true;
-        config.trading.WANDERING_TRADER_REDSTONE            = true;
-        config.trading.MASON_DEEPSLATE                      = true;
-        config.trading.MASON_TUFF                           = true;
-        config.trading.MASON_CALCITE                        = true;
-        config.trading.MASON_REINFORCED_DEEPSLATE           = true;
-        config.trading.CLERIC_SHULKER_SHELL                 = true;
-        config.trading.CLERIC_ECHO_SHARD                    = true;
-        config.trading.PIGLIN_NETHERRACK                    = true;
-        config.trading.PIGLIN_NYLIUM                        = true;
-        config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = true;
-        config.trading.HOTV_CLERIC_DIAMOND                  = true;
-
-        config.spawning.STOP_BAT_SPAWNS                     = true;
-        config.spawning.SAPLINGS_DIE_ON_SAND                = true;
-    }
-
-    private static void toHybrid(SkyBlockConfig config) {
-        config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
-        config.worldGen.IS_NETHER_SKYBLOCK                  = true;
-        config.worldGen.IS_END_SKYBLOCK                     = true;
-        config.worldGen.GENERATE_MAIN_ISLAND                = true;
-        config.worldGen.MAIN_ISLAND_RADIUS                  = 6;
-        config.worldGen.MAIN_ISLAND_DEPTH                   = 3;
-        config.worldGen.MAIN_ISLAND_TREE                    = true;
-        config.worldGen.GENERATE_SUB_ISLANDS                = true;
-        config.worldGen.SUB_ISLAND_DISTANCE                 = 128;
-        config.worldGen.SUB_ISLAND_RADIUS                   = 6;
-        config.worldGen.SUB_ISLAND_DEPTH                    = 3;
-        config.worldGen.APPLY_BIOME_DECORATIONS             = true;
-
-        config.structures.GEN_ANCIENT_CITY                  = true;
-        config.structures.GEN_BASTION_REMNANT               = true;
-        config.structures.GEN_BURIED_TREASURE               = true;
-        config.structures.GEN_DESERT_PYRAMID                = true;
-        config.structures.GEN_END_CITY                      = true;
-        config.structures.GEN_FORTRESS                      = true;
-        config.structures.GEN_IGLOO                         = true;
-        config.structures.GEN_JUNGLE_TEMPLE                 = true;
-        config.structures.GEN_MINESHAFT                     = true;
-        config.structures.GEN_MINESHAFT_MESA                = true;
-        config.structures.GEN_NETHER_FOSSIL                 = true;
-        config.structures.GEN_OCEAN_MONUMENT                = true;
-        config.structures.GEN_OCEAN_RUIN                    = true;
-        config.structures.GEN_PILLAGER_OUTPOST              = true;
-        config.structures.GEN_RUINED_PORTAL                 = true;
-        config.structures.GEN_SHIPWRECK                     = true;
-        config.structures.GEN_STRONGHOLD                    = true;
-        config.structures.GEN_SWAMP_HUT                     = true;
-        config.structures.GEN_VILLAGE                       = true;
-        config.structures.GEN_WOODLAND_MANSION              = true;
-        config.structures.GEN_ICEBERGS                      = true;
-        config.structures.GEN_GEODES                        = true;
-
-        config.drops.PHANTOM_ELYTRA                         = false;
-        config.drops.ENDER_DRAGON_HEAD                      = false;
-        config.drops.DROWNED_GOLD                           = false;
-        config.drops.HUSK_SAND                              = true;
-        config.drops.WITHER_ANCIENT_DEBRIS                  = true;
-        config.drops.TROPICAL_FISH_CORAL                    = true;
-
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;
-        config.trading.WANDERING_TRADER_SPONGE              = false;
-        config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
-        config.trading.WANDERING_TRADER_SCULK_CATALYST      = false;
-        config.trading.WANDERING_TRADER_LAVA_BUCKET         = true;
-        config.trading.WANDERING_TRADER_GLOW_BERRIES        = true;
-        config.trading.WANDERING_TRADER_CHORUS_PLANT        = false;
-        config.trading.WANDERING_TRADER_HEART_OF_THE_SEA    = false;
-        config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = false;
-        config.trading.WANDERING_TRADER_DISC_5              = false;
-        config.trading.WANDERING_TRADER_DISC_PIGSTEP        = false;
-        config.trading.WANDERING_TRADER_REDSTONE            = false;
-        config.trading.MASON_DEEPSLATE                      = true;
-        config.trading.MASON_TUFF                           = true;
-        config.trading.MASON_CALCITE                        = true;
-        config.trading.MASON_REINFORCED_DEEPSLATE           = false;
-        config.trading.CLERIC_SHULKER_SHELL                 = false;
-        config.trading.CLERIC_ECHO_SHARD                    = false;
-        config.trading.PIGLIN_NETHERRACK                    = false;
-        config.trading.PIGLIN_NYLIUM                        = false;
-        config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = false;
-        config.trading.HOTV_CLERIC_DIAMOND                  = false;
-
-        config.spawning.STOP_BAT_SPAWNS                     = true;
-        config.spawning.SAPLINGS_DIE_ON_SAND                = true;
-    }
-
-    private static void toOneBlockMode(SkyBlockConfig config) {
-        config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
-        config.worldGen.IS_NETHER_SKYBLOCK                  = true;
-        config.worldGen.IS_END_SKYBLOCK                     = true;
-        config.worldGen.GENERATE_MAIN_ISLAND                = true;
-        config.worldGen.MAIN_ISLAND_RADIUS                  = 1;
-        config.worldGen.MAIN_ISLAND_DEPTH                   = 1;
-        config.worldGen.MAIN_ISLAND_TREE                    = false;
-        config.worldGen.GENERATE_SUB_ISLANDS                = false;
-        config.worldGen.SUB_ISLAND_DISTANCE                 = 64;
-        config.worldGen.SUB_ISLAND_RADIUS                   = 1;
-        config.worldGen.SUB_ISLAND_DEPTH                    = 1;
-        config.worldGen.APPLY_BIOME_DECORATIONS             = true;
-
-        config.structures.GEN_ANCIENT_CITY                  = false;
-        config.structures.GEN_BASTION_REMNANT               = false;
-        config.structures.GEN_BURIED_TREASURE               = false;
-        config.structures.GEN_DESERT_PYRAMID                = false;
-        config.structures.GEN_END_CITY                      = false;
-        config.structures.GEN_FORTRESS                      = false;
-        config.structures.GEN_IGLOO                         = false;
-        config.structures.GEN_JUNGLE_TEMPLE                 = false;
-        config.structures.GEN_MINESHAFT                     = false;
-        config.structures.GEN_MINESHAFT_MESA                = false;
-        config.structures.GEN_NETHER_FOSSIL                 = false;
-        config.structures.GEN_OCEAN_MONUMENT                = false;
-        config.structures.GEN_OCEAN_RUIN                    = false;
-        config.structures.GEN_PILLAGER_OUTPOST              = false;
-        config.structures.GEN_RUINED_PORTAL                 = false;
-        config.structures.GEN_SHIPWRECK                     = false;
-        config.structures.GEN_STRONGHOLD                    = true;
-        config.structures.GEN_SWAMP_HUT                     = false;
-        config.structures.GEN_VILLAGE                       = false;
-        config.structures.GEN_WOODLAND_MANSION              = false;
-        config.structures.GEN_ICEBERGS                      = false;
-        config.structures.GEN_GEODES                        = false;
-
-        config.drops.PHANTOM_ELYTRA                         = true;
-        config.drops.ENDER_DRAGON_HEAD                      = true;
-        config.drops.DROWNED_GOLD                           = true;
-        config.drops.HUSK_SAND                              = true;
-        config.drops.WITHER_ANCIENT_DEBRIS                  = true;
-        config.drops.TROPICAL_FISH_CORAL                    = true;
-
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;
-        config.trading.WANDERING_TRADER_SPONGE              = true;
-        config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
-        config.trading.WANDERING_TRADER_SCULK_CATALYST      = true;
-        config.trading.WANDERING_TRADER_LAVA_BUCKET         = true;
-        config.trading.WANDERING_TRADER_GLOW_BERRIES        = true;
-        config.trading.WANDERING_TRADER_CHORUS_PLANT        = true;
-        config.trading.WANDERING_TRADER_HEART_OF_THE_SEA    = true;
-        config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = true;
-        config.trading.WANDERING_TRADER_DISC_5              = true;
-        config.trading.WANDERING_TRADER_DISC_PIGSTEP        = true;
-        config.trading.WANDERING_TRADER_REDSTONE            = true;
-        config.trading.MASON_DEEPSLATE                      = true;
-        config.trading.MASON_TUFF                           = true;
-        config.trading.MASON_CALCITE                        = true;
-        config.trading.MASON_REINFORCED_DEEPSLATE           = false;
-        config.trading.CLERIC_SHULKER_SHELL                 = true;
-        config.trading.CLERIC_ECHO_SHARD                    = true;
-        config.trading.PIGLIN_NETHERRACK                    = true;
-        config.trading.PIGLIN_NYLIUM                        = true;
-        config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = true;
-        config.trading.HOTV_CLERIC_DIAMOND                  = true;
-
-        config.spawning.STOP_BAT_SPAWNS                     = true;
-        config.spawning.SAPLINGS_DIE_ON_SAND                = true;
-    }
-
-    private static void toInsaneMode(SkyBlockConfig config) {
-        config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
-        config.worldGen.IS_NETHER_SKYBLOCK                  = true;
-        config.worldGen.IS_END_SKYBLOCK                     = true;
-        config.worldGen.GENERATE_MAIN_ISLAND                = true;
-        config.worldGen.MAIN_ISLAND_RADIUS                  = 1;
-        config.worldGen.MAIN_ISLAND_DEPTH                   = 1;
-        config.worldGen.MAIN_ISLAND_TREE                    = false;
-        config.worldGen.GENERATE_SUB_ISLANDS                = false;
-        config.worldGen.SUB_ISLAND_DISTANCE                 = 64;
-        config.worldGen.SUB_ISLAND_RADIUS                   = 1;
-        config.worldGen.SUB_ISLAND_DEPTH                    = 1;
-        config.worldGen.APPLY_BIOME_DECORATIONS             = false;
-
-        config.structures.GEN_ANCIENT_CITY                  = false;
-        config.structures.GEN_BASTION_REMNANT               = false;
-        config.structures.GEN_BURIED_TREASURE               = false;
-        config.structures.GEN_DESERT_PYRAMID                = false;
-        config.structures.GEN_END_CITY                      = true;
-        config.structures.GEN_FORTRESS                      = false;
-        config.structures.GEN_IGLOO                         = false;
-        config.structures.GEN_JUNGLE_TEMPLE                 = false;
-        config.structures.GEN_MINESHAFT                     = false;
-        config.structures.GEN_MINESHAFT_MESA                = false;
-        config.structures.GEN_NETHER_FOSSIL                 = false;
-        config.structures.GEN_OCEAN_MONUMENT                = false;
-        config.structures.GEN_OCEAN_RUIN                    = false;
-        config.structures.GEN_PILLAGER_OUTPOST              = false;
-        config.structures.GEN_RUINED_PORTAL                 = false;
-        config.structures.GEN_SHIPWRECK                     = false;
-        config.structures.GEN_STRONGHOLD                    = false;
-        config.structures.GEN_SWAMP_HUT                     = false;
-        config.structures.GEN_VILLAGE                       = false;
-        config.structures.GEN_WOODLAND_MANSION              = false;
-        config.structures.GEN_ICEBERGS                      = false;
-        config.structures.GEN_GEODES                        = false;
-
-        config.drops.PHANTOM_ELYTRA                         = false;
-        config.drops.ENDER_DRAGON_HEAD                      = false;
-        config.drops.DROWNED_GOLD                           = false;
-        config.drops.HUSK_SAND                              = true;
-        config.drops.WITHER_ANCIENT_DEBRIS                  = true;
-        config.drops.TROPICAL_FISH_CORAL                    = true;
-
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = true;
-        config.trading.WANDERING_TRADER_SPONGE              = true;
-        config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
-        config.trading.WANDERING_TRADER_SCULK_CATALYST      = true;
-        config.trading.WANDERING_TRADER_LAVA_BUCKET         = true;
-        config.trading.WANDERING_TRADER_GLOW_BERRIES        = true;
-        config.trading.WANDERING_TRADER_CHORUS_PLANT        = true;
-        config.trading.WANDERING_TRADER_HEART_OF_THE_SEA    = true;
-        config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = true;
-        config.trading.WANDERING_TRADER_DISC_5              = true;
-        config.trading.WANDERING_TRADER_DISC_PIGSTEP        = true;
-        config.trading.WANDERING_TRADER_REDSTONE            = true;
-        config.trading.MASON_DEEPSLATE                      = true;
-        config.trading.MASON_TUFF                           = true;
-        config.trading.MASON_CALCITE                        = true;
-        config.trading.MASON_REINFORCED_DEEPSLATE           = true;
-        config.trading.CLERIC_SHULKER_SHELL                 = true;
-        config.trading.CLERIC_ECHO_SHARD                    = true;
-        config.trading.PIGLIN_NETHERRACK                    = true;
-        config.trading.PIGLIN_NYLIUM                        = true;
-        config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = true;
-        config.trading.HOTV_CLERIC_DIAMOND                  = true;
-
-        config.spawning.STOP_BAT_SPAWNS                     = true;
-        config.spawning.SAPLINGS_DIE_ON_SAND                = true;
     }
 }
