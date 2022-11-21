@@ -78,5 +78,6 @@ public class Hybrid implements IPreset {
 
         config.spawning.STOP_BAT_SPAWNS                     = true;
         config.spawning.SAPLINGS_DIE_ON_SAND                = true;
+        config.spawning.ENDERMITES_SPAWN_ENDSTONE           = true;
     }
 }

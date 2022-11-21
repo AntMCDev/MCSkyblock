@@ -139,9 +139,10 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     }
 
     public static class Spawning implements Serializable {
-        public String[] SPAWN_COORDS        = { "0", "64", "0" };
-        public boolean STOP_BAT_SPAWNS      = true;
-        public boolean SAPLINGS_DIE_ON_SAND = true;
+        public String[] SPAWN_COORDS                = { "0", "64", "0" };
+        public boolean STOP_BAT_SPAWNS              = true;
+        public boolean SAPLINGS_DIE_ON_SAND         = true;
+        public boolean ENDERMITES_SPAWN_ENDSTONE    = true;
     }
 
     @ConfigEntry.Gui.Excluded

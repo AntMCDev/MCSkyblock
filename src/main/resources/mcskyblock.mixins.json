@@ -15,7 +15,8 @@
     "MixinGeodeFeature",
     "MixinGeodeConfigurationAccessor",
     "MixinDebugScreenOverlay",
-    "MixinSaplingBlock"
+    "MixinSaplingBlock",
+    "MixinEndermite"
   ],
   "client": [
     "MixinClientLevelClientLevelData"
