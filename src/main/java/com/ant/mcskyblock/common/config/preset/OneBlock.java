@@ -1,25 +1,25 @@
-package com.ant.mcskyblock.fabric.config.preset;
+package com.ant.mcskyblock.common.config.preset;
 
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 
 /**
- * Main island that has no outer edge islands. No structures spawn. Only custom loot that is dropped is to
- * progress to the ender dragon
+ * You spawn on a single grass block with no tree ! There is no outer edge islands ! Strongholds and
+ * End Cities along with a couple of other random structures spawn. How are you going to get to the end cities ?
  */
-public class Classic implements IPreset {
+public class OneBlock implements IPreset {
     @Override
     public void convert(SkyBlockConfig config) {
         config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
         config.worldGen.IS_NETHER_SKYBLOCK                  = true;
         config.worldGen.IS_END_SKYBLOCK                     = true;
         config.worldGen.GENERATE_MAIN_ISLAND                = true;
-        config.worldGen.MAIN_ISLAND_RADIUS                  = 12;
-        config.worldGen.MAIN_ISLAND_DEPTH                   = 5;
-        config.worldGen.MAIN_ISLAND_TREE                    = true;
+        config.worldGen.MAIN_ISLAND_RADIUS                  = 1;
+        config.worldGen.MAIN_ISLAND_DEPTH                   = 1;
+        config.worldGen.MAIN_ISLAND_TREE                    = false;
         config.worldGen.GENERATE_SUB_ISLANDS                = false;
-        config.worldGen.SUB_ISLAND_DISTANCE                 = 128;
-        config.worldGen.SUB_ISLAND_RADIUS                   = 7;
-        config.worldGen.SUB_ISLAND_DEPTH                    = 5;
+        config.worldGen.SUB_ISLAND_DISTANCE                 = 64;
+        config.worldGen.SUB_ISLAND_RADIUS                   = 1;
+        config.worldGen.SUB_ISLAND_DEPTH                    = 1;
         config.worldGen.APPLY_BIOME_DECORATIONS             = true;
 
         config.structures.GEN_ANCIENT_CITY                  = false;
@@ -38,7 +38,7 @@ public class Classic implements IPreset {
         config.structures.GEN_PILLAGER_OUTPOST              = false;
         config.structures.GEN_RUINED_PORTAL                 = false;
         config.structures.GEN_SHIPWRECK                     = false;
-        config.structures.GEN_STRONGHOLD                    = false;
+        config.structures.GEN_STRONGHOLD                    = true;
         config.structures.GEN_SWAMP_HUT                     = false;
         config.structures.GEN_VILLAGE                       = false;
         config.structures.GEN_WOODLAND_MANSION              = false;
@@ -52,7 +52,7 @@ public class Classic implements IPreset {
         config.drops.WITHER_ANCIENT_DEBRIS                  = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;
 
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = true;
+        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;
         config.trading.WANDERING_TRADER_SPONGE              = true;
         config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
         config.trading.WANDERING_TRADER_SCULK_CATALYST      = true;
@@ -67,7 +67,7 @@ public class Classic implements IPreset {
         config.trading.MASON_DEEPSLATE                      = true;
         config.trading.MASON_TUFF                           = true;
         config.trading.MASON_CALCITE                        = true;
-        config.trading.MASON_REINFORCED_DEEPSLATE           = true;
+        config.trading.MASON_REINFORCED_DEEPSLATE           = false;
         config.trading.CLERIC_SHULKER_SHELL                 = true;
         config.trading.CLERIC_ECHO_SHARD                    = true;
         config.trading.PIGLIN_NETHERRACK                    = true;

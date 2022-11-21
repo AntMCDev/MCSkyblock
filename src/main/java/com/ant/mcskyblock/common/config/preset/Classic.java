@@ -1,31 +1,32 @@
-package com.ant.mcskyblock.fabric.config.preset;
+package com.ant.mcskyblock.common.config.preset;
 
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 
 /**
- * Do you even try ?
+ * Main island that has no outer edge islands. No structures spawn. Only custom loot that is dropped is to
+ * progress to the ender dragon
  */
-public class Insane implements IPreset {
+public class Classic implements IPreset {
     @Override
     public void convert(SkyBlockConfig config) {
         config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
         config.worldGen.IS_NETHER_SKYBLOCK                  = true;
         config.worldGen.IS_END_SKYBLOCK                     = true;
         config.worldGen.GENERATE_MAIN_ISLAND                = true;
-        config.worldGen.MAIN_ISLAND_RADIUS                  = 1;
-        config.worldGen.MAIN_ISLAND_DEPTH                   = 1;
-        config.worldGen.MAIN_ISLAND_TREE                    = false;
+        config.worldGen.MAIN_ISLAND_RADIUS                  = 12;
+        config.worldGen.MAIN_ISLAND_DEPTH                   = 5;
+        config.worldGen.MAIN_ISLAND_TREE                    = true;
         config.worldGen.GENERATE_SUB_ISLANDS                = false;
-        config.worldGen.SUB_ISLAND_DISTANCE                 = 64;
-        config.worldGen.SUB_ISLAND_RADIUS                   = 1;
-        config.worldGen.SUB_ISLAND_DEPTH                    = 1;
-        config.worldGen.APPLY_BIOME_DECORATIONS             = false;
+        config.worldGen.SUB_ISLAND_DISTANCE                 = 128;
+        config.worldGen.SUB_ISLAND_RADIUS                   = 7;
+        config.worldGen.SUB_ISLAND_DEPTH                    = 5;
+        config.worldGen.APPLY_BIOME_DECORATIONS             = true;
 
         config.structures.GEN_ANCIENT_CITY                  = false;
         config.structures.GEN_BASTION_REMNANT               = false;
         config.structures.GEN_BURIED_TREASURE               = false;
         config.structures.GEN_DESERT_PYRAMID                = false;
-        config.structures.GEN_END_CITY                      = true;
+        config.structures.GEN_END_CITY                      = false;
         config.structures.GEN_FORTRESS                      = false;
         config.structures.GEN_IGLOO                         = false;
         config.structures.GEN_JUNGLE_TEMPLE                 = false;
@@ -44,9 +45,9 @@ public class Insane implements IPreset {
         config.structures.GEN_ICEBERGS                      = false;
         config.structures.GEN_GEODES                        = false;
 
-        config.drops.PHANTOM_ELYTRA                         = false;
-        config.drops.ENDER_DRAGON_HEAD                      = false;
-        config.drops.DROWNED_GOLD                           = false;
+        config.drops.PHANTOM_ELYTRA                         = true;
+        config.drops.ENDER_DRAGON_HEAD                      = true;
+        config.drops.DROWNED_GOLD                           = true;
         config.drops.HUSK_SAND                              = true;
         config.drops.WITHER_ANCIENT_DEBRIS                  = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;

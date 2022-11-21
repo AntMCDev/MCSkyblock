@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.config.preset;
+package com.ant.mcskyblock.common.config.preset;
 
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 

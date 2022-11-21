@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common.config;
 
-import com.ant.mcskyblock.fabric.config.preset.*;
+import com.ant.mcskyblock.common.config.preset.*;
 import com.ant.mcskyblock.fabric.network.PacketHander;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
