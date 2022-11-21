@@ -5,9 +5,10 @@
 
   "text.autoconfig.mcskyblock.category.default"                                 : "Presets",
 
-  "text.autoconfig.mcskyblock.option.preset"                                    : "Difficulty Preset",
+  "text.autoconfig.mcskyblock.option.preset"                                    : "Presets",
+  "text.autoconfig.mcskyblock.option.preset.@PrefixText" : "Welcome To MCSkyblock\n\nPresets:\n\n* Classic:  Main island that has no outer edge islands. No structures spawn. Only custom loot that is dropped is to progress to the ender dragon\n\n* Hybrid:  Main island with outer edge islands, based on there biome and where you travel. Almost all structures spawn. Husks drop sand and many other custom mob drops and custom wandering trader trades.Pesky bats don't spawn as much. Dead bush's can be gathered by placing saplings on sand.\n\n* One Block:  You spawn on a single grass block with no tree ! There is no outer edge islands ! Strongholds and End Cities along with a couple of other random structures spawn. How are you going to get to the end cities ?\n\n* Insane:  Do you even try ?\n\n* Custom:  Set it up the way you like. Please note custom settings will not take place unless you set this option",
 
-  "text.autoconfig.mcskyblock.category.worldGen"                                : "Generation Settings",
+  "text.autoconfig.mcskyblock.category.worldGen"                                : "Generation",
   "text.autoconfig.mcskyblock.option.worldGen.IS_OVERWORLD_SKYBLOCK"            : "Overworld Skyblock",
   "text.autoconfig.mcskyblock.option.worldGen.IS_NETHER_SKYBLOCK"               : "Nether Skyblock",
   "text.autoconfig.mcskyblock.option.worldGen.IS_END_SKYBLOCK"                  : "End Skyblock",
@@ -21,7 +22,7 @@
   "text.autoconfig.mcskyblock.option.worldGen.SUB_ISLAND_DEPTH"                 : "Sub Island Depth",
   "text.autoconfig.mcskyblock.option.worldGen.APPLY_BIOME_DECORATIONS"          : "Apply Biome Decorations",
 
-  "text.autoconfig.mcskyblock.category.structures"                              : "Structure Settings",
+  "text.autoconfig.mcskyblock.category.structures"                              : "Structure",
   "text.autoconfig.mcskyblock.option.structures.GEN_ANCIENT_CITY"               : "Ancient Cities",
   "text.autoconfig.mcskyblock.option.structures.GEN_BASTION_REMNANT"            : "Bastions",
   "text.autoconfig.mcskyblock.option.structures.GEN_BURIED_TREASURE"            : "Buried Treasure",
@@ -46,7 +47,7 @@
   "text.autoconfig.mcskyblock.option.structures.GEN_GEODES"                     : "Geodes",
   "text.autoconfig.mcskyblock.option.structures.CUSTOM_STRUCTURES"              : "List of Custom Structures",
 
-  "text.autoconfig.mcskyblock.category.drops"                                   : "Loot Settings",
+  "text.autoconfig.mcskyblock.category.drops"                                   : "Loot",
   "text.autoconfig.mcskyblock.option.drops.PHANTOM_ELYTRA"                      : "Phantoms Elytra",
   "text.autoconfig.mcskyblock.option.drops.ENDER_DRAGON_HEAD"                   : "Ender Dragons Dragon Head",
   "text.autoconfig.mcskyblock.option.drops.DROWNED_GOLD"                        : "Drowned Gold Ingots",
@@ -54,7 +55,7 @@
   "text.autoconfig.mcskyblock.option.drops.WITHER_ANCIENT_DEBRIS"               : "Withers Ancient Debris",
   "text.autoconfig.mcskyblock.option.drops.TROPICAL_FISH_CORAL"                 : "Tropical Fish Coral",
 
-  "text.autoconfig.mcskyblock.category.trading"                                 : "Trading Setting",
+  "text.autoconfig.mcskyblock.category.trading"                                 : "Trading",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_END_PORTAL_FRAME" : "W.Traders End Portal Frame",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_SPONGE"           : "W.Traders Sponge",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_GLOW_LICHEN"      : "W.Traders Glow Lichen",
@@ -81,6 +82,7 @@
   "text.autoconfig.mcskyblock.category.spawning"                                : "Spawning",
   "text.autoconfig.mcskyblock.option.spawning.SPAWN_COORDS"                     : "Spawn Co-ordinates",
   "text.autoconfig.mcskyblock.option.spawning.STOP_BAT_SPAWNS"                  : "Stop Bat Spawns",
+  "text.autoconfig.mcskyblock.option.spawning.SAPLINGS_DIE_ON_SAND"             : "Sapling On Sand Turns to Dead Bush",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",
