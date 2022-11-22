@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Locale;
 
 public interface IAdvancement {
-    default boolean enabled() { return SkyBlockConfig.ACHIEVEMENTS_ENABLED; }
+    default boolean enabled() { return SkyBlockConfig.INSTANCE.achievementsEnabled; }
     String getJSON();
     String getName();
 
