@@ -44,19 +44,25 @@ public class StructureCheckPacket extends AbstractPacket {
                     ClientStructureTracker.SupportedStructures.FORTRESS : ClientStructureTracker.SupportedStructures.NONE;
 
             if (structure == ClientStructureTracker.SupportedStructures.NONE) {
-                structure = LocationPredicate.inStructure(BuiltinStructures.OCEAN_MONUMENT)
+                structure = LocationPredicate.inStructure(BuiltinStructures.BASTION_REMNANT)
                         .matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z) ?
-                        ClientStructureTracker.SupportedStructures.MONUMENT : ClientStructureTracker.SupportedStructures.NONE;
+                        ClientStructureTracker.SupportedStructures.BASTION : ClientStructureTracker.SupportedStructures.NONE;
 
                 if (structure == ClientStructureTracker.SupportedStructures.NONE) {
-                    structure = LocationPredicate.inStructure(BuiltinStructures.SWAMP_HUT)
-                            .matches((ServerLevel)player.level, player.position().x, player.position().y, player.position().z) ?
-                            ClientStructureTracker.SupportedStructures.SWAMP_HUT : ClientStructureTracker.SupportedStructures.NONE;
+                    structure = LocationPredicate.inStructure(BuiltinStructures.OCEAN_MONUMENT)
+                            .matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z) ?
+                            ClientStructureTracker.SupportedStructures.MONUMENT : ClientStructureTracker.SupportedStructures.NONE;
 
                     if (structure == ClientStructureTracker.SupportedStructures.NONE) {
-                        structure = LocationPredicate.inStructure(BuiltinStructures.PILLAGER_OUTPOST)
+                        structure = LocationPredicate.inStructure(BuiltinStructures.SWAMP_HUT)
                                 .matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z) ?
-                                ClientStructureTracker.SupportedStructures.PILLAGER_OUTPOST : ClientStructureTracker.SupportedStructures.NONE;
+                                ClientStructureTracker.SupportedStructures.SWAMP_HUT : ClientStructureTracker.SupportedStructures.NONE;
+
+                        if (structure == ClientStructureTracker.SupportedStructures.NONE) {
+                            structure = LocationPredicate.inStructure(BuiltinStructures.PILLAGER_OUTPOST)
+                                    .matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z) ?
+                                    ClientStructureTracker.SupportedStructures.PILLAGER_OUTPOST : ClientStructureTracker.SupportedStructures.NONE;
+                        }
                     }
                 }
             }

@@ -143,6 +143,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean STOP_BAT_SPAWNS              = true;
         public boolean SAPLINGS_DIE_ON_SAND         = true;
         public boolean ENDERMITES_SPAWN_ENDSTONE    = true;
+        public boolean SPAWN_PIGLIN_BRUTES          = true;
     }
 
     @ConfigEntry.Gui.Excluded

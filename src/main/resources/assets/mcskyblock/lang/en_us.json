@@ -83,6 +83,8 @@
   "text.autoconfig.mcskyblock.option.spawning.SPAWN_COORDS"                     : "Spawn Co-ordinates",
   "text.autoconfig.mcskyblock.option.spawning.STOP_BAT_SPAWNS"                  : "Stop Bat Spawns",
   "text.autoconfig.mcskyblock.option.spawning.SAPLINGS_DIE_ON_SAND"             : "Sapling On Sand Turns to Dead Bush",
+  "text.autoconfig.mcskyblock.option.spawning.ENDERMITES_SPAWN_ENDSTONE"        : "Endermites create End Stone",
+  "text.autoconfig.mcskyblock.option.spawning.SPAWN_PIGLIN_BRUTES"              : "Piglin Brutes spawn in Bastions",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",

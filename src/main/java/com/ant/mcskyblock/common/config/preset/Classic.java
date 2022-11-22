@@ -78,5 +78,6 @@ public class Classic implements IPreset {
         config.spawning.STOP_BAT_SPAWNS                     = true;
         config.spawning.SAPLINGS_DIE_ON_SAND                = true;
         config.spawning.ENDERMITES_SPAWN_ENDSTONE           = true;
+        config.spawning.SPAWN_PIGLIN_BRUTES                 = true;
     }
 }
