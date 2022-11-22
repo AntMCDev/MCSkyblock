@@ -3,7 +3,7 @@ package com.ant.mcskyblock.common.config.preset;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 
 /**
- * Main island with outer edge islands, based on there biome and where you travel. Almost all structures
+ * Main island with outer edge islands, based on three biome and where you travel. Almost all structures
  * spawn. Husks drop sand and many other custom mob drops and custom wandering trader trades. Pesky bats don't
  * spawn as much. Dead bush's can be gathered by placing saplings on sand.
  */
@@ -65,6 +65,7 @@ public class Hybrid implements IPreset {
         config.trading.WANDERING_TRADER_DISC_5              = false;
         config.trading.WANDERING_TRADER_DISC_PIGSTEP        = false;
         config.trading.WANDERING_TRADER_REDSTONE            = false;
+        config.trading.WANDERING_TRADER_TWO_TALL_FLOWERS    = false;
         config.trading.MASON_DEEPSLATE                      = true;
         config.trading.MASON_TUFF                           = true;
         config.trading.MASON_CALCITE                        = true;

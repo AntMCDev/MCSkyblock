@@ -126,6 +126,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean WANDERING_TRADER_DISC_5              = false;
         public boolean WANDERING_TRADER_DISC_PIGSTEP        = false;
         public boolean WANDERING_TRADER_REDSTONE            = false;
+        public boolean WANDERING_TRADER_TWO_TALL_FLOWERS    = false;
         public boolean MASON_DEEPSLATE                      = false;
         public boolean MASON_TUFF                           = false;
         public boolean MASON_CALCITE                        = false;

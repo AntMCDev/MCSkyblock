@@ -25,7 +25,7 @@ public class Insane implements IPreset {
         config.structures.GEN_BASTION_REMNANT               = false;
         config.structures.GEN_BURIED_TREASURE               = false;
         config.structures.GEN_DESERT_PYRAMID                = false;
-        config.structures.GEN_END_CITY                      = true;
+        config.structures.GEN_END_CITY                      = false;
         config.structures.GEN_FORTRESS                      = false;
         config.structures.GEN_IGLOO                         = false;
         config.structures.GEN_JUNGLE_TEMPLE                 = false;
@@ -44,14 +44,14 @@ public class Insane implements IPreset {
         config.structures.GEN_ICEBERGS                      = false;
         config.structures.GEN_GEODES                        = false;
 
-        config.drops.PHANTOM_ELYTRA                         = false;
-        config.drops.ENDER_DRAGON_HEAD                      = false;
+        config.drops.PHANTOM_ELYTRA                         = true;
+        config.drops.ENDER_DRAGON_HEAD                      = true;
         config.drops.DROWNED_GOLD                           = false;
         config.drops.HUSK_SAND                              = true;
         config.drops.WITHER_ANCIENT_DEBRIS                  = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;
 
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = true;
+        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;
         config.trading.WANDERING_TRADER_SPONGE              = true;
         config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
         config.trading.WANDERING_TRADER_SCULK_CATALYST      = true;
@@ -63,6 +63,7 @@ public class Insane implements IPreset {
         config.trading.WANDERING_TRADER_DISC_5              = true;
         config.trading.WANDERING_TRADER_DISC_PIGSTEP        = true;
         config.trading.WANDERING_TRADER_REDSTONE            = true;
+        config.trading.WANDERING_TRADER_TWO_TALL_FLOWERS    = true;
         config.trading.MASON_DEEPSLATE                      = true;
         config.trading.MASON_TUFF                           = true;
         config.trading.MASON_CALCITE                        = true;

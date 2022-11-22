@@ -63,7 +63,8 @@ public class OneBlock implements IPreset {
         config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = true;
         config.trading.WANDERING_TRADER_DISC_5              = true;
         config.trading.WANDERING_TRADER_DISC_PIGSTEP        = true;
-        config.trading.WANDERING_TRADER_REDSTONE            = true;
+        config.trading.WANDERING_TRADER_REDSTONE            = false;
+        config.trading.WANDERING_TRADER_TWO_TALL_FLOWERS    = true;
         config.trading.MASON_DEEPSLATE                      = true;
         config.trading.MASON_TUFF                           = true;
         config.trading.MASON_CALCITE                        = true;
