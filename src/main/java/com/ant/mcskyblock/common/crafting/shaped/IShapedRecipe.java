@@ -11,6 +11,8 @@ public interface IShapedRecipe {
     Collection<IShapedIngredient> getIngredients();
     String[] getPattern();
 
+    default int getCount(){ return 1;};
+
     default ResourceLocation getResourceLocation() {
         return new ResourceLocation(SkyBlock.MOD_NAME, getBlock().substring(getBlock().indexOf(":")+1));
     }

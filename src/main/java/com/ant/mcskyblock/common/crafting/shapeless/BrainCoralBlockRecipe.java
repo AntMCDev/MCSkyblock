@@ -7,9 +7,7 @@ import java.util.Collections;
 
 public class BrainCoralBlockRecipe implements IShapelessRecipe {
     @Override
-    public boolean enabled() {
-        return SkyBlockConfig.CRAFTING.BRAIN_CORAL_BLOCK;
-    }
+    public boolean enabled() {return SkyBlockConfig.CRAFTING.BRAIN_CORAL_BLOCK;}
 
     @Override
     public String getBlock() {

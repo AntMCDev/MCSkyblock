@@ -81,7 +81,13 @@ public class Hybrid implements IPreset {
         config.spawning.ENDERMITES_SPAWN_ENDSTONE           = true;
         config.spawning.SPAWN_PIGLIN_BRUTES                 = true;
 
-        config.crafting.BRAIN_CORAL_BLOCK                   = true;
+        config.crafting.CORAL_BLOCKS                        = true;
+        config.crafting.KELP                                = true;
+        config.crafting.NETHERRACK                          = true;
         config.crafting.SPORE_BLOSSOM                       = true;
+        config.crafting.END_PORTAL_FRAME                    = true;
+        config.crafting.HEART_OF_THE_SEA                    = true;
+        config.crafting.BUNDLE                              = true;
+        config.crafting.RED_SAND                            = true;
     }
 }

@@ -152,8 +152,15 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     }
 
     public static class Crafting implements Serializable {
-        public boolean BRAIN_CORAL_BLOCK    = true;
+        public boolean CORAL_BLOCKS         = true;
+        public boolean KELP                 = true;
+        public boolean NETHERRACK           = true;
+
         public boolean SPORE_BLOSSOM        = true;
+        public boolean BUNDLE               = false;
+        public boolean HEART_OF_THE_SEA     = true;
+        public boolean END_PORTAL_FRAME     = false;
+        public boolean RED_SAND             = true;
     }
 
     @ConfigEntry.Gui.Excluded

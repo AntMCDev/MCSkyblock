@@ -88,8 +88,14 @@
   "text.autoconfig.mcskyblock.option.spawning.SPAWN_PIGLIN_BRUTES"              : "Piglin Brutes spawn in Bastions",
 
   "text.autoconfig.mcskyblock.category.crafting"                                : "Crafting",
-  "text.autoconfig.mcskyblock.option.crafting.BRAIN_CORAL_BLOCK"                : "Brain Coral Block",
+  "text.autoconfig.mcskyblock.option.crafting.CORAL_BLOCKS"                     : "Coral Blocks",
+  "text.autoconfig.mcskyblock.option.crafting.KELP"                             : "Kelp",
+  "text.autoconfig.mcskyblock.option.crafting.NETHERRACK"                       : "Netherrack",
   "text.autoconfig.mcskyblock.option.crafting.SPORE_BLOSSOM"                    : "Spore Blossom",
+  "text.autoconfig.mcskyblock.option.crafting.BUNDLE"                           : "Bundle",
+  "text.autoconfig.mcskyblock.option.crafting.HEARTOFTHESEA"                    : "Heart Of The Sea",
+  "text.autoconfig.mcskyblock.option.crafting.END_PORTAL_FRAME"                 : "End Portal Frames",
+  "text.autoconfig.mcskyblock.option.crafting.RED_SAND"                         : "Red Sand",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",

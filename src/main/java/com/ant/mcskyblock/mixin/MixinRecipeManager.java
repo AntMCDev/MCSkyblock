@@ -1,10 +1,8 @@
 package com.ant.mcskyblock.mixin;
 
-import com.ant.mcskyblock.common.crafting.shaped.IShapedRecipe;
-import com.ant.mcskyblock.common.crafting.shaped.SporeBlossomRecipe;
-import com.ant.mcskyblock.common.crafting.shapeless.BrainCoralBlockRecipe;
+import com.ant.mcskyblock.common.crafting.shaped.*;
+import com.ant.mcskyblock.common.crafting.shapeless.*;
 import com.ant.mcskyblock.common.crafting.CraftingHelper;
-import com.ant.mcskyblock.common.crafting.shapeless.IShapelessRecipe;
 import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -25,8 +23,21 @@ import java.util.stream.Stream;
 
 @Mixin(RecipeManager.class)
 public class MixinRecipeManager {
-    private static final List<IShapedRecipe> SHAPED_CRAFTING_RECIPES = List.of(new SporeBlossomRecipe());
-    private static final List<IShapelessRecipe> SHAPELESS_CRAFTING_RECIPES = List.of(new BrainCoralBlockRecipe());
+    private static final List<IShapedRecipe> SHAPED_CRAFTING_RECIPES = List.of(
+            new SporeBlossomRecipe(),
+            new HeartOfTheSeaRecipe(),
+            new EndPortalFrameRecipe(),
+            new BundleRecipe(),
+            new RedSandRecipe()
+    );
+    private static final List<IShapelessRecipe> SHAPELESS_CRAFTING_RECIPES = List.of(
+            new BrainCoralBlockRecipe(),
+            new BubbleCoralBlockRecipe(),
+            new FireCoralBlockRecipe(),
+            new HornCoralBlockRecipe(),
+            new TubeCoralBlockRecipe(),
+            new KelpRecipe()
+    );
 
     @Inject(at = @At("HEAD"), method = "apply")
     protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profilerFiller, CallbackInfo ci) {

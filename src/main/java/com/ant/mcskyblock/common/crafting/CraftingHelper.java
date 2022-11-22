@@ -26,6 +26,9 @@ public abstract class CraftingHelper {
 
         JsonObject result = new JsonObject();
         result.addProperty("item", recipe.getBlock());
+        if( recipe.getCount() > 1 ){
+            result.addProperty("count", recipe.getCount());
+        }
         json.add("result", result);
 
         return json;
@@ -47,6 +50,9 @@ public abstract class CraftingHelper {
 
         JsonObject result = new JsonObject();
         result.addProperty("item", recipe.getBlock());
+        if( recipe.getCount() > 1 ){
+            result.addProperty("count", recipe.getCount());
+        }
         json.add("result", result);
 
         return json;
