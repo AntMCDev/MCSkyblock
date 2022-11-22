@@ -1,9 +1,12 @@
-package com.ant.mcskyblock.common.advancements;
+package com.ant.mcskyblock.common.advancements.skyblock;
+
+import com.ant.mcskyblock.common.advancements.IAdvancement;
+import com.ant.mcskyblock.common.config.SkyBlockConfig;
 
 public class Skyblock implements IAdvancement {
     @Override
     public boolean enabled() {
-        return true;
+        return SkyBlockConfig.INSTANCE.achievementsEnabled;
     }
 
     @Override

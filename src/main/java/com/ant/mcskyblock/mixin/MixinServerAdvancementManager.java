@@ -2,7 +2,7 @@ package com.ant.mcskyblock.mixin;
 
 import com.ant.mcskyblock.common.advancements.AdvancementHelper;
 import com.ant.mcskyblock.common.advancements.IAdvancement;
-import com.ant.mcskyblock.common.advancements.Skyblock;
+import com.ant.mcskyblock.common.advancements.skyblock.Skyblock;
 import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ServerAdvancementManager;
