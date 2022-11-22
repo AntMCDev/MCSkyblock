@@ -130,7 +130,7 @@ public class LootTableUtils {
         if (SkyBlockConfig.TRADING.HOTV_CLERIC_DIAMOND && !SkyBlockConfig.STRUCTURES.GEN_END_CITY ) {
             clericHotVLootTable.add(LootItem.lootTableItem(Items.DIAMOND).build());
         }
-        if (SkyBlockConfig.TRADING.HOTV_CLERIC_BUDDING_AMETHYST ) {
+        if (SkyBlockConfig.TRADING.HOTV_CLERIC_BUDDING_AMETHYST && !SkyBlockConfig.STRUCTURES.GEN_GEODES) {
             clericHotVLootTable.add(LootItem.lootTableItem(Items.BUDDING_AMETHYST).build());
         }
         existingLootPools.put(BuiltInLootTables.CLERIC_GIFT, new LootPoolReference(0, clericHotVLootTable));
