@@ -113,6 +113,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean TROPICAL_FISH_CORAL      = true;
 
         public boolean BRUTE_ANCIENT_DEBRIS     = true;
+        public boolean FISHING_COCO_BEANS       = true;
     };
 
     public static class Trading implements Serializable {

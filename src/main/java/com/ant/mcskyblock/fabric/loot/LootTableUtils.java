@@ -7,6 +7,7 @@ import com.ant.mcskyblock.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.mixin.MixinLootTableAccessor;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.client.resources.SkinManager;
+import net.minecraft.data.loot.FishingLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -125,6 +126,18 @@ public class LootTableUtils {
                     .setWeight(20).build());
         }
         existingLootPools.put(BuiltInLootTables.PIGLIN_BARTERING, new LootPoolReference(0, piglinLootTable));
+
+
+        List<LootPoolEntryContainer> fishingLootTable = new ArrayList<>();
+        if (SkyBlockConfig.DROPS.FISHING_COCO_BEANS) {
+            fishingLootTable.add(LootItem.lootTableItem(Items.COCOA_BEANS)
+                    .when(FishingLoot.IN_JUNGLE.or(FishingLoot.IN_BAMBOO_JUNGLE.or(FishingLoot.IN_SPARSE_JUNGLE)))
+                    .setWeight(10).build()
+            );
+        }
+        existingLootPools.put(BuiltInLootTables.FISHING_JUNK, new LootPoolReference(0,fishingLootTable));
+
+
 
         List<LootPoolEntryContainer> clericHotVLootTable = new ArrayList<>();
         if (SkyBlockConfig.TRADING.HOTV_CLERIC_DIAMOND && !SkyBlockConfig.STRUCTURES.GEN_END_CITY ) {

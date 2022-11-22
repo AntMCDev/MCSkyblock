@@ -53,6 +53,7 @@ public class Hybrid implements IPreset {
         config.drops.RAVENGER_SCULK_SHRIEKER                = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;
         config.drops.BRUTE_ANCIENT_DEBRIS                   = true;
+        config.drops.FISHING_COCO_BEANS                     = true;
 
         config.trading.WANDERING_TRADER_TREES               = false;
         config.trading.WANDERING_TRADER_SPONGE              = false;
