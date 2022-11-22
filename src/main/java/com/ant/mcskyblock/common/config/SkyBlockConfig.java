@@ -113,30 +113,30 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean ENDER_DRAGON_HEAD        = false;
         public boolean DROWNED_GOLD             = false;
         public boolean HUSK_SAND                = true;
-        public boolean WITHER_ANCIENT_DEBRIS    = true;
+        public boolean RAVENGER_SCULK_SHRIEKER  = true;
         public boolean TROPICAL_FISH_CORAL      = true;
+
+        public boolean BRUTE_ANCIENT_DEBRIS     = true;
     };
 
     public static class Trading implements Serializable {
-        public boolean WANDERING_TRADER_END_PORTAL_FRAME    = false;
+        public boolean WANDERING_TRADER_TREES               = false;
         public boolean WANDERING_TRADER_SPONGE              = false;
         public boolean WANDERING_TRADER_GLOW_LICHEN         = false;
         public boolean WANDERING_TRADER_SCULK_CATALYST      = false;
         public boolean WANDERING_TRADER_LAVA_BUCKET         = false;
         public boolean WANDERING_TRADER_GLOW_BERRIES        = false;
         public boolean WANDERING_TRADER_CHORUS_PLANT        = false;
-        public boolean WANDERING_TRADER_HEART_OF_THE_SEA    = false;
         public boolean WANDERING_TRADER_DISC_OTHERSIDE      = false;
         public boolean WANDERING_TRADER_DISC_5              = false;
         public boolean WANDERING_TRADER_DISC_PIGSTEP        = false;
-        public boolean WANDERING_TRADER_REDSTONE            = false;
+        public boolean WANDERING_TRADER_TWO_TALL_FLOWERS    = false;
         public boolean MASON_DEEPSLATE                      = false;
         public boolean MASON_TUFF                           = false;
         public boolean MASON_CALCITE                        = false;
-        public boolean MASON_REINFORCED_DEEPSLATE           = false;
         public boolean CLERIC_SHULKER_SHELL                 = false;
         public boolean CLERIC_ECHO_SHARD                    = false;
-        public boolean PIGLIN_NETHERRACK                    = false;
+        public boolean PIGLIN_WEEPING_VINES                 = false;
         public boolean PIGLIN_NYLIUM                        = false;
         public boolean HOTV_CLERIC_BUDDING_AMETHYST         = false;
         public boolean HOTV_CLERIC_DIAMOND                  = false;

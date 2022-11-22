@@ -3,7 +3,7 @@ package com.ant.mcskyblock.common.config.preset;
 import com.ant.mcskyblock.common.config.SkyBlockConfig;
 
 /**
- * Main island with outer edge islands, based on there biome and where you travel. Almost all structures
+ * Main island with outer edge islands, based on three biome and where you travel. Almost all structures
  * spawn. Husks drop sand and many other custom mob drops and custom wandering trader trades. Pesky bats don't
  * spawn as much. Dead bush's can be gathered by placing saplings on sand.
  */
@@ -50,28 +50,27 @@ public class Hybrid implements IPreset {
         config.drops.ENDER_DRAGON_HEAD                      = false;
         config.drops.DROWNED_GOLD                           = false;
         config.drops.HUSK_SAND                              = true;
-        config.drops.WITHER_ANCIENT_DEBRIS                  = true;
+        config.drops.RAVENGER_SCULK_SHRIEKER                = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;
+        config.drops.BRUTE_ANCIENT_DEBRIS                   = true;
 
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;
+        config.trading.WANDERING_TRADER_TREES               = false;
         config.trading.WANDERING_TRADER_SPONGE              = false;
         config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
         config.trading.WANDERING_TRADER_SCULK_CATALYST      = false;
         config.trading.WANDERING_TRADER_LAVA_BUCKET         = true;
         config.trading.WANDERING_TRADER_GLOW_BERRIES        = true;
         config.trading.WANDERING_TRADER_CHORUS_PLANT        = false;
-        config.trading.WANDERING_TRADER_HEART_OF_THE_SEA    = false;
         config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = false;
         config.trading.WANDERING_TRADER_DISC_5              = false;
         config.trading.WANDERING_TRADER_DISC_PIGSTEP        = false;
-        config.trading.WANDERING_TRADER_REDSTONE            = false;
+        config.trading.WANDERING_TRADER_TWO_TALL_FLOWERS    = false;
         config.trading.MASON_DEEPSLATE                      = true;
         config.trading.MASON_TUFF                           = true;
         config.trading.MASON_CALCITE                        = true;
-        config.trading.MASON_REINFORCED_DEEPSLATE           = false;
         config.trading.CLERIC_SHULKER_SHELL                 = false;
         config.trading.CLERIC_ECHO_SHARD                    = false;
-        config.trading.PIGLIN_NETHERRACK                    = false;
+        config.trading.PIGLIN_WEEPING_VINES                 = false;
         config.trading.PIGLIN_NYLIUM                        = false;
         config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = false;
         config.trading.HOTV_CLERIC_DIAMOND                  = false;

@@ -21,7 +21,6 @@ public class StaticConcretePowderBlock extends Block {
     /**
      *
      * @param block
-     * @param properties
      */
     StaticConcretePowderBlock(Block block) {
         super(BlockBehaviour.Properties.of(Material.SAND, DyeColor.WHITE).strength(0.5f).sound(SoundType.SAND));
