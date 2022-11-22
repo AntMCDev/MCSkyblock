@@ -55,9 +55,6 @@ public class TradingUtils {
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_GLOW_BERRIES) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(3, new ItemStack(Items.GLOW_BERRIES, 1), 8, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_REDSTONE) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.REDSTONE, 4), 8, 1)));
-        }
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_LAVA_BUCKET) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LAVA_BUCKET, 1), 4, 1)));
         }
@@ -108,9 +105,6 @@ public class TradingUtils {
         }
         if (SkyBlockConfig.TRADING.MASON_TUFF) {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.TUFF, 16), 16, 20, 0.05f)));
-        }
-        if (SkyBlockConfig.TRADING.MASON_REINFORCED_DEEPSLATE) {
-            masonTrades.add(new LevelledTradeOffer(5, new BasicTradeFactory(4, new ItemStack(Items.REINFORCED_DEEPSLATE, 1), 16, 20, 0.05f)));
         }
         if (masonTrades.size() > 0) {
             trades.put(VillagerProfession.MASON, masonTrades);
