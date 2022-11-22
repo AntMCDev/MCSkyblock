@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common.advancements;
 
-public class Iron implements IAdvancement {
+public class Skyblock implements IAdvancement {
     @Override
     public boolean enabled() {
         return true;
@@ -12,17 +12,16 @@ public class Iron implements IAdvancement {
                 {
                     "display":
                     {
-                        "icon": {"item": "minecraft:iron_ingot"},
-                        "title": {"translate": "Iron Golem Farm"},
-                        "description": {"translate": "Get a stack of iron by making an iron golem farm."},
+                        "icon": {"item": "minecraft:grass_block"},
+                        "title": {"translate": "The Sky's the Limit"},
+                        "description": {"translate": "Start a new skyblock world"},
                         "frame": "goal"
                     },
                     "criteria":
                     {
-                        "iron":
+                        "tick":
                         {
-                            "trigger": "minecraft:inventory_changed",
-                            "conditions" : {"items": [{"items": ["minecraft:iron_ingot"],"count": 64}]}
+                            "trigger": "minecraft:tick"
                         }
                     }
                 }
@@ -31,6 +30,6 @@ public class Iron implements IAdvancement {
 
     @Override
     public String getName() {
-        return "Iron Golem Farm";
+        return "Skyblock";
     }
 }
