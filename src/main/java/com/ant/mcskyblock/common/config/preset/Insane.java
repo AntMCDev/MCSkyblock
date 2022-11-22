@@ -69,7 +69,7 @@ public class Insane implements IPreset {
         config.trading.MASON_CALCITE                        = true;
         config.trading.CLERIC_SHULKER_SHELL                 = true;
         config.trading.CLERIC_ECHO_SHARD                    = true;
-        config.trading.PIGLIN_NETHERRACK                    = true;
+        config.trading.PIGLIN_WEEPING_VINES                 = true;
         config.trading.PIGLIN_NYLIUM                        = true;
         config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = true;
         config.trading.HOTV_CLERIC_DIAMOND                  = true;

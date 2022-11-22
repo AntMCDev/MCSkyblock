@@ -110,8 +110,8 @@ public class LootTableUtils {
         }
 
         List<LootPoolEntryContainer> piglinLootTable = new ArrayList<>();
-        if (SkyBlockConfig.TRADING.PIGLIN_NETHERRACK) {
-            piglinLootTable.add(LootItem.lootTableItem(Items.NETHERRACK)
+        if (SkyBlockConfig.TRADING.PIGLIN_WEEPING_VINES) {
+            piglinLootTable.add(LootItem.lootTableItem(Items.WEEPING_VINES)
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(8f, 16f)))
                     .setWeight(40).build());
         }

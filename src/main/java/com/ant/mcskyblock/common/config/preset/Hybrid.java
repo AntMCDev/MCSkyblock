@@ -71,7 +71,7 @@ public class Hybrid implements IPreset {
         config.trading.MASON_CALCITE                        = true;
         config.trading.CLERIC_SHULKER_SHELL                 = false;
         config.trading.CLERIC_ECHO_SHARD                    = false;
-        config.trading.PIGLIN_NETHERRACK                    = false;
+        config.trading.PIGLIN_WEEPING_VINES                 = false;
         config.trading.PIGLIN_NYLIUM                        = false;
         config.trading.HOTV_CLERIC_BUDDING_AMETHYST         = false;
         config.trading.HOTV_CLERIC_DIAMOND                  = false;

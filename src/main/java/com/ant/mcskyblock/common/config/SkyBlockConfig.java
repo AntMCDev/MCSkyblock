@@ -133,7 +133,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean MASON_CALCITE                        = false;
         public boolean CLERIC_SHULKER_SHELL                 = false;
         public boolean CLERIC_ECHO_SHARD                    = false;
-        public boolean PIGLIN_NETHERRACK                    = false;
+        public boolean PIGLIN_WEEPING_VINES                 = false;
         public boolean PIGLIN_NYLIUM                        = false;
         public boolean HOTV_CLERIC_BUDDING_AMETHYST         = false;
         public boolean HOTV_CLERIC_DIAMOND                  = false;
