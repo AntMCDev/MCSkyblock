@@ -50,7 +50,7 @@ public class Hybrid implements IPreset {
         config.drops.ENDER_DRAGON_HEAD                      = false;
         config.drops.DROWNED_GOLD                           = false;
         config.drops.HUSK_SAND                              = true;
-        config.drops.WITHER_ANCIENT_DEBRIS                  = true;
+        config.drops.RAVENGER_SCULK_SHRIEKER                = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;
 
         config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;

@@ -109,7 +109,8 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean ENDER_DRAGON_HEAD        = false;
         public boolean DROWNED_GOLD             = false;
         public boolean HUSK_SAND                = true;
-        public boolean WITHER_ANCIENT_DEBRIS    = true;
+
+        public boolean RAVENGER_SCULK_SHRIEKER  = true;
         public boolean TROPICAL_FISH_CORAL      = true;
     };
 

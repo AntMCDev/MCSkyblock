@@ -64,10 +64,10 @@ public class LootTableUtils {
                             .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 1f) ).build() ).build());
         }
 
-        if (SkyBlockConfig.DROPS.WITHER_ANCIENT_DEBRIS) {
-            newLootPools.put(EntityType.WITHER.getDefaultLootTable(),
+        if (SkyBlockConfig.DROPS.RAVENGER_SCULK_SHRIEKER) {
+            newLootPools.put(EntityType.RAVAGER.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                            .with(LootItem.lootTableItem(Items.ANCIENT_DEBRIS).build())
+                            .with(LootItem.lootTableItem( com.ant.mcskyblock.common.world.level.block.Blocks.ACTIVE_SCULK_SHRIEKER_BLOCK ).build())
                             .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
                             .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
                             .apply( SetItemCountFunction.setCount(ConstantValue.exactly(1f) ) ).build());

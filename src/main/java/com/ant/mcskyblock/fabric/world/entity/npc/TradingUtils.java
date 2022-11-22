@@ -88,13 +88,6 @@ public class TradingUtils {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.SUNFLOWER, 1), 1, 1)))
         }
 
-
-
-
-
-
-
-
         List<LevelledTradeOffer> clericTrades = new ArrayList<>();
         if (SkyBlockConfig.TRADING.CLERIC_SHULKER_SHELL) {
             clericTrades.add(new LevelledTradeOffer(5, new RandomPriceTradeFactory(20, new ItemStack(Items.SHULKER_SHELL, 2), 3, 1, 0.2f, 10)));
