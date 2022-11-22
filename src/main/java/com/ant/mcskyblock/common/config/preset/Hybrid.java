@@ -10,6 +10,8 @@ import com.ant.mcskyblock.common.config.SkyBlockConfig;
 public class Hybrid implements IPreset {
     @Override
     public void convert(SkyBlockConfig config) {
+        config.achievementsEnabled                          = true;
+
         config.worldGen.IS_OVERWORLD_SKYBLOCK               = true;
         config.worldGen.IS_NETHER_SKYBLOCK                  = true;
         config.worldGen.IS_END_SKYBLOCK                     = true;

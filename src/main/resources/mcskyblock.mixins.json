@@ -17,7 +17,8 @@
     "MixinDebugScreenOverlay",
     "MixinSaplingBlock",
     "MixinEndermite",
-    "MixinRecipeManager"
+    "MixinRecipeManager",
+    "MixinServerAdvancementManager"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

@@ -33,6 +33,9 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     @ConfigEntry.Gui.PrefixText
     public Preset preset = Preset.Custom;
 
+    @Comment("This enables skyblock specific achievements")
+    public boolean achievementsEnabled = true;
+
     @ConfigEntry.Category("worldGen")
     @ConfigEntry.Gui.TransitiveObject
     public WorldGen worldGen = new WorldGen();
@@ -179,6 +182,8 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     public static SkyBlockConfig.Crafting CRAFTING;
     @ConfigEntry.Gui.Excluded
     public static Preset PRESET;
+    @ConfigEntry.Gui.Excluded
+    public static boolean ACHIEVEMENTS_ENABLED;
 
     public static void register() {
         AutoConfig.register(SkyBlockConfig.class, GsonConfigSerializer::new);
@@ -200,6 +205,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         SPAWNING = config.spawning;
         CRAFTING = config.crafting;
         PRESET = config.preset;
+        ACHIEVEMENTS_ENABLED = config.achievementsEnabled;
     }
 
     private static void requestSync(byte[] data) {
