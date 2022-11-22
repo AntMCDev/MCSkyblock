@@ -36,7 +36,8 @@ public class MixinRecipeManager {
             new FireCoralBlockRecipe(),
             new HornCoralBlockRecipe(),
             new TubeCoralBlockRecipe(),
-            new KelpRecipe()
+            new KelpRecipe(),
+            new NetherRackRecipe()
     );
 
     @Inject(at = @At("HEAD"), method = "apply")
