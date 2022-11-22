@@ -53,7 +53,7 @@ public class Classic implements IPreset {
         config.drops.TROPICAL_FISH_CORAL                    = true;
         config.drops.BRUTE_ANCIENT_DEBRIS                   = true;
 
-        config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = true;
+        config.trading.WANDERING_TRADER_TREES               = true;
         config.trading.WANDERING_TRADER_SPONGE              = true;
         config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
         config.trading.WANDERING_TRADER_SCULK_CATALYST      = true;
