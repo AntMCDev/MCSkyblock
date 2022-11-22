@@ -64,9 +64,6 @@ public class TradingUtils {
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_CHORUS_PLANT) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(6, new ItemStack(Items.CHORUS_FLOWER, 1), 6, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_HEART_OF_THE_SEA) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(10, new ItemStack(Items.HEART_OF_THE_SEA, 1), 1, 1)));
-        }
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_END_PORTAL_FRAME) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(50, new ItemStack(Items.END_PORTAL_FRAME, 1), 1, 1)));
         }

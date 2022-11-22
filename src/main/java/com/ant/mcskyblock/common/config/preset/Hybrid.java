@@ -61,7 +61,6 @@ public class Hybrid implements IPreset {
         config.trading.WANDERING_TRADER_LAVA_BUCKET         = true;
         config.trading.WANDERING_TRADER_GLOW_BERRIES        = true;
         config.trading.WANDERING_TRADER_CHORUS_PLANT        = false;
-        config.trading.WANDERING_TRADER_HEART_OF_THE_SEA    = false;
         config.trading.WANDERING_TRADER_DISC_OTHERSIDE      = false;
         config.trading.WANDERING_TRADER_DISC_5              = false;
         config.trading.WANDERING_TRADER_DISC_PIGSTEP        = false;

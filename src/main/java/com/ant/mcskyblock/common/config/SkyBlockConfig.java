@@ -123,7 +123,6 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean WANDERING_TRADER_LAVA_BUCKET         = false;
         public boolean WANDERING_TRADER_GLOW_BERRIES        = false;
         public boolean WANDERING_TRADER_CHORUS_PLANT        = false;
-        public boolean WANDERING_TRADER_HEART_OF_THE_SEA    = false;
         public boolean WANDERING_TRADER_DISC_OTHERSIDE      = false;
         public boolean WANDERING_TRADER_DISC_5              = false;
         public boolean WANDERING_TRADER_DISC_PIGSTEP        = false;
