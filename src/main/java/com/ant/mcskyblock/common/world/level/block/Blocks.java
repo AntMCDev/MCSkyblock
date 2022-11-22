@@ -46,4 +46,6 @@ public class Blocks {
         Registry.register(Registry.ITEM, new ResourceLocation(SkyBlock.MOD_NAME, key), new BlockItem(result, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
         return result;
     }
+
+    public static void init() {}
 }

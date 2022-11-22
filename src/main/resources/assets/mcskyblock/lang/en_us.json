@@ -87,6 +87,10 @@
   "text.autoconfig.mcskyblock.option.spawning.ENDERMITES_SPAWN_ENDSTONE"        : "Endermites create End Stone",
   "text.autoconfig.mcskyblock.option.spawning.SPAWN_PIGLIN_BRUTES"              : "Piglin Brutes spawn in Bastions",
 
+  "text.autoconfig.mcskyblock.category.crafting"                                : "Crafting",
+  "text.autoconfig.mcskyblock.option.crafting.BRAIN_CORAL_BLOCK"                : "Brain Coral Block",
+  "text.autoconfig.mcskyblock.option.crafting.SPORE_BLOSSOM"                    : "Spore Blossom",
+
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",
   "block.mcskyblock.static_gravel"                                              : "Static Gravel",

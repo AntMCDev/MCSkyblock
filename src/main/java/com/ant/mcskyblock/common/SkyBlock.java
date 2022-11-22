@@ -23,7 +23,7 @@ public class SkyBlock {
     private SkyBlock(){}
 
     public static void init() {
-        new Blocks();
+        Blocks.init();
         SkyBlockConfig.register();
         SkyBlockStructureTracker.rescan();
         SkyBlockWorldPreset.register();
