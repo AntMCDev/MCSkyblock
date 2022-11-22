@@ -6,6 +6,7 @@ import com.ant.mcskyblock.common.loot.LootPoolReference;
 import com.ant.mcskyblock.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.mixin.MixinLootTableAccessor;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -71,6 +72,16 @@ public class LootTableUtils {
                             .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
                             .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
                             .apply( SetItemCountFunction.setCount(ConstantValue.exactly(1f) ) ).build());
+        }
+
+        if(SkyBlockConfig.DROPS.BRUTE_ANCIENT_DEBRIS ){
+            newLootPools.put(EntityType.PIGLIN_BRUTE.getDefaultLootTable(),
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
+                            .with(LootItem.lootTableItem(Items.ANCIENT_DEBRIS).build())
+                            .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
+                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
+                            .apply( SetItemCountFunction.setCount(ConstantValue.exactly(1f) ) ).build());
+
         }
 
         if (SkyBlockConfig.DROPS.TROPICAL_FISH_CORAL) {

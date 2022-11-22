@@ -54,6 +54,7 @@
   "text.autoconfig.mcskyblock.option.drops.HUSK_SAND"                           : "Husks Sand",
   "text.autoconfig.mcskyblock.option.drops.RAVENGER_SCULK_SHRIEKER"             : "Ravenger Active Sculk Shieker",
   "text.autoconfig.mcskyblock.option.drops.TROPICAL_FISH_CORAL"                 : "Tropical Fish Coral",
+  "text.autoconfig.mcskyblock.option.drops.BRUTE_ANCIENT_DEBRIS"                : "Piglin Brute Ancient Debris",
 
   "text.autoconfig.mcskyblock.category.trading"                                 : "Trading",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_END_PORTAL_FRAME" : "W.Traders End Portal Frame",

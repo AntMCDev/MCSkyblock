@@ -51,6 +51,7 @@ public class OneBlock implements IPreset {
         config.drops.HUSK_SAND                              = true;
         config.drops.RAVENGER_SCULK_SHRIEKER                = true;
         config.drops.TROPICAL_FISH_CORAL                    = true;
+        config.drops.BRUTE_ANCIENT_DEBRIS                   = true;
 
         config.trading.WANDERING_TRADER_END_PORTAL_FRAME    = false;
         config.trading.WANDERING_TRADER_SPONGE              = true;

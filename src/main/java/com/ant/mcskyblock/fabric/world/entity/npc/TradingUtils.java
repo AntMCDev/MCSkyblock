@@ -85,7 +85,7 @@ public class TradingUtils {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.LILAC, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.ROSE_BUSH, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.PEONY, 1), 1, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.SUNFLOWER, 1), 1, 1)))
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.SUNFLOWER, 1), 1, 1)));
         }
 
         List<LevelledTradeOffer> clericTrades = new ArrayList<>();
