@@ -53,6 +53,10 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     @ConfigEntry.Gui.TransitiveObject
     public Spawning spawning = new Spawning();
 
+    @ConfigEntry.Category("crafting")
+    @ConfigEntry.Gui.TransitiveObject
+    public Crafting crafting = new Crafting();
+
     public static class WorldGen implements Serializable {
         @Comment("This is a ToolTip")
         public boolean IS_OVERWORLD_SKYBLOCK    = true;
@@ -146,6 +150,11 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean SPAWN_PIGLIN_BRUTES          = true;
     }
 
+    public static class Crafting implements Serializable {
+        public boolean BRAIN_CORAL_BLOCK    = true;
+        public boolean SPORE_BLOSSOM        = true;
+    }
+
     @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig INSTANCE;
     @ConfigEntry.Gui.Excluded
@@ -158,6 +167,8 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     public static SkyBlockConfig.Trading TRADING;
     @ConfigEntry.Gui.Excluded
     public static SkyBlockConfig.Spawning SPAWNING;
+    @ConfigEntry.Gui.Excluded
+    public static SkyBlockConfig.Crafting CRAFTING;
     @ConfigEntry.Gui.Excluded
     public static Preset PRESET;
 
@@ -179,6 +190,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         DROPS = config.drops;
         TRADING = config.trading;
         SPAWNING = config.spawning;
+        CRAFTING = config.crafting;
         PRESET = config.preset;
     }
 

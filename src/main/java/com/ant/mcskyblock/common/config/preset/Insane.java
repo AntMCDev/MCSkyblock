@@ -78,5 +78,8 @@ public class Insane implements IPreset {
         config.spawning.SAPLINGS_DIE_ON_SAND                = true;
         config.spawning.ENDERMITES_SPAWN_ENDSTONE           = true;
         config.spawning.SPAWN_PIGLIN_BRUTES                 = true;
+
+        config.crafting.BRAIN_CORAL_BLOCK                   = true;
+        config.crafting.SPORE_BLOSSOM                       = true;
     }
 }
