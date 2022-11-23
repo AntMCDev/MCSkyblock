@@ -76,7 +76,7 @@
   "text.autoconfig.mcskyblock.option.trading.CLERIC_SHULKER_SHELL"              : "Clerics Shulker Shells",
   "text.autoconfig.mcskyblock.option.trading.CLERIC_ECHO_SHARD"                 : "Clerics Echo Shards",
   "text.autoconfig.mcskyblock.option.trading.PIGLIN_WEEPING_VINES"              : "Piglins Weeping Vines",
-  "text.autoconfig.mcskyblock.option.trading.PIGLIN NYLIUM"                     : "Piglins [Warped,Crimson] Nylium",
+  "text.autoconfig.mcskyblock.option.trading.PIGLIN_NYLIUM"                     : "Piglins [Warped,Crimson] Nylium",
   "text.autoconfig.mcskyblock.option.trading.HOTV_CLERIC_BUDDING_AMETHYST"      : "Cleric (HOTV) Budding Amethyst",
   "text.autoconfig.mcskyblock.option.trading.HOTV_CLERIC_DIAMOND"               : "Cleric (HOTV) Diamonds",
 
@@ -93,9 +93,10 @@
   "text.autoconfig.mcskyblock.option.crafting.NETHERRACK"                       : "Netherrack",
   "text.autoconfig.mcskyblock.option.crafting.SPORE_BLOSSOM"                    : "Spore Blossom",
   "text.autoconfig.mcskyblock.option.crafting.BUNDLE"                           : "Bundle",
-  "text.autoconfig.mcskyblock.option.crafting.HEART_OF_THE_SEA"                    : "Heart Of The Sea",
+  "text.autoconfig.mcskyblock.option.crafting.HEART_OF_THE_SEA"                 : "Heart Of The Sea",
   "text.autoconfig.mcskyblock.option.crafting.END_PORTAL_FRAME"                 : "End Portal Frames",
   "text.autoconfig.mcskyblock.option.crafting.RED_SAND"                         : "Red Sand",
+  "text.autoconfig.mcskyblock.option.crafting.COBWEB"                           : "Cobweb",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",

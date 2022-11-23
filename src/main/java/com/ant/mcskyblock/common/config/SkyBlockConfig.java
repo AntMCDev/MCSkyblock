@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Config(name = "mcskyblock" )
-@Config.Gui.Background("minecraft:textures/block/end_portal_frame_top.png")
+@Config.Gui.Background("minecraft:textures/block/dirt.png")
 public class SkyBlockConfig implements ConfigData, Serializable {
     public enum Preset {
         Classic, Hybrid, OneBlock, Insane, Custom
@@ -164,6 +164,7 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean HEART_OF_THE_SEA     = true;
         public boolean END_PORTAL_FRAME     = false;
         public boolean RED_SAND             = true;
+        public boolean COBWEB               = false;
     }
 
     @ConfigEntry.Gui.Excluded

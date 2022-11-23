@@ -3,6 +3,8 @@ package com.ant.mcskyblock.mixin;
 import com.ant.mcskyblock.common.advancements.AdvancementHelper;
 import com.ant.mcskyblock.common.advancements.IAdvancement;
 import com.ant.mcskyblock.common.advancements.skyblock.Skyblock;
+import com.ant.mcskyblock.common.advancements.skyblock.skyblock.CobblestoneGeneratorAdvancement;
+import com.ant.mcskyblock.common.advancements.skyblock.skyblock.PortalAdvancement;
 import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ServerAdvancementManager;
@@ -18,7 +20,12 @@ import java.util.Map;
 
 @Mixin(ServerAdvancementManager.class)
 public class MixinServerAdvancementManager {
-    private static final List<IAdvancement> ADVANCEMENTS = List.of(new Skyblock());
+    private static final List<IAdvancement> ADVANCEMENTS = List.of(
+            new Skyblock(),
+            new com.ant.mcskyblock.common.advancements.skyblock.Skyblock(),
+            new CobblestoneGeneratorAdvancement(),
+            new PortalAdvancement()
+    );
 
     @Inject(at = @At("HEAD"), method = "apply")
     protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profilerFiller, CallbackInfo ci) {

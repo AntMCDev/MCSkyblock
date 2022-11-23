@@ -90,5 +90,6 @@ public class OneBlock implements IPreset {
         config.crafting.HEART_OF_THE_SEA                    = true;
         config.crafting.BUNDLE                              = false;
         config.crafting.RED_SAND                            = true;
+        config.crafting.COBWEB                              = false;
     }
 }

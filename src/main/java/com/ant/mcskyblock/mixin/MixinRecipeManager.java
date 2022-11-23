@@ -28,7 +28,8 @@ public class MixinRecipeManager {
             new HeartOfTheSeaRecipe(),
             new EndPortalFrameRecipe(),
             new BundleRecipe(),
-            new RedSandRecipe()
+            new RedSandRecipe(),
+            new CobWebRecipe()
     );
     private static final List<IShapelessRecipe> SHAPELESS_CRAFTING_RECIPES = List.of(
             new BrainCoralBlockRecipe(),
