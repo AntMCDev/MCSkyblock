@@ -64,28 +64,18 @@ public class TradingUtils {
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_CHORUS_PLANT) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(6, new ItemStack(Items.CHORUS_FLOWER, 1), 6, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_TREES) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.OAK_SAPLING, 1), 8, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.ACACIA_SAPLING, 1), 8, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.SPRUCE_SAPLING, 1), 8, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.MANGROVE_PROPAGULE, 1), 8, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.BIRCH_SAPLING, 1), 8, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.DARK_OAK_SAPLING, 1), 8, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.JUNGLE_SAPLING, 1), 8, 1)));
-        }
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_DISC_OTHERSIDE) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_OTHERSIDE, 1), 1, 1)));
         }
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_DISC_5) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER,
-                    new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_5, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_5, 1), 1, 1)));
         }
 
         if (SkyBlockConfig.TRADING.WANDERING_TRADER_TWO_TALL_FLOWERS) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.LILAC, 1), 1, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.ROSE_BUSH, 1), 1, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.PEONY, 1), 1, 1)));
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(1, new ItemStack(Items.SUNFLOWER, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LILAC, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.ROSE_BUSH, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.PEONY, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.SUNFLOWER, 1), 1, 1)));
         }
 
         List<LevelledTradeOffer> clericTrades = new ArrayList<>();

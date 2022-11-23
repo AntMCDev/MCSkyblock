@@ -57,7 +57,6 @@ public class Hybrid implements IPreset {
         config.drops.BRUTE_ANCIENT_DEBRIS                   = true;
         config.drops.FISHING_COCO_BEANS                     = true;
 
-        config.trading.WANDERING_TRADER_TREES               = false;
         config.trading.WANDERING_TRADER_SPONGE              = false;
         config.trading.WANDERING_TRADER_GLOW_LICHEN         = true;
         config.trading.WANDERING_TRADER_SCULK_CATALYST      = false;

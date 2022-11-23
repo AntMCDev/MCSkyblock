@@ -124,7 +124,6 @@ public class SkyBlockConfig implements ConfigData, Serializable {
     };
 
     public static class Trading implements Serializable {
-        public boolean WANDERING_TRADER_TREES               = false;
         public boolean WANDERING_TRADER_SPONGE              = false;
         public boolean WANDERING_TRADER_GLOW_LICHEN         = false;
         public boolean WANDERING_TRADER_SCULK_CATALYST      = false;

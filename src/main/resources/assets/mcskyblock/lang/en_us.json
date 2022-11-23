@@ -59,7 +59,6 @@
 
 
   "text.autoconfig.mcskyblock.category.trading"                                 : "Trading",
-  "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_TREES"            : "W.Traders Tree Sapling",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_SPONGE"           : "W.Traders Sponge",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_GLOW_LICHEN"      : "W.Traders Glow Lichen",
   "text.autoconfig.mcskyblock.option.trading.WANDERING_TRADER_SCULK_CATALYST"   : "W.Traders Shulk Catalyst",
