@@ -96,6 +96,8 @@
   "text.autoconfig.mcskyblock.option.crafting.END_PORTAL_FRAME"                 : "End Portal Frames",
   "text.autoconfig.mcskyblock.option.crafting.RED_SAND"                         : "Red Sand",
   "text.autoconfig.mcskyblock.option.crafting.COBWEB"                           : "Cobweb",
+  "text.autoconfig.mcskyblock.option.crafting.MYCELIUM"                         : "Mycelium",
+  "text.autoconfig.mcskyblock.option.crafting.GRASS_BLOCK"                      : "Grass Block",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",

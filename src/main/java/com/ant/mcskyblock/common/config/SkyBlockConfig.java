@@ -164,6 +164,9 @@ public class SkyBlockConfig implements ConfigData, Serializable {
         public boolean END_PORTAL_FRAME     = false;
         public boolean RED_SAND             = true;
         public boolean COBWEB               = false;
+
+        public boolean MYCELIUM             = true;
+        public boolean GRASS_BLOCK          = true;
     }
 
     @ConfigEntry.Gui.Excluded

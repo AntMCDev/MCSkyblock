@@ -89,5 +89,7 @@ public class Insane implements IPreset {
         config.crafting.BUNDLE                              = false;
         config.crafting.RED_SAND                            = true;
         config.crafting.COBWEB                              = true;
+        config.crafting.MYCELIUM                            = true;
+        config.crafting.GRASS_BLOCK                         = false;
     }
 }

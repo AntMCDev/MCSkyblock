@@ -91,5 +91,7 @@ public class Hybrid implements IPreset {
         config.crafting.BUNDLE                              = true;
         config.crafting.RED_SAND                            = true;
         config.crafting.COBWEB                              = false;
+        config.crafting.MYCELIUM                            = false;
+        config.crafting.GRASS_BLOCK                         = false;
     }
 }

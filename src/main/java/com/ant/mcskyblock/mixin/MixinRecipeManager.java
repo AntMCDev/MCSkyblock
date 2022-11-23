@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.mixin;
 
 import com.ant.mcskyblock.common.crafting.shaped.*;
+import com.ant.mcskyblock.common.crafting.shaped.grassblock.*;
 import com.ant.mcskyblock.common.crafting.shapeless.*;
 import com.ant.mcskyblock.common.crafting.CraftingHelper;
 import com.google.gson.JsonElement;
@@ -29,7 +30,15 @@ public class MixinRecipeManager {
             new EndPortalFrameRecipe(),
             new BundleRecipe(),
             new RedSandRecipe(),
-            new CobWebRecipe()
+            new CobWebRecipe(),
+            new MyceliumRecipe(),
+            // grass blocks....
+            new GrassBlockRecipe(),
+            new SpruceGrassBlockRecipe(),
+            new BirchGrassBlockRecipe(),
+            new AcaciaGrassBlockRecipe(),
+            new DarkOakGrassBlockRecipe(),
+            new JungleGrassBlocksRecipe()
     );
     private static final List<IShapelessRecipe> SHAPELESS_CRAFTING_RECIPES = List.of(
             new BrainCoralBlockRecipe(),
