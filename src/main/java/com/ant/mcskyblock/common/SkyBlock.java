@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common;
 
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.block.Blocks;
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
@@ -12,6 +12,10 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * [COMMON] MAIN - This is the common entry point for shared functionality. All platform-specific initializers should
+ * call the init method of this class
+ */
 public class SkyBlock {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_NAME = "mcskyblock";
@@ -24,10 +28,9 @@ public class SkyBlock {
 
     public static void init() {
         Blocks.init();
-        SkyBlockConfig.register();
         SkyBlockStructureTracker.rescan();
         SkyBlockWorldPreset.register();
-        if (SkyBlockConfig.SPAWNING.SPAWN_PIGLIN_BRUTES) {
+        if (Config.INSTANCE.spawning.SPAWN_PIGLIN_BRUTES) {
             SpawnPlacements.register(EntityType.PIGLIN_BRUTE, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         }
     }

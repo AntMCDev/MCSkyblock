@@ -2,9 +2,10 @@ package com.ant.mcskyblock;
 
 import com.ant.mcskyblock.common.SkyBlock;
 
+import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.fabric.SkyBlockWorldEvents;
-import com.ant.mcskyblock.fabric.command.LocateIslandCommand;
-import com.ant.mcskyblock.fabric.network.PacketHander;
+import com.ant.mcskyblock.common.command.LocateIslandCommand;
+import com.ant.mcskyblock.fabric.network.FabricPacketHandler;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -15,10 +16,9 @@ public class FabricMCSkyBlock implements ModInitializer {
 	public void onInitialize() {
 		SkyBlock.init();
 		if (isPhysicalClient()) {
-			PacketHander.registerClientListener();
+			PacketHandler.INSTANCE = new FabricPacketHandler().init().registerClientListener();
 		}
 		SkyBlockWorldEvents.init();
-		LocateIslandCommand.register();
 	}
 
 	public static boolean isPhysicalClient() {

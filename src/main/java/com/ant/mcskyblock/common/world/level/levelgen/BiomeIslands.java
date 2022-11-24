@@ -7,6 +7,9 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
+/**
+ * [COMMON] HELPER CLASS - This is a helper class for holding the sub-island types that will appear in each biome
+ */
 public class BiomeIslands {
     public static final Map<String, IslandType> SETTINGS = Map.<String, IslandType>ofEntries(
             entry("the_void"                 , new VoidIslandType()),

@@ -4,6 +4,9 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 
 import java.util.List;
 
+/**
+ * [COMMON] HELPER CLASS - this is a helper class to hold information about how to insert into a loot pool
+ */
 public class LootPoolReference {
     private int poolIndex;
     private List<LootPoolEntryContainer> entries;

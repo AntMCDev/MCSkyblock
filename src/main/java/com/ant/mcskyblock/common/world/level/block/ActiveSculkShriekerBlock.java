@@ -6,6 +6,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
+/**
+ * [COMMON] BLOCK - This is an active variation of the sculk shrieker - even after being placed, which can be used
+ * to summon the Warden.
+ */
 public class ActiveSculkShriekerBlock extends SculkShriekerBlock {
     public ActiveSculkShriekerBlock() {
         super(BlockBehaviour.Properties.of(Material.SCULK, MaterialColor.COLOR_BLACK).strength(3.0f, 3.0f).sound(SoundType.SCULK_SHRIEKER));

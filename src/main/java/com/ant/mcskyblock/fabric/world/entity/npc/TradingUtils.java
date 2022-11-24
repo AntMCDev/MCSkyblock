@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.fabric.world.entity.npc;
 
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.entity.npc.BasicTradeFactory;
 import com.ant.mcskyblock.common.world.entity.npc.RandomPriceTradeFactory;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
@@ -46,32 +46,32 @@ public class TradingUtils {
      *
      */
     static {
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_SPONGE) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_SPONGE) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(3, new ItemStack(Items.SPONGE, 1), 8, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_GLOW_LICHEN) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_GLOW_LICHEN) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(3, new ItemStack(Items.GLOW_LICHEN, 4), 8, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_GLOW_BERRIES) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_GLOW_BERRIES) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(3, new ItemStack(Items.GLOW_BERRIES, 1), 8, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_LAVA_BUCKET) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_LAVA_BUCKET) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LAVA_BUCKET, 1), 4, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_SCULK_CATALYST) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_SCULK_CATALYST) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(25, new ItemStack(Items.SCULK_CATALYST, 1), 4, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_CHORUS_PLANT) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_CHORUS_PLANT) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(6, new ItemStack(Items.CHORUS_FLOWER, 1), 6, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_DISC_OTHERSIDE) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_DISC_OTHERSIDE) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_OTHERSIDE, 1), 1, 1)));
         }
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_DISC_5) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_DISC_5) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_5, 1), 1, 1)));
         }
 
-        if (SkyBlockConfig.TRADING.WANDERING_TRADER_TWO_TALL_FLOWERS) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_TWO_TALL_FLOWERS) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LILAC, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.ROSE_BUSH, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.PEONY, 1), 1, 1)));
@@ -79,10 +79,10 @@ public class TradingUtils {
         }
 
         List<LevelledTradeOffer> clericTrades = new ArrayList<>();
-        if (SkyBlockConfig.TRADING.CLERIC_SHULKER_SHELL) {
+        if (Config.INSTANCE.trading.CLERIC_SHULKER_SHELL) {
             clericTrades.add(new LevelledTradeOffer(5, new RandomPriceTradeFactory(20, new ItemStack(Items.SHULKER_SHELL, 2), 3, 1, 0.2f, 10)));
         }
-        if (SkyBlockConfig.TRADING.CLERIC_ECHO_SHARD) {
+        if (Config.INSTANCE.trading.CLERIC_ECHO_SHARD) {
             clericTrades.add(new LevelledTradeOffer(5, new RandomPriceTradeFactory(2, new ItemStack(Items.ECHO_SHARD, 1), 3, 1, 0.2f, 10)));
         }
         if (clericTrades.size() > 0) {
@@ -90,13 +90,13 @@ public class TradingUtils {
         }
 
         List<LevelledTradeOffer> masonTrades = new ArrayList<>();
-        if (SkyBlockConfig.TRADING.MASON_CALCITE) {
+        if (Config.INSTANCE.trading.MASON_CALCITE) {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.CALCITE, 16), 16, 20, 0.05f ) ) );
         }
-        if (SkyBlockConfig.TRADING.MASON_DEEPSLATE) {
+        if (Config.INSTANCE.trading.MASON_DEEPSLATE) {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.DEEPSLATE, 16), 16, 20, 0.05f)));
         }
-        if (SkyBlockConfig.TRADING.MASON_TUFF) {
+        if (Config.INSTANCE.trading.MASON_TUFF) {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.TUFF, 16), 16, 20, 0.05f)));
         }
         if (masonTrades.size() > 0) {

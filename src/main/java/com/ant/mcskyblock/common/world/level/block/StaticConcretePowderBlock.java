@@ -15,6 +15,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 
+/**
+ * [COMMON] BLOCK - This is a floating variation of the regular concrete powder blocks
+ */
 public class StaticConcretePowderBlock extends Block {
     private final BlockState concrete;
 

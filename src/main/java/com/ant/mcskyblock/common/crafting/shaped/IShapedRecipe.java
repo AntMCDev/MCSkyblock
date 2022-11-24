@@ -5,6 +5,9 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;
 
+/**
+ * [COMMON] INTERFACE - Shaped recipe interface, all shaped recipes should implement this class
+ */
 public interface IShapedRecipe {
     boolean enabled();
     String getBlock();

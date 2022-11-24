@@ -1,7 +1,7 @@
 package com.ant.mcskyblock.common.world.level.levelgen.presets;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.biome.SkyBlockEndBiomeSource;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 
@@ -21,6 +21,10 @@ import net.minecraft.world.level.levelgen.presets.WorldPreset;
 
 import java.util.Map;
 
+/**
+ * [COMMON] WORLD GENERATION - This is the world preset for skyblock worlds. It handles the registration logic and
+ * also provides chunk generators for each dimension
+ */
 public class SkyBlockWorldPreset {
 
     public static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
@@ -80,7 +84,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators. For the overworld
      */
     private static ChunkGenerator overworldChunkGenerator() {
-        return SkyBlockConfig.WORLD_GEN.IS_OVERWORLD_SKYBLOCK  ? new SkyBlockChunkGenerator(
+        return Config.INSTANCE.worldGen.IS_OVERWORLD_SKYBLOCK  ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 // TODO BIOME HERE(SkyBlockBiomeSource)
@@ -100,7 +104,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the nether.
      */
     private static ChunkGenerator netherChunkGenerator() {
-        return SkyBlockConfig.WORLD_GEN.IS_NETHER_SKYBLOCK ? new SkyBlockChunkGenerator(
+        return Config.INSTANCE.worldGen.IS_NETHER_SKYBLOCK ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 MultiNoiseBiomeSource.Preset.NETHER.biomeSource(BuiltinRegistries.BIOME),
@@ -119,7 +123,7 @@ public class SkyBlockWorldPreset {
      * @return Returns the ChunkGenerator that is used in the world generation of the preset generators for the end.
      */
     private static ChunkGenerator endChunkGenerator() {
-        return SkyBlockConfig.WORLD_GEN.IS_END_SKYBLOCK ? new SkyBlockChunkGenerator(
+        return Config.INSTANCE.worldGen.IS_END_SKYBLOCK ? new SkyBlockChunkGenerator(
                 BuiltinRegistries.STRUCTURE_SETS,
                 BuiltinRegistries.NOISE,
                 new SkyBlockEndBiomeSource(BuiltinRegistries.BIOME),

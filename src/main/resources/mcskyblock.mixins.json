@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.ant.mcskyblock.mixin",
+  "package": "com.ant.mcskyblock.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MixinLevelStem",
@@ -18,7 +18,8 @@
     "MixinSaplingBlock",
     "MixinEndermite",
     "MixinRecipeManager",
-    "MixinServerAdvancementManager"
+    "MixinServerAdvancementManager",
+    "MixinCommands"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

@@ -1,13 +1,16 @@
 package com.ant.mcskyblock.common.crafting.shaped;
 
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.config.Config;
 
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * [COMMON] CRAFTING - End Portal Frame, crafted by: 4 endstone, 2 ender eyes, 1 sculk catalyst, 1 nether start and 1 obsidian
+ */
 public class EndPortalFrameRecipe implements IShapedRecipe{
     @Override
-    public boolean enabled() { return SkyBlockConfig.CRAFTING.END_PORTAL_FRAME;}
+    public boolean enabled() { return Config.INSTANCE.crafting.END_PORTAL_FRAME;}
 
     @Override
     public String getBlock() {

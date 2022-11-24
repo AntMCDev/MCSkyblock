@@ -27,6 +27,9 @@ import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+/**
+ * [COMMON] WORLD GENERATION - This is the chunk generator for skyblock worlds
+ */
 public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     /**
      * CODEC for the skyblock chunk generator

@@ -5,6 +5,9 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;
 
+/**
+ * [COMMON] INTERFACE - Shapeless recipe interface, all shapeless recipes should implement this class
+ */
 public interface IShapelessRecipe {
     boolean enabled();
     String getBlock();

@@ -12,6 +12,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
+/**
+ * [COMMON] HELPER CLASS - This is used to hold all the custom blocks added by this mod
+ */
 public class Blocks {
     // Block objects
     public static final Block STATIC_SAND = register("static_sand", new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.SAND).strength(0.5f).sound(SoundType.SAND)));

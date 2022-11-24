@@ -7,6 +7,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.biome.*;
 
+/**
+ * [COMMON] WORLD GENERATION - This is used to define a custom end biome provider that omits the small end islands
+ */
 public class SkyBlockEndBiomeSource extends TheEndBiomeSource {
     public static final Codec<SkyBlockEndBiomeSource> CODEC = RecordCodecBuilder.create((instance) -> instance
             .group(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((theEndBiomeSource) -> null))

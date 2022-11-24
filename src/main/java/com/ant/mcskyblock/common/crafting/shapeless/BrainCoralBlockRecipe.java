@@ -1,13 +1,16 @@
 package com.ant.mcskyblock.common.crafting.shapeless;
 
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.config.Config;
 
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * [COMMON] CRAFTING - Brain Coral Block, crafted by: 4 brain coral
+ */
 public class BrainCoralBlockRecipe implements IShapelessRecipe {
     @Override
-    public boolean enabled() {return SkyBlockConfig.CRAFTING.CORAL_BLOCKS;}
+    public boolean enabled() {return Config.INSTANCE.crafting.CORAL_BLOCKS;}
 
     @Override
     public String getBlock() {

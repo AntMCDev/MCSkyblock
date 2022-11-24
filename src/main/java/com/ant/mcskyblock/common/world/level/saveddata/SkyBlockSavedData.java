@@ -4,8 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
-
-// NON FABRIC
+/**
+ * [COMMON] SAVING - This is used to store the state of whether the main skyblock island has generated
+ */
 public class SkyBlockSavedData extends SavedData {
     private static final String NAME = "skyblock_islands";
     private static final String GENERATED_KEY = "generated";

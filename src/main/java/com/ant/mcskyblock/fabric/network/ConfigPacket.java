@@ -1,9 +1,8 @@
 package com.ant.mcskyblock.fabric.network;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
-import com.ant.mcskyblock.fabric.SkyBlockWorldEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import com.ant.mcskyblock.common.config.Config;
+import com.ant.mcskyblock.common.network.PacketHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
-public class ConfigPacket extends AbstractPacket {
+public class ConfigPacket implements IFabricPacket {
     private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":config");
 
     @Override
@@ -23,10 +22,10 @@ public class ConfigPacket extends AbstractPacket {
 
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
-        final byte[] bytes = PacketHander.byteBufToBytes(buf);
+        final byte[] bytes = FabricPacketHandler.byteBufToBytes(buf);
         client.execute(() -> {
                 SkyBlock.LOGGER.info("Config packet received from server");
-                SkyBlockConfig.loadConfigBytes(bytes);
+                Config.INSTANCE.download(bytes);
         });
     }
 
@@ -36,8 +35,8 @@ public class ConfigPacket extends AbstractPacket {
         SkyBlock.LOGGER.info("Config packet received from client");
         if (player.hasPermissions(4)) {
             SkyBlock.LOGGER.info("Syncing server manager config with server");
-            SkyBlockConfig.loadConfigBytes(PacketHander.byteBufToBytes(buf));
+            Config.INSTANCE.download(FabricPacketHandler.byteBufToBytes(buf));
         }
-        PacketHander.sendTo(player, getIdentifier(), PacketHander.bytesToByteBuf(SkyBlockConfig.toBytes(SkyBlockConfig.INSTANCE)));
+        PacketHandler.INSTANCE.sendTo(player, getIdentifier(), Config.INSTANCE.toBytes());
     }
 }

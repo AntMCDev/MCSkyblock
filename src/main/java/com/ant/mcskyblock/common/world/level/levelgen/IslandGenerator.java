@@ -1,6 +1,6 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
-import com.ant.mcskyblock.common.config.SkyBlockConfig;
+import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.levelgen.islandtype.IslandType;
 import com.ant.mcskyblock.common.world.level.levelgen.islandtype.VoidIslandType;
 import net.minecraft.core.BlockPos;
@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,6 +16,10 @@ import net.minecraft.world.level.saveddata.SavedData;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * [COMMON] WORLD GENERATION - This is used to generate the sub-islands, and also controls saving those down into NBT
+ * data on change
+ */
 public class IslandGenerator {
     private static IslandSavedData islandSavedData = new IslandSavedData();
 
@@ -33,8 +36,8 @@ public class IslandGenerator {
     }
 
     private static boolean canGenerate(String biome, BlockPos pos) {
-        return SkyBlockConfig.WORLD_GEN.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DISTANCE ||
-                Math.abs(pos.getZ()) > SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
+        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE ||
+                Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
     }
 
     public static BlockPos nearest(BlockPos pos, String biome) {
@@ -74,8 +77,8 @@ public class IslandGenerator {
             BlockState accessory = b.getAccessory().defaultBlockState();
 
             if (!(base.is(Blocks.AIR))) {
-                int r = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_RADIUS;
-                for (int i = 0, d = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_DEPTH; i < d; ++i) {
+                int r = Config.INSTANCE.worldGen.SUB_ISLAND_RADIUS;
+                for (int i = 0, d = Config.INSTANCE.worldGen.SUB_ISLAND_DEPTH; i < d; ++i) {
                     for (int j = -r + i; j <= r - i; ++j) {
                         for (int k = -r + i; k <= r - i; ++k) {
                             if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - i, 2)) {
@@ -87,7 +90,7 @@ public class IslandGenerator {
             }
 
             if (!(fluid.is(Blocks.AIR))) {
-                int r = SkyBlockConfig.WORLD_GEN.SUB_ISLAND_RADIUS - 1;
+                int r = Config.INSTANCE.worldGen.SUB_ISLAND_RADIUS - 1;
                 for (int i = -r; i <= r; ++i) {
                     for (int j = -r; j <= r; ++j) {
                         if (Math.pow(i, 2) + Math.pow(j, 2) < Math.pow(r, 2)) {
