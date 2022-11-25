@@ -74,7 +74,6 @@
   "config.mcskyblock.option.trading.MASON_CALCITE"                              : "Masons Calcite",
   "config.mcskyblock.option.trading.CLERIC_SHULKER_SHELL"                       : "Clerics Shulker Shells",
   "config.mcskyblock.option.trading.CLERIC_ECHO_SHARD"                          : "Clerics Echo Shards",
-  "config.mcskyblock.option.trading.LIBRARIAN_SWIFT_SNEAK"                      : "Librarian Swift Sneak Book",
   "config.mcskyblock.option.trading.PIGLIN_WEEPING_VINES"                       : "Piglins Weeping Vines",
   "config.mcskyblock.option.trading.PIGLIN_NYLIUM"                              : "Piglins [Warped,Crimson] Nylium",
   "config.mcskyblock.option.trading.HOTV_CLERIC_BUDDING_AMETHYST"               : "Cleric (HOTV) Budding Amethyst",
@@ -99,6 +98,7 @@
   "config.mcskyblock.option.crafting.COBWEB"                                    : "Cobweb",
   "config.mcskyblock.option.crafting.MYCELIUM"                                  : "Mycelium",
   "config.mcskyblock.option.crafting.GRASS_BLOCK"                               : "Grass Block",
+  "config.mcskyblock.option.crafting.ANCIENT_CITY_SWIFT_SNEAK"                  : "Swift Sneak in Ancient City",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",

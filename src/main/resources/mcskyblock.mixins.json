@@ -20,7 +20,7 @@
     "MixinRecipeManager",
     "MixinServerAdvancementManager",
     "MixinCommands",
-    "MixinSwiftSneakEnchantment"
+    "MixinEnchantmentMenu"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

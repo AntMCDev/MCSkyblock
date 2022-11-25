@@ -71,7 +71,6 @@ public class Classic extends Config {
         trading.MASON_CALCITE                       = true;
         trading.CLERIC_SHULKER_SHELL                = true;
         trading.CLERIC_ECHO_SHARD                   = true;
-        trading.LIBRARIAN_SWIFT_SNEAK               = true;
         trading.PIGLIN_WEEPING_VINES                = true;
         trading.PIGLIN_NYLIUM                       = true;
         trading.HOTV_CLERIC_BUDDING_AMETHYST        = true;
@@ -93,5 +92,6 @@ public class Classic extends Config {
         crafting.COBWEB                             = false;
         crafting.MYCELIUM                           = true;
         crafting.GRASS_BLOCK                        = true;
+        crafting.ANCIENT_CITY_SWIFT_SNEAK           = true;
     }
 }

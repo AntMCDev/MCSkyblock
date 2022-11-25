@@ -93,7 +93,6 @@ public class Config implements Serializable {
         public boolean MASON_CALCITE                        = false;
         public boolean CLERIC_SHULKER_SHELL                 = false;
         public boolean CLERIC_ECHO_SHARD                    = false;
-        public boolean LIBRARIAN_SWIFT_SNEAK                = false;
         public boolean PIGLIN_WEEPING_VINES                 = false;
         public boolean PIGLIN_NYLIUM                        = false;
         public boolean HOTV_CLERIC_BUDDING_AMETHYST         = false;
@@ -111,19 +110,21 @@ public class Config implements Serializable {
 
     public Crafting crafting = new Crafting();
     public static class Crafting implements Serializable {
-        public boolean CORAL_BLOCKS         = true;
-        public boolean KELP                 = true;
-        public boolean NETHERRACK           = true;
+        public boolean CORAL_BLOCKS             = true;
+        public boolean KELP                     = true;
+        public boolean NETHERRACK               = true;
 
-        public boolean SPORE_BLOSSOM        = true;
-        public boolean BUNDLE               = false;
-        public boolean HEART_OF_THE_SEA     = true;
-        public boolean END_PORTAL_FRAME     = false;
-        public boolean RED_SAND             = true;
-        public boolean COBWEB               = false;
+        public boolean SPORE_BLOSSOM            = true;
+        public boolean BUNDLE                   = false;
+        public boolean HEART_OF_THE_SEA         = true;
+        public boolean END_PORTAL_FRAME         = false;
+        public boolean RED_SAND                 = true;
+        public boolean COBWEB                   = false;
 
-        public boolean MYCELIUM             = true;
-        public boolean GRASS_BLOCK          = true;
+        public boolean MYCELIUM                 = true;
+        public boolean GRASS_BLOCK              = true;
+
+        public boolean ANCIENT_CITY_SWIFT_SNEAK = true;
     }
 
     public byte[] toBytes() {
