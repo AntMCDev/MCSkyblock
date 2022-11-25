@@ -93,6 +93,7 @@ public class Config implements Serializable {
         public boolean MASON_CALCITE                        = false;
         public boolean CLERIC_SHULKER_SHELL                 = false;
         public boolean CLERIC_ECHO_SHARD                    = false;
+        public boolean LIBRARIAN_SWIFT_SNEAK                = false;
         public boolean PIGLIN_WEEPING_VINES                 = false;
         public boolean PIGLIN_NYLIUM                        = false;
         public boolean HOTV_CLERIC_BUDDING_AMETHYST         = false;

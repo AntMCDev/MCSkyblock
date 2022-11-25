@@ -19,7 +19,8 @@
     "MixinEndermite",
     "MixinRecipeManager",
     "MixinServerAdvancementManager",
-    "MixinCommands"
+    "MixinCommands",
+    "MixinSwiftSneakEnchantment"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

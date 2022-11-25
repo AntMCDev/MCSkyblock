@@ -72,6 +72,7 @@ public class Hybrid extends Config {
         trading.MASON_CALCITE                        = true;
         trading.CLERIC_SHULKER_SHELL                 = false;
         trading.CLERIC_ECHO_SHARD                    = false;
+        trading.LIBRARIAN_SWIFT_SNEAK                = false;
         trading.PIGLIN_WEEPING_VINES                 = false;
         trading.PIGLIN_NYLIUM                        = false;
         trading.HOTV_CLERIC_BUDDING_AMETHYST         = false;
