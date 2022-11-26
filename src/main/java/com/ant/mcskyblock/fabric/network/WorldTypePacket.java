@@ -34,7 +34,7 @@ public class WorldTypePacket implements IFabricPacket {
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {
-            SkyBlockWorldEvents.isClientSkyblock = true;
+            SkyBlockWorldEvents.IS_CLIENT_SKYBLOCK = true;
         });
     }
 

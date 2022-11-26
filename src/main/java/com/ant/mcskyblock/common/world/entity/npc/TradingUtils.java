@@ -1,50 +1,30 @@
-package com.ant.mcskyblock.fabric.world.entity.npc;
+package com.ant.mcskyblock.common.world.entity.npc;
 
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.entity.npc.BasicTradeFactory;
 import com.ant.mcskyblock.common.world.entity.npc.RandomPriceTradeFactory;
-import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
+import java.util.function.Consumer;
 
-// REQ FABRIC
 public class TradingUtils {
     private static final int WANDERING_TRADER_COMMON_OFFER = 1;
     private static final int WANDERING_TRADER_RARE_OFFER = 2;
 
+    private record LevelledTradeOffer(int level, VillagerTrades.ItemListing factory) { }
 
-    /**
-     *
-     */
-    private static class LevelledTradeOffer {
-        private int level;
-        private final VillagerTrades.ItemListing factory;
-
-        public LevelledTradeOffer(int level, VillagerTrades.ItemListing factory) {
-            this.level = level;
-            this.factory = factory;
-        }
-    }
-
-    /**
-     *
-     */
     private static List<LevelledTradeOffer> wanderingTrades = new ArrayList<>();
 
-    /**
-     *
-     */
     private static Map<VillagerProfession, List<LevelledTradeOffer>> trades = new HashMap<>();
 
-
-    /**
-     *
-     */
     static {
         if (Config.INSTANCE.trading.WANDERING_TRADER_SPONGE) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_COMMON_OFFER, new BasicTradeFactory(3, new ItemStack(Items.SPONGE, 1), 8, 1)));
@@ -104,23 +84,26 @@ public class TradingUtils {
         }
     }
 
-
-    /**
-     *
-     */
     public static void register() {
         for (LevelledTradeOffer wanderingTrade : wanderingTrades) {
-            TradeOfferHelper.registerWanderingTraderOffers(wanderingTrade.level, factories -> {
-                factories.add(wanderingTrade.factory);
-            });
+            registerOffers(VillagerTrades.WANDERING_TRADER_TRADES, wanderingTrade.level, factories -> factories.add(wanderingTrade.factory));
         }
 
         for (VillagerProfession villagerProfession : trades.keySet()) {
             for (LevelledTradeOffer trade : trades.get(villagerProfession)) {
-                TradeOfferHelper.registerVillagerOffers(villagerProfession, trade.level, factories -> {
-                    factories.add(trade.factory);
-                });
+                registerOffers(VillagerTrades.TRADES.computeIfAbsent(villagerProfession, key -> new Int2ObjectOpenHashMap<>()), trade.level, factories -> factories.add(trade.factory));
             }
         }
+    }
+
+    private static void registerOffers(Int2ObjectMap<VillagerTrades.ItemListing[]> leveledTradeMap, int level, Consumer<List<VillagerTrades.ItemListing>> factory) {
+        final List<VillagerTrades.ItemListing> list = new ArrayList<>();
+        factory.accept(list);
+
+        final VillagerTrades.ItemListing[] originalEntries = leveledTradeMap.computeIfAbsent(level, key -> new VillagerTrades.ItemListing[0]);
+        final VillagerTrades.ItemListing[] addedEntries = list.toArray(new VillagerTrades.ItemListing[0]);
+
+        final VillagerTrades.ItemListing[] allEntries = ArrayUtils.addAll(originalEntries, addedEntries);
+        leveledTradeMap.put(level, allEntries);
     }
 }
