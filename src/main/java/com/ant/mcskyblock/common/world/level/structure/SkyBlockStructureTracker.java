@@ -77,19 +77,6 @@ public class SkyBlockStructureTracker {
         String ssKey = structure.location().toString();
         if(enabledMap.containsKey( ssKey )){
             ret = enabledMap.get( ssKey );
-        } else  {
-            SkyBlock.LOGGER.log(Level.INFO,"Ummmmm ......" + ssKey );
-        }
-        return ret;
-    }
-
-    public static Boolean isEnabled(Holder<Structure> structure){
-        Boolean ret = false;
-        String ssKey = structure.unwrapKey().map(resourceKey -> resourceKey.location().toString() ).orElse("[unregistered]");
-        if(enabledMap.containsKey( ssKey )){
-            ret = enabledMap.get( ssKey );
-        } else  {
-            SkyBlock.LOGGER.log(Level.INFO,"Ummmmm ......" + ssKey );
         }
         return ret;
     }

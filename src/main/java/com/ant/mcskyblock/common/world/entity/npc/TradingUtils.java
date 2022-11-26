@@ -1,8 +1,6 @@
 package com.ant.mcskyblock.common.world.entity.npc;
 
 import com.ant.mcskyblock.common.config.Config;
-import com.ant.mcskyblock.common.world.entity.npc.BasicTradeFactory;
-import com.ant.mcskyblock.common.world.entity.npc.RandomPriceTradeFactory;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 

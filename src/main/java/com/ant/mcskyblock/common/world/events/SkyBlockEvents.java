@@ -14,7 +14,7 @@ public abstract class SkyBlockEvents {
     public static boolean IS_SERVER_SKYBLOCK = false;
     public static boolean IS_CLIENT_SKYBLOCK = false;
 
-    public abstract void register();
+    public abstract SkyBlockEvents register();
 
     public void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);

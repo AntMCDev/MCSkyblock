@@ -24,7 +24,6 @@ public class ConfigPacket implements IFabricPacket {
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
         final byte[] bytes = FabricPacketHandler.byteBufToBytes(buf);
         client.execute(() -> {
-                SkyBlock.LOGGER.info("Config packet received from server");
                 Config.INSTANCE.download(bytes);
         });
     }
@@ -32,9 +31,7 @@ public class ConfigPacket implements IFabricPacket {
     @Override
     public void executeOnServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler,
                                 FriendlyByteBuf buf, PacketSender responseSender) {
-        SkyBlock.LOGGER.info("Config packet received from client");
         if (player.hasPermissions(4)) {
-            SkyBlock.LOGGER.info("Syncing server manager config with server");
             Config.INSTANCE.download(FabricPacketHandler.byteBufToBytes(buf));
         }
         PacketHandler.INSTANCE.sendTo(player, getIdentifier(), Config.INSTANCE.toBytes());

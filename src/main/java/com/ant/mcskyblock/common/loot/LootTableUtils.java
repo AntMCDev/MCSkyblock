@@ -1,17 +1,18 @@
-package com.ant.mcskyblock.fabric.loot;
+package com.ant.mcskyblock.common.loot;
 
 import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.Config;
-import com.ant.mcskyblock.common.loot.LootPoolReference;
 import com.ant.mcskyblock.fabric.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.fabric.mixin.MixinLootTableAccessor;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.data.loot.FishingLoot;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
@@ -25,11 +26,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-// REQ FABRIC
 
 public class LootTableUtils {
-    private static Map<ResourceLocation, LootPool> newLootPools = new HashMap<>();
-    private static Map<ResourceLocation, LootPoolReference> existingLootPools = new HashMap<>();
+    public static Map<ResourceLocation, LootPool> newLootPools = new HashMap<>();
+    public static Map<ResourceLocation, LootPoolReference> existingLootPools = new HashMap<>();
 
     static {
         if( !Config.INSTANCE.structures.GEN_END_CITY) {
@@ -148,27 +148,22 @@ public class LootTableUtils {
         existingLootPools.put(BuiltInLootTables.CLERIC_GIFT, new LootPoolReference(0, clericHotVLootTable));
     }
 
-    public static void register() {
-        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-            if (newLootPools.containsKey(id)) {
-                SkyBlock.LOGGER.info("Adding new loot pool for: " + id);
-                tableBuilder.pool(newLootPools.get(id));
+    public static void register(LootTables lootManager, ResourceLocation id, LootTable.Builder tableBuilder) {
+        if (LootTableUtils.newLootPools.containsKey(id)) {
+            tableBuilder.pool(LootTableUtils.newLootPools.get(id));
+        }
+
+        if (LootTableUtils.existingLootPools.containsKey(id)) {
+            LootPoolEntryContainer[] entries = ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.get(id)).getPools()[LootTableUtils.existingLootPools.get(id).getPoolIndex()]).getEntries();
+            LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[entries.length + LootTableUtils.existingLootPools.get(id).getEntries().size()];
+
+            System.arraycopy(entries, 0, newEntries, 0, entries.length);
+
+            for (int i = 0; i < LootTableUtils.existingLootPools.get(id).getEntries().size(); i++) {
+                newEntries[entries.length + i] = LootTableUtils.existingLootPools.get(id).getEntries().get(i);
             }
 
-            if (existingLootPools.containsKey(id)) {
-                SkyBlock.LOGGER.info("Modifying existing loot pool [" + existingLootPools.get(id).getPoolIndex()  + "] for: " + id);
-
-                LootPoolEntryContainer[] entries = ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.get(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).getEntries();
-                LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[entries.length + existingLootPools.get(id).getEntries().size()];
-
-                System.arraycopy(entries, 0, newEntries, 0, entries.length);
-
-                for (int i = 0; i < existingLootPools.get(id).getEntries().size(); i++) {
-                    newEntries[entries.length + i] = existingLootPools.get(id).getEntries().get(i);
-                }
-
-                ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.get(id)).getPools()[existingLootPools.get(id).getPoolIndex()]).setEntries(newEntries);
-            }
-        });
+            ((MixinLootPoolAccessor)((MixinLootTableAccessor)lootManager.get(id)).getPools()[LootTableUtils.existingLootPools.get(id).getPoolIndex()]).setEntries(newEntries);
+        }
     }
 }

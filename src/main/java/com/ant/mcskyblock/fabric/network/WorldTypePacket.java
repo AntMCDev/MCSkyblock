@@ -1,7 +1,7 @@
 package com.ant.mcskyblock.fabric.network;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.ant.mcskyblock.fabric.SkyBlockWorldEvents;
+import com.ant.mcskyblock.fabric.FabricSkyBlockEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -34,7 +34,7 @@ public class WorldTypePacket implements IFabricPacket {
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {
-            SkyBlockWorldEvents.IS_CLIENT_SKYBLOCK = true;
+            FabricSkyBlockEvents.IS_CLIENT_SKYBLOCK = true;
         });
     }
 

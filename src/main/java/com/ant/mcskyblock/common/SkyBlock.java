@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.config.Config;
+import com.ant.mcskyblock.common.world.entity.npc.TradingUtils;
 import com.ant.mcskyblock.common.world.level.block.Blocks;
 import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
@@ -27,7 +28,8 @@ public class SkyBlock {
     private SkyBlock(){}
 
     public static void init() {
-        Blocks.init();
+        Blocks.register();
+        TradingUtils.register();
         SkyBlockStructureTracker.rescan();
         SkyBlockWorldPreset.register();
         if (Config.INSTANCE.spawning.SPAWN_PIGLIN_BRUTES) {

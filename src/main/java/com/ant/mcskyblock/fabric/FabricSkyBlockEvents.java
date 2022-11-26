@@ -4,7 +4,7 @@ import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
-import com.ant.mcskyblock.fabric.loot.LootTableUtils;
+import com.ant.mcskyblock.fabric.loot.FabricLootTableUtils;
 import com.ant.mcskyblock.fabric.network.FabricPacketHandler;
 import com.ant.mcskyblock.common.world.entity.npc.TradingUtils;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
@@ -15,12 +15,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 // REQ FABRIC
 
-public class SkyBlockWorldEvents extends SkyBlockEvents {
+public class FabricSkyBlockEvents extends SkyBlockEvents {
     @Override
-    public void register() {
-        TradingUtils.register();
-        LootTableUtils.register();
-
+    public SkyBlockEvents register() {
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             SkyBlockStructureTracker.rescan();
         });
@@ -38,6 +35,8 @@ public class SkyBlockWorldEvents extends SkyBlockEvents {
                 INSTANCE.spawnPlayer(handler.getPlayer());
             }
         });
+
+        return this;
     }
 
 }

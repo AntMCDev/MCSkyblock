@@ -50,5 +50,5 @@ public class Blocks {
         return result;
     }
 
-    public static void init() {}
+    public static void register() {}
 }
