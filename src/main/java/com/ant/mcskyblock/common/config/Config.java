@@ -68,10 +68,10 @@ public class Config implements Serializable {
         public boolean ENDER_DRAGON_HEAD                    = true;
         public boolean DROWNED_GOLD                         = true;
         public boolean HUSK_SAND                            = true;
-        public boolean RAVENGER_SCULK_SHRIEKER              = true;
+        public boolean RAVAGER_SCULK_SHRIEKER               = true;
         public boolean TROPICAL_FISH_CORAL                  = true;
         public boolean BRUTE_ANCIENT_DEBRIS                 = true;
-        public boolean FISHING_COCO_BEANS                   = true;
+        public boolean FISHING_COCOA_BEANS                  = true;
         public boolean CONDITIONAL_CREEPER_DISCS            = true;
     }
 

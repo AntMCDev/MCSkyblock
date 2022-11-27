@@ -2,11 +2,11 @@
   "generator.mcskyblock.skyblock_preset"                                        : "Skyblock",
 
   "config.mcskyblock.title"                                                     : "Skyblock Settings",
+  "config.mcskyblock.description"                                               : "Welcome To MCSkyblock\n\nPresets:\n\n* Classic:  A generous starting area, however no outer islands or structures will spawn (bounding boxes are there, so structure-specific mobs will still spawn). All non-renewable in vanilla will be made accessible in this mode - however some useful, but non-essential recipes/drops will be disabled.\n\n* Hybrid:  A very generous starting area and surrounded by biome-based sub-islands. All structures spawn naturally, however to account for that - certain custom recipes and drops that are otherwise unobtainable outside of structures are disabled in this mode.\n\n* One Block: You spawn on a single grass block with no tree, snow is the key to progression in the very early game - so better hope you get a cold biome! Other than that, this has the same settings as classic.\n\n* Custom:  Set it up the way you like. Please note custom settings will not take place unless you set this option",
 
   "config.mcskyblock.category.default"                                          : "Presets",
-  "config.mcskyblock.option.default.preset"                                             : "Presets",
-  "config.mcskyblock.option.default.preset.@PrefixText"                                 : "Welcome To MCSkyblock\n\nPresets:\n\n* Classic:  Main island that has no outer edge islands. No structures spawn. Only custom loot that is dropped is to progress to the ender dragon\n\n* Hybrid:  Main island with outer edge islands, based on there biome and where you travel. Almost all structures spawn. Husks drop sand and many other custom mob drops and custom wandering trader trades.Pesky bats don't spawn as much. Dead bushes can be gathered by placing saplings on sand.\n\n* One Block:  You spawn on a single grass block with no tree ! There is no outer edge islands ! Strongholds and End Cities along with a couple of other random structures spawn. How are you going to get to the end cities ?\n\n* Insane:  Do you even try ?\n\n* Custom:  Set it up the way you like. Please note custom settings will not take place unless you set this option",
-  "config.mcskyblock.option.default.achievementsEnabled"                                : "Enable Skyblock Achievements",
+  "config.mcskyblock.option.default.preset"                                     : "Presets",
+  "config.mcskyblock.option.default.achievementsEnabled"                        : "Enable Skyblock Achievements",
 
   "config.mcskyblock.category.worldGen"                                         : "Generation",
   "config.mcskyblock.option.worldGen.IS_OVERWORLD_SKYBLOCK"                     : "Overworld Skyblock",
@@ -20,7 +20,6 @@
   "config.mcskyblock.option.worldGen.SUB_ISLAND_DISTANCE"                       : "Sub Island Distance From Center",
   "config.mcskyblock.option.worldGen.SUB_ISLAND_RADIUS"                         : "Sub Island Radius",
   "config.mcskyblock.option.worldGen.SUB_ISLAND_DEPTH"                          : "Sub Island Depth",
-  "config.mcskyblock.option.worldGen.APPLY_BIOME_DECORATIONS"                   : "Apply Biome Decorations",
 
   "config.mcskyblock.category.structures"                                       : "Structure",
   "config.mcskyblock.option.structures.GEN_ANCIENT_CITY"                        : "Ancient Cities",
@@ -52,10 +51,11 @@
   "config.mcskyblock.option.drops.ENDER_DRAGON_HEAD"                            : "Ender Dragons Dragon Head",
   "config.mcskyblock.option.drops.DROWNED_GOLD"                                 : "Drowned Gold Ingots",
   "config.mcskyblock.option.drops.HUSK_SAND"                                    : "Husks Sand",
-  "config.mcskyblock.option.drops.RAVENGER_SCULK_SHRIEKER"                      : "Ravenger Active Sculk Shieker",
+  "config.mcskyblock.option.drops.RAVAGER_SCULK_SHRIEKER"                       : "Ravager Active Sculk Shieker",
   "config.mcskyblock.option.drops.TROPICAL_FISH_CORAL"                          : "Tropical Fish Coral",
   "config.mcskyblock.option.drops.BRUTE_ANCIENT_DEBRIS"                         : "Piglin Brute Ancient Debris",
-  "config.mcskyblock.option.drops.FISHING_COCO_BEANS"                           : "Fishing coco beans",
+  "config.mcskyblock.option.drops.FISHING_COCOA_BEANS"                          : "Fishing cocoa beans",
+  "config.mcskyblock.option.drops.CONDITIONAL_CREEPER_DISCS"                    : "Conditional Creeper Disks",
 
 
   "config.mcskyblock.category.trading"                                          : "Trading",
@@ -74,6 +74,7 @@
   "config.mcskyblock.option.trading.MASON_CALCITE"                              : "Masons Calcite",
   "config.mcskyblock.option.trading.CLERIC_SHULKER_SHELL"                       : "Clerics Shulker Shells",
   "config.mcskyblock.option.trading.CLERIC_ECHO_SHARD"                          : "Clerics Echo Shards",
+  "config.mcskyblock.option.trading.CARTOGRAPHER_SNOUT_BANNER"                  : "Cartographer Snout Banner",
   "config.mcskyblock.option.trading.PIGLIN_WEEPING_VINES"                       : "Piglins Weeping Vines",
   "config.mcskyblock.option.trading.PIGLIN_NYLIUM"                              : "Piglins [Warped,Crimson] Nylium",
   "config.mcskyblock.option.trading.HOTV_CLERIC_BUDDING_AMETHYST"               : "Cleric (HOTV) Budding Amethyst",
@@ -99,6 +100,7 @@
   "config.mcskyblock.option.crafting.MYCELIUM"                                  : "Mycelium",
   "config.mcskyblock.option.crafting.GRASS_BLOCK"                               : "Grass Block",
   "config.mcskyblock.option.crafting.ANCIENT_CITY_SWIFT_SNEAK"                  : "Swift Sneak in Ancient City",
+  "config.mcskyblock.option.crafting.CRAFTABLE_ORES"                            : "Craftable Ores",
 
   "block.mcskyblock.static_sand"                                                : "Static Sand",
   "block.mcskyblock.static_red_sand"                                            : "Static Red Sand",

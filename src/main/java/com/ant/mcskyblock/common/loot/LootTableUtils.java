@@ -72,7 +72,7 @@ public class LootTableUtils {
                             .apply(LootingEnchantFunction.lootingMultiplier( UniformGenerator.between(0f, 1f) ).build() ).build());
         }
 
-        if (Config.INSTANCE.drops.RAVENGER_SCULK_SHRIEKER) {
+        if (Config.INSTANCE.drops.RAVAGER_SCULK_SHRIEKER) {
             newLootPools.put(EntityType.RAVAGER.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
                             .with(LootItem.lootTableItem( com.ant.mcskyblock.common.world.level.block.Blocks.ACTIVE_SCULK_SHRIEKER_BLOCK ).build())
@@ -134,7 +134,7 @@ public class LootTableUtils {
         existingLootPools.put(BuiltInLootTables.PIGLIN_BARTERING, new LootPoolReference(0, piglinLootTable));
 
         List<LootPoolEntryContainer> fishingLootTable = new ArrayList<>();
-        if (Config.INSTANCE.drops.FISHING_COCO_BEANS) {
+        if (Config.INSTANCE.drops.FISHING_COCOA_BEANS) {
             fishingLootTable.add(LootItem.lootTableItem(Items.COCOA_BEANS)
                     .when(FishingLoot.IN_JUNGLE.or(FishingLoot.IN_BAMBOO_JUNGLE.or(FishingLoot.IN_SPARSE_JUNGLE)))
                     .setWeight(10).build()

@@ -68,6 +68,7 @@ public class ClothConfig {
 
         ConfigCategory defaultCategory = builder.getOrCreateCategory(Component.translatable("config." + SkyBlock.MOD_NAME + ".category.default"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+        defaultCategory.addEntry(entryBuilder.startTextDescription(Component.translatable("config." + SkyBlock.MOD_NAME + ".description")).build());
         List<Class<?>> classes = Arrays.stream(Config.class.getDeclaredClasses()).toList();
         for (Field field : Config.class.getFields()) {
             if (classes.stream().anyMatch(c -> c.isAssignableFrom(field.getType()) && !c.isEnum())) {

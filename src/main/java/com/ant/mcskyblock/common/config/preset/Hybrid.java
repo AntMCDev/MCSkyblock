@@ -3,9 +3,9 @@ package com.ant.mcskyblock.common.config.preset;
 import com.ant.mcskyblock.common.config.Config;
 
 /**
- * [COMMON] CONFIG PRESET - Main island with outer edge islands, based on three biome and where you travel. Almost
- * all structures spawn. Husks drop sand and many other custom mob drops and custom wandering trader trades. Pesky
- * bats don't spawn as much. Dead bushes can be gathered by placing saplings on sand.
+ * [COMMON] CONFIG PRESET - A very generous starting area and surrounded by biome-based sub-islands. All structures spawn
+ * naturally, however to account for that - certain custom recipes and drops that are otherwise unobtainable outside
+ * of structures are disabled in this mode.
  */
 public class Hybrid extends Config {
     public Hybrid() {
