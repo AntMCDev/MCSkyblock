@@ -16,8 +16,8 @@ public class MixinDebugScreenOverlay {
     protected void getSystemInformation(CallbackInfoReturnable<List<String>> cir) {
         List<String> list = (List<String>)cir.getReturnValue();
         PacketHandler.INSTANCE.sendToServer(PacketHandler.STRUCTURE_CHECK_PACKET.getIdentifier(), new byte[0]);
-        if (ClientStructureTracker.structure != ClientStructureTracker.SupportedStructures.NONE) {
-            list.add("Structure: " + ClientStructureTracker.structure.name().toLowerCase());
+        if (ClientStructureTracker.structures != null) {
+            list.add("Structure: " + ClientStructureTracker.structures);
         }
         cir.setReturnValue(list);
     }

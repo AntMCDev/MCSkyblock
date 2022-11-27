@@ -5,9 +5,5 @@ package com.ant.mcskyblock.common.world.level.structure;
  * structure
  */
 public class ClientStructureTracker {
-    public enum SupportedStructures {
-        NONE, FORTRESS, BASTION, MONUMENT, SWAMP_HUT, PILLAGER_OUTPOST
-    }
-
-    public static SupportedStructures structure = SupportedStructures.NONE;
+    public static String structures = null;
 }
