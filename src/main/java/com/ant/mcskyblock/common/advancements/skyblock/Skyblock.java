@@ -32,5 +32,5 @@ public class Skyblock implements IAdvancement {
     }
 
     @Override
-    public String getName() {return "skyblock/root";}
+    public String getName() { return "skyblock"; }
 }
