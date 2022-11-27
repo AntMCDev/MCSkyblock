@@ -80,7 +80,7 @@ public class Config implements Serializable {
         public boolean WANDERING_TRADER_GLOW_LICHEN         = true;
         public boolean WANDERING_TRADER_LAVA_BUCKET         = true;
         public boolean WANDERING_TRADER_GLOW_BERRIES        = true;
-        public boolean WANDERING_TRADER_CHORUS_PLANT        = true;
+        public boolean WANDERING_TRADER_CHORUS_FLOWER       = true;
         public boolean WANDERING_TRADER_TWO_TALL_FLOWERS    = true;
         public boolean MASON_DEEPSLATE                      = true;
         public boolean MASON_TUFF                           = true;

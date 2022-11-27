@@ -36,7 +36,7 @@ public class TradingUtils {
         if (Config.INSTANCE.trading.WANDERING_TRADER_LAVA_BUCKET) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LAVA_BUCKET, 1), 4, 1)));
         }
-        if (Config.INSTANCE.trading.WANDERING_TRADER_CHORUS_PLANT) {
+        if (Config.INSTANCE.trading.WANDERING_TRADER_CHORUS_FLOWER) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(6, new ItemStack(Items.CHORUS_FLOWER, 1), 6, 1)));
         }
 
