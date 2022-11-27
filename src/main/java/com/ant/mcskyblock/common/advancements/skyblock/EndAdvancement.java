@@ -5,26 +5,27 @@ import com.ant.mcskyblock.common.advancements.IAdvancement;
 /**
  * [COMMON] ACHIEVEMENT - Make a nether portal (travel to the nether)
  */
-public class PortalAdvancement implements IAdvancement {
+public class EndAdvancement implements IAdvancement {
     @Override
     public String getJSON() {
         return """
                 {
                     "display":
                     {
-                        "icon": {"item": "minecraft:obsidian"},
-                        "title": {"translate": "The Portal"},
-                        "description": {"translate": "Light a nether portal somehow"}
+                        "icon": {"item": "minecraft:end_portal_frame"},
+                        "frame": "task",
+                        "title": {"translate": "The end of the world"},
+                        "description": {"translate": "Don't look down"}
                     },
-                    "parent": "mcskyblock:skyblock",
+                    "parent": "mcskyblock:warden",
                     "criteria":
                     {
-                        "nether":
+                        "end":
                         {
                             "trigger": "minecraft:changed_dimension",
                             "conditions":
                             {
-                                "to": "the_nether"
+                                "to": "the_end"
                             }
                         }
                     }
@@ -33,5 +34,5 @@ public class PortalAdvancement implements IAdvancement {
     }
 
     @Override
-    public String getName() {return "01portal";}
+    public String getName() { return "end"; }
 }
