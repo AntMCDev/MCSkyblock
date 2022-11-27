@@ -33,7 +33,7 @@ public class StructureCheckPacket implements IFabricPacket {
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf,
                                 PacketSender responseSender) {
-        final String structures = new String(buf.readByteArray(), StandardCharsets.UTF_8);
+        final String structures = buf.readUtf();
         client.execute(() -> ClientStructureTracker.structures = structures.length() > 0 ? structures : null);
     }
 
@@ -44,7 +44,7 @@ public class StructureCheckPacket implements IFabricPacket {
             String structures = BuiltinRegistries.STRUCTURES.registryKeySet().stream().filter(s -> LocationPredicate.inStructure(s).matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z)).map(s -> s.location().toString()).collect(Collectors.joining(", "));
 
             FriendlyByteBuf responseBuffer = PacketByteBufs.create();
-            responseBuffer.writeBytes(structures.getBytes(StandardCharsets.UTF_8));
+            responseBuffer.writeUtf(structures);
             PacketHandler.INSTANCE.sendTo(player, getIdentifier(), FabricPacketHandler.byteBufToBytes(responseBuffer));
         });
     }
