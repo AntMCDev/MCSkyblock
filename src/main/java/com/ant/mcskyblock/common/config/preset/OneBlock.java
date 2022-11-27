@@ -40,6 +40,8 @@ public class OneBlock extends Config {
         drops.TROPICAL_FISH_CORAL       = false;
         drops.FISHING_COCOA_BEANS       = false;
 
+        trading.PIGLIN_WEEPING_VINES    = false;
+
         crafting.CORAL_BLOCKS           = false;
         crafting.KELP                   = false;
         crafting.RED_SAND               = false;
