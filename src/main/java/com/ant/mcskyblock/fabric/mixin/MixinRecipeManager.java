@@ -2,6 +2,9 @@ package com.ant.mcskyblock.fabric.mixin;
 
 import com.ant.mcskyblock.common.crafting.CraftingHelper;
 import com.ant.mcskyblock.common.crafting.shaped.*;
+import com.ant.mcskyblock.common.crafting.shaped.ores.NetherGoldOreRecipe;
+import com.ant.mcskyblock.common.crafting.shaped.ores.NetherQuartzOreRecipe;
+import com.ant.mcskyblock.common.crafting.shaped.ores.stone.*;
 import com.ant.mcskyblock.common.crafting.shapeless.*;
 import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +34,25 @@ public class MixinRecipeManager {
             new RedSandRecipe(),
             new CobwebRecipe(),
             new MyceliumRecipe(),
-            new GrassBlockRecipe()
+            new GrassBlockRecipe(),
+            new NetherGoldOreRecipe(),
+            new NetherQuartzOreRecipe(),
+            new CoalOreRecipe(),
+            new CopperOreRecipe(),
+            new DiamondOreRecipe(),
+            new EmeraldOreRecipe(),
+            new GoldOreRecipe(),
+            new IronOreRecipe(),
+            new LapisOreRecipe(),
+            new RedstoneOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.CoalOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.CopperOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.DiamondOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.EmeraldOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.GoldOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.IronOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.LapisOreRecipe(),
+            new com.ant.mcskyblock.common.crafting.shaped.ores.deepslate.RedstoneOreRecipe()
     );
     private static final List<IShapelessRecipe> SHAPELESS_CRAFTING_RECIPES = List.of(
             new BrainCoralBlockRecipe(),

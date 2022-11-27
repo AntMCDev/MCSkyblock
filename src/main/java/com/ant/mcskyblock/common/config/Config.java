@@ -111,18 +111,16 @@ public class Config implements Serializable {
         public boolean CORAL_BLOCKS             = true;
         public boolean KELP                     = true;
         public boolean NETHERRACK               = true;
-
         public boolean SPORE_BLOSSOM            = true;
         public boolean BUNDLE                   = true;
         public boolean HEART_OF_THE_SEA         = true;
         public boolean END_PORTAL_FRAME         = true;
         public boolean RED_SAND                 = true;
         public boolean COBWEB                   = true;
-
         public boolean MYCELIUM                 = true;
         public boolean GRASS_BLOCK              = true;
-
         public boolean ANCIENT_CITY_SWIFT_SNEAK = true;
+        public boolean CRAFTABLE_ORES           = true;
     }
 
     public byte[] toBytes() {
