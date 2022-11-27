@@ -13,18 +13,17 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
-// REQ FABRIC
-
 public class FabricSkyBlockEvents extends SkyBlockEvents {
     @Override
     public SkyBlockEvents register() {
+
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             SkyBlockStructureTracker.rescan();
         });
 
         ServerWorldEvents.LOAD.register((server, level) -> {
-            IS_SERVER_SKYBLOCK = level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
-            if (SkyBlock.isLogicalServer(level) && IS_SERVER_SKYBLOCK) {
+            SkyBlock.IS_SERVER_SKYBLOCK = level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
+            if (SkyBlock.isLogicalServer(level) && SkyBlock.IS_SERVER_SKYBLOCK) {
                 PacketHandler.INSTANCE = new FabricPacketHandler().init().registerServerListener();
             }
         });

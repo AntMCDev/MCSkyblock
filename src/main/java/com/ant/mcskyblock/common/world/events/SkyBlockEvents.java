@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.Blocks;
 public abstract class SkyBlockEvents {
     public static SkyBlockEvents INSTANCE;
 
-    public static boolean IS_SERVER_SKYBLOCK = false;
-    public static boolean IS_CLIENT_SKYBLOCK = false;
 
     public abstract SkyBlockEvents register();
 

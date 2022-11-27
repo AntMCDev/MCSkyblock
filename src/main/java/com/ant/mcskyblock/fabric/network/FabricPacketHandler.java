@@ -8,8 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-// REQ FABRIC
-
 public class FabricPacketHandler extends PacketHandler {
     @Override
     public PacketHandler init() {
