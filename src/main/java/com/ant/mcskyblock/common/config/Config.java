@@ -14,7 +14,7 @@ public class Config implements Serializable {
     public static Config INSTANCE = new Config();
 
     public enum Preset {
-        Classic, Hybrid, OneBlock
+        Classic, Hybrid, OneBlock, Custom
     }
 
     public Preset preset = Preset.Classic;
