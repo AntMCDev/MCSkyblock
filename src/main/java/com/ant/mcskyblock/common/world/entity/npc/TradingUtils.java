@@ -68,7 +68,7 @@ public class TradingUtils {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.CALCITE, 16), 16, 20, 0.05f ) ) );
         }
         if (Config.INSTANCE.trading.MASON_DEEPSLATE) {
-            masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.DEEPSLATE, 16), 16, 20, 0.05f)));
+            masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.COBBLED_DEEPSLATE, 16), 16, 20, 0.05f)));
         }
         if (Config.INSTANCE.trading.MASON_TUFF) {
             masonTrades.add(new LevelledTradeOffer(3, new BasicTradeFactory(1, new ItemStack(Items.TUFF, 16), 16, 20, 0.05f)));
