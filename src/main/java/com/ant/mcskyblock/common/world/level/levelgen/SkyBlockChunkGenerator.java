@@ -1,5 +1,7 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
+import com.ant.mcskyblock.common.SkyBlock;
+import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.feature.GeodeFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -261,6 +264,10 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                     int p = is[o];
                     PlacedFeature placedFeature2 = stepFeatureData2.features().get(p);
                     Supplier<String> supplier2 = () -> registry2.getResourceKey(placedFeature2).map(Object::toString).orElseGet(placedFeature2::toString);
+                    if (!((supplier2.get().contains("geode") && Config.INSTANCE.structures.GEN_GEODES) ||
+                          (supplier2.get().contains("iceberg") && Config.INSTANCE.structures.GEN_GEODES))) {
+                        continue;
+                    }
                     worldgenRandom.setFeatureSeed(l, p, k);
                     try {
                         worldGenLevel.setCurrentlyGenerating(supplier2);

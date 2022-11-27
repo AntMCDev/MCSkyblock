@@ -22,9 +22,6 @@
     "main": [
       "com.ant.mcskyblock.FabricMCSkyBlock"
     ],
-    "fabric-datagen": [
-      "com.ant.mcskyblock.fabric._build.SkyblockDataGenerator"
-    ],
     "modmenu": [
       "com.ant.mcskyblock.fabric.config.SkyBlockModMenu"
     ]
