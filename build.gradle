@@ -18,7 +18,6 @@ repositories {
 }
 
 loom {
-	// silentMojangMappingsLicense()
 	accessWidenerPath = file("src/main/resources/mcskyblock.accesswidener")
 }
 
