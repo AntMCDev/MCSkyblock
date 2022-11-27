@@ -1,5 +1,5 @@
 {
-  "generator.mcskyblock.skyblock_preset"                                        : "Skyblock",
+  "generator.mcskyblock.skyblock"                                               : "Skyblock",
 
   "config.mcskyblock.title"                                                     : "Skyblock Settings",
   "config.mcskyblock.description"                                               : "Welcome To MCSkyblock\n\nPresets:\n\n* Classic:  A generous starting area, however no outer islands or structures will spawn (bounding boxes are there, so structure-specific mobs will still spawn). All non-renewable in vanilla will be made accessible in this mode - however some useful, but non-essential recipes/drops will be disabled.\n\n* Hybrid:  A very generous starting area and surrounded by biome-based sub-islands. All structures spawn naturally, however to account for that - certain custom recipes and drops that are otherwise unobtainable outside of structures are disabled in this mode.\n\n* One Block: You spawn on a single grass block with no tree, snow is the key to progression in the very early game - so better hope you get a cold biome! Other than that, this has the same settings as classic.\n\n* Custom:  Set it up the way you like. Please note custom settings will not take place unless you set this option",

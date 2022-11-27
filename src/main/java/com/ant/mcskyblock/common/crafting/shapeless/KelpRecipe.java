@@ -16,5 +16,5 @@ public class KelpRecipe implements IShapelessRecipe{
     public String getBlock() {return "minecraft:kelp";}
 
     @Override
-    public Collection<IShapelessIngredient> getIngredients() {return Collections.singletonList(new BasicShapelessIngredient("minecraft:sea_grass", 4));}
+    public Collection<IShapelessIngredient> getIngredients() {return Collections.singletonList(new BasicShapelessIngredient("minecraft:seagrass", 4));}
 }

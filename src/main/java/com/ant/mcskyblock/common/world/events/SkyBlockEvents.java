@@ -1,5 +1,6 @@
 package com.ant.mcskyblock.common.world.events;
 
+import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.saveddata.SkyBlockSavedData;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ public abstract class SkyBlockEvents {
     public void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
+            SkyBlock.LOGGER.info("Generating world of type: " + Config.INSTANCE.preset.name());
             String[] configPos = Config.INSTANCE.spawning.SPAWN_COORDS;
             double[] pos = new double[3];
             try {
@@ -91,7 +93,7 @@ public abstract class SkyBlockEvents {
     private void buildSkyblock(Level world, BlockPos pos) {
         int offset = -2;
 
-        if(Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ) {
+        if(Config.INSTANCE.worldGen.MAIN_ISLAND_TREE) {
             for (int y = 0; y < tree.length; y++) {
                 for (int x = 0; x < tree[y].length; x++) {
                     for (int z = 0; z < tree[y][x].length; z++) {

@@ -25,24 +25,7 @@ import java.util.Optional;
  * [COMMON] CONFIG GUI - This is the ClothConfig-specific GUI wrapper around the generic Config class
  */
 public class ClothConfig {
-    public static void load(Path path) {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        final Path configPath = path.resolve(SkyBlock.MOD_NAME + ".json");
-
-        if (Files.exists(configPath)) {
-            try {
-                BufferedReader reader = Files.newBufferedReader(configPath);
-                Config.INSTANCE = gson.fromJson(reader, Config.class);
-                reader.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     public static ConfigBuilder getBuilder(Path path) {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        final Path configPath = path.resolve(SkyBlock.MOD_NAME + ".json");
 
         ConfigBuilder builder = ConfigBuilder.create()
                 .setTitle(Component.translatable("config." + SkyBlock.MOD_NAME + ".title"))
@@ -52,19 +35,11 @@ public class ClothConfig {
         builder.setGlobalized(false);
         builder.setGlobalizedExpanded(false);
         builder.setSavingRunnable(() -> {
-            try {
-                Config.INSTANCE.preSave();
-                Files.createDirectories(configPath.getParent());
-                BufferedWriter writer = Files.newBufferedWriter(configPath);
-                gson.toJson(Config.INSTANCE, writer);
-                writer.close();
-                Config.INSTANCE.postSave();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            ClothConfigGeneric.save(path);
+            Config.INSTANCE.postSave();
         });
 
-        load(path);
+        ClothConfigGeneric.load(path);
 
         ConfigCategory defaultCategory = builder.getOrCreateCategory(Component.translatable("config." + SkyBlock.MOD_NAME + ".category.default"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();

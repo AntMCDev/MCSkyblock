@@ -14,7 +14,6 @@
     "MixinIcebergFeature",
     "MixinGeodeFeature",
     "MixinGeodeConfigurationAccessor",
-    "MixinDebugScreenOverlay",
     "MixinSaplingBlock",
     "MixinEndermite",
     "MixinRecipeManager",
@@ -23,6 +22,7 @@
     "MixinEnchantmentMenu"
   ],
   "client": [
+    "MixinDebugScreenOverlay",
     "MixinClientLevelClientLevelData"
   ],
   "injectors": {

@@ -21,7 +21,7 @@ public class SkyBlock {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_NAME = "mcskyblock";
 
-    public static final String PRESET_ID = "skyblock_preset";
+    public static final String PRESET_ID = "skyblock";
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
 
