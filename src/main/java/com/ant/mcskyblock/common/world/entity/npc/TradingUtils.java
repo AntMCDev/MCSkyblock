@@ -42,18 +42,14 @@ public class TradingUtils {
         if (Config.INSTANCE.trading.WANDERING_TRADER_CHORUS_PLANT) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(6, new ItemStack(Items.CHORUS_FLOWER, 1), 6, 1)));
         }
-        if (Config.INSTANCE.trading.WANDERING_TRADER_DISC_OTHERSIDE) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_OTHERSIDE, 1), 1, 1)));
-        }
-        if (Config.INSTANCE.trading.WANDERING_TRADER_DISC_5) {
-            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.MUSIC_DISC_5, 1), 1, 1)));
-        }
 
         if (Config.INSTANCE.trading.WANDERING_TRADER_TWO_TALL_FLOWERS) {
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LILAC, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.ROSE_BUSH, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.PEONY, 1), 1, 1)));
             wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.SUNFLOWER, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.TALL_GRASS, 1), 1, 1)));
+            wanderingTrades.add(new LevelledTradeOffer(WANDERING_TRADER_RARE_OFFER, new BasicTradeFactory(5, new ItemStack(Items.LARGE_FERN, 1), 1, 1)));
         }
 
         List<LevelledTradeOffer> clericTrades = new ArrayList<>();
@@ -79,6 +75,14 @@ public class TradingUtils {
         }
         if (masonTrades.size() > 0) {
             trades.put(VillagerProfession.MASON, masonTrades);
+        }
+
+        List<LevelledTradeOffer> cartographerTrades = new ArrayList<>();
+        if (Config.INSTANCE.trading.CARTOGRAPHER_SNOUT_BANNER) {
+            cartographerTrades.add(new LevelledTradeOffer(5, new BasicTradeFactory(8, new ItemStack(Items.PIGLIN_BANNER_PATTERN, 1), 12, 30, 0.05f)));
+        }
+        if (cartographerTrades.size() > 0) {
+            trades.put(VillagerProfession.CARTOGRAPHER, cartographerTrades);
         }
     }
 

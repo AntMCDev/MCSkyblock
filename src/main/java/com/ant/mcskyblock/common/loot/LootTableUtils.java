@@ -1,14 +1,15 @@
 package com.ant.mcskyblock.common.loot;
 
-import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.fabric.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.fabric.mixin.MixinLootTableAccessor;
+import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.data.loot.FishingLoot;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -17,6 +18,8 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -30,6 +33,10 @@ import java.util.Map;
 public class LootTableUtils {
     public static Map<ResourceLocation, LootPool> newLootPools = new HashMap<>();
     public static Map<ResourceLocation, LootPoolReference> existingLootPools = new HashMap<>();
+
+    public static final LootItemCondition.Builder IN_NETHER = LocationCheck.checkLocation(LocationPredicate.Builder.location().setDimension(Level.NETHER));
+    public static final LootItemCondition.Builder IN_STRONGHOLD = LocationCheck.checkLocation(LocationPredicate.Builder.location().setStructure(BuiltinStructures.STRONGHOLD));
+    public static final LootItemCondition.Builder IN_ANCIENT_CITY = LocationCheck.checkLocation(LocationPredicate.Builder.location().setStructure(BuiltinStructures.ANCIENT_CITY));
 
     static {
         if( !Config.INSTANCE.structures.GEN_END_CITY) {
@@ -126,7 +133,6 @@ public class LootTableUtils {
         }
         existingLootPools.put(BuiltInLootTables.PIGLIN_BARTERING, new LootPoolReference(0, piglinLootTable));
 
-
         List<LootPoolEntryContainer> fishingLootTable = new ArrayList<>();
         if (Config.INSTANCE.drops.FISHING_COCO_BEANS) {
             fishingLootTable.add(LootItem.lootTableItem(Items.COCOA_BEANS)
@@ -136,8 +142,6 @@ public class LootTableUtils {
         }
         existingLootPools.put(BuiltInLootTables.FISHING_JUNK, new LootPoolReference(0,fishingLootTable));
 
-
-
         List<LootPoolEntryContainer> clericHotVLootTable = new ArrayList<>();
         if (Config.INSTANCE.trading.HOTV_CLERIC_DIAMOND && !Config.INSTANCE.structures.GEN_END_CITY ) {
             clericHotVLootTable.add(LootItem.lootTableItem(Items.DIAMOND).build());
@@ -146,6 +150,14 @@ public class LootTableUtils {
             clericHotVLootTable.add(LootItem.lootTableItem(Items.BUDDING_AMETHYST).build());
         }
         existingLootPools.put(BuiltInLootTables.CLERIC_GIFT, new LootPoolReference(0, clericHotVLootTable));
+
+        List<LootPoolEntryContainer> creeperDiscLootTable = new ArrayList<>();
+        if (Config.INSTANCE.drops.CONDITIONAL_CREEPER_DISCS) {
+            creeperDiscLootTable.add(LootItem.lootTableItem(Items.MUSIC_DISC_PIGSTEP).when(IN_NETHER).build());
+            creeperDiscLootTable.add(LootItem.lootTableItem(Items.MUSIC_DISC_OTHERSIDE).when(IN_STRONGHOLD).build());
+            creeperDiscLootTable.add(LootItem.lootTableItem(Items.DISC_FRAGMENT_5).when(IN_ANCIENT_CITY).build());
+        }
+        existingLootPools.put(EntityType.CREEPER.getDefaultLootTable(), new LootPoolReference(1, creeperDiscLootTable));
     }
 
     public static void register(LootTables lootManager, ResourceLocation id, LootTable.Builder tableBuilder) {
