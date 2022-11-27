@@ -1,28 +1,29 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.ant.mcskyblock.mixin",
+  "package": "com.ant.mcskyblock.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MixinConfiguredFeature",
-    "MixinDimensionOptions",
-    "MixinEnderDragonFight",
-    "MixinFossilFeature",
+    "MixinLevelStem",
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
-    "MixinNetherFortressGeneratorBridgePlatform",
-    "MixinOceanRuinGeneratorPiece",
-    "MixinShiftableStructurePiece",
-    "MixinSimpleStructurePiece",
-    "MixinSinglePoolElement",
-    "MixinSpawnHelper",
-    "MixinStrongholdGeneratorPortalRoom",
-    "MixinStructurePiece",
-    "MixinThreadedAnvilChunkStorage"
+    "MixinNaturalSpawner",
+    "MixinEndDragonFight",
+    "MixinCactusBlock",
+    "MixinSugarCaneBlock",
+    "MixinIcebergFeature",
+    "MixinGeodeFeature",
+    "MixinGeodeConfigurationAccessor",
+    "MixinSaplingBlock",
+    "MixinEndermite",
+    "MixinRecipeManager",
+    "MixinServerAdvancementManager",
+    "MixinCommands",
+    "MixinEnchantmentMenu"
   ],
   "client": [
-    "MixinClientWorldProperties",
-    "MixinDebugHud"
+    "MixinDebugScreenOverlay",
+    "MixinClientLevelClientLevelData"
   ],
   "injectors": {
     "defaultRequire": 1

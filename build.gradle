@@ -1,11 +1,6 @@
 plugins {
-	id "com.github.johnrengelman.shadow" version "7.0.0"
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
-}
-
-configurations {
-	shadowCommon
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -16,41 +11,35 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+    // cloth-config
+    maven { url "https://maven.shedaniel.me/" }
+    // modmenu
+    maven { url "https://maven.terraformersmc.com/releases/" }
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/mcskyblock.accesswidener")
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+	mappings loom.officialMojangMappings()
+
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
-	implementation("com.moandjiezana.toml:toml4j:${project.toml4j_version}")
-	shadowCommon("com.moandjiezana.toml:toml4j:${project.toml4j_version}") {
-		exclude(module: "gson")
+	// ClothConfig Api
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_fabric_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
 	}
-}
 
-shadowJar {
-	relocate "com.moandjiezana.toml", "${project.maven_group}.mclangsplit.shadowed.com.moandjiezana.toml"
+	// ModMenu Api
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-	configurations = [project.configurations.shadowCommon]
-	classifier "shadow"
-}
-
-remapJar {
-	dependsOn(shadowJar)
-	input.set(shadowJar.archiveFile)
-	archiveClassifier = "fabric"
 }
 
 processResources {
@@ -62,20 +51,11 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// ensure that the encoding is set to UTF-8, no matter what the system default is
-	// this fixes some edge cases with special characters not displaying correctly
-	// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-	// If Javadoc is generated, this must be specified in that task too.
 	it.options.encoding = "UTF-8"
-
-	// Minecraft 1.17 (21w19a) upwards uses Java 16.
 	it.options.release = 17
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 }
 
