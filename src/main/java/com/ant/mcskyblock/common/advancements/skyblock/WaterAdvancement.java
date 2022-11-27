@@ -2,28 +2,25 @@ package com.ant.mcskyblock.common.advancements.skyblock;
 
 import com.ant.mcskyblock.common.advancements.IAdvancement;
 
-/**
- * [COMMON] ACHIEVEMENT - Make a cobblestone generator (obtain cobblestone)
- */
-public class CobblestoneGeneratorAdvancement implements IAdvancement {
+public class WaterAdvancement implements IAdvancement {
     @Override
     public String getJSON() {
         return """
                 {
                     "display":
                     {
-                        "icon": {"item": "minecraft:cobblestone"},
+                        "icon": {"item": "minecraft:water_bucket"},
                         "frame": "task",
-                        "title": {"translate": "Something I cobbled together"},
-                        "description": {"translate": "Make a cobblestone generator"}
+                        "title": {"translate": "Water nice bucket!"},
+                        "description": {"translate": "Try not to drown"}
                     },
-                    "parent": "mcskyblock:lava",
+                    "parent": "mcskyblock:iron",
                     "criteria":
                     {
-                        "cobblestone":
+                        "water":
                         {
                             "trigger": "minecraft:inventory_changed",
-                            "conditions" : {"items": [{"items": ["minecraft:cobblestone"]}]}
+                            "conditions": {"items":[{"items": ["minecraft:water_bucket"]}]}
                         }
                     }
                 }
@@ -32,6 +29,6 @@ public class CobblestoneGeneratorAdvancement implements IAdvancement {
 
     @Override
     public String getName() {
-        return "cobblestone_generator";
+        return "water";
     }
 }

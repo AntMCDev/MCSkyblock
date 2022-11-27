@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-// REMOVE
 @Mixin(LevelStem.class)
 public class MixinLevelStem {
     @Inject(at = @At("RETURN"), method = "stable", cancellable = true)

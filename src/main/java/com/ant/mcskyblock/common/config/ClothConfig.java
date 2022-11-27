@@ -1,20 +1,16 @@
 package com.ant.mcskyblock.common.config;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +20,7 @@ import java.util.Optional;
 /**
  * [COMMON] CONFIG GUI - This is the ClothConfig-specific GUI wrapper around the generic Config class
  */
+@Environment(EnvType.CLIENT)
 public class ClothConfig {
     public static ConfigBuilder getBuilder(Path path) {
 
