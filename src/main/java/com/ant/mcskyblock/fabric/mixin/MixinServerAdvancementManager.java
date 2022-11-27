@@ -22,7 +22,6 @@ import java.util.Map;
 public class MixinServerAdvancementManager {
     private static final List<IAdvancement> ADVANCEMENTS = List.of(
             new Skyblock(),
-            new Skyblock(),
             new CobblestoneGeneratorAdvancement(),
             new PortalAdvancement()
     );

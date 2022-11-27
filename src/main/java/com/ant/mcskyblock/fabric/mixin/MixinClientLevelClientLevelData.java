@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-// KEEP
-// KEEP
 @Mixin(ClientLevel.ClientLevelData.class)
 public class MixinClientLevelClientLevelData {
     @Inject(at = @At("HEAD"), method = "getHorizonHeight", cancellable = true)
