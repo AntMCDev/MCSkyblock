@@ -2,28 +2,25 @@ package com.ant.mcskyblock.common.advancements.skyblock;
 
 import com.ant.mcskyblock.common.advancements.IAdvancement;
 
-/**
- * [COMMON] ACHIEVEMENT - Make a cobblestone generator (obtain cobblestone)
- */
-public class CobblestoneGeneratorAdvancement implements IAdvancement {
+public class ShriekerAdvancement implements IAdvancement {
     @Override
     public String getJSON() {
         return """
                 {
                     "display":
                     {
-                        "icon": {"item": "minecraft:cobblestone"},
+                        "icon": {"item": "minecraft:sculk_shrieker"},
                         "frame": "task",
-                        "title": {"translate": "Something I cobbled together"},
-                        "description": {"translate": "Make a cobblestone generator"}
+                        "title": {"translate": "Cheer up, Stop Sculking!"},
+                        "description": {"translate": "Not sure that you really want to place that down..."}
                     },
-                    "parent": "mcskyblock:lava",
+                    "parent": "mcskyblock:skyblock",
                     "criteria":
                     {
-                        "cobblestone":
+                        "shrieker":
                         {
                             "trigger": "minecraft:inventory_changed",
-                            "conditions" : {"items": [{"items": ["minecraft:cobblestone"]}]}
+                            "conditions": {"items":[{"items": ["mcskyblock:active_sculk_shrieker"]}]}
                         }
                     }
                 }
@@ -32,6 +29,6 @@ public class CobblestoneGeneratorAdvancement implements IAdvancement {
 
     @Override
     public String getName() {
-        return "cobblestone_generator";
+        return "shrieker";
     }
 }
