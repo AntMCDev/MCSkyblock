@@ -24,7 +24,6 @@ public class OneBlock extends Config {
         structures.GEN_IGLOO            = false;
         structures.GEN_JUNGLE_TEMPLE    = false;
         structures.GEN_MINESHAFT        = false;
-        structures.GEN_MINESHAFT_MESA   = false;
         structures.GEN_NETHER_FOSSIL    = false;
         structures.GEN_OCEAN_MONUMENT   = false;
         structures.GEN_OCEAN_RUIN       = false;

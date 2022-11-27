@@ -28,7 +28,7 @@ public class SkyBlockStructureTracker {
         enabledMap.clear();
         enabledMap.put( "minecraft:pillager_outpost",        Config.INSTANCE.structures.GEN_PILLAGER_OUTPOST);
         enabledMap.put( "minecraft:mineshaft",               Config.INSTANCE.structures.GEN_MINESHAFT);
-        enabledMap.put( "minecraft:mineshaft_mesa",          Config.INSTANCE.structures.GEN_MINESHAFT_MESA);
+        enabledMap.put( "minecraft:mineshaft_mesa",          Config.INSTANCE.structures.GEN_MINESHAFT);
         enabledMap.put( "minecraft:mansion",                 Config.INSTANCE.structures.GEN_WOODLAND_MANSION);
         enabledMap.put( "minecraft:jungle_pyramid",          Config.INSTANCE.structures.GEN_JUNGLE_TEMPLE);
         enabledMap.put( "minecraft:desert_pyramid",          Config.INSTANCE.structures.GEN_DESERT_PYRAMID);

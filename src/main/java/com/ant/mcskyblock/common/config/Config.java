@@ -46,7 +46,6 @@ public class Config implements Serializable {
         public boolean GEN_IGLOO                    = true;
         public boolean GEN_JUNGLE_TEMPLE            = true;
         public boolean GEN_MINESHAFT                = true;
-        public boolean GEN_MINESHAFT_MESA           = true;
         public boolean GEN_NETHER_FOSSIL            = true;
         public boolean GEN_OCEAN_MONUMENT           = true;
         public boolean GEN_OCEAN_RUIN               = true;
