@@ -78,7 +78,6 @@ public class Config implements Serializable {
     public static class Trading implements Serializable {
         public boolean WANDERING_TRADER_SPONGE              = true;
         public boolean WANDERING_TRADER_GLOW_LICHEN         = true;
-        public boolean WANDERING_TRADER_SCULK_CATALYST      = true;
         public boolean WANDERING_TRADER_LAVA_BUCKET         = true;
         public boolean WANDERING_TRADER_GLOW_BERRIES        = true;
         public boolean WANDERING_TRADER_CHORUS_PLANT        = true;

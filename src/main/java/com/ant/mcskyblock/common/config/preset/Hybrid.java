@@ -19,7 +19,6 @@ public class Hybrid extends Config {
         drops.DROWNED_GOLD                          = false;
 
         trading.WANDERING_TRADER_SPONGE             = false;
-        trading.WANDERING_TRADER_SCULK_CATALYST     = false;
         trading.WANDERING_TRADER_CHORUS_PLANT       = false;
         trading.WANDERING_TRADER_TWO_TALL_FLOWERS   = false;
         trading.CLERIC_SHULKER_SHELL                = false;
