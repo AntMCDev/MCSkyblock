@@ -10,20 +10,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class StructureCheckPacket implements IFabricPacket {
-    private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":structurecheck");
+    private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":" + SkyBlock.NET_STRUCTURECHECK_ID);
 
     @Override
     public ResourceLocation getIdentifier() {
@@ -42,7 +38,6 @@ public class StructureCheckPacket implements IFabricPacket {
                                 PacketSender responseSender) {
         server.execute(() -> {
             String structures = BuiltinRegistries.STRUCTURES.registryKeySet().stream().filter(s -> LocationPredicate.inStructure(s).matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z)).map(s -> s.location().toString()).collect(Collectors.joining(", "));
-
             FriendlyByteBuf responseBuffer = PacketByteBufs.create();
             responseBuffer.writeUtf(structures);
             PacketHandler.INSTANCE.sendTo(player, getIdentifier(), FabricPacketHandler.byteBufToBytes(responseBuffer));

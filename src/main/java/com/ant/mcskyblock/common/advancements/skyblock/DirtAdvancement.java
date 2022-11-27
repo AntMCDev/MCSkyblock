@@ -5,7 +5,7 @@ import com.ant.mcskyblock.common.advancements.IAdvancement;
 /**
  * [COMMON] ACHIEVEMENT - Dig up a dirt block
  */
-public class Skyblock implements IAdvancement {
+public class DirtAdvancement implements IAdvancement {
     @Override
     public String getJSON() {
         return """
@@ -13,12 +13,14 @@ public class Skyblock implements IAdvancement {
                     "display":
                     {
                         "icon":{"item": "minecraft:grass_block"},
-                        "title": {"translate": "Skyblock"},
-                        "description": {"translate": "An island in the void."},
+                        "frame": "task",
+                        "title": {"translate": "Relocation"},
+                        "description": {"translate": "Not a fan of this dirt block placement!"},
                         "background": "minecraft:textures/block/snow.png",
                         "show_toast": true,
                         "announce_to_chat": false
                     },
+                    "parent": "mcskyblock:skyblock",
                     "criteria":
                     {
                         "dirt":
@@ -32,5 +34,5 @@ public class Skyblock implements IAdvancement {
     }
 
     @Override
-    public String getName() { return "skyblock"; }
+    public String getName() { return "relocation"; }
 }

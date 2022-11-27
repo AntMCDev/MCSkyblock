@@ -1,7 +1,6 @@
 package com.ant.mcskyblock.fabric.network;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.ant.mcskyblock.fabric.FabricSkyBlockEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,9 +10,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
-// REQ FABRIC
 public class WorldTypePacket implements IFabricPacket {
-    private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":worldtype");
+    private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":" + SkyBlock.NET_WORLDTYPE_ID);
 
     /**
      *
@@ -34,7 +32,7 @@ public class WorldTypePacket implements IFabricPacket {
     @Override
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {
-            FabricSkyBlockEvents.IS_CLIENT_SKYBLOCK = true;
+            SkyBlock.IS_CLIENT_SKYBLOCK = true;
         });
     }
 

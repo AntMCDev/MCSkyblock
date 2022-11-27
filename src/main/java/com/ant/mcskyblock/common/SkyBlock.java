@@ -20,10 +20,18 @@ import org.apache.logging.log4j.Logger;
 public class SkyBlock {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_NAME = "mcskyblock";
+    public static boolean IS_SERVER_SKYBLOCK = false;
+    public static boolean IS_CLIENT_SKYBLOCK = false;
 
+    // resource id's
     public static final String PRESET_ID = "skyblock";
+    public static final String NET_WORLDTYPE_ID =  "worldtype";
+    public static final String NET_STRUCTURECHECK_ID = "structurecheck";
+    public static final String NET_CONFIG_ID         =  "config";
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
+
+
 
     private SkyBlock(){}
 
