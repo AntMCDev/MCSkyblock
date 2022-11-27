@@ -14,7 +14,7 @@ public class Config implements Serializable {
     public static Config INSTANCE = new Config();
 
     public enum Preset {
-        Classic, Hybrid, OneBlock, Insane, Custom
+        Classic, Hybrid, OneBlock
     }
 
     public Preset preset = Preset.Classic;
@@ -33,7 +33,6 @@ public class Config implements Serializable {
         public int SUB_ISLAND_DISTANCE          = 128;
         public int SUB_ISLAND_RADIUS            = 4;
         public int SUB_ISLAND_DEPTH             = 3;
-        public boolean APPLY_BIOME_DECORATIONS  = true;
     }
 
     public Structures structures = new Structures();
@@ -136,7 +135,6 @@ public class Config implements Serializable {
             case Classic -> updateToConfig(new Classic());
             case Hybrid -> updateToConfig(new Hybrid());
             case OneBlock -> updateToConfig(new OneBlock());
-            case Insane -> updateToConfig(new Insane());
         }
     }
 
