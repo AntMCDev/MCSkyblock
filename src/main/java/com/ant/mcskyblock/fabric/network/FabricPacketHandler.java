@@ -36,6 +36,8 @@ public class FabricPacketHandler extends PacketHandler {
     }
 
     public static byte[] byteBufToBytes(FriendlyByteBuf buf) {
-        return buf.asByteBuf().array();
+        byte[] bytes = new byte[buf.readableBytes()];
+        buf.readBytes(bytes);
+        return bytes;
     }
 }

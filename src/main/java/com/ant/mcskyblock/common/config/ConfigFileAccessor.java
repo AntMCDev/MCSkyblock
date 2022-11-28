@@ -10,13 +10,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ClothConfigGeneric {
-    public static void save(Path path) {
+public class ConfigFileAccessor {
+    public static Path path = null;
+
+    public static void save() {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + ".json");
 
         try {
-            Config.INSTANCE.preSave();
+            Config.INSTANCE.updateToPreset();
             Files.createDirectories(configPath.getParent());
             BufferedWriter writer = Files.newBufferedWriter(configPath);
             gson.toJson(Config.INSTANCE, writer);
@@ -26,7 +28,7 @@ public class ClothConfigGeneric {
         }
     }
 
-    public static void load(Path path) {
+    public static void load() {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + ".json");
 
