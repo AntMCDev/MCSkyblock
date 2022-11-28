@@ -18,7 +18,6 @@ public abstract class SkyBlockEvents {
     public void spawnPlayer(ServerPlayer player) {
         SkyBlockSavedData skyblockSavedData = SkyBlockSavedData.get((ServerLevel) player.level);
         if (!skyblockSavedData.generated) {
-            SkyBlock.LOGGER.info("Generating world of type: " + Config.INSTANCE.preset.name());
             String[] configPos = Config.INSTANCE.spawning.SPAWN_COORDS;
             double[] pos = new double[3];
             try {
