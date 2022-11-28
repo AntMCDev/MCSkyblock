@@ -128,21 +128,12 @@ public class Config implements Serializable {
         return SerializationUtils.deserialize(data, Config.class);
     }
 
-    public void preSave() {
+    public void updateToPreset() {
         switch (preset) {
             case Classic -> updateToConfig(new Classic());
             case Hybrid -> updateToConfig(new Hybrid());
             case OneBlock -> updateToConfig(new OneBlock());
         }
-    }
-
-    public void postSave() {
-        PacketHandler.INSTANCE.sendToServer(PacketHandler.CONFIG_PACKET.getIdentifier(), toBytes());
-    }
-
-    public void download(byte[] data) {
-        Config c = fromBytes(data);
-        updateToConfig(c);
     }
 
     private void updateToConfig(Config config) {
@@ -154,5 +145,11 @@ public class Config implements Serializable {
         trading = config.trading;
         spawning = config.spawning;
         crafting = config.crafting;
+    }
+
+    public void download(byte[] data) {
+        Config c = fromBytes(data);
+        updateToConfig(c);
+        ConfigFileAccessor.save();
     }
 }

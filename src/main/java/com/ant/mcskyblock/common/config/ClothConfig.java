@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common.config;
 
 import com.ant.mcskyblock.common.SkyBlock;
+import com.ant.mcskyblock.common.network.PacketHandler;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -32,11 +33,11 @@ public class ClothConfig {
         builder.setGlobalized(false);
         builder.setGlobalizedExpanded(false);
         builder.setSavingRunnable(() -> {
-            ClothConfigGeneric.save(path);
-            Config.INSTANCE.postSave();
+            ConfigFileAccessor.save();
+            PacketHandler.INSTANCE.sendToServer(PacketHandler.CONFIG_PACKET.getIdentifier(), Config.INSTANCE.toBytes());
         });
 
-        ClothConfigGeneric.load(path);
+        ConfigFileAccessor.load();
 
         ConfigCategory defaultCategory = builder.getOrCreateCategory(Component.translatable("config." + SkyBlock.MOD_NAME + ".category.default"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();

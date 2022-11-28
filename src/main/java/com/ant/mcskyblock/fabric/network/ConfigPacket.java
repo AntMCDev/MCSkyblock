@@ -24,16 +24,19 @@ public class ConfigPacket implements IFabricPacket {
     public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
         final byte[] bytes = FabricPacketHandler.byteBufToBytes(buf);
         client.execute(() -> {
-                Config.INSTANCE.download(bytes);
+            Config.INSTANCE.download(bytes);
         });
     }
 
     @Override
     public void executeOnServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler,
                                 FriendlyByteBuf buf, PacketSender responseSender) {
-        if (player.hasPermissions(4)) {
-            Config.INSTANCE.download(FabricPacketHandler.byteBufToBytes(buf));
-        }
-        PacketHandler.INSTANCE.sendTo(player, getIdentifier(), Config.INSTANCE.toBytes());
+        final byte[] bytes = FabricPacketHandler.byteBufToBytes(buf);
+        server.execute(() -> {
+            if (player.hasPermissions(4)) {
+                Config.INSTANCE.download(bytes);
+            }
+            PacketHandler.INSTANCE.sendTo(player, getIdentifier(), Config.INSTANCE.toBytes());
+        });
     }
 }

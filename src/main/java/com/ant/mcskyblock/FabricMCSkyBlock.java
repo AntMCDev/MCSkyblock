@@ -2,10 +2,8 @@ package com.ant.mcskyblock;
 
 import com.ant.mcskyblock.common.SkyBlock;
 
-import com.ant.mcskyblock.common.config.ClothConfig;
-import com.ant.mcskyblock.common.config.ClothConfigGeneric;
+import com.ant.mcskyblock.common.config.ConfigFileAccessor;
 import com.ant.mcskyblock.common.network.PacketHandler;
-import com.ant.mcskyblock.common.world.entity.npc.TradingUtils;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
 import com.ant.mcskyblock.fabric.FabricSkyBlockEvents;
 import com.ant.mcskyblock.fabric.loot.FabricLootTableUtils;
@@ -18,8 +16,9 @@ import net.fabricmc.loader.api.FabricLoader;
 public class FabricMCSkyBlock implements ModInitializer {
 	@Override
 	public void onInitialize() {
-		ClothConfigGeneric.load(FabricLoader.getInstance().getConfigDir());
-		ClothConfigGeneric.save(FabricLoader.getInstance().getConfigDir());
+		ConfigFileAccessor.path = FabricLoader.getInstance().getConfigDir();
+		ConfigFileAccessor.load();
+		ConfigFileAccessor.save();
 		SkyBlock.init();
 		FabricLootTableUtils.register();
 		if (isPhysicalClient()) {
