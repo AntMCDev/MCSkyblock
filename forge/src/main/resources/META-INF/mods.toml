@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="MIT"
+issueTrackerURL="https://github.com/AntMCDev/MCSkyblockFabric/issues"
+
+[[mods]]
+modId="mcskyblock"
+version="${version}"
+displayName="MC Skyblock"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/mcskyblock-fabric"
+logoFile="icon.png"
+authors="AntMcDev, m_jimmer"
+description='''
+Create a skyblock world with all the settings you can handle
+'''
+
+[[dependencies.mcskyblock]]
+   modId="forge"
+   mandatory=true
+   versionRange="[43,)"
+   ordering="NONE"
+   side="BOTH"
+
+[[dependencies.mcskyblock]]
+   modId="minecraft"
+   mandatory=true
+   versionRange="[1.19.2,)"
+   ordering="NONE"
+   side="BOTH"
+
+[[dependencies.mcskyblock]]
+modId = "architectury"
+mandatory = true
+versionRange = "[6.2.43,)"
+ordering = "AFTER"
+side = "BOTH"

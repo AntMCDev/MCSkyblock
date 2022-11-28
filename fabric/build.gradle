@@ -1,0 +1,114 @@
+plugins {
+	id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+archivesBaseName = "${rootProject.archives_base_name}-${project.name}"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+architectury {
+	platformSetupLoomIde()
+	fabric()
+}
+
+var baseAW = project(":common").file("src/main/resources/mcskyblock.accesswidener")
+var baseResources = project(":common").file("src/main/resources")
+var generatedResources = file("src/generated/resources")
+
+loom {
+	accessWidenerPath.set(baseAW)
+}
+
+configurations {
+	common
+	shadowCommon
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentFabric.extendsFrom common
+}
+
+repositories {
+    maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.terraformersmc.com/releases/" }
+}
+
+dependencies {
+	modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+
+    modImplementation include("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_fabric_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}",{
+	        exclude module: "fabric-api"
+	}
+
+	// Local
+	common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir generatedResources
+        }
+    }
+}
+
+task copyAW(type: Copy) {
+    from baseResources
+    into generatedResources
+}
+
+processResources {
+    dependsOn copyAW
+
+    inputs.property "version", rootProject.mod_version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": rootProject.mod_version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier null
+}
+
+jar {
+    classifier "dev"
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+    exclude "mcskyblock.accesswidener"
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenFabric(MavenPublication) {
+            artifactId = rootProject.archives_base_name + "-" + project.name
+            from components.java
+        }
+    }
+    repositories {}
+}
