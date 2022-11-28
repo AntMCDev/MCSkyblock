@@ -25,7 +25,7 @@ public class MixinSaplingBlock extends BushBlock {
     protected boolean mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
         if (Config.INSTANCE.spawning.SAPLINGS_DIE_ON_SAND) {
             return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND) || blockState.is(Blocks.SAND) || blockState.is(Blocks.RED_SAND) ||
-                    blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_SAND) || blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_RED_SAND);
+                    blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) || blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand());
         } else {
             return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND);
         }
@@ -36,8 +36,8 @@ public class MixinSaplingBlock extends BushBlock {
         if (Config.INSTANCE.spawning.SAPLINGS_DIE_ON_SAND && (
                 serverLevel.getBlockState(blockPos.below()).is(Blocks.SAND) ||
                 serverLevel.getBlockState(blockPos.below()).is(Blocks.RED_SAND) ||
-                serverLevel.getBlockState(blockPos.below()).is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_SAND) ||
-                serverLevel.getBlockState(blockPos.below()).is(com.ant.mcskyblock.common.world.level.block.Blocks.STATIC_RED_SAND)
+                serverLevel.getBlockState(blockPos.below()).is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) ||
+                serverLevel.getBlockState(blockPos.below()).is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand())
         )) {
             serverLevel.setBlock(blockPos, Blocks.DEAD_BUSH.defaultBlockState(), 0);
             ci.cancel();

@@ -44,10 +44,6 @@ public class SkyBlock {
         }
     }
 
-    public static void registerBlocks() {
-        Blocks.register();
-    }
-
     public static boolean isLogicalClient(Level level) { return level.isClientSide; }
 
     public static boolean isLogicalServer(Level level) {

@@ -2,6 +2,7 @@ package com.ant.mcskyblock.fabric.loot;
 
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.loot.LootPoolReference;
+import com.ant.mcskyblock.common.world.level.block.Blocks;
 import com.ant.mcskyblock.fabric.mixin.MixinLootPoolAccessor;
 import com.ant.mcskyblock.fabric.mixin.MixinLootTableAccessor;
 import net.minecraft.advancements.critereon.LocationPredicate;
@@ -76,7 +77,7 @@ public class LootTableUtils {
         if (Config.INSTANCE.drops.RAVAGER_SCULK_SHRIEKER) {
             newLootPools.put(EntityType.RAVAGER.getDefaultLootTable(),
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1f))
-                            .with(LootItem.lootTableItem( com.ant.mcskyblock.common.world.level.block.Blocks.ACTIVE_SCULK_SHRIEKER_BLOCK ).build())
+                            .with(LootItem.lootTableItem( Blocks.activeSculkShrieker()).build())
                             .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
                             .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
                             .apply( SetItemCountFunction.setCount(ConstantValue.exactly(1f) ) ).build());

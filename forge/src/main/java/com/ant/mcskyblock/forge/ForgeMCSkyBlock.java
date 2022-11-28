@@ -5,6 +5,7 @@ import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.ConfigFileAccessor;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
+import com.ant.mcskyblock.common.world.level.block.Blocks;
 import com.ant.mcskyblock.forge.config.ClothConfig;
 import com.ant.mcskyblock.forge.loot.ForgeLootTableUtils;
 import com.ant.mcskyblock.forge.network.ForgePacketHandler;
@@ -32,6 +33,7 @@ public  class ForgeMCSkyBlock {
 
         bus.addListener(this::setup);
         bus.addListener(this::client);
+        bus.addListener(this::register);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -56,6 +58,7 @@ public  class ForgeMCSkyBlock {
 
     @SubscribeEvent
     public void register(RegisterEvent event) {
-        event.register(ForgeRegistries.Keys.BLOCKS, helper -> SkyBlock.registerBlocks());
+        event.register(ForgeRegistries.Keys.BLOCKS, helper -> Blocks.registerBlocks(helper::register));
+        event.register(ForgeRegistries.Keys.ITEMS, helper -> Blocks.registerItems(helper::register));
     }
 }
