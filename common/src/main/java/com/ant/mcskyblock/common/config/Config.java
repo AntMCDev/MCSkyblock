@@ -56,7 +56,6 @@ public class Config implements Serializable {
         public boolean GEN_SWAMP_HUT                = true;
         public boolean GEN_VILLAGE                  = true;
         public boolean GEN_WOODLAND_MANSION         = true;
-        public boolean GEN_ICEBERGS                 = true;
         public boolean GEN_GEODES                   = true;
         public String[] CUSTOM_STRUCTURES           = new String[0];
     }
@@ -129,10 +128,12 @@ public class Config implements Serializable {
     }
 
     public void updateToPreset() {
-        switch (preset) {
-            case Classic -> updateToConfig(new Classic());
-            case Hybrid -> updateToConfig(new Hybrid());
-            case OneBlock -> updateToConfig(new OneBlock());
+        if(preset != Preset.Custom) {
+            switch (preset) {
+                case Classic -> updateToConfig(new Classic());
+                case Hybrid -> updateToConfig(new Hybrid());
+                case OneBlock -> updateToConfig(new OneBlock());
+            }
         }
     }
 

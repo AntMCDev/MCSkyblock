@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ant.mcskyblock.common.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinLevelStem",
+    "MixinNaturalSpawner"
+  ],
+  "client": [
+    "MixinClientLevelClientLevelData"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -33,7 +33,6 @@ public class OneBlock extends Config {
         structures.GEN_SWAMP_HUT        = false;
         structures.GEN_VILLAGE          = false;
         structures.GEN_WOODLAND_MANSION = false;
-        structures.GEN_ICEBERGS         = false;
         structures.GEN_GEODES           = false;
 
         drops.HUSK_SAND                 = false;
