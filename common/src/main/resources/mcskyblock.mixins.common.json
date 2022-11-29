@@ -14,7 +14,9 @@
     "MixinRecipeManager",
     "MixinSaplingBlock",
     "MixinSugarCaneBlock",
-    "MixinServerAdvancementManager"
+    "MixinServerAdvancementManager",
+    "MixinGeodeConfigurationAccessor",
+    "MixinGeodeFeature"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import org.spongepowered.asm.mixin.Mixin;
