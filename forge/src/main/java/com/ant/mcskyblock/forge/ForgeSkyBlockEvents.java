@@ -34,9 +34,6 @@ public class ForgeSkyBlockEvents extends SkyBlockEvents {
     public void onWorldLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel && event.getLevel() != null) {
             SkyBlock.IS_SERVER_SKYBLOCK = ((ServerLevel) event.getLevel()).getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
-            if (SkyBlock.isLogicalServer((ServerLevel) event.getLevel()) && SkyBlock.IS_SERVER_SKYBLOCK) {
-                PacketHandler.INSTANCE = new ForgePacketHandler().init().registerServerListener();
-            }
         }
     }
 

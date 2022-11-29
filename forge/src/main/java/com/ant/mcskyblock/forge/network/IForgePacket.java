@@ -1,26 +1,26 @@
 package com.ant.mcskyblock.forge.network;
 
-import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.network.IPacket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.simple.SimpleChannel;
+
+import java.util.function.Supplier;
 
 public interface IForgePacket extends IPacket {
+    SimpleChannel getChannel();
+
     @Override
     default void registerOnClient() {
-        SkyBlock.LOGGER.info("TODO - register on client");
+        getChannel().registerMessage(0, FriendlyByteBuf.class, (msg, buf) -> buf.writeBytes(msg), (buf) -> buf, this::executeOnClient);
     }
 
-    void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf);
+    void executeOnClient(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx);
 
     @Override
     default void registerOnServer() {
-        SkyBlock.LOGGER.info("TODO - register on server");
+        getChannel().registerMessage(0, FriendlyByteBuf.class, (msg, buf) -> buf.writeBytes(msg), (buf) -> buf, this::executeOnServer);
     }
 
-    void executeOnServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf);
+    void executeOnServer(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx);
 }

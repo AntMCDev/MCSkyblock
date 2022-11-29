@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.PacketDistributor;
 
 public class ForgePacketHandler extends PacketHandler {
     @Override
@@ -18,12 +19,26 @@ public class ForgePacketHandler extends PacketHandler {
 
     @Override
     public void sendTo(ServerPlayer player, ResourceLocation identifier, byte[] data) {
-        SkyBlock.LOGGER.info("TODO - send to player");
+        if (identifier.equals(PacketHandler.WORLD_TYPE_PACKET.getIdentifier())) {
+            ((IForgePacket)PacketHandler.WORLD_TYPE_PACKET).getChannel().send(PacketDistributor.PLAYER.with(() -> player), bytesToByteBuf(data));
+        } else if (identifier.equals(PacketHandler.STRUCTURE_CHECK_PACKET.getIdentifier())) {
+            ((IForgePacket)PacketHandler.STRUCTURE_CHECK_PACKET).getChannel().send(PacketDistributor.PLAYER.with(() -> player), bytesToByteBuf(data));
+        } else if (identifier.equals(PacketHandler.CONFIG_PACKET.getIdentifier())) {
+            ((IForgePacket)PacketHandler.CONFIG_PACKET).getChannel().send(PacketDistributor.PLAYER.with(() -> player), bytesToByteBuf(data));
+        }
     }
 
     @Override
     public void sendToServer(ResourceLocation identifier, byte[] data) {
-        SkyBlock.LOGGER.info("TODO - send to server");
+        try {
+            if (identifier.equals(PacketHandler.WORLD_TYPE_PACKET.getIdentifier())) {
+                ((IForgePacket) PacketHandler.WORLD_TYPE_PACKET).getChannel().sendToServer(bytesToByteBuf(data));
+            } else if (identifier.equals(PacketHandler.STRUCTURE_CHECK_PACKET.getIdentifier())) {
+                ((IForgePacket) PacketHandler.STRUCTURE_CHECK_PACKET).getChannel().sendToServer(bytesToByteBuf(data));
+            } else if (identifier.equals(PacketHandler.CONFIG_PACKET.getIdentifier())) {
+                ((IForgePacket) PacketHandler.CONFIG_PACKET).getChannel().sendToServer(bytesToByteBuf(data));
+            }
+        } catch (NullPointerException ignore) {}
     }
 
     public static FriendlyByteBuf bytesToByteBuf(byte[] data) {

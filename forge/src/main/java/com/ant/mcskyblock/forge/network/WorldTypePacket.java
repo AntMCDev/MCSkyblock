@@ -1,48 +1,42 @@
 package com.ant.mcskyblock.forge.network;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
+
+import java.util.function.Supplier;
 
 public class WorldTypePacket implements IForgePacket {
     private static final ResourceLocation IDENTIFIER = new ResourceLocation(SkyBlock.MOD_NAME + ":" + SkyBlock.NET_WORLDTYPE_ID);
+    private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(IDENTIFIER, () -> "0", "0"::equals, "0"::equals);
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ResourceLocation getIdentifier() {
         return IDENTIFIER;
     }
 
-    /**
-     *
-     * @param client
-     * @param handler
-     * @param buf
-     */
     @Override
-    public void executeOnClient(Minecraft client, ClientGamePacketListener handler, FriendlyByteBuf buf) {
-        client.execute(() -> {
-            SkyBlock.IS_CLIENT_SKYBLOCK = true;
-        });
+    public SimpleChannel getChannel() {
+        return CHANNEL;
     }
 
-    /**
-     *
-     * @param server
-     * @param player
-     * @param handler
-     * @param buf
-     */
     @Override
-    public void executeOnServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler,
-                                FriendlyByteBuf buf)
-    {}
+    public void executeOnClient(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                SkyBlock.IS_CLIENT_SKYBLOCK = true;
+            });
+        });
+        ctx.get().setPacketHandled(true);
+    }
+
+    @Override
+    public void executeOnServer(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().setPacketHandled(true);
+    }
 }

@@ -24,6 +24,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -40,6 +41,7 @@ public class ForgeMCSkyBlock {
 
         bus.addListener(this::setup);
         bus.addListener(this::client);
+        bus.addListener(this::server);
         bus.addListener(this::register);
 
         SkyBlockEvents.INSTANCE = new ForgeSkyBlockEvents().register();
@@ -63,6 +65,12 @@ public class ForgeMCSkyBlock {
     private void client(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             PacketHandler.INSTANCE = new ForgePacketHandler().init().registerClientListener();
+        });
+    }
+
+    private void server(final FMLDedicatedServerSetupEvent event) {
+        event.enqueueWork(() -> {
+            PacketHandler.INSTANCE = new ForgePacketHandler().init().registerServerListener();
         });
     }
 
