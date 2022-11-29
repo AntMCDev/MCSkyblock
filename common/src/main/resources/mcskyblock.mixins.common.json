@@ -9,7 +9,8 @@
     "MixinEndDragonFight",
     "MixinCactusBlock",
     "MixinEnchantmentMenu",
-    "MixinEndermite"
+    "MixinEndermite",
+    "MixinCommands"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

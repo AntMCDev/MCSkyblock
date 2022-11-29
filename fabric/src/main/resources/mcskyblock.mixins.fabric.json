@@ -11,8 +11,7 @@
     "MixinGeodeConfigurationAccessor",
     "MixinSaplingBlock",
     "MixinRecipeManager",
-    "MixinServerAdvancementManager",
-    "MixinCommands"
+    "MixinServerAdvancementManager"
   ],
   "client": [
     "MixinDebugScreenOverlay"
