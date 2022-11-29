@@ -25,6 +25,7 @@ import java.util.Optional;
  */
 @Environment(EnvType.CLIENT)
 public class ClothConfig {
+    private static Config prev = null;
     public static ConfigBuilder getBuilder(Path path) {
 
         ConfigBuilder builder = ConfigBuilder.create()
@@ -35,11 +36,16 @@ public class ClothConfig {
         builder.setGlobalized(false);
         builder.setGlobalizedExpanded(false);
         builder.setSavingRunnable(() -> {
+            prev.preset = Config.INSTANCE.preset;
+            if (!Arrays.equals(prev.toBytes(), Config.INSTANCE.toBytes())) {
+                Config.INSTANCE.preset = Config.Preset.Custom;
+            }
             ConfigFileAccessor.save();
             PacketHandler.INSTANCE.sendToServer(PacketHandler.CONFIG_PACKET.getIdentifier(), Config.INSTANCE.toBytes());
         });
 
         ConfigFileAccessor.load();
+        prev = Config.INSTANCE.fromBytes(Config.INSTANCE.toBytes());
 
         ConfigCategory defaultCategory = builder.getOrCreateCategory(Component.translatable("config." + SkyBlock.MOD_NAME + ".category.default"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
