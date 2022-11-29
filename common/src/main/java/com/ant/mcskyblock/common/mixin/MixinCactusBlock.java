@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,7 +25,13 @@ public class MixinCactusBlock {
                 cir.setReturnValue(false); return;
             }
             BlockState blockState3 = levelReader.getBlockState(blockPos.below());
-            cir.setReturnValue((blockState3.is(Blocks.CACTUS) || blockState3.is(Blocks.SAND) || blockState3.is(Blocks.RED_SAND) || blockState3.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) || blockState3.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand())) && !levelReader.getBlockState(blockPos.above()).getMaterial().isLiquid());
+            cir.setReturnValue((blockState3.is(Blocks.CACTUS) || blockState3.is(Blocks.SAND) ||
+                    blockState3.is(Blocks.RED_SAND) ||
+                    blockState3.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) ||
+                    blockState3.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand())) &&
+                    !levelReader.getBlockState(blockPos.above())
+                            .getMaterial()
+                            .isLiquid());
         }
     }
 }

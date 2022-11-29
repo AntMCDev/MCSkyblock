@@ -6,7 +6,8 @@
   "mixins": [
     "MixinLevelStem",
     "MixinNaturalSpawner",
-    "MixinEndDragonFight"
+    "MixinEndDragonFight",
+    "MixinCactusBlock"
   ],
   "client": [
     "MixinClientLevelClientLevelData"
