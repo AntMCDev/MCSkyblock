@@ -30,7 +30,6 @@
     "mcskyblock.mixins.common.json",
     "mcskyblock.mixins.fabric.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric": "*",

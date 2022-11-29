@@ -12,7 +12,6 @@ architectury {
 }
 
 var baseAW = project(":common").file("src/main/resources/mcskyblock.accesswidener")
-var baseResources = project(":common").file("src/main/resources")
 var generatedResources = file("src/generated/resources")
 
 loom {
@@ -58,7 +57,7 @@ sourceSets {
 }
 
 task copyAW(type: Copy) {
-    from baseResources
+    from baseAW
     into generatedResources
 }
 
