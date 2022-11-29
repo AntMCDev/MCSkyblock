@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import com.ant.mcskyblock.common.config.Config;
 import net.minecraft.core.BlockPos;

@@ -8,7 +8,8 @@
     "MixinNaturalSpawner",
     "MixinEndDragonFight",
     "MixinCactusBlock",
-    "MixinEnchantmentMenu"
+    "MixinEnchantmentMenu",
+    "MixinEndermite"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

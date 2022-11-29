@@ -10,7 +10,6 @@
     "MixinGeodeFeature",
     "MixinGeodeConfigurationAccessor",
     "MixinSaplingBlock",
-    "MixinEndermite",
     "MixinRecipeManager",
     "MixinServerAdvancementManager",
     "MixinCommands"
