@@ -5,9 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MixinLootPoolAccessor",
-    "MixinLootTableAccessor",
-    "MixinGeodeFeature",
-    "MixinGeodeConfigurationAccessor"
+    "MixinLootTableAccessor"
   ],
   "client": [
     "MixinDebugScreenOverlay"
