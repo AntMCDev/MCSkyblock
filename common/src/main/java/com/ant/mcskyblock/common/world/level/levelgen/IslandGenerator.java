@@ -7,7 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,17 +30,45 @@ public class IslandGenerator {
 
     public static void generate(WorldGenRegion region, BlockPos pos) {
         String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().getPath();
-        if (canGenerate(biome, pos)) {
+        if (canGenerateSubIsland(biome, pos)) {
             if (region.getServer() != null) {
-                islandSavedData = region.getServer().overworld().getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
+                sync(region.getServer().overworld());
             }
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
         }
     }
 
-    private static boolean canGenerate(String biome, BlockPos pos) {
+    public static boolean generatePlayerIsland(Level level, BlockPos pos, String uuid) {
+        if (canGeneratePlayerIsland(uuid, pos)) {
+            if (level instanceof ServerLevel) {
+                sync((ServerLevel)level);
+            }
+            islandSavedData.put(new PlayerIsland(uuid, pos.getX(), pos.getY(), pos.getZ()).generate(level));
+            return true;
+        }
+        return false;
+    }
+
+    public static void sync(ServerLevel level) {
+        islandSavedData = level.getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
+    }
+
+    public static long playerIslandCount() {
+        return IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).count();
+    }
+
+    public static boolean hasPlayerIsland(String uuid) {
+        return IslandSavedData.ISLANDS.stream().anyMatch(island -> island instanceof PlayerIsland && island.uuid.equals(uuid));
+    }
+
+    private static boolean canGenerateSubIsland(String uuid, BlockPos pos) {
         return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE ||
-                Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().map(island -> island.biome).noneMatch(s -> s.equals(biome));
+                Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
+    }
+
+    private static boolean canGeneratePlayerIsland(String uuid, BlockPos pos) {
+        return true;
+        //return Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
     }
 
     public static BlockPos nearest(BlockPos pos, String biome) {
@@ -46,7 +77,7 @@ public class IslandGenerator {
 
         int min = Integer.MAX_VALUE;
         Island minIsland = null;
-        Collection<Island> islands = IslandSavedData.ISLANDS.stream().filter(island -> island.biome.equals(biome)).toList();
+        Collection<Island> islands = IslandSavedData.ISLANDS.stream().filter(island -> island.uuid.equals(biome)).toList();
         for (Island i : islands) {
             int dist = Math.abs(i.x - x) + Math.abs(i.z - z);
             if (dist < min) {
@@ -57,21 +88,37 @@ public class IslandGenerator {
         return minIsland == null ? null : new BlockPos(minIsland.x, minIsland.y, minIsland.z).immutable();
     }
 
-    public record Island(String biome, int x, int y, int z) {
+    public static class Island {
+        protected String uuid;
+        protected int x, y, z;
+
+        public Island(String uuid, int x, int y, int z) {
+            this.uuid = uuid;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
         public Tag toCompoundTag() {
             CompoundTag tag = new CompoundTag();
-            tag.putString("biome", biome);
+            tag.putString("biome", uuid);
             tag.putIntArray("pos", new int[]{x, y, z});
             return tag;
         }
 
         public static Island fromCompoundTag(CompoundTag compoundTag) {
             int[] pos = compoundTag.getIntArray("pos");
-            return new Island(compoundTag.getString("biome"), pos[0], pos[1], pos[2]);
+            if (compoundTag.contains("biome")) {
+                return new Island(compoundTag.getString("biome"), pos[0], pos[1], pos[2]);
+            } else if (compoundTag.contains("player")) {
+                return new PlayerIsland(compoundTag.getString("player"), pos[0], pos[1], pos[2]);
+            } else {
+                return null;
+            }
         }
 
         public Island generate(WorldGenRegion region) {
-            IslandType b = BiomeIslands.SETTINGS.getOrDefault(biome, new VoidIslandType());
+            IslandType b = BiomeIslands.SETTINGS.getOrDefault(uuid, new VoidIslandType());
             BlockState base = b.getBase().defaultBlockState();
             BlockState fluid = b.getFluid().defaultBlockState();
             BlockState accessory = b.getAccessory().defaultBlockState();
@@ -111,6 +158,99 @@ public class IslandGenerator {
         }
     }
 
+    public static class PlayerIsland extends Island {
+        private static final char[][][] tree = new char[][][]{
+                {
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', 'L', ' ', ' '},
+                        {' ', 'L', 'L', 'L', ' '},
+                        {' ', ' ', 'L', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '}
+                },
+                {
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', 'L', 'L', 'L', ' '},
+                        {' ', 'L', 'W', 'L', ' '},
+                        {' ', 'L', 'L', 'L', ' '},
+                        {' ', ' ', ' ', ' ', ' '}
+                },
+                {
+                        {' ', 'L', 'L', 'L', ' '},
+                        {'L', 'L', 'L', 'L', 'L'},
+                        {'L', 'L', 'W', 'L', 'L'},
+                        {'L', 'L', 'L', 'L', 'L'},
+                        {' ', 'L', 'L', 'L', ' '}
+                },
+                {
+                        {'L', 'L', 'L', 'L', 'L'},
+                        {'L', 'L', 'L', 'L', 'L'},
+                        {'L', 'L', 'W', 'L', 'L'},
+                        {'L', 'L', 'L', 'L', 'L'},
+                        {'L', 'L', 'L', 'L', 'L'}
+                },
+                {
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', 'W', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '}
+                },
+                {
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', 'W', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' '}
+                }
+        };
+
+        public PlayerIsland(String uuid, int x, int y, int z) {
+            super(uuid, x, y, z);
+        }
+
+        @Override
+        public Tag toCompoundTag() {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("player", uuid);
+            tag.putIntArray("pos", new int[]{x, y, z});
+            return tag;
+        }
+
+        public Island generate(Level region) {
+            int offset = -2;
+
+            if(Config.INSTANCE.worldGen.MAIN_ISLAND_TREE) {
+                for (int i = 0; i < tree.length; i++) {
+                    for (int j = 0; j < tree[i].length; j++) {
+                        for (int k = 0; k < tree[i][j].length; k++) {
+                            switch (tree[i][j][k]) {
+                                case 'L':
+                                    region.setBlock(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState(),0);
+                                    break;
+                                case 'W':
+                                    region.setBlock(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState(),0);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            int treeHeight = Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? tree.length : 0;
+            int r = Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS;
+            for (int i = 0, d = Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; i < d; ++i) {
+                for (int j = -r + i; j <= r - i; ++j) {
+                    for (int k = -r + i; k <= r - i; ++k) {
+                        if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - i, 2)) {
+                            region.setBlock(new BlockPos(x + j, y - treeHeight - 1 - i, z + k), i == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState() , 0);
+                        }
+                    }
+                }
+            }
+            return this;
+        }
+    }
+
     public static class IslandSavedData extends SavedData {
         private static final Collection<Island> ISLANDS = new ArrayList<>();
         private static final String IDENTIFIER = "islands";
@@ -132,10 +272,12 @@ public class IslandGenerator {
 
         private static IslandSavedData load(CompoundTag compoundTag) {
             ISLANDS.clear();
-            ListTag islands = compoundTag.getList(IDENTIFIER, 0);
-            islands.forEach(island -> {
-                ISLANDS.add(Island.fromCompoundTag((CompoundTag)island));
-            });
+            ListTag islands = (ListTag)compoundTag.get(IDENTIFIER);
+            if (islands != null) {
+                islands.forEach(island -> {
+                    ISLANDS.add(Island.fromCompoundTag((CompoundTag) island));
+                });
+            }
             return new IslandSavedData();
         }
     }

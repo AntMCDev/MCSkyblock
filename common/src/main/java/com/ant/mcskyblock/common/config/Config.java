@@ -29,6 +29,7 @@ public class Config implements Serializable {
         public int MAIN_ISLAND_RADIUS           = 4;
         public int MAIN_ISLAND_DEPTH            = 3;
         public boolean MAIN_ISLAND_TREE         = true;
+        public int MAIN_ISLAND_COUNT            = 10;
         public boolean GENERATE_SUB_ISLANDS     = true;
         public int SUB_ISLAND_DISTANCE          = 128;
         public int SUB_ISLAND_RADIUS            = 4;
@@ -95,7 +96,6 @@ public class Config implements Serializable {
 
     public Spawning spawning = new Spawning();
     public static class Spawning implements Serializable {
-        public String[] SPAWN_COORDS                = { "0", "64", "0" };
         public boolean STOP_BAT_SPAWNS              = true;
         public boolean SAPLINGS_DIE_ON_SAND         = true;
         public boolean ENDERMITES_SPAWN_ENDSTONE    = true;

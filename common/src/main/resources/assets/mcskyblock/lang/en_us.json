@@ -14,6 +14,7 @@
   "config.mcskyblock.option.worldGen.IS_END_SKYBLOCK"                           : "End Skyblock",
   "config.mcskyblock.option.worldGen.GENERATE_MAIN_ISLAND"                      : "Generate Main Island",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_TREE"                          : "Main Island Has Tree",
+  "config.mcskyblock.option.worldGen.MAIN_ISLAND_COUNT"                         : "Max Main Islands (1 per player)",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_RADIUS"                        : "Main Island Radius",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_DEPTH"                         : "Main Island Depth",
   "config.mcskyblock.option.worldGen.GENERATE_SUB_ISLANDS"                      : "Generate Sub Islands",
