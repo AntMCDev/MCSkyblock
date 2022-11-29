@@ -14,7 +14,7 @@ import java.util.List;
 public class MixinDebugScreenOverlay {
     @Inject(at = @At("RETURN"), method = "getSystemInformation", cancellable = true)
     protected void getSystemInformation(CallbackInfoReturnable<List<String>> cir) {
-        List<String> list = (List<String>)cir.getReturnValue();
+        List<String> list = cir.getReturnValue();
         PacketHandler.INSTANCE.sendToServer(PacketHandler.STRUCTURE_CHECK_PACKET.getIdentifier(), new byte[0]);
         if (ClientStructureTracker.structures != null) {
             list.add("Structure: " + ClientStructureTracker.structures);
