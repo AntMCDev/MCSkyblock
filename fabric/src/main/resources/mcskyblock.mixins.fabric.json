@@ -13,8 +13,7 @@
     "MixinEndermite",
     "MixinRecipeManager",
     "MixinServerAdvancementManager",
-    "MixinCommands",
-    "MixinEnchantmentMenu"
+    "MixinCommands"
   ],
   "client": [
     "MixinDebugScreenOverlay"
