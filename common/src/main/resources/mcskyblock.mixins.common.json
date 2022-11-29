@@ -13,7 +13,8 @@
     "MixinCommands",
     "MixinRecipeManager",
     "MixinSaplingBlock",
-    "MixinSugarCaneBlock"
+    "MixinSugarCaneBlock",
+    "MixinServerAdvancementManager"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

@@ -7,8 +7,7 @@
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
     "MixinGeodeFeature",
-    "MixinGeodeConfigurationAccessor",
-    "MixinServerAdvancementManager"
+    "MixinGeodeConfigurationAccessor"
   ],
   "client": [
     "MixinDebugScreenOverlay"
