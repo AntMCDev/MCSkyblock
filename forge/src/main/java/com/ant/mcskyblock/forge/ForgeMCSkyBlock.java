@@ -14,14 +14,11 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
-import org.apache.logging.log4j.Level;
 
 
 @Mod(SkyBlock.MOD_NAME)
@@ -31,11 +28,7 @@ public class ForgeMCSkyBlock {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         bus.addListener(this::setup);
-        bus.addListener(this::client);
-        bus.addListener(this::server);
         bus.addListener(this::register);
-
-        SkyBlockEvents.INSTANCE = new ForgeSkyBlockEvents().register();
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -44,23 +37,12 @@ public class ForgeMCSkyBlock {
         event.enqueueWork(() -> {
             ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> ClothConfig.getBuilder().build()));
 
+            PacketHandler.INSTANCE = new ForgePacketHandler().init();
             ConfigFileAccessor.path = FMLPaths.CONFIGDIR.get();
             ConfigFileAccessor.load();
             ConfigFileAccessor.save();
             SkyBlock.init();
             SkyBlockEvents.INSTANCE = new ForgeSkyBlockEvents().register();
-        });
-    }
-
-    private void client(final FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            PacketHandler.INSTANCE = new ForgePacketHandler().init().registerClientListener();
-        });
-    }
-
-    private void server(final FMLDedicatedServerSetupEvent event) {
-        event.enqueueWork(() -> {
-            PacketHandler.INSTANCE = new ForgePacketHandler().init().registerServerListener();
         });
     }
 

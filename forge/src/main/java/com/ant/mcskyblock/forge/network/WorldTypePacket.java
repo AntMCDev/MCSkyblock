@@ -28,15 +28,17 @@ public class WorldTypePacket implements IForgePacket {
     @Override
     public void executeOnClient(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                SkyBlock.IS_CLIENT_SKYBLOCK = true;
-            });
+            if (ctx.get().getSender() == null) {
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                    SkyBlock.IS_CLIENT_SKYBLOCK = true;
+                });
+            }
         });
         ctx.get().setPacketHandled(true);
     }
 
     @Override
     public void executeOnServer(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().setPacketHandled(true);
+        throw new RuntimeException("Server network execution not needed on Forge");
     }
 }

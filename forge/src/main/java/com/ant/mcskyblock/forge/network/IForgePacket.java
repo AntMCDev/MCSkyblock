@@ -19,7 +19,7 @@ public interface IForgePacket extends IPacket {
 
     @Override
     default void registerOnServer() {
-        getChannel().registerMessage(0, FriendlyByteBuf.class, (msg, buf) -> buf.writeBytes(msg), (buf) -> buf, this::executeOnServer);
+        throw new RuntimeException("Server network registration not needed on Forge");
     }
 
     void executeOnServer(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx);

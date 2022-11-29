@@ -32,23 +32,23 @@ public class ConfigPacket implements IForgePacket {
     public void executeOnClient(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
         final byte[] bytes = ForgePacketHandler.byteBufToBytes(buf);
         ctx.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                Config.INSTANCE.download(bytes);
-            });
+            if (ctx.get().getSender() != null) {
+                ServerPlayer player = ctx.get().getSender();
+                if (player != null && player.hasPermissions(4)) {
+                    Config.INSTANCE.download(bytes);
+                }
+                PacketHandler.INSTANCE.sendTo(player, getIdentifier(), Config.INSTANCE.toBytes());
+            } else {
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                    Config.INSTANCE.download(bytes);
+                });
+            }
         });
         ctx.get().setPacketHandled(true);
     }
 
     @Override
     public void executeOnServer(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
-        final byte[] bytes = ForgePacketHandler.byteBufToBytes(buf);
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player != null && player.hasPermissions(4)) {
-                Config.INSTANCE.download(bytes);
-            }
-            PacketHandler.INSTANCE.sendTo(player, getIdentifier(), Config.INSTANCE.toBytes());
-        });
-        ctx.get().setPacketHandled(true);
+        throw new RuntimeException("Server network execution not needed on Forge");
     }
 }

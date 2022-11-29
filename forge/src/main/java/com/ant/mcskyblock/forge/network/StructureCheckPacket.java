@@ -35,26 +35,27 @@ public class StructureCheckPacket implements IForgePacket {
 
     @Override
     public void executeOnClient(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
-        final String structures = buf.readUtf();
         ctx.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                ClientStructureTracker.structures = structures.length() > 0 ? structures : null;
-            });
+            if (ctx.get().getSender() != null) {
+                ServerPlayer player = ctx.get().getSender();
+                if (player != null) {
+                    String structures = BuiltinRegistries.STRUCTURES.registryKeySet().stream().filter(s -> LocationPredicate.inStructure(s).matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z)).map(s -> s.location().toString()).collect(Collectors.joining(", "));
+                    FriendlyByteBuf responseBuffer = new FriendlyByteBuf(Unpooled.buffer());
+                    responseBuffer.writeUtf(structures);
+                    PacketHandler.INSTANCE.sendTo(player, getIdentifier(), ForgePacketHandler.byteBufToBytes(responseBuffer));
+                }
+            } else {
+                final String structures = buf.readUtf();
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                    ClientStructureTracker.structures = structures.length() > 0 ? structures : null;
+                });
+            }
         });
         ctx.get().setPacketHandled(true);
     }
 
     @Override
     public void executeOnServer(FriendlyByteBuf buf, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player != null) {
-                String structures = BuiltinRegistries.STRUCTURES.registryKeySet().stream().filter(s -> LocationPredicate.inStructure(s).matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z)).map(s -> s.location().toString()).collect(Collectors.joining(", "));
-                FriendlyByteBuf responseBuffer = new FriendlyByteBuf(Unpooled.buffer());
-                responseBuffer.writeUtf(structures);
-                PacketHandler.INSTANCE.sendTo(player, getIdentifier(), ForgePacketHandler.byteBufToBytes(responseBuffer));
-            }
-        });
-        ctx.get().setPacketHandled(true);
+        throw new RuntimeException("Server network execution not needed on Forge");
     }
 }

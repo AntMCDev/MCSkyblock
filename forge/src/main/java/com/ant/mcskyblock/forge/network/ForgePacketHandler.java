@@ -14,7 +14,12 @@ public class ForgePacketHandler extends PacketHandler {
         PacketHandler.WORLD_TYPE_PACKET = new WorldTypePacket();
         PacketHandler.STRUCTURE_CHECK_PACKET = new StructureCheckPacket();
         PacketHandler.CONFIG_PACKET = new ConfigPacket();
-        return this;
+        return registerClientListener();
+    }
+
+    @Override
+    public PacketHandler registerServerListener() {
+        throw new RuntimeException("Server network registration not needed on Forge");
     }
 
     @Override

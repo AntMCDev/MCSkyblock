@@ -19,7 +19,8 @@
     "MixinGeodeFeature"
   ],
   "client": [
-    "MixinClientLevelClientLevelData"
+    "MixinClientLevelClientLevelData",
+    "MixinDebugScreenOverlay"
   ],
   "injectors": {
     "defaultRequire": 1

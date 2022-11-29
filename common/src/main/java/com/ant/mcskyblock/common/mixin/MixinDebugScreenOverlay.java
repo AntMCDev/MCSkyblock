@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.level.structure.ClientStructureTracker;
