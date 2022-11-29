@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import com.ant.mcskyblock.common.crafting.CraftingHelper;
 import com.ant.mcskyblock.common.crafting.shaped.*;

@@ -10,7 +10,8 @@
     "MixinCactusBlock",
     "MixinEnchantmentMenu",
     "MixinEndermite",
-    "MixinCommands"
+    "MixinCommands",
+    "MixinRecipeManager"
   ],
   "client": [
     "MixinClientLevelClientLevelData"
