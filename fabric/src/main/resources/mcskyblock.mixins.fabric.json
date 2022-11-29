@@ -6,7 +6,6 @@
   "mixins": [
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
-    "MixinSugarCaneBlock",
     "MixinGeodeFeature",
     "MixinGeodeConfigurationAccessor",
     "MixinServerAdvancementManager"

@@ -12,7 +12,8 @@
     "MixinEndermite",
     "MixinCommands",
     "MixinRecipeManager",
-    "MixinSaplingBlock"
+    "MixinSaplingBlock",
+    "MixinSugarCaneBlock"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

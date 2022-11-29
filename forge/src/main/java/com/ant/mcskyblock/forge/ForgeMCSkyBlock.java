@@ -29,7 +29,6 @@ import org.apache.logging.log4j.Level;
 public class ForgeMCSkyBlock {
     public ForgeMCSkyBlock(){
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        SkyBlock.LOGGER.log(Level.INFO, "HELLO FORGE");
 
         bus.addListener(this::setup);
         bus.addListener(this::client);

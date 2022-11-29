@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +23,10 @@ public class MixinSugarCaneBlock {
             if (blockState2.is(Blocks.SUGAR_CANE)) {
                 cir.setReturnValue(true); return;
             }
-            if (blockState2.is(BlockTags.DIRT) || blockState2.is(Blocks.SAND) || blockState2.is(Blocks.RED_SAND) || blockState2.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) || blockState2.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand())) {
+            if (blockState2.is(BlockTags.DIRT) || blockState2.is(Blocks.SAND) || blockState2.is(Blocks.RED_SAND) ||
+                    blockState2.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) ||
+                    blockState2.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand()))
+            {
                 BlockPos blockPos2 = blockPos.below();
                 for (Direction direction : Direction.Plane.HORIZONTAL) {
                     BlockState blockState3 = levelReader.getBlockState(blockPos2.relative(direction));

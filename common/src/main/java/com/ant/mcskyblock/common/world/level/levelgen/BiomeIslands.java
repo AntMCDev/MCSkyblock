@@ -50,7 +50,7 @@ public class BiomeIslands {
             entry("stony_peaks"              , new AccessoryIslandType(Blocks.ANDESITE, Blocks.CALCITE)),
             entry("river"                    , new AccessoryIslandType(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand(), Blocks.WATER)),
             entry("frozen_river"             , new SimpleIslandType(Blocks.ICE)),
-            entry("beach"                    , new SimpleIslandType(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand())),
+            entry("beach"                    , new AccessoryIslandType(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand(), Blocks.SUGAR_CANE)),
             entry("snowy_beach"              , new AccessoryIslandType(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand(), Blocks.SNOW)),
             entry("stony_shore"              , new AccessoryIslandType(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand(), Blocks.STONE)),
             entry("warm_ocean"               , new AccessoryIslandType(Blocks.BRAIN_CORAL_BLOCK, Blocks.WATER)),
