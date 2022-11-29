@@ -4,7 +4,6 @@
   "package": "com.ant.mcskyblock.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MixinLevelStem",
     "MixinLootPoolAccessor",
     "MixinLootTableAccessor",
     "MixinNaturalSpawner",
@@ -22,7 +21,7 @@
     "MixinEnchantmentMenu"
   ],
   "client": [
-    "MixinDebugScreenOverlay",
+    "MixinDebugScreenOverlay"
   ],
   "injectors": {
     "defaultRequire": 1
