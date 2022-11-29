@@ -11,7 +11,8 @@
     "MixinEnchantmentMenu",
     "MixinEndermite",
     "MixinCommands",
-    "MixinRecipeManager"
+    "MixinRecipeManager",
+    "MixinSaplingBlock"
   ],
   "client": [
     "MixinClientLevelClientLevelData"

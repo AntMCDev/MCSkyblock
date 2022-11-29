@@ -1,4 +1,4 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import com.ant.mcskyblock.common.config.Config;
 import net.minecraft.core.BlockPos;
@@ -25,7 +25,8 @@ public class MixinSaplingBlock extends BushBlock {
     protected boolean mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
         if (Config.INSTANCE.spawning.SAPLINGS_DIE_ON_SAND) {
             return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND) || blockState.is(Blocks.SAND) || blockState.is(Blocks.RED_SAND) ||
-                    blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) || blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand());
+                    blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticSand()) ||
+                    blockState.is(com.ant.mcskyblock.common.world.level.block.Blocks.staticRedSand());
         } else {
             return blockState.is(BlockTags.DIRT) || blockState.is(Blocks.FARMLAND);
         }

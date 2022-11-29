@@ -9,7 +9,6 @@
     "MixinSugarCaneBlock",
     "MixinGeodeFeature",
     "MixinGeodeConfigurationAccessor",
-    "MixinSaplingBlock",
     "MixinServerAdvancementManager"
   ],
   "client": [
