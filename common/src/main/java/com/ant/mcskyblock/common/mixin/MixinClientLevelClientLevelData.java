@@ -1,7 +1,6 @@
-package com.ant.mcskyblock.fabric.mixin;
+package com.ant.mcskyblock.common.mixin;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.ant.mcskyblock.fabric.FabricSkyBlockEvents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.level.LevelHeightAccessor;
 import org.spongepowered.asm.mixin.Mixin;

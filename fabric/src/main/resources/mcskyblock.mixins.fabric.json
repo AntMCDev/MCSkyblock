@@ -23,7 +23,6 @@
   ],
   "client": [
     "MixinDebugScreenOverlay",
-    "MixinClientLevelClientLevelData"
   ],
   "injectors": {
     "defaultRequire": 1

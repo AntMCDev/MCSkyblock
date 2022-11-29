@@ -27,10 +27,3 @@ Create a skyblock world with all the settings you can handle
    versionRange="[1.19.2,)"
    ordering="NONE"
    side="BOTH"
-
-[[dependencies.mcskyblock]]
-modId = "architectury"
-mandatory = true
-versionRange = "[6.2.43,)"
-ordering = "AFTER"
-side = "BOTH"

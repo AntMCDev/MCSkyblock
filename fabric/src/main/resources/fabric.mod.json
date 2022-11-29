@@ -27,7 +27,8 @@
     ]
   },
   "mixins": [
-    "mcskyblock.mixins.json"
+    "mcskyblock.mixins.common.json",
+    "mcskyblock.mixins.fabric.json"
   ],
 
   "depends": {

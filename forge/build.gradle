@@ -13,7 +13,8 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-        mixinConfig "mcskyblock.mixins.json"
+        mixinConfig "mcskyblock.mixins.common.json"
+        mixinConfig "mcskyblock.mixins.forge.json"
     }
 }
 
@@ -31,8 +32,6 @@ repositories {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-
-    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
     modImplementation include("me.shedaniel.cloth:cloth-config-forge:${project.cloth_fabric_version}") {
         exclude(group: "net.fabricmc.fabric-api")
