@@ -6,18 +6,10 @@ import com.ant.mcskyblock.common.config.ConfigFileAccessor;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
 import com.ant.mcskyblock.common.world.level.block.Blocks;
-import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
-import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.ant.mcskyblock.forge.config.ClothConfig;
-import com.ant.mcskyblock.forge.loot.ForgeLootTableUtils;
 import com.ant.mcskyblock.forge.network.ForgePacketHandler;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -57,7 +49,6 @@ public class ForgeMCSkyBlock {
             ConfigFileAccessor.load();
             ConfigFileAccessor.save();
             SkyBlock.init();
-            ForgeLootTableUtils.register();
             SkyBlockEvents.INSTANCE = new ForgeSkyBlockEvents().register();
         });
     }

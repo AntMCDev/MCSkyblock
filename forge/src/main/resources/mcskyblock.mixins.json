@@ -4,6 +4,7 @@
   "package": "com.ant.mcskyblock.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MixinLootTables"
   ],
   "client": [
   ],
