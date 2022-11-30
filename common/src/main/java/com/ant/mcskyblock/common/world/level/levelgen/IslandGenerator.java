@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.Level;
@@ -28,29 +27,23 @@ public class IslandGenerator {
 
     private IslandGenerator () {}
 
+    public static void init(ServerLevel level) {
+        islandSavedData = level.getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
+    }
+
     public static void generate(WorldGenRegion region, BlockPos pos) {
         String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().getPath();
         if (canGenerateSubIsland(biome, pos)) {
-            if (region.getServer() != null) {
-                sync(region.getServer().overworld());
-            }
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
         }
     }
 
     public static boolean generatePlayerIsland(Level level, BlockPos pos, String uuid) {
-        if (canGeneratePlayerIsland(uuid, pos)) {
-            if (level instanceof ServerLevel) {
-                sync((ServerLevel)level);
-            }
+        if (canGeneratePlayerIsland(level, pos, uuid)) {
             islandSavedData.put(new PlayerIsland(uuid, pos.getX(), pos.getY(), pos.getZ()).generate(level));
             return true;
         }
         return false;
-    }
-
-    public static void sync(ServerLevel level) {
-        islandSavedData = level.getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
     }
 
     public static long playerIslandCount() {
@@ -66,9 +59,22 @@ public class IslandGenerator {
                 Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
     }
 
-    private static boolean canGeneratePlayerIsland(String uuid, BlockPos pos) {
-        return true;
-        //return Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
+    private static boolean canGeneratePlayerIsland(Level level, BlockPos pos, String uuid) {
+        return Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).map(island -> island.uuid).noneMatch(s -> s.equals(uuid)) && !doesCollide(level, pos);
+    }
+
+    private static boolean doesCollide(Level level, BlockPos pos) {
+        boolean collides = false;
+
+        out: for (int x = pos.getX() - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; x <= pos.getX() + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; x++) {
+            for (int y = pos.getY() - PlayerIsland.tree.length - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; y <= pos.getY(); y++) {
+                for (int z = pos.getZ() - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; z <= pos.getZ() + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; z++) {
+                    collides = !level.getBlockState(new BlockPos(x, y, z)).is(Blocks.AIR);
+                    if (collides) { break out; }
+                }
+            }
+        }
+        return collides;
     }
 
     public static BlockPos nearest(BlockPos pos, String biome) {

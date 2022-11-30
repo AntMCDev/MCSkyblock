@@ -3,6 +3,7 @@ package com.ant.mcskyblock.fabric;
 import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
+import com.ant.mcskyblock.common.world.level.levelgen.IslandGenerator;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.ant.mcskyblock.fabric.loot.FabricLootTableUtils;
 import com.ant.mcskyblock.fabric.network.FabricPacketHandler;
@@ -25,6 +26,7 @@ public class FabricSkyBlockEvents extends SkyBlockEvents {
             SkyBlock.IS_SERVER_SKYBLOCK = level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
             if (SkyBlock.isLogicalServer(level) && SkyBlock.IS_SERVER_SKYBLOCK) {
                 PacketHandler.INSTANCE = new FabricPacketHandler().init().registerServerListener();
+                IslandGenerator.init(server.overworld());
             }
         });
 
