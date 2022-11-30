@@ -67,7 +67,7 @@ public class IslandGenerator {
         boolean collides = false;
 
         out: for (int x = pos.getX() - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; x <= pos.getX() + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; x++) {
-            for (int y = pos.getY() - PlayerIsland.tree.length - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; y <= pos.getY(); y++) {
+            for (int y = pos.getY() - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0) - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; y <= pos.getY(); y++) {
                 for (int z = pos.getZ() - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; z <= pos.getZ() + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; z++) {
                     collides = !level.getBlockState(new BlockPos(x, y, z)).is(Blocks.AIR);
                     if (collides) { break out; }
@@ -231,10 +231,10 @@ public class IslandGenerator {
                         for (int k = 0; k < tree[i][j].length; k++) {
                             switch (tree[i][j][k]) {
                                 case 'L':
-                                    region.setBlock(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState(),0);
+                                    region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
                                     break;
                                 case 'W':
-                                    region.setBlock(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState(),0);
+                                    region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
                                     break;
                             }
                         }
@@ -248,7 +248,7 @@ public class IslandGenerator {
                 for (int j = -r + i; j <= r - i; ++j) {
                     for (int k = -r + i; k <= r - i; ++k) {
                         if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - i, 2)) {
-                            region.setBlock(new BlockPos(x + j, y - treeHeight - 1 - i, z + k), i == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState() , 0);
+                            region.setBlockAndUpdate(new BlockPos(x + j, y - treeHeight - 1 - i, z + k), i == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState());
                         }
                     }
                 }
