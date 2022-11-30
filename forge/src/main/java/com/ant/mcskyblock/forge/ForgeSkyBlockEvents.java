@@ -3,6 +3,7 @@ package com.ant.mcskyblock.forge;
 import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
+import com.ant.mcskyblock.common.world.level.levelgen.IslandGenerator;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.ant.mcskyblock.forge.network.ForgePacketHandler;
@@ -34,6 +35,7 @@ public class ForgeSkyBlockEvents extends SkyBlockEvents {
     public void onWorldLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel && event.getLevel() != null) {
             SkyBlock.IS_SERVER_SKYBLOCK = ((ServerLevel) event.getLevel()).getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
+            IslandGenerator.init(event.getLevel().getServer().overworld());
         }
     }
 
