@@ -15,7 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinGeodeFeature {
     @Inject(at = @At("HEAD"), method = "place", cancellable = true)
     public void place(FeaturePlaceContext<GeodeConfiguration> featurePlaceContext, CallbackInfoReturnable<Boolean> cir) {
-        if (featurePlaceContext.chunkGenerator() instanceof SkyBlockChunkGenerator && SkyBlock.RANDOM.nextInt(101) > Config.INSTANCE.structures.GEODE_WEIGHT) {
+        if (featurePlaceContext.chunkGenerator() instanceof SkyBlockChunkGenerator && SkyBlock.RANDOM.nextInt(101) < Config.INSTANCE.structures.GEODE_WEIGHT) {
+            ((MixinGeodeConfigurationAccessor)featurePlaceContext.config()).setInvalidBlocksThreshold(Integer.MAX_VALUE);
+        } else if (featurePlaceContext.chunkGenerator() instanceof SkyBlockChunkGenerator) {
             cir.setReturnValue(false);
         }
     }
