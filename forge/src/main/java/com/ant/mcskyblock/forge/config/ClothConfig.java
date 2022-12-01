@@ -10,6 +10,8 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.fml.ModLoadingContext;
 
 import java.lang.reflect.Field;
 import java.nio.file.Path;
@@ -102,5 +104,9 @@ public class ClothConfig {
             case "SUB_ISLAND_DISTANCE" -> { return new IntData(false, 32, null); }
         }
         return new IntData(false, null, null);
+    }
+
+    public static void screen() {
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> ClothConfig.getBuilder().build()));
     }
 }
