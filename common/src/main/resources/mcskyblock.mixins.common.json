@@ -16,7 +16,8 @@
     "MixinSugarCaneBlock",
     "MixinServerAdvancementManager",
     "MixinGeodeConfigurationAccessor",
-    "MixinGeodeFeature"
+    "MixinGeodeFeature",
+    "MixinPlayerList"
   ],
   "client": [
     "MixinClientLevelClientLevelData",

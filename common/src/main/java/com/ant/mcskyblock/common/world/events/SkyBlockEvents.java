@@ -3,7 +3,6 @@ package com.ant.mcskyblock.common.world.events;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.levelgen.IslandGenerator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 public abstract class SkyBlockEvents {
@@ -12,7 +11,7 @@ public abstract class SkyBlockEvents {
     public abstract SkyBlockEvents register();
 
     public void spawnPlayer(ServerPlayer player) {
-        // If not generating main islands, or player alrady has an island - no further logic needed
+        // If not generating main islands, or player already has an island - no further logic needed
         if (Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && !IslandGenerator.hasPlayerIsland(player.getStringUUID())) {
             // Default spawn co-ords
             double[] pos = new double[] {
