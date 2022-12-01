@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ant.mcskyblock.common.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinLevelStem",
+    "MixinNaturalSpawner",
+    "MixinEndDragonFight",
+    "MixinCactusBlock",
+    "MixinEnchantmentMenu",
+    "MixinEndermite",
+    "MixinCommands",
+    "MixinRecipeManager",
+    "MixinSaplingBlock",
+    "MixinSugarCaneBlock",
+    "MixinServerAdvancementManager",
+    "MixinGeodeConfigurationAccessor",
+    "MixinGeodeFeature"
+  ],
+  "client": [
+    "MixinClientLevelClientLevelData",
+    "MixinDebugScreenOverlay"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
