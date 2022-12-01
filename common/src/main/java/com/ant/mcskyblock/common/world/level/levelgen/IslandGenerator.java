@@ -28,6 +28,7 @@ public class IslandGenerator {
     private IslandGenerator () {}
 
     public static void init(ServerLevel level) {
+        IslandSavedData.ISLANDS.clear();
         islandSavedData = level.getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
     }
 
