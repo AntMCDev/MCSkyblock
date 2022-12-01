@@ -17,7 +17,7 @@
     "MixinServerAdvancementManager",
     "MixinGeodeConfigurationAccessor",
     "MixinGeodeFeature",
-    "MixinServerPlayer"
+    "MixinPlayerList"
   ],
   "client": [
     "MixinClientLevelClientLevelData",
