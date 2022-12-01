@@ -17,6 +17,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * [COMMON] WORLD GENERATION - This is used to generate the sub-islands, and also controls saving those down into NBT
@@ -30,6 +31,7 @@ public class IslandGenerator {
     public static void init(ServerLevel level) {
         IslandSavedData.ISLANDS.clear();
         islandSavedData = level.getDataStorage().computeIfAbsent(IslandSavedData::load, IslandSavedData::new, IslandSavedData.IDENTIFIER);
+        islandSavedData.setDirty(true);
     }
 
     public static void generate(WorldGenRegion region, BlockPos pos) {
@@ -62,6 +64,11 @@ public class IslandGenerator {
 
     private static boolean canGeneratePlayerIsland(Level level, BlockPos pos, String uuid) {
         return Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).map(island -> island.uuid).noneMatch(s -> s.equals(uuid)) && !doesCollide(level, pos);
+    }
+
+    public static BlockPos islandPosition(String uuid) {
+        Optional<Island> island = IslandSavedData.ISLANDS.stream().filter(i -> i.uuid.equals(uuid)).findFirst();
+        return island.map(value -> new BlockPos(value.x + 0.5, value.y + 1.6, value.z + 0.5)).orElse(null);
     }
 
     private static boolean doesCollide(Level level, BlockPos pos) {
@@ -264,7 +271,7 @@ public class IslandGenerator {
 
         public void put(Island island) {
             ISLANDS.add(island);
-            this.setDirty();
+            this.setDirty(true);
         }
 
         @Override
@@ -278,7 +285,6 @@ public class IslandGenerator {
         }
 
         private static IslandSavedData load(CompoundTag compoundTag) {
-            ISLANDS.clear();
             ListTag islands = (ListTag)compoundTag.get(IDENTIFIER);
             if (islands != null) {
                 islands.forEach(island -> {

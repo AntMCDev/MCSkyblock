@@ -9,6 +9,7 @@ import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.ant.mcskyblock.forge.network.ForgePacketHandler;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
@@ -33,7 +34,7 @@ public class ForgeSkyBlockEvents extends SkyBlockEvents {
 
     @SubscribeEvent
     public void onWorldLoad(LevelEvent.Load event) {
-        if (event.getLevel() instanceof ServerLevel && event.getLevel() != null) {
+        if (event.getLevel() instanceof ServerLevel && event.getLevel() != null && ((ServerLevel) event.getLevel()).dimension().equals(Level.OVERWORLD)) {
             SkyBlock.IS_SERVER_SKYBLOCK = ((ServerLevel) event.getLevel()).getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
             IslandGenerator.init(event.getLevel().getServer().overworld());
         }

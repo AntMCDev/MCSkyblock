@@ -13,6 +13,7 @@ import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.world.level.Level;
 
 public class FabricSkyBlockEvents extends SkyBlockEvents {
     @Override
@@ -24,7 +25,7 @@ public class FabricSkyBlockEvents extends SkyBlockEvents {
 
         ServerWorldEvents.LOAD.register((server, level) -> {
             SkyBlock.IS_SERVER_SKYBLOCK = level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator;
-            if (SkyBlock.isLogicalServer(level) && SkyBlock.IS_SERVER_SKYBLOCK) {
+            if (SkyBlock.isLogicalServer(level) && SkyBlock.IS_SERVER_SKYBLOCK && level.dimension().equals(Level.OVERWORLD)) {
                 PacketHandler.INSTANCE = new FabricPacketHandler().init().registerServerListener();
                 IslandGenerator.init(server.overworld());
             }
