@@ -13,6 +13,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Random;
+
 /**
  * [COMMON] MAIN - This is the common entry point for shared functionality. All platform-specific initializers should
  * call the init method of this class
@@ -30,6 +32,7 @@ public class SkyBlock {
     public static final String NET_CONFIG_ID         =  "config";
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
+    public static final Random RANDOM = new Random();
 
 
 

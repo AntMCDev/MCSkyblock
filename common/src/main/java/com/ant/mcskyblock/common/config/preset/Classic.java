@@ -34,7 +34,7 @@ public class Classic extends Config {
         structures.GEN_SWAMP_HUT        = false;
         structures.GEN_VILLAGE          = false;
         structures.GEN_WOODLAND_MANSION = false;
-        structures.GEN_GEODES           = false;
+        structures.GEODE_WEIGHT         = 0;
 
         drops.HUSK_SAND                 = false;
         drops.TROPICAL_FISH_CORAL       = false;

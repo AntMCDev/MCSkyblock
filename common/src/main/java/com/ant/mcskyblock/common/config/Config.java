@@ -57,8 +57,10 @@ public class Config implements Serializable {
         public boolean GEN_SWAMP_HUT                = true;
         public boolean GEN_VILLAGE                  = true;
         public boolean GEN_WOODLAND_MANSION         = true;
-        public boolean GEN_GEODES                   = true;
+        public int GEODE_WEIGHT                     = 100;
         public String[] CUSTOM_STRUCTURES           = new String[0];
+
+
     }
 
     public Drops drops = new Drops();

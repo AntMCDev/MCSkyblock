@@ -44,7 +44,7 @@
   "config.mcskyblock.option.structures.GEN_VILLAGE"                             : "Village",
   "config.mcskyblock.option.structures.GEN_WOODLAND_MANSION"                    : "Woodland Mansion",
   "config.mcskyblock.option.structures.GEN_ICEBERGS"                            : "Iceberg",
-  "config.mcskyblock.option.structures.GEN_GEODES"                              : "Geodes",
+  "config.mcskyblock.option.structures.GEODE_WEIGHT"                            : "Geode Spawn Weight",
   "config.mcskyblock.option.structures.CUSTOM_STRUCTURES"                       : "List of Custom Structures",
 
   "config.mcskyblock.category.drops"                                            : "Loot",

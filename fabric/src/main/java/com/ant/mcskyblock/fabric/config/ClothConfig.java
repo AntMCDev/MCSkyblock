@@ -3,6 +3,7 @@ package com.ant.mcskyblock.fabric.config;
 import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.config.ConfigFileAccessor;
+import com.ant.mcskyblock.common.config.ConfigHelper;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -83,7 +84,7 @@ public class ClothConfig {
                 return entryBuilder.startBooleanToggle(fieldComponent, val).setDefaultValue(val).setSaveConsumer(v -> { try { field.setBoolean(obj, v); } catch (IllegalAccessException ignored) { } } ).build();
             } else if (int.class.isAssignableFrom(field.getType())) {
                 Integer val = field.getInt(obj);
-                IntData intData = getIntData(field);
+                ConfigHelper.IntData intData = ConfigHelper.getIntData(field);
                 if (intData.isSlider) {
                     return entryBuilder.startIntSlider(fieldComponent, val, intData.min, intData.max).setDefaultValue(val).setSaveConsumer(v -> { try { field.setInt(obj, v); } catch (IllegalAccessException ignored) { } } ).build();
                 } else {
@@ -99,17 +100,5 @@ public class ClothConfig {
             }
         } catch (IllegalAccessException ignore) { }
         return null;
-    }
-
-    private record IntData(boolean isSlider, Integer min, Integer max) {}
-
-    private static IntData getIntData(Field f) {
-        switch (f.getName()) {
-            case "MAIN_ISLAND_RADIUS" -> { return new IntData(true, 1, 10); }
-            case "SUB_ISLAND_RADIUS" -> { return new IntData(true, 1, 7); }
-            case "MAIN_ISLAND_DEPTH", "SUB_ISLAND_DEPTH" -> { return new IntData(true, 1, 5); }
-            case "SUB_ISLAND_DISTANCE" -> { return new IntData(false, 32, null); }
-        }
-        return new IntData(false, null, null);
     }
 }
