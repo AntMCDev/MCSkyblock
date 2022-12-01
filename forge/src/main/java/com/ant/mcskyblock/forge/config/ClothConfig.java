@@ -45,6 +45,7 @@ public class ClothConfig {
         });
 
         ConfigFileAccessor.load();
+        prev = Config.INSTANCE.fromBytes(Config.INSTANCE.toBytes());
 
         ConfigCategory defaultCategory = builder.getOrCreateCategory(Component.translatable("config." + SkyBlock.MOD_NAME + ".category.default"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
