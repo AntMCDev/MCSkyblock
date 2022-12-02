@@ -2,6 +2,7 @@ package com.ant.mcskyblock.common.world.level.levelgen;
 
 import com.ant.mcskyblock.common.config.BiomeIslandConfig;
 import com.ant.mcskyblock.common.config.Config;
+import com.ant.mcskyblock.common.registry.RegistryAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -136,9 +137,9 @@ public class IslandGenerator {
             BiomeIslandConfig.Island b = BiomeIslandConfig.SETTINGS.getOrDefault(new ResourceLocation(uuid), null);
             if (b == null) { return this; }
 
-            BlockState base = b.base == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.base).defaultBlockState();
-            BlockState fluid = b.fluid == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.fluid).defaultBlockState();
-            BlockState accessory = b.accessory == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.accessory).defaultBlockState();
+            BlockState base = b.base == null ? Blocks.AIR.defaultBlockState() : RegistryAccess.INSTANCE.getBlock(b.base).defaultBlockState();
+            BlockState fluid = b.fluid == null ? Blocks.AIR.defaultBlockState() : RegistryAccess.INSTANCE.getBlock(b.fluid).defaultBlockState();
+            BlockState accessory = b.accessory == null ? Blocks.AIR.defaultBlockState() : RegistryAccess.INSTANCE.getBlock(b.accessory).defaultBlockState();
 
             if (!(base.is(Blocks.AIR))) {
                 int r = Config.INSTANCE.worldGen.SUB_ISLAND_RADIUS;

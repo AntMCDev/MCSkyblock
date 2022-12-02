@@ -4,10 +4,12 @@ import com.ant.mcskyblock.common.SkyBlock;
 
 import com.ant.mcskyblock.common.config.ConfigFileAccessor;
 import com.ant.mcskyblock.common.network.PacketHandler;
+import com.ant.mcskyblock.common.registry.RegistryAccess;
 import com.ant.mcskyblock.common.world.events.SkyBlockEvents;
 import com.ant.mcskyblock.common.world.level.block.Blocks;
 import com.ant.mcskyblock.forge.config.ClothConfig;
 import com.ant.mcskyblock.forge.network.ForgePacketHandler;
+import com.ant.mcskyblock.forge.registry.ForgeRegistryAccess;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,6 +38,7 @@ public class ForgeMCSkyBlock {
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             PacketHandler.INSTANCE = new ForgePacketHandler().init();
+            RegistryAccess.INSTANCE = new ForgeRegistryAccess();
             ConfigFileAccessor.path = FMLPaths.CONFIGDIR.get();
             ConfigFileAccessor.load(); ConfigFileAccessor.save();
             ConfigFileAccessor.loadBiomes(); ConfigFileAccessor.saveBiomes();

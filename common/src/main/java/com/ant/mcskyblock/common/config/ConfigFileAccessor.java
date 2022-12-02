@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common.config;
 
 import com.ant.mcskyblock.common.SkyBlock;
+import com.ant.mcskyblock.common.registry.RegistryAccess;
 import com.google.gson.*;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -81,13 +82,13 @@ public class ConfigFileAccessor {
                 arr.forEach(j -> {
                     JsonObject obj = (JsonObject)j;
                     ResourceLocation biome = new ResourceLocation(obj.get("biome").getAsString());
-                    if (BuiltinRegistries.BIOME.containsKey(biome)) {
+                    if (RegistryAccess.INSTANCE.getBiome(biome) != null) {
                         BiomeIslandConfig.Island island = new BiomeIslandConfig.Island();
 
                         JsonElement baseElem = obj.get("base");
                         if (baseElem != null) {
                             ResourceLocation base = new ResourceLocation(baseElem.getAsString());
-                            if (Registry.BLOCK.containsKey(base)) {
+                            if (RegistryAccess.INSTANCE.getBlock(base) != null) {
                                 island.base = base;
                             }
                         }
@@ -95,7 +96,7 @@ public class ConfigFileAccessor {
                         JsonElement baseFluid = obj.get("fluid");
                         if (baseFluid != null) {
                             ResourceLocation fluid = new ResourceLocation(obj.get("fluid").getAsString());
-                            if (Registry.BLOCK.containsKey(fluid)) {
+                            if (RegistryAccess.INSTANCE.getBlock(fluid) != null) {
                                 island.fluid = fluid;
                             }
                         }
@@ -103,7 +104,7 @@ public class ConfigFileAccessor {
                         JsonElement baseAccessory = obj.get("accessory");
                         if (baseAccessory != null) {
                             ResourceLocation accessory = new ResourceLocation(obj.get("accessory").getAsString());
-                            if (Registry.BLOCK.containsKey(accessory)) {
+                            if (RegistryAccess.INSTANCE.getBlock(accessory) != null) {
                                 island.accessory = accessory;
                             }
                         }
