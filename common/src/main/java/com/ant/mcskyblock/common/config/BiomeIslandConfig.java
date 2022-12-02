@@ -13,4 +13,15 @@ public class BiomeIslandConfig {
     }
 
     public static Map<ResourceLocation, Island> SETTINGS = new HashMap<>();
+
+    public static final String DEFAULT_JSON_STRING = """
+            [
+              {
+                "biome": "minecraft:plains",
+                "base": "minecraft:grass_block",
+                "fluid": "minecraft:water",
+                "accessory": "minecraft:sunflower"
+              }
+            ]
+            """;
 }

@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -78,44 +79,49 @@ public class ConfigFileAccessor {
         if (Files.exists(configPath)) {
             try {
                 BufferedReader reader = Files.newBufferedReader(configPath);
-                JsonArray arr = gson.fromJson(reader, JsonArray.class);
-                arr.forEach(j -> {
-                    JsonObject obj = (JsonObject)j;
-                    ResourceLocation biome = new ResourceLocation(obj.get("biome").getAsString());
-                    if (RegistryAccess.INSTANCE.getBiome(biome) != null) {
-                        BiomeIslandConfig.Island island = new BiomeIslandConfig.Island();
-
-                        JsonElement baseElem = obj.get("base");
-                        if (baseElem != null) {
-                            ResourceLocation base = new ResourceLocation(baseElem.getAsString());
-                            if (RegistryAccess.INSTANCE.getBlock(base) != null) {
-                                island.base = base;
-                            }
-                        }
-
-                        JsonElement baseFluid = obj.get("fluid");
-                        if (baseFluid != null) {
-                            ResourceLocation fluid = new ResourceLocation(obj.get("fluid").getAsString());
-                            if (RegistryAccess.INSTANCE.getBlock(fluid) != null) {
-                                island.fluid = fluid;
-                            }
-                        }
-
-                        JsonElement baseAccessory = obj.get("accessory");
-                        if (baseAccessory != null) {
-                            ResourceLocation accessory = new ResourceLocation(obj.get("accessory").getAsString());
-                            if (RegistryAccess.INSTANCE.getBlock(accessory) != null) {
-                                island.accessory = accessory;
-                            }
-                        }
-
-                        BiomeIslandConfig.SETTINGS.put(biome, island);
-                    }
-                });
+                parseBiomes(gson.fromJson(reader, JsonArray.class));
                 reader.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            parseBiomes(gson.fromJson(new StringReader(BiomeIslandConfig.DEFAULT_JSON_STRING), JsonArray.class));
         }
+    }
+
+    private static void parseBiomes(JsonArray arr) {
+        arr.forEach(j -> {
+            JsonObject obj = (JsonObject)j;
+            ResourceLocation biome = new ResourceLocation(obj.get("biome").getAsString());
+            if (RegistryAccess.INSTANCE.getBiome(biome) != null) {
+                BiomeIslandConfig.Island island = new BiomeIslandConfig.Island();
+
+                JsonElement baseElem = obj.get("base");
+                if (baseElem != null) {
+                    ResourceLocation base = new ResourceLocation(baseElem.getAsString());
+                    if (RegistryAccess.INSTANCE.getBlock(base) != null) {
+                        island.base = base;
+                    }
+                }
+
+                JsonElement baseFluid = obj.get("fluid");
+                if (baseFluid != null) {
+                    ResourceLocation fluid = new ResourceLocation(obj.get("fluid").getAsString());
+                    if (RegistryAccess.INSTANCE.getBlock(fluid) != null) {
+                        island.fluid = fluid;
+                    }
+                }
+
+                JsonElement baseAccessory = obj.get("accessory");
+                if (baseAccessory != null) {
+                    ResourceLocation accessory = new ResourceLocation(obj.get("accessory").getAsString());
+                    if (RegistryAccess.INSTANCE.getBlock(accessory) != null) {
+                        island.accessory = accessory;
+                    }
+                }
+
+                BiomeIslandConfig.SETTINGS.put(biome, island);
+            }
+        });
     }
 }
