@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.Level;
@@ -35,7 +36,7 @@ public class IslandGenerator {
     }
 
     public static void generate(WorldGenRegion region, BlockPos pos) {
-        String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().getPath();
+        String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().toString();
         if (canGenerateSubIsland(biome, pos)) {
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
         }
@@ -132,7 +133,7 @@ public class IslandGenerator {
         }
 
         public Island generate(WorldGenRegion region) {
-            BiomeIslandConfig.Island b = BiomeIslandConfig.SETTINGS.getOrDefault(uuid, null);
+            BiomeIslandConfig.Island b = BiomeIslandConfig.SETTINGS.getOrDefault(new ResourceLocation(uuid), null);
             if (b == null) { return this; }
 
             BlockState base = b.base == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.base).defaultBlockState();
