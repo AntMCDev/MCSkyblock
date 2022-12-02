@@ -58,7 +58,6 @@ public class Config implements Serializable {
         public boolean GEN_VILLAGE                  = true;
         public boolean GEN_WOODLAND_MANSION         = true;
         public int GEODE_WEIGHT                     = 100;
-        public String[] CUSTOM_STRUCTURES           = new String[0];
 
 
     }
