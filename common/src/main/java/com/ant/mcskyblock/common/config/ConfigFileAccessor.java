@@ -1,10 +1,7 @@
 package com.ant.mcskyblock.common.config;
 
 import com.ant.mcskyblock.common.SkyBlock;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -86,18 +83,31 @@ public class ConfigFileAccessor {
                     ResourceLocation biome = new ResourceLocation(obj.get("biome").getAsString());
                     if (BuiltinRegistries.BIOME.containsKey(biome)) {
                         BiomeIslandConfig.Island island = new BiomeIslandConfig.Island();
-                        ResourceLocation base = new ResourceLocation(obj.get("base").getAsString());
-                        if (Registry.BLOCK.containsKey(base)) {
-                            island.base = base;
+
+                        JsonElement baseElem = obj.get("base");
+                        if (baseElem != null) {
+                            ResourceLocation base = new ResourceLocation(baseElem.getAsString());
+                            if (Registry.BLOCK.containsKey(base)) {
+                                island.base = base;
+                            }
                         }
-                        ResourceLocation fluid = new ResourceLocation(obj.get("fluid").getAsString());
-                        if (Registry.BLOCK.containsKey(fluid)) {
-                            island.fluid = fluid;
+
+                        JsonElement baseFluid = obj.get("fluid");
+                        if (baseFluid != null) {
+                            ResourceLocation fluid = new ResourceLocation(obj.get("fluid").getAsString());
+                            if (Registry.BLOCK.containsKey(fluid)) {
+                                island.fluid = fluid;
+                            }
                         }
-                        ResourceLocation accessory = new ResourceLocation(obj.get("accessory").getAsString());
-                        if (Registry.BLOCK.containsKey(accessory)) {
-                            island.accessory = accessory;
+
+                        JsonElement baseAccessory = obj.get("accessory");
+                        if (baseAccessory != null) {
+                            ResourceLocation accessory = new ResourceLocation(obj.get("accessory").getAsString());
+                            if (Registry.BLOCK.containsKey(accessory)) {
+                                island.accessory = accessory;
+                            }
                         }
+
                         BiomeIslandConfig.SETTINGS.put(biome, island);
                     }
                 });
