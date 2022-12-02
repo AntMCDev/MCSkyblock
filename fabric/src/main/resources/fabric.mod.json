@@ -34,10 +34,9 @@
     "fabric": "*",
     "minecraft": "~1.19",
     "java": ">=17",
-    "cloth-config": ">=8.2.88",
-    "modmenu" : ">=4.0.6"
+    "cloth-config": ">=8.2.88"
   },
   "suggests": {
-    "another-mod": "*"
+    "modmenu" : ">=4.0.6"
   }
 }
