@@ -1,9 +1,9 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
+import com.ant.mcskyblock.common.config.BiomeIslandConfig;
 import com.ant.mcskyblock.common.config.Config;
-import com.ant.mcskyblock.common.world.level.levelgen.islandtype.IslandType;
-import com.ant.mcskyblock.common.world.level.levelgen.islandtype.VoidIslandType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -132,10 +132,12 @@ public class IslandGenerator {
         }
 
         public Island generate(WorldGenRegion region) {
-            IslandType b = BiomeIslands.SETTINGS.getOrDefault(uuid, new VoidIslandType());
-            BlockState base = b.getBase().defaultBlockState();
-            BlockState fluid = b.getFluid().defaultBlockState();
-            BlockState accessory = b.getAccessory().defaultBlockState();
+            BiomeIslandConfig.Island b = BiomeIslandConfig.SETTINGS.getOrDefault(uuid, null);
+            if (b == null) { return this; }
+
+            BlockState base = b.base == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.base).defaultBlockState();
+            BlockState fluid = b.fluid == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.fluid).defaultBlockState();
+            BlockState accessory = b.accessory == null ? Blocks.AIR.defaultBlockState() : Registry.BLOCK.get(b.accessory).defaultBlockState();
 
             if (!(base.is(Blocks.AIR))) {
                 int r = Config.INSTANCE.worldGen.SUB_ISLAND_RADIUS;
@@ -162,7 +164,7 @@ public class IslandGenerator {
             }
 
             if (!(accessory.is(Blocks.AIR))) {
-                if (b.getBase() instanceof DoublePlantBlock) {
+                if (accessory.getBlock() instanceof DoublePlantBlock) {
                     DoublePlantBlock.placeAt(region, accessory, new BlockPos(x, y + 1, z), 0);
                 } else {
                     region.setBlock(new BlockPos(x, y + 1, z), accessory, 0);

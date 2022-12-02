@@ -37,8 +37,8 @@ public class ForgeMCSkyBlock {
         event.enqueueWork(() -> {
             PacketHandler.INSTANCE = new ForgePacketHandler().init();
             ConfigFileAccessor.path = FMLPaths.CONFIGDIR.get();
-            ConfigFileAccessor.load();
-            ConfigFileAccessor.save();
+            ConfigFileAccessor.load(); ConfigFileAccessor.save();
+            ConfigFileAccessor.loadBiomes(); ConfigFileAccessor.saveBiomes();
             SkyBlock.init();
             SkyBlockEvents.INSTANCE = new ForgeSkyBlockEvents().register();
         });
