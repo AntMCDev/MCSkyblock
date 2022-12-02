@@ -23,11 +23,11 @@ public class FabricMCSkyBlock implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ConfigFileAccessor.path = FabricLoader.getInstance().getConfigDir();
-		ConfigFileAccessor.load();
-		ConfigFileAccessor.save();
+		ConfigFileAccessor.load(); ConfigFileAccessor.save();
 		SkyBlock.init();
 		Blocks.registerBlocks((key, block) -> Registry.register(Registry.BLOCK, new ResourceLocation(SkyBlock.MOD_NAME, key), block));
 		Blocks.registerItems((key, item) -> Registry.register(Registry.ITEM, new ResourceLocation(SkyBlock.MOD_NAME, key), item));
+		ConfigFileAccessor.loadBiomes(); ConfigFileAccessor.saveBiomes();
 		FabricLootTableUtils.register();
 		if (isPhysicalClient()) {
 			PacketHandler.INSTANCE = new FabricPacketHandler().init().registerClientListener();
