@@ -28,8 +28,10 @@ public class Config implements Serializable {
         public boolean GENERATE_MAIN_ISLAND     = true;
         public int MAIN_ISLAND_RADIUS           = 4;
         public int MAIN_ISLAND_DEPTH            = 3;
+        public int MAIN_ISLAND_DISTANCE          = 128;
         public boolean MAIN_ISLAND_TREE         = true;
         public int MAIN_ISLAND_COUNT            = 10;
+        public boolean MAIN_ISLAND_CHEST        = false;
         public boolean GENERATE_SUB_ISLANDS     = true;
         public int SUB_ISLAND_DISTANCE          = 128;
         public int SUB_ISLAND_RADIUS            = 4;
@@ -58,8 +60,7 @@ public class Config implements Serializable {
         public boolean GEN_VILLAGE                  = true;
         public boolean GEN_WOODLAND_MANSION         = true;
         public int GEODE_WEIGHT                     = 100;
-
-
+        public String[] CUSTOM_STRUCTURES           = new String[0];
     }
 
     public Drops drops = new Drops();
