@@ -68,11 +68,8 @@ public class ConfigFileAccessor {
         // Loop over each mod set
         for (String s : configMap.keySet()) {
             try {
-                // Create mod file
-                Files.createFile(configPath.resolve(s + ".json"));
-
                 // Write JSON
-                BufferedWriter writer = Files.newBufferedWriter(configPath);
+                BufferedWriter writer = Files.newBufferedWriter(configPath.resolve(s + ".json"));
                 JsonArray arr = new JsonArray();
                 Map<ResourceLocation, BiomeIslandConfig.Island> settings = configMap.get(s);
                 for (ResourceLocation rs : settings.keySet()) {
