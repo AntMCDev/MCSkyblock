@@ -10,3 +10,6 @@ Welcome to the official MCSkyblock repository - feel free to peruse our code and
 
 ## Join our discord!
 https://discord.gg/baUt5MHBEh
+
+## Credits
+Thanks to Dr. Trog for the inspiration for the "Hybrid" preset of this mod - which attempts to recreate the Dr Trog skyblock experience
