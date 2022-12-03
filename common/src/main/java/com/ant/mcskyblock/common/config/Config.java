@@ -28,6 +28,7 @@ public class Config implements Serializable {
         public boolean GENERATE_MAIN_ISLAND     = true;
         public int MAIN_ISLAND_RADIUS           = 4;
         public int MAIN_ISLAND_DEPTH            = 3;
+        public int MAIN_ISLAND_DISTANCE          = 128;
         public boolean MAIN_ISLAND_TREE         = true;
         public int MAIN_ISLAND_COUNT            = 10;
         public boolean GENERATE_SUB_ISLANDS     = true;

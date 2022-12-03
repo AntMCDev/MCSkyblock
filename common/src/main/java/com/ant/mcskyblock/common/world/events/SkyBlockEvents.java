@@ -26,8 +26,8 @@ public abstract class SkyBlockEvents {
 
             for (long i = IslandGenerator.playerIslandCount(), j = Config.INSTANCE.worldGen.MAIN_ISLAND_COUNT; i < j; i++) {
                 final double angle = Math.toRadians(((double)i/j) * 360d);
-                pos[0] = Math.floor(Math.cos(angle) * Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) - 0.5;
-                pos[2] = Math.floor(Math.sin(angle) * Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) - 0.5;
+                pos[0] = Math.floor(Math.cos(angle) * Config.INSTANCE.worldGen.MAIN_ISLAND_DISTANCE) - 0.5;
+                pos[2] = Math.floor(Math.sin(angle) * Config.INSTANCE.worldGen.MAIN_ISLAND_DISTANCE) - 0.5;
                 if (IslandGenerator.generatePlayerIsland(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]), player.getStringUUID())) {
                     player.teleportTo(pos[0], pos[1]+1.6, pos[2]);
                     return;

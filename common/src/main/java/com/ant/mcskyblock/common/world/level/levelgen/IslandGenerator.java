@@ -39,9 +39,31 @@ public class IslandGenerator {
     }
 
     public static void generate(WorldGenRegion region, BlockPos pos) {
-        String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().toString();
+        String biome = region.getBiome(new BlockPos(pos.getX(), pos.getY(), pos.getZ())).unwrapKey().orElseThrow().location().toString();
         if (canGenerateSubIsland(biome, pos)) {
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
+        } else {
+            boolean generated = false;
+            // Iterate downward
+            for (int y = pos.getY() - 16; y >= region.getMinBuildHeight(); y -= 16) {
+                biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
+                if (canGenerateSubIsland(biome, pos)) {
+                    generated = true;
+                    islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ()).generate(region));
+                    break;
+                }
+            }
+
+            // Iterate upward
+            if (!generated) {
+                for (int y = pos.getY() + 16; y >= region.getMaxBuildHeight(); y -= 16) {
+                    biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
+                    if (canGenerateSubIsland(biome, pos)) {
+                        islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ()).generate(region));
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -62,8 +84,9 @@ public class IslandGenerator {
     }
 
     private static boolean canGenerateSubIsland(String uuid, BlockPos pos) {
-        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE &&
-                Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
+        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS &&
+                (Math.pow(pos.getX(), 2) + Math.pow(pos.getZ(), 2) > Math.pow(Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE, 2)) &&
+                IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
     }
 
     private static boolean canGeneratePlayerIsland(Level level, BlockPos pos, String uuid) {
@@ -175,6 +198,7 @@ public class IslandGenerator {
             }
 
             if (!(accessory.is(Blocks.AIR))) {
+                region.setBlock(new BlockPos(x, y, z), base, 0);
                 if (accessory.getBlock() instanceof DoublePlantBlock) {
                     DoublePlantBlock.placeAt(region, accessory, new BlockPos(x, y + 1, z), 0);
                 } else {
@@ -182,18 +206,6 @@ public class IslandGenerator {
                 }
             }
             return this;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public int getZ() {
-            return z;
         }
     }
 
