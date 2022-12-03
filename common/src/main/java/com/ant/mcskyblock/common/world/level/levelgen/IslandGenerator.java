@@ -62,7 +62,7 @@ public class IslandGenerator {
     }
 
     private static boolean canGenerateSubIsland(String uuid, BlockPos pos) {
-        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE ||
+        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE &&
                 Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
     }
 
