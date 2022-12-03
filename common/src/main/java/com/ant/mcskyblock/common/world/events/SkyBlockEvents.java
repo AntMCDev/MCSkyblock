@@ -45,20 +45,14 @@ public abstract class SkyBlockEvents {
                 for (IslandGenerator.Island i : islands) {
                     Optional<BlockPos> bPos = SpawnUtils.findValidBoundingBox(level, ((IslandGenerator.PlayerIsland)i).boundingBox());
                     if (bPos.isPresent()) {
-                        if (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST) {
-                            SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]));
-                        }
-                        player.teleportTo(bPos.get().getX(), bPos.get().getY() + 1.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), bPos.get().getZ());
+                        player.teleportTo(bPos.get().getX(), bPos.get().getY() + 1.6, bPos.get().getZ());
                         break;
                     }
                 }
                 if (!otherIslandFound) {
                     // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
                     level.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
-                    if (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST) {
-                        SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]));
-                    }
-                    player.teleportTo(0.5, 65.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), 0.5);
+                    player.teleportTo(0.5, 65.6, 0.5);
                 }
             }
         }
