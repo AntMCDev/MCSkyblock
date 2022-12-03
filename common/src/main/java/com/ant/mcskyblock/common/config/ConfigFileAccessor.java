@@ -91,7 +91,9 @@ public class ConfigFileAccessor {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + "/biomes");
 
-        if (Files.exists(configPath) && Files.exists(configPath.resolve("vanilla.json"))) {
+        BiomeIslandConfig.defaults();
+
+        if (Files.exists(configPath)) {
             File[] files = configPath.toFile().listFiles();
             if (files != null) {
                 for (File f : files) {
@@ -139,8 +141,6 @@ public class ConfigFileAccessor {
                     }
                 }
             }
-        } else {
-            BiomeIslandConfig.defaults();
         }
     }
 }
