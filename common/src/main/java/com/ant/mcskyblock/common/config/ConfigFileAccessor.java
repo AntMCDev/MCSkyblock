@@ -13,9 +13,9 @@ import java.util.Map;
 
 public class ConfigFileAccessor {
     public static Path path = null;
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void save() {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + ".json");
 
         try {
@@ -30,7 +30,6 @@ public class ConfigFileAccessor {
     }
 
     public static void load() {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + ".json");
 
         if (Files.exists(configPath)) {
@@ -45,7 +44,6 @@ public class ConfigFileAccessor {
     }
 
     public static void saveBiomes() {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + "/biomes");
 
         // Split flatmap into a collection of mod-based maps
@@ -88,7 +86,6 @@ public class ConfigFileAccessor {
     }
 
     public static void loadBiomes() {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + "/biomes");
 
         BiomeIslandConfig.defaults();
@@ -141,6 +138,74 @@ public class ConfigFileAccessor {
                     }
                 }
             }
+        }
+    }
+
+    public static void saveChestLoot() {
+        final Path configPath = path.resolve(SkyBlock.MOD_NAME + "/loot/spawn_loot.json");
+
+        try {
+            // Create chest loot file
+            Files.createDirectories(configPath.getParent());
+
+            BufferedWriter writer = Files.newBufferedWriter(configPath);
+            JsonArray arr = new JsonArray();
+            ChestLootConfig.SETTINGS.keySet().forEach(i -> {
+                ChestLootConfig.ChestItem itemStack = ChestLootConfig.SETTINGS.get(i);
+                JsonObject obj = new JsonObject();
+                obj.addProperty("item", itemStack.resourceLocation.toString());
+                obj.addProperty("count", itemStack.count);
+                obj.addProperty("pos", i);
+                arr.add(obj);
+            });
+            gson.toJson(arr, writer);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadChestLoot() {
+        final Path configPath = path.resolve(SkyBlock.MOD_NAME + "/loot/spawn_loot.json");
+
+        if (Files.exists(configPath)) {
+            try {
+                BufferedReader reader = Files.newBufferedReader(configPath);
+                JsonArray arr = gson.fromJson(reader, JsonArray.class);
+                arr.forEach(j -> {
+                    JsonObject obj = (JsonObject)j;
+                    ChestLootConfig.ChestItem chestItem = new ChestLootConfig.ChestItem();
+
+                    JsonElement itemElem = obj.get("item");
+                    if (itemElem != null) {
+                        ResourceLocation item = new ResourceLocation(itemElem.getAsString());
+                        if (RegistryAccess.INSTANCE.getItem(item) != null) {
+                            chestItem.resourceLocation = item;
+                        }
+                    }
+
+                    JsonElement countElem = obj.get("count");
+                    if (countElem != null) {
+                        chestItem.count = countElem.getAsInt();
+                    } else {
+                        chestItem.count = 1;
+                    }
+
+                    Integer pos = null;
+                    JsonElement posElem = obj.get("pos");
+                    if (posElem != null) {
+                        pos = posElem.getAsInt();
+                    }
+
+                    if (chestItem.resourceLocation != null && pos != null) {
+                        ChestLootConfig.SETTINGS.put(pos, chestItem);
+                    }
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            ChestLootConfig.defaults();
         }
     }
 }

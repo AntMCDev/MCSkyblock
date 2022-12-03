@@ -28,6 +28,7 @@ public class FabricMCSkyBlock implements ModInitializer {
 		Blocks.registerBlocks((key, block) -> Registry.register(Registry.BLOCK, new ResourceLocation(SkyBlock.MOD_NAME, key), block));
 		Blocks.registerItems((key, item) -> Registry.register(Registry.ITEM, new ResourceLocation(SkyBlock.MOD_NAME, key), item));
 		ConfigFileAccessor.loadBiomes(); ConfigFileAccessor.saveBiomes();
+		ConfigFileAccessor.loadChestLoot(); ConfigFileAccessor.saveChestLoot();
 		FabricLootTableUtils.register();
 		if (isPhysicalClient()) {
 			PacketHandler.INSTANCE = new FabricPacketHandler().init().registerClientListener();

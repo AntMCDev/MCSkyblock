@@ -1,11 +1,16 @@
 package com.ant.mcskyblock.common.spawning;
 
+import com.ant.mcskyblock.common.config.ChestLootConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RespawnAnchorBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
@@ -33,5 +38,16 @@ public class SpawnUtils {
             }
         }
         return Optional.empty();
+    }
+
+    public static void spawnChest(ServerLevel serverLevel, BlockPos blockPos) {
+        serverLevel.setBlock(blockPos, Blocks.CHEST.defaultBlockState(), 2);
+        BlockEntity blockEntity = serverLevel.getBlockEntity(blockPos);
+        if (blockEntity instanceof ChestBlockEntity entity) {
+            ChestLootConfig.SETTINGS.keySet().forEach(i -> {
+                ChestLootConfig.ChestItem chestLoot = ChestLootConfig.SETTINGS.get(i);
+                entity.setItem(i, new ItemStack(Registry.ITEM.get(chestLoot.resourceLocation), chestLoot.count));
+            });
+        }
     }
 }

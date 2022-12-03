@@ -29,7 +29,10 @@ public abstract class SkyBlockEvents {
                 pos[0] = Math.floor(Math.cos(angle) * Config.INSTANCE.worldGen.MAIN_ISLAND_DISTANCE) - 0.5;
                 pos[2] = Math.floor(Math.sin(angle) * Config.INSTANCE.worldGen.MAIN_ISLAND_DISTANCE) - 0.5;
                 if (IslandGenerator.generatePlayerIsland(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]), player.getStringUUID())) {
-                    player.teleportTo(pos[0], pos[1]+1.6, pos[2]);
+                    if (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST) {
+                        SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]));
+                    }
+                    player.teleportTo(pos[0], pos[1] + 1.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), pos[2]);
                     return;
                 }
             }
@@ -42,15 +45,20 @@ public abstract class SkyBlockEvents {
                 for (IslandGenerator.Island i : islands) {
                     Optional<BlockPos> bPos = SpawnUtils.findValidBoundingBox(level, ((IslandGenerator.PlayerIsland)i).boundingBox());
                     if (bPos.isPresent()) {
-                        player.setRespawnPosition(level.dimension(), bPos.get(), 0, true, false);
-                        player.teleportTo(bPos.get().getX(), bPos.get().getY()+1.6, bPos.get().getZ());
+                        if (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST) {
+                            SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]));
+                        }
+                        player.teleportTo(bPos.get().getX(), bPos.get().getY() + 1.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), bPos.get().getZ());
                         break;
                     }
                 }
                 if (!otherIslandFound) {
                     // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
                     level.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
-                    player.teleportTo(0.5, 65.6, 0.5);
+                    if (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST) {
+                        SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]));
+                    }
+                    player.teleportTo(0.5, 65.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), 0.5);
                 }
             }
         }
