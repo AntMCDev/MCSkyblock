@@ -197,7 +197,7 @@ public class ConfigFileAccessor {
                         pos = posElem.getAsInt();
                     }
 
-                    if (chestItem.resourceLocation != null && pos != null) {
+                    if (chestItem.resourceLocation != null && pos != null && pos >= 0 && pos <= 26) {
                         ChestLootConfig.SETTINGS.put(pos, chestItem);
                     }
                 });
