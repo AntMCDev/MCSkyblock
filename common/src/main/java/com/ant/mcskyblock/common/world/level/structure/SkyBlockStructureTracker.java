@@ -58,6 +58,18 @@ public class SkyBlockStructureTracker {
         enabledMap.put( "minecraft:ruined_portal_ocean",     Config.INSTANCE.structures.GEN_RUINED_PORTAL);
         enabledMap.put( "minecraft:ruined_portal_nether",    Config.INSTANCE.structures.GEN_RUINED_PORTAL);
         enabledMap.put( "minecraft:ancient_city",            Config.INSTANCE.structures.GEN_ANCIENT_CITY);
+
+        importModdedStructures();
+    }
+
+    private static void importModdedStructures() {
+        if(Config.INSTANCE.structures.CUSTOM_STRUCTURES.length > 0 ) {
+            for (String resourceKey : Config.INSTANCE.structures.CUSTOM_STRUCTURES) {
+                if (!enabledMap.containsKey(resourceKey)) {
+                    enabledMap.put(resourceKey, true);
+                }
+            }
+        }
     }
 
     public static Boolean isEnabled(ResourceKey<Structure> structure){

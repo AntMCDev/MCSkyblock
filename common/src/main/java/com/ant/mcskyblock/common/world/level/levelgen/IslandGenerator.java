@@ -4,7 +4,6 @@ import com.ant.mcskyblock.common.config.BiomeIslandConfig;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.registry.RegistryAccess;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -15,11 +14,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * [COMMON] WORLD GENERATION - This is used to generate the sub-islands, and also controls saving those down into NBT
@@ -37,9 +39,31 @@ public class IslandGenerator {
     }
 
     public static void generate(WorldGenRegion region, BlockPos pos) {
-        String biome = region.getBiome(pos).unwrapKey().orElseThrow().location().toString();
+        String biome = region.getBiome(new BlockPos(pos.getX(), pos.getY(), pos.getZ())).unwrapKey().orElseThrow().location().toString();
         if (canGenerateSubIsland(biome, pos)) {
             islandSavedData.put(new Island(biome, pos.getX(), pos.getY(), pos.getZ()).generate(region));
+        } else {
+            boolean generated = false;
+            // Iterate downward
+            for (int y = pos.getY() - 16; y >= region.getMinBuildHeight(); y -= 16) {
+                biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
+                if (canGenerateSubIsland(biome, pos)) {
+                    generated = true;
+                    islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ()).generate(region));
+                    break;
+                }
+            }
+
+            // Iterate upward
+            if (!generated) {
+                for (int y = pos.getY() + 16; y >= region.getMaxBuildHeight(); y -= 16) {
+                    biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
+                    if (canGenerateSubIsland(biome, pos)) {
+                        islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ()).generate(region));
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -60,17 +84,25 @@ public class IslandGenerator {
     }
 
     private static boolean canGenerateSubIsland(String uuid, BlockPos pos) {
-        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS && (Math.abs(pos.getX()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE ||
-                Math.abs(pos.getZ()) > Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE) && IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
+        return Config.INSTANCE.worldGen.GENERATE_SUB_ISLANDS &&
+                (Math.pow(pos.getX(), 2) + Math.pow(pos.getZ(), 2) > Math.pow(Config.INSTANCE.worldGen.SUB_ISLAND_DISTANCE, 2)) &&
+                IslandSavedData.ISLANDS.stream().filter(island -> !(island instanceof PlayerIsland)).map(island -> island.uuid).noneMatch(s -> s.equals(uuid));
     }
 
     private static boolean canGeneratePlayerIsland(Level level, BlockPos pos, String uuid) {
         return Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).map(island -> island.uuid).noneMatch(s -> s.equals(uuid)) && !doesCollide(level, pos);
     }
 
-    public static BlockPos islandPosition(String uuid) {
-        Optional<Island> island = IslandSavedData.ISLANDS.stream().filter(i -> i.uuid.equals(uuid)).findFirst();
-        return island.map(value -> new BlockPos(value.x + 0.5, value.y + 1.6, value.z + 0.5)).orElse(null);
+    public static Optional<Island> playerIsland(String uuid) {
+        Optional<Island> island = IslandSavedData.ISLANDS.stream().filter(i -> i instanceof PlayerIsland && i.uuid.equals(uuid)).findFirst();
+        if (island.isEmpty()) {
+            island = IslandSavedData.ISLANDS.stream().filter(i -> i instanceof PlayerIsland).findFirst();
+        }
+        return island;
+    }
+
+    public static List<Island> otherPlayerIslands(String uuid) {
+        return IslandSavedData.ISLANDS.stream().filter(i -> i instanceof PlayerIsland && !i.uuid.equals(uuid)).collect(Collectors.toList());
     }
 
     private static boolean doesCollide(Level level, BlockPos pos) {
@@ -166,6 +198,7 @@ public class IslandGenerator {
             }
 
             if (!(accessory.is(Blocks.AIR))) {
+                region.setBlock(new BlockPos(x, y, z), base, 0);
                 if (accessory.getBlock() instanceof DoublePlantBlock) {
                     DoublePlantBlock.placeAt(region, accessory, new BlockPos(x, y + 1, z), 0);
                 } else {
@@ -267,10 +300,21 @@ public class IslandGenerator {
             }
             return this;
         }
+
+        public BoundingBox boundingBox() {
+            return new BoundingBox(
+                    x - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
+                    y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0) - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH,
+                    z - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
+                    x + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
+                    y,
+                    z + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS
+            );
+        }
     }
 
     public static class IslandSavedData extends SavedData {
-        private static final Collection<Island> ISLANDS = new ArrayList<>();
+        private static final List<Island> ISLANDS = new ArrayList<>();
         private static final String IDENTIFIER = "islands";
 
         public void put(Island island) {
