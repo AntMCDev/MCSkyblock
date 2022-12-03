@@ -40,21 +40,24 @@ public class MixinPlayerList {
                 if (island.isPresent()) {
                     Optional<BlockPos> blockPos2 = SpawnUtils.findValidBoundingBox(serverLevel, ((IslandGenerator.PlayerIsland) island.get()).boundingBox());
                     blockPos2.ifPresent(pos -> serverPlayer.setRespawnPosition(this.server.overworld().dimension(), pos, 0, true, false));
-                } else {
-                    List<IslandGenerator.Island> islands = IslandGenerator.otherPlayerIslands(serverPlayer.getStringUUID());
-                    boolean otherIslandFound = false;
-                    for (IslandGenerator.Island i : islands) {
-                        Optional<BlockPos> blockPos2 = SpawnUtils.findValidBoundingBox(serverLevel, ((IslandGenerator.PlayerIsland)i).boundingBox());
-                        if (blockPos2.isPresent()) {
-                            otherIslandFound = true;
-                            serverPlayer.setRespawnPosition(serverLevel.dimension(), blockPos2.get(), 0, true, false);
-                            break;
+
+                    if (blockPos2.isEmpty()) {
+                        // Player island not generated, or completely mined - try to spawn on another player island
+                        List<IslandGenerator.Island> islands = IslandGenerator.otherPlayerIslands(serverPlayer.getStringUUID());
+                        boolean otherIslandFound = false;
+                        for (IslandGenerator.Island i : islands) {
+                            Optional<BlockPos> blockPos3 = SpawnUtils.findValidBoundingBox(serverLevel, ((IslandGenerator.PlayerIsland)i).boundingBox());
+                            if (blockPos3.isPresent()) {
+                                otherIslandFound = true;
+                                serverPlayer.setRespawnPosition(serverLevel.dimension(), blockPos3.get(), 0, true, false);
+                                break;
+                            }
                         }
-                    }
-                    if (!otherIslandFound) {
-                        // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
-                        serverLevel.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
-                        serverPlayer.setRespawnPosition(serverLevel.dimension(), new BlockPos(0.5, 65.6, 0.5), 0, true, false);
+                        if (!otherIslandFound) {
+                            // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
+                            serverLevel.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
+                            serverPlayer.setRespawnPosition(serverLevel.dimension(), new BlockPos(0.5, 65.6, 0.5), 0, true, false);
+                        }
                     }
                 }
             }
