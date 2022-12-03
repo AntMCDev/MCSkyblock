@@ -69,7 +69,7 @@ public class ConfigFileAccessor {
         for (String s : configMap.keySet()) {
             try {
                 // Create mod file
-                Files.createDirectories(configPath.resolve(s + ".json"));
+                Files.createFile(configPath.resolve(s + ".json"));
 
                 // Write JSON
                 BufferedWriter writer = Files.newBufferedWriter(configPath);
@@ -94,7 +94,7 @@ public class ConfigFileAccessor {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         final Path configPath = path.resolve(SkyBlock.MOD_NAME + "/biomes");
 
-        if (Files.exists(configPath)) {
+        if (Files.exists(configPath) && Files.exists(configPath.resolve("vanilla.json"))) {
             File[] files = configPath.toFile().listFiles();
             if (files != null) {
                 for (File f : files) {
