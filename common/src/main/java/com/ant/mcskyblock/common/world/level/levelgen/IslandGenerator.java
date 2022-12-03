@@ -4,7 +4,6 @@ import com.ant.mcskyblock.common.config.BiomeIslandConfig;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.registry.RegistryAccess;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -15,11 +14,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * [COMMON] WORLD GENERATION - This is used to generate the sub-islands, and also controls saving those down into NBT
@@ -68,9 +70,16 @@ public class IslandGenerator {
         return Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && IslandSavedData.ISLANDS.stream().filter(island -> island instanceof PlayerIsland).map(island -> island.uuid).noneMatch(s -> s.equals(uuid)) && !doesCollide(level, pos);
     }
 
-    public static BlockPos islandPosition(String uuid) {
-        Optional<Island> island = IslandSavedData.ISLANDS.stream().filter(i -> i.uuid.equals(uuid)).findFirst();
-        return island.map(value -> new BlockPos(value.x + 0.5, value.y + 1.6, value.z + 0.5)).orElse(null);
+    public static Optional<Island> playerIsland(String uuid) {
+        Optional<Island> island = IslandSavedData.ISLANDS.stream().filter(i -> i instanceof PlayerIsland && i.uuid.equals(uuid)).findFirst();
+        if (island.isEmpty()) {
+            island = IslandSavedData.ISLANDS.stream().filter(i -> i instanceof PlayerIsland).findFirst();
+        }
+        return island;
+    }
+
+    public static List<Island> otherPlayerIslands(String uuid) {
+        return IslandSavedData.ISLANDS.stream().filter(i -> i instanceof PlayerIsland && !i.uuid.equals(uuid)).collect(Collectors.toList());
     }
 
     private static boolean doesCollide(Level level, BlockPos pos) {
@@ -174,6 +183,18 @@ public class IslandGenerator {
             }
             return this;
         }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public int getZ() {
+            return z;
+        }
     }
 
     public static class PlayerIsland extends Island {
@@ -267,10 +288,21 @@ public class IslandGenerator {
             }
             return this;
         }
+
+        public BoundingBox boundingBox() {
+            return new BoundingBox(
+                    x - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
+                    y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0) - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH,
+                    z - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
+                    x + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
+                    y,
+                    z + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS
+            );
+        }
     }
 
     public static class IslandSavedData extends SavedData {
-        private static final Collection<Island> ISLANDS = new ArrayList<>();
+        private static final List<Island> ISLANDS = new ArrayList<>();
         private static final String IDENTIFIER = "islands";
 
         public void put(Island island) {

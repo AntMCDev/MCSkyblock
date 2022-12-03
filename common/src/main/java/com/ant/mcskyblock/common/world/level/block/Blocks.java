@@ -36,12 +36,16 @@ public class Blocks {
         BLOCKS.put("static_red_concrete_powder", new StaticConcretePowderBlock(net.minecraft.world.level.block.Blocks.RED_CONCRETE));
         BLOCKS.put("static_black_concrete_powder", new StaticConcretePowderBlock(net.minecraft.world.level.block.Blocks.BLACK_CONCRETE));
         BLOCKS.put("active_sculk_shrieker", new ActiveSculkShriekerBlock());
+        BLOCKS.put("spawn_block", new Block(BlockBehaviour.Properties.of(Material.DIRT).noLootTable()));
     }
 
     public static Block staticSand() { return BLOCKS.get("static_sand"); }
     public static Block staticRedSand() { return BLOCKS.get("static_red_sand"); }
     public static Block staticGravel() { return BLOCKS.get("static_gravel"); }
     public static Block activeSculkShrieker() { return BLOCKS.get("active_sculk_shrieker"); }
+    public static Block spawnBlock() {
+        return BLOCKS.get("spawn_block");
+    }
 
     public static void registerBlocks(BiConsumer<String, Block> biConsumer) {
         for (String s : BLOCKS.keySet()) {
