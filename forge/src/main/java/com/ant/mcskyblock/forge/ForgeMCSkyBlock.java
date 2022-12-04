@@ -42,6 +42,7 @@ public class ForgeMCSkyBlock {
             ConfigFileAccessor.path = FMLPaths.CONFIGDIR.get();
             ConfigFileAccessor.load(); ConfigFileAccessor.save();
             ConfigFileAccessor.loadBiomes(); ConfigFileAccessor.saveBiomes();
+            ConfigFileAccessor.loadChestLoot(); ConfigFileAccessor.saveChestLoot();
             SkyBlock.init();
             SkyBlockEvents.INSTANCE = new ForgeSkyBlockEvents().register();
         });

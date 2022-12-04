@@ -12,6 +12,7 @@ public class Hybrid extends Config {
         preset                                      = Preset.Hybrid;
 
         worldGen.MAIN_ISLAND_RADIUS                 = 6;
+        worldGen.MAIN_ISLAND_CHEST                  = true;
         worldGen.SUB_ISLAND_RADIUS                  = 6;
 
         drops.PHANTOM_ELYTRA                        = false;
