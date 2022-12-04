@@ -3,6 +3,7 @@ package com.ant.mcskyblock.common.config;
 import com.ant.mcskyblock.common.config.preset.*;
 import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.utils.SerializationUtils;
+import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 
 import java.io.*;
 
@@ -154,5 +155,6 @@ public class Config implements Serializable {
         Config c = fromBytes(data);
         updateToConfig(c);
         ConfigFileAccessor.save();
+        SkyBlockStructureTracker.rescan();
     }
 }
