@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ChunkGenerators.class)
 public class MixinChunkGenerators {
     @Inject(at = @At("RETURN"), method = "bootstrap", cancellable = true)
-    public void bootstrap(Registry<Codec<? extends ChunkGenerator>> registry, CallbackInfoReturnable<Codec<? extends ChunkGenerator>> cir) {
+    private static void bootstrap(Registry<Codec<? extends ChunkGenerator>> registry, CallbackInfoReturnable<Codec<? extends ChunkGenerator>> cir) {
         cir.setReturnValue(Registry.register(registry, new ResourceLocation(SkyBlock.MOD_NAME, SkyBlock.CHUNK_GENERATOR_ID), SkyBlockChunkGenerator.CODEC));
     }
 }
