@@ -6,7 +6,6 @@ accessible    method    net/minecraft/world/level/levelgen/NoiseChunk           
 accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cellHeight                  ()I
 accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   getInterpolatedState        ()Lnet/minecraft/world/level/block/state/BlockState;
 accessible    method    net/minecraft/world/level/levelgen/NoiseChunk                   cachedClimateSampler        (Lnet/minecraft/world/level/levelgen/NoiseRouter;Ljava/util/List;)Lnet/minecraft/world/level/biome/Climate$Sampler;
-accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     noises                      Lnet/minecraft/core/Registry;
 accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  biomeSource                 Lnet/minecraft/world/level/biome/BiomeSource;
 accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     settings                    Lnet/minecraft/core/Holder;
 

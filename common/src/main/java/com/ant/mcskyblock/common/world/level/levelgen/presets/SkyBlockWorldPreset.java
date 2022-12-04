@@ -30,7 +30,7 @@ import java.util.Map;
 public class SkyBlockWorldPreset {
 
     public static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
-            BuiltInRegistries.WORLD_PRESET_REGISTRY, new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.PRESET_ID )
+            Registries.WORLD_PRESET, new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.PRESET_ID )
     );
 
     /**
@@ -38,8 +38,8 @@ public class SkyBlockWorldPreset {
      */
     public static void register() {
 
-        BuiltinRegistries.register(
-                BuiltInRegistries.WORLD_PRESET,
+        Registry.register(
+                Registries.WORLD_PRESET,
                 SB_PRESET_KEY,
                 build()
         );

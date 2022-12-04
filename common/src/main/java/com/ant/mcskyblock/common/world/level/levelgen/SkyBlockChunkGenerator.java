@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.*;
 import net.minecraft.core.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
@@ -37,24 +38,19 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     /**
      * CODEC for the skyblock chunk generator
      */
-    public static final Codec<SkyBlockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> commonCodec(instance).and(instance.group(
-            RegistryOps.retrieveRegistry(Registry.NOISE_REGISTRY).forGetter( (SkyBlockChunkGenerator) -> SkyBlockChunkGenerator.noises),
-            BiomeSource.CODEC.fieldOf("biome_source").forGetter( (SkyBlockChunkGenerator) -> SkyBlockChunkGenerator.biomeSource),
-            NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter( (SkyBlockChunkGenerator) -> SkyBlockChunkGenerator.settings)
-    )).apply( instance, instance.stable( SkyBlockChunkGenerator::new )));
+    public static final Codec<SkyBlockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
+            instance.group(
+                    BiomeSource.CODEC.fieldOf("biome_source").forGetter((skyBlockChunkGenerator) -> skyBlockChunkGenerator.biomeSource),
+                    NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter((skyBlockChunkGenerator) -> skyBlockChunkGenerator.settings)
+            ).apply(instance, instance.stable(SkyBlockChunkGenerator::new)));
 
     /**
      * This is the constructor for the skyblock chunk generator
-     *
-     * @param registry This is the StructureSet registry, used for accessing the structure sets that can be generated
-     *                 by this chunk generator
-     * @param registry2 This is the NoiseParameters registry, used for accessing noise-related options that are
-     *                  configured for this level
      * @param biomeSource This is used to access biome information for the current level
      * @param holder This is used to contain the noise generation settings for the current level
      */
-    public SkyBlockChunkGenerator(Registry<StructureSet> registry, Registry<NormalNoise.NoiseParameters> registry2, BiomeSource biomeSource, Holder<NoiseGeneratorSettings> holder) {
-        super(registry, registry2, biomeSource, holder);
+    public SkyBlockChunkGenerator(BiomeSource biomeSource, Holder<NoiseGeneratorSettings> holder) {
+        super(biomeSource, holder);
     }
 
     /**
@@ -205,7 +201,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         }
         SectionPos sectionPos = SectionPos.of(chunkPos2, worldGenLevel.getMinSection());
         BlockPos blockPos = sectionPos.origin();
-        Registry<Structure> registry = worldGenLevel.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        Registry<Structure> registry = worldGenLevel.registryAccess().registryOrThrow(Registries.STRUCTURE);
         Map<Integer, List<Structure>> map = registry.stream().filter(s -> SkyBlockStructureTracker.isEnabled(registry.getResourceKey(s).orElseThrow())).collect(Collectors.groupingBy(structure -> structure.step().ordinal()));
         List<FeatureSorter.StepFeatureData> list = this.featuresPerStep.get();
         WorldgenRandom worldgenRandom = new WorldgenRandom(new XoroshiroRandomSource(RandomSupport.generateUniqueSeed()));
@@ -220,7 +216,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         set.retainAll(this.biomeSource.possibleBiomes());
         int i = list.size();
         try {
-            Registry<PlacedFeature> registry2 = worldGenLevel.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY);
+            Registry<PlacedFeature> registry2 = worldGenLevel.registryAccess().registryOrThrow(Registries.PLACED_FEATURE);
             int j = Math.max(GenerationStep.Decoration.values().length, i);
             for (int k = 0; k < j; ++k) {
                 int m = 0;
