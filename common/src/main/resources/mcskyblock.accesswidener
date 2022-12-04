@@ -24,3 +24,5 @@ accessible    field     net/minecraft/world/level/chunk/ChunkGenerator          
 
 accessible    class     net/minecraft/world/entity/SpawnPlacements$Type
 accessible    method    net/minecraft/world/entity/SpawnPlacements                      register                    (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacements$Type;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V
+
+accessible    method    net/minecraft/world/level/biome/TheEndBiomeSource               <init>                      (Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;)V

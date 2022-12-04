@@ -51,7 +51,7 @@ public class Blocks {
 
     public static void registerItems(BiConsumer<String, Item> biConsumer) {
         for (String s : BLOCKS.keySet()) {
-            biConsumer.accept(s, new BlockItem(BLOCKS.get(s), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+            biConsumer.accept(s, new BlockItem(BLOCKS.get(s), new Item.Properties()));
         }
     }
 }

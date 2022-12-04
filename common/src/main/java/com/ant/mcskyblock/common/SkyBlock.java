@@ -2,8 +2,6 @@ package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.entity.npc.TradingUtils;
-import com.ant.mcskyblock.common.world.level.block.Blocks;
-import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -41,7 +39,6 @@ public class SkyBlock {
     public static void init() {
         TradingUtils.register();
         SkyBlockStructureTracker.rescan();
-        SkyBlockWorldPreset.register();
         if (Config.INSTANCE.spawning.SPAWN_PIGLIN_BRUTES) {
             SpawnPlacements.register(EntityType.PIGLIN_BRUTE, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         }

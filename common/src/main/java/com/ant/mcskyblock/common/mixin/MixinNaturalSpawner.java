@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.EntityType;
@@ -57,7 +58,7 @@ public class MixinNaturalSpawner {
                         int cur = mobCount.getOrDefault(MobCategory.MONSTER, -1);
                         int max = MobCategory.MONSTER.getMaxInstancesPerChunk() * lspawn.getSpawnableChunkCount() / MAGIC_NUMBER;
                         if (cur < max) {
-                            Structure structure = structureManager.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).get(BuiltinStructures.BASTION_REMNANT);
+                            Structure structure = structureManager.registryAccess().registryOrThrow(Registries.STRUCTURE).get(BuiltinStructures.BASTION_REMNANT);
                             if (structure != null && structureManager.getStructureAt(blockPos, structure).isValid()) {
                                 cir.setReturnValue(BASTION_SPAWNS);
                             }

@@ -3,7 +3,7 @@ package com.ant.mcskyblock.common.loot;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.block.Blocks;
 import net.minecraft.advancements.critereon.LocationPredicate;
-import net.minecraft.data.loot.FishingLoot;
+import net.minecraft.data.loot.packs.VanillaFishingLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -147,7 +147,7 @@ public class LootHelper {
         List<LootPoolEntryContainer> fishingLootTable = new ArrayList<>();
         if (Config.INSTANCE.drops.FISHING_COCOA_BEANS && id.equals(BuiltInLootTables.FISHING_JUNK)) {
             fishingLootTable.add(LootItem.lootTableItem(Items.COCOA_BEANS)
-                    .when(FishingLoot.IN_JUNGLE.or(FishingLoot.IN_BAMBOO_JUNGLE.or(FishingLoot.IN_SPARSE_JUNGLE)))
+                    .when(VanillaFishingLoot.IN_JUNGLE.or(VanillaFishingLoot.IN_BAMBOO_JUNGLE.or(VanillaFishingLoot.IN_SPARSE_JUNGLE)))
                     .setWeight(10).build()
             );
 

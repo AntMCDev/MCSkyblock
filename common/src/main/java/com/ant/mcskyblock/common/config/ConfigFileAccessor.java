@@ -3,8 +3,6 @@ package com.ant.mcskyblock.common.config;
 import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.registry.RegistryAccess;
 import com.google.gson.*;
-import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.BufferedReader;
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class ConfigFileAccessor {
     public static Path path = null;
