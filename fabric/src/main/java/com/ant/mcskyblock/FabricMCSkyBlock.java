@@ -14,6 +14,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -25,8 +26,8 @@ public class FabricMCSkyBlock implements ModInitializer {
 		ConfigFileAccessor.path = FabricLoader.getInstance().getConfigDir();
 		ConfigFileAccessor.load(); ConfigFileAccessor.save();
 		SkyBlock.init();
-		Blocks.registerBlocks((key, block) -> Registry.register(Registry.BLOCK, new ResourceLocation(SkyBlock.MOD_NAME, key), block));
-		Blocks.registerItems((key, item) -> Registry.register(Registry.ITEM, new ResourceLocation(SkyBlock.MOD_NAME, key), item));
+		Blocks.registerBlocks((key, block) -> Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkyBlock.MOD_NAME, key), block));
+		Blocks.registerItems((key, item) -> Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(SkyBlock.MOD_NAME, key), item));
 		ConfigFileAccessor.loadBiomes(); ConfigFileAccessor.saveBiomes();
 		FabricLootTableUtils.register();
 		if (isPhysicalClient()) {
