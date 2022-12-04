@@ -3,11 +3,16 @@ package com.ant.mcskyblock.common;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.entity.npc.TradingUtils;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.presets.WorldPreset;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,6 +36,12 @@ public class SkyBlock {
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
     public static final Random RANDOM = new Random();
+
+    public static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
+            Registries.WORLD_PRESET, new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.PRESET_ID )
+    );
+
+    public static Holder.Reference<WorldPreset> SB_PRESET_HOLDER;
 
 
 

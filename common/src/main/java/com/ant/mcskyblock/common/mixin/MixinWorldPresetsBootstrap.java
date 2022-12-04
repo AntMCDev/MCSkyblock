@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 
 @Mixin(targets = "net.minecraft.world.level.levelgen.presets.WorldPresets$Bootstrap")
-public class MixinWorldPresets {
+public class MixinWorldPresetsBootstrap {
     @Final
     @Shadow
     private HolderGetter<Biome> biomes;
@@ -45,10 +45,6 @@ public class MixinWorldPresets {
     @Final
     @Shadow
     private BootstapContext<WorldPreset> context;
-
-    private static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
-            Registries.WORLD_PRESET, new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.PRESET_ID )
-    );
 
     @Inject(at = @At("RETURN"), method = "run")
     public void run(CallbackInfo ci) {
@@ -80,6 +76,6 @@ public class MixinWorldPresets {
         );
 
         // Register preset
-        this.context.register(SB_PRESET_KEY, new WorldPreset(Map.of(LevelStem.OVERWORLD, overworld, LevelStem.NETHER, nether, LevelStem.END,end)));
+        SkyBlock.SB_PRESET_HOLDER = this.context.register(SkyBlock.SB_PRESET_KEY, new WorldPreset(Map.of(LevelStem.OVERWORLD, overworld, LevelStem.NETHER, nether, LevelStem.END, end)));
     }
 }
