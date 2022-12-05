@@ -19,7 +19,7 @@ public abstract class SkyBlockEvents {
 
     public void spawnPlayer(ServerPlayer player) {
         // If not generating main islands, or player already has an island - no further logic needed
-        if (Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && !IslandGenerator.hasPlayerIsland(player.getStringUUID()) && player.getServer() != null && player.getServer().overworld().getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator) {
+        if (Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && !IslandGenerator.hasPlayerIsland(player.getStringUUID()) && player.getServer() != null && player.getServer().overworld().getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator && !((SkyBlockChunkGenerator) player.getServer().overworld().getChunkSource().getGenerator()).doSuper()) {
             // Default spawn co-ords
             double[] pos = new double[] {
                     0, 64, 0

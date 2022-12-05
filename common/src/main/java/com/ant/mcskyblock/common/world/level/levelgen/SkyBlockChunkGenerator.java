@@ -56,7 +56,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                     holder.is(NoiseGeneratorSettings.NETHER) ? ChunkGeneratorDimension.NETHER : ChunkGeneratorDimension.END;
     }
 
-    private boolean doSuper() {
+    public boolean doSuper() {
         return  (dimension == ChunkGeneratorDimension.OVERWORLD && !Config.INSTANCE.worldGen.IS_OVERWORLD_SKYBLOCK) ||
                 (dimension == ChunkGeneratorDimension.NETHER && !Config.INSTANCE.worldGen.IS_NETHER_SKYBLOCK) ||
                 (dimension == ChunkGeneratorDimension.END && !Config.INSTANCE.worldGen.IS_END_SKYBLOCK);
