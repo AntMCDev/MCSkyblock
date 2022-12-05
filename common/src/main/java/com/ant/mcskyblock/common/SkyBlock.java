@@ -32,16 +32,10 @@ public class SkyBlock {
     public static final String PRESET_ID = "skyblock";
     public static final String NET_WORLDTYPE_ID =  "worldtype";
     public static final String NET_STRUCTURECHECK_ID = "structurecheck";
-    public static final String NET_CONFIG_ID         =  "config";
+    public static final String NET_CONFIG_ID =  "config";
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
     public static final Random RANDOM = new Random();
-
-    public static final ResourceKey<WorldPreset> SB_PRESET_KEY = ResourceKey.create(
-            Registries.WORLD_PRESET, new ResourceLocation( SkyBlock.MOD_NAME, SkyBlock.PRESET_ID )
-    );
-
-    public static Holder.Reference<WorldPreset> SB_PRESET_HOLDER;
 
 
 

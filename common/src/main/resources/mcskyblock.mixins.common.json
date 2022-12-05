@@ -18,8 +18,6 @@
     "MixinGeodeFeature",
     "MixinPlayerList",
     "MixinChunkGenerators",
-    "MixinWorldGenSettingsComponent",
-    "MixinWorldPresetsBootstrap",
     "MixinBiomeSources"
   ],
   "client": [
