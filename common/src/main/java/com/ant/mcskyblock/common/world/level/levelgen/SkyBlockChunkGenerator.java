@@ -34,7 +34,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         OVERWORLD, NETHER, END
     }
 
-    private ChunkGeneratorDimension dimension = ChunkGeneratorDimension.OVERWORLD;
+    private ChunkGeneratorDimension dimension;
 
     /**
      * CODEC for the skyblock chunk generator

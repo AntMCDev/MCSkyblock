@@ -39,22 +39,20 @@ public abstract class SkyBlockEvents {
             }
 
             // Wasn't able to generate a suitable island - try to find spawn on other islands
-            if (player.getServer() != null) {
-                ServerLevel level = player.getServer().overworld();
-                List<IslandGenerator.Island> islands = IslandGenerator.otherPlayerIslands(player.getStringUUID());
-                boolean otherIslandFound = false;
-                for (IslandGenerator.Island i : islands) {
-                    Optional<BlockPos> bPos = SpawnUtils.findValidBoundingBox(level, ((IslandGenerator.PlayerIsland)i).boundingBox());
-                    if (bPos.isPresent()) {
-                        player.teleportTo(bPos.get().getX(), bPos.get().getY() + 1.6, bPos.get().getZ());
-                        break;
-                    }
+            ServerLevel level = player.getServer().overworld();
+            List<IslandGenerator.Island> islands = IslandGenerator.otherPlayerIslands(player.getStringUUID());
+            boolean otherIslandFound = false;
+            for (IslandGenerator.Island i : islands) {
+                Optional<BlockPos> bPos = SpawnUtils.findValidBoundingBox(level, ((IslandGenerator.PlayerIsland)i).boundingBox());
+                if (bPos.isPresent()) {
+                    player.teleportTo(bPos.get().getX(), bPos.get().getY() + 1.6, bPos.get().getZ());
+                    break;
                 }
-                if (!otherIslandFound) {
-                    // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
-                    level.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
-                    player.teleportTo(0.5, 65.6, 0.5);
-                }
+            }
+            if (!otherIslandFound) {
+                // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
+                level.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
+                player.teleportTo(0.5, 65.6, 0.5);
             }
         }
     }
