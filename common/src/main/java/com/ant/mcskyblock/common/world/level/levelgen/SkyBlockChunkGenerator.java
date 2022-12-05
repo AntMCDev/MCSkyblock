@@ -294,7 +294,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                     int p = is[o];
                     PlacedFeature placedFeature2 = stepFeatureData2.features().get(p);
                     Supplier<String> supplier2 = () -> registry2.getResourceKey(placedFeature2).map(Object::toString).orElseGet(placedFeature2::toString);
-                    if (!(supplier2.get().contains("geode") && Config.INSTANCE.structures.GEODE_WEIGHT > 0)) {
+                    if (!(supplier2.get().contains("geode") && Config.INSTANCE.structures.GEODE_WEIGHT > 0) || supplier2.get().contains("end_island")) {
                         continue;
                     }
                     worldgenRandom.setFeatureSeed(l, p, k);

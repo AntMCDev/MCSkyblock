@@ -17,8 +17,7 @@
     "MixinGeodeConfigurationAccessor",
     "MixinGeodeFeature",
     "MixinPlayerList",
-    "MixinChunkGenerators",
-    "MixinBiomeSources"
+    "MixinChunkGenerators"
   ],
   "client": [
     "MixinClientLevelClientLevelData",
