@@ -4,6 +4,7 @@ import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.spawning.SpawnUtils;
 import com.ant.mcskyblock.common.world.level.block.Blocks;
 import com.ant.mcskyblock.common.world.level.levelgen.IslandGenerator;
+import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +19,7 @@ public abstract class SkyBlockEvents {
 
     public void spawnPlayer(ServerPlayer player) {
         // If not generating main islands, or player already has an island - no further logic needed
-        if (Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && !IslandGenerator.hasPlayerIsland(player.getStringUUID())) {
+        if (Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && !IslandGenerator.hasPlayerIsland(player.getStringUUID()) && player.getServer() != null && player.getServer().overworld().getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator) {
             // Default spawn co-ords
             double[] pos = new double[] {
                     0, 64, 0
