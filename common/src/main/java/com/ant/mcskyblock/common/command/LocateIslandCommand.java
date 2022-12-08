@@ -4,11 +4,13 @@ import com.ant.mcskyblock.common.world.level.levelgen.IslandGenerator;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.ResourceOrTagLocationArgument;
+import net.minecraft.commands.arguments.ResourceOrTagArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.*;
 
 /**
@@ -25,20 +27,22 @@ public class LocateIslandCommand {
     /**
      * Registers the commands for the skyblock mod.  At the moment there is only the locate-island biome-arg command.
      */
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandBuildContext) {
         dispatcher.register(
                 Commands.literal("locate-island")
                         .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
-                        .then(Commands.argument("biome", ResourceOrTagLocationArgument.resourceOrTag(Registry.BIOME_REGISTRY))
-                        .executes(ctx -> {
-                            BlockPos pos = IslandGenerator.nearest(new BlockPos(ctx.getSource().getPosition()), ResourceOrTagLocationArgument.getRegistryType(ctx, "biome", Registry.BIOME_REGISTRY, ERROR_BIOME_INVALID).unwrap().orThrow().location().getPath());
-                            if (pos != null) {
-                                ctx.getSource().sendSuccess(ComponentUtils.wrapInSquareBrackets(Component.translatable("chat.coordinates", pos.getX(), pos.getY(), pos.getZ())).withStyle(style -> style.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + pos.getX() + " " + pos.getY() + " " + pos.getZ())).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("chat.coordinates.tooltip")))), false);
-                            } else {
-                                ctx.getSource().sendFailure(Component.literal("No island found in a reasonable distance"));
-                            }
-                            return 1;
-                        }))
+                        .then(
+                                Commands.argument("biome", ResourceOrTagArgument.resourceOrTag(commandBuildContext, Registries.BIOME))
+                                .executes(ctx -> {
+                                    BlockPos pos = IslandGenerator.nearest(new BlockPos(ctx.getSource().getPosition()), ResourceOrTagArgument.getResourceOrTag(ctx, "biome", Registries.BIOME).asPrintable());
+                                    if (pos != null) {
+                                        ctx.getSource().sendSuccess(ComponentUtils.wrapInSquareBrackets(Component.translatable("chat.coordinates", pos.getX(), pos.getY(), pos.getZ())).withStyle(style -> style.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + pos.getX() + " " + pos.getY() + " " + pos.getZ())).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("chat.coordinates.tooltip")))), false);
+                                    } else {
+                                        ctx.getSource().sendFailure(Component.literal("No island found in a reasonable distance"));
+                                    }
+                                    return 1;
+                                })
+                        )
         );
     }
 }

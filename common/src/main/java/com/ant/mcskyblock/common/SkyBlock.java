@@ -2,14 +2,17 @@ package com.ant.mcskyblock.common;
 
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.entity.npc.TradingUtils;
-import com.ant.mcskyblock.common.world.level.block.Blocks;
-import com.ant.mcskyblock.common.world.level.levelgen.presets.SkyBlockWorldPreset;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.presets.WorldPreset;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +32,7 @@ public class SkyBlock {
     public static final String PRESET_ID = "skyblock";
     public static final String NET_WORLDTYPE_ID =  "worldtype";
     public static final String NET_STRUCTURECHECK_ID = "structurecheck";
-    public static final String NET_CONFIG_ID         =  "config";
+    public static final String NET_CONFIG_ID =  "config";
     public static final String CHUNK_GENERATOR_ID = "skyblock_generator";
     public static final String END_BIOMESOURCE_ID = "skyblock_endbiomes";
     public static final Random RANDOM = new Random();
@@ -41,7 +44,6 @@ public class SkyBlock {
     public static void init() {
         TradingUtils.register();
         SkyBlockStructureTracker.rescan();
-        SkyBlockWorldPreset.register();
         if (Config.INSTANCE.spawning.SPAWN_PIGLIN_BRUTES) {
             SpawnPlacements.register(EntityType.PIGLIN_BRUTE, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         }
