@@ -38,7 +38,6 @@ public class MixinServerAdvancementManager {
 
     @Inject(at = @At("HEAD"), method = "apply")
     protected void apply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, ProfilerFiller profilerFiller, CallbackInfo ci) {
-        if (Config.INSTANCE.achievementsEnabled) { map.clear(); }
         ADVANCEMENTS.stream().filter(IAdvancement::enabled).forEach(r -> map.put(r.getResourceLocation(), AdvancementHelper.toJSON(r)));
     }
 }

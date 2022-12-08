@@ -2,7 +2,7 @@ package com.ant.mcskyblock.common.spawning;
 
 import com.ant.mcskyblock.common.config.ChestLootConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BedBlock;
@@ -46,7 +46,7 @@ public class SpawnUtils {
         if (blockEntity instanceof ChestBlockEntity entity) {
             ChestLootConfig.SETTINGS.keySet().forEach(i -> {
                 ChestLootConfig.ChestItem chestLoot = ChestLootConfig.SETTINGS.get(i);
-                entity.setItem(i, new ItemStack(Registry.ITEM.get(chestLoot.resourceLocation), chestLoot.count));
+                entity.setItem(i, new ItemStack(BuiltInRegistries.ITEM.get(chestLoot.resourceLocation), chestLoot.count));
             });
         }
     }

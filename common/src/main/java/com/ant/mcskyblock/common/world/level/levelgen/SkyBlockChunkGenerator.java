@@ -1,6 +1,5 @@
 package com.ant.mcskyblock.common.world.level.levelgen;
 
-import com.ant.mcskyblock.common.SkyBlock;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.world.level.structure.SkyBlockStructureTracker;
 import com.mojang.serialization.Codec;
@@ -9,7 +8,7 @@ import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.*;
 import net.minecraft.core.*;
-import net.minecraft.resources.RegistryOps;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.*;
@@ -17,12 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
-import net.minecraft.world.level.levelgen.feature.GeodeFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -34,27 +30,36 @@ import java.util.stream.Collectors;
  * [COMMON] WORLD GENERATION - This is the chunk generator for skyblock worlds
  */
 public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
+    private enum ChunkGeneratorDimension {
+        OVERWORLD, NETHER, END
+    }
+
+    private ChunkGeneratorDimension dimension;
+
     /**
      * CODEC for the skyblock chunk generator
      */
-    public static final Codec<SkyBlockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> commonCodec(instance).and(instance.group(
-            RegistryOps.retrieveRegistry(Registry.NOISE_REGISTRY).forGetter( (SkyBlockChunkGenerator) -> SkyBlockChunkGenerator.noises),
-            BiomeSource.CODEC.fieldOf("biome_source").forGetter( (SkyBlockChunkGenerator) -> SkyBlockChunkGenerator.biomeSource),
-            NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter( (SkyBlockChunkGenerator) -> SkyBlockChunkGenerator.settings)
-    )).apply( instance, instance.stable( SkyBlockChunkGenerator::new )));
+    public static final Codec<SkyBlockChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
+            instance.group(
+                    BiomeSource.CODEC.fieldOf("biome_source").forGetter((skyBlockChunkGenerator) -> skyBlockChunkGenerator.biomeSource),
+                    NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter((skyBlockChunkGenerator) -> skyBlockChunkGenerator.settings)
+            ).apply(instance, instance.stable(SkyBlockChunkGenerator::new)));
 
     /**
      * This is the constructor for the skyblock chunk generator
-     *
-     * @param registry This is the StructureSet registry, used for accessing the structure sets that can be generated
-     *                 by this chunk generator
-     * @param registry2 This is the NoiseParameters registry, used for accessing noise-related options that are
-     *                  configured for this level
      * @param biomeSource This is used to access biome information for the current level
      * @param holder This is used to contain the noise generation settings for the current level
      */
-    public SkyBlockChunkGenerator(Registry<StructureSet> registry, Registry<NormalNoise.NoiseParameters> registry2, BiomeSource biomeSource, Holder<NoiseGeneratorSettings> holder) {
-        super(registry, registry2, biomeSource, holder);
+    public SkyBlockChunkGenerator(BiomeSource biomeSource, Holder<NoiseGeneratorSettings> holder) {
+        super(biomeSource, holder);
+        dimension = holder.is(NoiseGeneratorSettings.OVERWORLD) ? ChunkGeneratorDimension.OVERWORLD :
+                    holder.is(NoiseGeneratorSettings.NETHER) ? ChunkGeneratorDimension.NETHER : ChunkGeneratorDimension.END;
+    }
+
+    public boolean doSuper() {
+        return  (dimension == ChunkGeneratorDimension.OVERWORLD && !Config.INSTANCE.worldGen.IS_OVERWORLD_SKYBLOCK) ||
+                (dimension == ChunkGeneratorDimension.NETHER && !Config.INSTANCE.worldGen.IS_NETHER_SKYBLOCK) ||
+                (dimension == ChunkGeneratorDimension.END && !Config.INSTANCE.worldGen.IS_END_SKYBLOCK);
     }
 
     /**
@@ -87,6 +92,9 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public int getBaseHeight(int i, int j, Heightmap.Types types, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
+        if (doSuper()) {
+            return super.getBaseHeight(i, j, types, levelHeightAccessor, randomState);
+        }
         return this.settings.value().noiseSettings().height();
     }
 
@@ -106,6 +114,9 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public NoiseColumn getBaseColumn(int i, int j, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
+        if (doSuper()) {
+            return super.getBaseColumn(i, j, levelHeightAccessor, randomState);
+        }
         return new NoiseColumn(0, new BlockState[0]);
     }
 
@@ -124,7 +135,11 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      * @param carving This is used to keep track of the current carving type: AIR / LIQUID
      */
     @Override
-    public void applyCarvers(WorldGenRegion worldGenRegion, long l, RandomState randomState, BiomeManager biomeManager, StructureManager structureManager, ChunkAccess chunkAccess, GenerationStep.Carving carving) {}
+    public void applyCarvers(WorldGenRegion worldGenRegion, long l, RandomState randomState, BiomeManager biomeManager, StructureManager structureManager, ChunkAccess chunkAccess, GenerationStep.Carving carving) {
+        if (doSuper()) {
+            super.applyCarvers(worldGenRegion, l, randomState, biomeManager, structureManager, chunkAccess, carving);
+        }
+    }
 
     /**
      * This is used for building surface blocks at the very top of the solid chunk blocks
@@ -139,6 +154,10 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public void buildSurface(WorldGenRegion worldGenRegion, StructureManager structureManager, RandomState randomState, ChunkAccess chunkAccess) {
+        if (doSuper()) {
+            super.buildSurface(worldGenRegion, structureManager, randomState, chunkAccess);
+            return;
+        }
         if (!SharedConstants.debugVoidTerrain(chunkAccess.getPos())) {
             IslandGenerator.generate(worldGenRegion, new BlockPos(
                     chunkAccess.getPos().getMinBlockX() + ((chunkAccess.getPos().getMaxBlockX() - chunkAccess.getPos().getMinBlockX()) / 2),
@@ -163,7 +182,11 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      * @param blender This is used to create the noise chunk in NoiseChunk::forChunk
      */
     @Override
-    public void buildSurface(ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState, StructureManager structureManager, BiomeManager biomeManager, Registry<Biome> registry, Blender blender) {}
+    public void buildSurface(ChunkAccess chunkAccess, WorldGenerationContext worldGenerationContext, RandomState randomState, StructureManager structureManager, BiomeManager biomeManager, Registry<Biome> registry, Blender blender) {
+        if (doSuper()) {
+            super.buildSurface(chunkAccess, worldGenerationContext, randomState, structureManager, biomeManager, registry, blender);
+        }
+    }
 
     /**
      * This method is used to fill a chunk with blocks - using the supplied noise settings
@@ -182,6 +205,9 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunkAccess) {
+        if (doSuper()) {
+            return super.fillFromNoise(executor, blender, randomState, structureManager, chunkAccess);
+        }
         return CompletableFuture.completedFuture(chunkAccess);
     }
 
@@ -199,13 +225,17 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
      */
     @Override
     public void applyBiomeDecoration(WorldGenLevel worldGenLevel, ChunkAccess chunkAccess, StructureManager structureManager) {
+        if (doSuper()) {
+            super.applyBiomeDecoration(worldGenLevel, chunkAccess, structureManager);
+            return;
+        }
         ChunkPos chunkPos2 = chunkAccess.getPos();
         if (SharedConstants.debugVoidTerrain(chunkPos2)) {
             return;
         }
         SectionPos sectionPos = SectionPos.of(chunkPos2, worldGenLevel.getMinSection());
         BlockPos blockPos = sectionPos.origin();
-        Registry<Structure> registry = worldGenLevel.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        Registry<Structure> registry = worldGenLevel.registryAccess().registryOrThrow(Registries.STRUCTURE);
         Map<Integer, List<Structure>> map = registry.stream().filter(s -> SkyBlockStructureTracker.isEnabled(registry.getResourceKey(s).orElseThrow())).collect(Collectors.groupingBy(structure -> structure.step().ordinal()));
         List<FeatureSorter.StepFeatureData> list = this.featuresPerStep.get();
         WorldgenRandom worldgenRandom = new WorldgenRandom(new XoroshiroRandomSource(RandomSupport.generateUniqueSeed()));
@@ -220,7 +250,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
         set.retainAll(this.biomeSource.possibleBiomes());
         int i = list.size();
         try {
-            Registry<PlacedFeature> registry2 = worldGenLevel.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY);
+            Registry<PlacedFeature> registry2 = worldGenLevel.registryAccess().registryOrThrow(Registries.PLACED_FEATURE);
             int j = Math.max(GenerationStep.Decoration.values().length, i);
             for (int k = 0; k < j; ++k) {
                 int m = 0;
@@ -264,7 +294,7 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
                     int p = is[o];
                     PlacedFeature placedFeature2 = stepFeatureData2.features().get(p);
                     Supplier<String> supplier2 = () -> registry2.getResourceKey(placedFeature2).map(Object::toString).orElseGet(placedFeature2::toString);
-                    if (!(supplier2.get().contains("geode") && Config.INSTANCE.structures.GEODE_WEIGHT > 0)) {
+                    if (!(supplier2.get().contains("geode") && Config.INSTANCE.structures.GEODE_WEIGHT > 0) || supplier2.get().contains("end_island")) {
                         continue;
                     }
                     worldgenRandom.setFeatureSeed(l, p, k);
