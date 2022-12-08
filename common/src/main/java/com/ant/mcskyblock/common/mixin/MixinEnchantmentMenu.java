@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.Util;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -86,7 +87,7 @@ public class MixinEnchantmentMenu {
         ArrayList<EnchantmentInstance> list = Lists.newArrayList();
         Item item = itemStack.getItem();
         boolean bl2 = itemStack.is(Items.BOOK);
-        block0: for (Enchantment enchantment : Registry.ENCHANTMENT) {
+        block0: for (Enchantment enchantment : BuiltInRegistries.ENCHANTMENT) {
             if ((enchantment.isTreasureOnly() && !bl || !enchantment.isDiscoverable() || !enchantment.category.canEnchant(item) && !bl2) && !(enchantment instanceof SwiftSneakEnchantment && inAncientCity)) continue;
             for (int j = enchantment.getMaxLevel(); j > enchantment.getMinLevel() - 1; --j) {
                 if (i < enchantment.getMinCost(j) || i > enchantment.getMaxCost(j)) continue;

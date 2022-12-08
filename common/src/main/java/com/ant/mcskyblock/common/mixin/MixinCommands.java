@@ -20,6 +20,6 @@ public class MixinCommands {
 
     @Inject(at = @At("RETURN"), method = "<init>")
     public void init(Commands.CommandSelection commandSelection, CommandBuildContext commandBuildContext, CallbackInfo ci) {
-        LocateIslandCommand.register(dispatcher);
+        LocateIslandCommand.register(dispatcher, commandBuildContext);
     }
 }

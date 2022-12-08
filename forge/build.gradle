@@ -33,7 +33,7 @@ repositories {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
-    modImplementation include("me.shedaniel.cloth:cloth-config-forge:${project.cloth_fabric_version}") {
+    modImplementation include("me.shedaniel.cloth:cloth-config-forge:${project.cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
     
