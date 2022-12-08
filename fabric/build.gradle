@@ -39,9 +39,9 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    //modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}",{
-	//        exclude module: "fabric-api"
-	//}
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}",{
+	        exclude module: "fabric-api"
+	}
 
 	// Local
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
