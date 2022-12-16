@@ -14,6 +14,7 @@ public class OneBlock extends Config {
         worldGen.MAIN_ISLAND_DEPTH      = 1;
         worldGen.MAIN_ISLAND_TREE       = false;
         worldGen.GENERATE_SUB_ISLANDS   = false;
+        worldGen.TAIGA_SPAWN_RADIUS     = 64;
 
         structures.GEN_ANCIENT_CITY     = false;
         structures.GEN_BASTION_REMNANT  = false;

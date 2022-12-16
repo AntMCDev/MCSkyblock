@@ -8,7 +8,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import java.util.function.Supplier;
 
 public interface IForgePacket extends IPacket {
-    SimpleChannel getChannel();
+    abstract SimpleChannel getChannel();
 
     @Override
     default void registerOnClient() {
