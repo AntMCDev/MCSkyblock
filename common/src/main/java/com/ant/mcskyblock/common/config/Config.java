@@ -37,7 +37,7 @@ public class Config implements Serializable {
         public int SUB_ISLAND_DISTANCE          = 128;
         public int SUB_ISLAND_RADIUS            = 4;
         public int SUB_ISLAND_DEPTH             = 3;
-        public boolean TAIGA_SPAWN              = false;
+        public int TAIGA_SPAWN_RADIUS           = 0;
     }
 
     public Structures structures = new Structures();
