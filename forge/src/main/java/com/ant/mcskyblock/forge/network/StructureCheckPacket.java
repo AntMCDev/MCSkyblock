@@ -5,7 +5,7 @@ import com.ant.mcskyblock.common.network.PacketHandler;
 import com.ant.mcskyblock.common.world.level.structure.ClientStructureTracker;
 import io.netty.buffer.Unpooled;
 import net.minecraft.advancements.critereon.LocationPredicate;
-import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -39,7 +39,7 @@ public class StructureCheckPacket implements IForgePacket {
             if (ctx.get().getSender() != null) {
                 ServerPlayer player = ctx.get().getSender();
                 if (player != null) {
-                    String structures = BuiltinRegistries.STRUCTURES.registryKeySet().stream().filter(s -> LocationPredicate.inStructure(s).matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z)).map(s -> s.location().toString()).collect(Collectors.joining(", "));
+                    String structures = ctx.get().getSender().getServer().registryAccess().registryOrThrow(Registries.STRUCTURE).registryKeySet().stream().filter(s -> LocationPredicate.inStructure(s).matches((ServerLevel) player.level, player.position().x, player.position().y, player.position().z)).map(s -> s.location().toString()).collect(Collectors.joining(", "));
                     FriendlyByteBuf responseBuffer = new FriendlyByteBuf(Unpooled.buffer());
                     responseBuffer.writeUtf(structures);
                     PacketHandler.INSTANCE.sendTo(player, getIdentifier(), ForgePacketHandler.byteBufToBytes(responseBuffer));

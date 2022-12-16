@@ -23,6 +23,7 @@
   "config.mcskyblock.option.worldGen.SUB_ISLAND_DISTANCE"                       : "Sub Island Distance From Center",
   "config.mcskyblock.option.worldGen.SUB_ISLAND_RADIUS"                         : "Sub Island Radius",
   "config.mcskyblock.option.worldGen.SUB_ISLAND_DEPTH"                          : "Sub Island Depth",
+  "config.mcskyblock.option.worldGen.TAIGA_SPAWN_RADIUS"                        : "Taiga Spawn Radius",
 
   "config.mcskyblock.category.structures"                                       : "Structure",
   "config.mcskyblock.option.structures.GEN_ANCIENT_CITY"                        : "Ancient Cities",
@@ -81,6 +82,7 @@
   "config.mcskyblock.option.trading.PIGLIN_NYLIUM"                              : "Piglins [Warped,Crimson] Nylium",
   "config.mcskyblock.option.trading.HOTV_CLERIC_BUDDING_AMETHYST"               : "Cleric (HOTV) Budding Amethyst",
   "config.mcskyblock.option.trading.HOTV_CLERIC_DIAMOND"                        : "Cleric (HOTV) Diamonds",
+  "config.mcskyblock.option.trading.SCHEDULED_WANDERING_TRADER"                 : "Scheduled Wandering Trader",
 
   "config.mcskyblock.category.spawning"                                         : "Spawning",
   "config.mcskyblock.option.spawning.SPAWN_COORDS"                              : "Spawn Co-ordinates",

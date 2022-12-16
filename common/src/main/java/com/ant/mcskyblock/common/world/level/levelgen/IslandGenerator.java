@@ -3,24 +3,33 @@ package com.ant.mcskyblock.common.world.level.levelgen;
 import com.ant.mcskyblock.common.config.BiomeIslandConfig;
 import com.ant.mcskyblock.common.config.Config;
 import com.ant.mcskyblock.common.registry.RegistryAccess;
+import com.ant.mcskyblock.common.utils.BiomeUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.apache.commons.lang3.mutable.MutableInt;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -205,6 +214,7 @@ public class IslandGenerator {
                     region.setBlock(new BlockPos(x, y + 1, z), accessory, 0);
                 }
             }
+
             return this;
         }
     }
@@ -268,6 +278,33 @@ public class IslandGenerator {
         }
 
         public Island generate(Level region) {
+            if (Config.INSTANCE.worldGen.TAIGA_SPAWN_RADIUS > 0) {
+                int r = Config.INSTANCE.worldGen.TAIGA_SPAWN_RADIUS;
+                BlockPos blockPos3 = BiomeUtils.quantize(new BlockPos(x - r, region.getMinBuildHeight(), z - r));
+                BlockPos blockPos4 = BiomeUtils.quantize(new BlockPos(x + r, region.getMaxBuildHeight(), z + r));
+                BoundingBox boundingBox = BoundingBox.fromCorners(blockPos3, blockPos4);
+                List<ChunkAccess> list = new ArrayList<>();
+
+                ChunkAccess chunkAccess;
+                for(int j = SectionPos.blockToSectionCoord(boundingBox.minZ()); j <= SectionPos.blockToSectionCoord(boundingBox.maxZ()); ++j) {
+                    for(int k = SectionPos.blockToSectionCoord(boundingBox.minX()); k <= SectionPos.blockToSectionCoord(boundingBox.maxX()); ++k) {
+                        chunkAccess = region.getChunk(k, j, ChunkStatus.FULL, false);
+                        if (chunkAccess != null) {
+                            list.add(chunkAccess);
+                        }
+                    }
+                }
+
+                MutableInt mutableInt = new MutableInt(0);
+
+                Holder<Biome> biomeHolder = region.registryAccess().registryOrThrow(Registries.BIOME).wrapAsHolder(Objects.requireNonNull(region.registryAccess().registryOrThrow(Registries.BIOME).get(new ResourceLocation("minecraft:snowy_taiga"))));
+                for (ChunkAccess c : list) {
+                    c.fillBiomesFromNoise(BiomeUtils.makeResolver(mutableInt, c, boundingBox, biomeHolder, (holder) -> true), ((ServerLevel)region).getChunkSource().randomState().sampler());
+                    c.setUnsaved(true);
+                    ((ServerLevel)region).getChunkSource().chunkMap.resendChunk(c);
+                }
+            }
+
             int offset = -2;
 
             if(Config.INSTANCE.worldGen.MAIN_ISLAND_TREE) {
@@ -275,12 +312,8 @@ public class IslandGenerator {
                     for (int j = 0; j < tree[i].length; j++) {
                         for (int k = 0; k < tree[i][j].length; k++) {
                             switch (tree[i][j][k]) {
-                                case 'L':
-                                    region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
-                                    break;
-                                case 'W':
-                                    region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
-                                    break;
+                                case 'L' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
+                                case 'W' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
                             }
                         }
                     }
@@ -298,6 +331,7 @@ public class IslandGenerator {
                     }
                 }
             }
+
             return this;
         }
 
