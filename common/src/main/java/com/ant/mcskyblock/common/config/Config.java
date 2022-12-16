@@ -37,6 +37,7 @@ public class Config implements Serializable {
         public int SUB_ISLAND_DISTANCE          = 128;
         public int SUB_ISLAND_RADIUS            = 4;
         public int SUB_ISLAND_DEPTH             = 3;
+        public boolean TAIGA_SPAWN              = false;
     }
 
     public Structures structures = new Structures();
@@ -95,6 +96,7 @@ public class Config implements Serializable {
         public boolean PIGLIN_NYLIUM                        = true;
         public boolean HOTV_CLERIC_BUDDING_AMETHYST         = true;
         public boolean HOTV_CLERIC_DIAMOND                  = true;
+        public boolean SCHEDULED_WANDERING_TRADER           = true;
     }
 
     public Spawning spawning = new Spawning();

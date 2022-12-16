@@ -17,7 +17,8 @@
     "MixinGeodeConfigurationAccessor",
     "MixinGeodeFeature",
     "MixinPlayerList",
-    "MixinChunkGenerators"
+    "MixinChunkGenerators",
+    "MixinWanderingTraderSpawner"
   ],
   "client": [
     "MixinClientLevelClientLevelData",
