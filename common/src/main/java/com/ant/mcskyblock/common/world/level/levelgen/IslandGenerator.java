@@ -296,13 +296,12 @@ public class IslandGenerator {
                 }
 
                 MutableInt mutableInt = new MutableInt(0);
-                Iterator<ChunkAccess> var15 = list.iterator();
 
-                while (var15.hasNext()) {
-                    chunkAccess = var15.next();
-                    chunkAccess.fillBiomesFromNoise(BiomeUtils.makeResolver(mutableInt, chunkAccess, boundingBox, region.registryAccess().registryOrThrow(Registries.BIOME).wrapAsHolder(region.registryAccess().registryOrThrow(Registries.BIOME).get(new ResourceLocation("minecraft:snowy_taiga"))), (holder) -> true), ((ServerLevel)region).getChunkSource().randomState().sampler());
-                    chunkAccess.setUnsaved(true);
-                    ((ServerLevel)region).getChunkSource().chunkMap.resendChunk(chunkAccess);
+                Holder<Biome> biomeHolder = region.registryAccess().registryOrThrow(Registries.BIOME).wrapAsHolder(Objects.requireNonNull(region.registryAccess().registryOrThrow(Registries.BIOME).get(new ResourceLocation("minecraft:snowy_taiga"))));
+                for (ChunkAccess c : list) {
+                    c.fillBiomesFromNoise(BiomeUtils.makeResolver(mutableInt, c, boundingBox, biomeHolder, (holder) -> true), ((ServerLevel)region).getChunkSource().randomState().sampler());
+                    c.setUnsaved(true);
+                    ((ServerLevel)region).getChunkSource().chunkMap.resendChunk(c);
                 }
             }
 
