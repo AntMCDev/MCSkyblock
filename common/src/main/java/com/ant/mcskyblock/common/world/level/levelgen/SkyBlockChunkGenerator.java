@@ -76,29 +76,6 @@ public class SkyBlockChunkGenerator extends NoiseBasedChunkGenerator {
     }
 
     /**
-     * This is used to get the base height of the level for the given heightmap type
-     *
-     * REASON FOR OVERRIDING:
-     * The level generation is empty by default - so we want features and structures that make use of this to determine
-     * placement to appear around the same Y co-ordinate for consistency.
-     *
-     * @param i X Co-ordinate
-     * @param j Z Co-ordinate
-     * @param types The type to use when calculating the base height (e.g: MOTION_BLOCKING)
-     * @param levelHeightAccessor This is used to access level height information
-     * @param randomState An instance of a random generator - used for generating randomness
-     *
-     * @return The base height of the level for the given heightmap type as a 32-bit integer
-     */
-    @Override
-    public int getBaseHeight(int i, int j, Heightmap.Types types, LevelHeightAccessor levelHeightAccessor, RandomState randomState) {
-        if (doSuper()) {
-            return super.getBaseHeight(i, j, types, levelHeightAccessor, randomState);
-        }
-        return this.settings.value().noiseSettings().height();
-    }
-
-    /**
      * This is used to build a base noise column for further modification down the line
      *
      * REASON FOR OVERRIDING:
