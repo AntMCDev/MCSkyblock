@@ -15,6 +15,7 @@
   "config.mcskyblock.option.worldGen.GENERATE_MAIN_ISLAND"                      : "Generate Main Island",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_TREE"                          : "Player Island Has Tree",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_COUNT"                         : "Max Player Islands (1 per player)",
+  "config.mcskyblock.option.worldGen.MAIN_ISLAND_Y"                             : "Player Island Y Level",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_RADIUS"                        : "Player Island Radius",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_DEPTH"                         : "Player Island Depth",
   "config.mcskyblock.option.worldGen.MAIN_ISLAND_DISTANCE"                      : "Player Island Distance From Center",

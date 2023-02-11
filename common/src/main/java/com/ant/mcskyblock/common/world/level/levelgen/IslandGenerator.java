@@ -55,10 +55,10 @@ public class IslandGenerator {
             boolean generated = false;
             // Iterate downward
             for (int y = pos.getY() - 16; y >= region.getMinBuildHeight(); y -= 16) {
-                biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
+                biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? getTree().length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
                 if (canGenerateSubIsland(biome, pos)) {
                     generated = true;
-                    islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ()).generate(region));
+                    islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? getTree().length : 0), pos.getZ()).generate(region));
                     break;
                 }
             }
@@ -66,9 +66,9 @@ public class IslandGenerator {
             // Iterate upward
             if (!generated) {
                 for (int y = pos.getY() + 16; y >= region.getMaxBuildHeight(); y -= 16) {
-                    biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
+                    biome = region.getBiome(new BlockPos(pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? getTree().length : 0), pos.getZ())).unwrapKey().orElseThrow().location().toString();
                     if (canGenerateSubIsland(biome, pos)) {
-                        islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0), pos.getZ()).generate(region));
+                        islandSavedData.put(new Island(biome, pos.getX(), y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? getTree().length : 0), pos.getZ()).generate(region));
                         break;
                     }
                 }
@@ -118,9 +118,9 @@ public class IslandGenerator {
         boolean collides = false;
 
         out: for (int x = pos.getX() - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; x <= pos.getX() + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; x++) {
-            for (int y = pos.getY() - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0) - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; y <= pos.getY(); y++) {
+            for (int y = pos.getY() - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? getTree().length : 0) - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; y <= pos.getY(); y++) {
                 for (int z = pos.getZ() - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; z <= pos.getZ() + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS; z++) {
-                    collides = !level.getBlockState(new BlockPos(x, y, z)).is(Blocks.AIR);
+                    collides = !(level.getBlockState(new BlockPos(x, y, z)).is(Blocks.AIR) || level.getBlockState(new BlockPos(x, y, z)).is(Blocks.VOID_AIR));
                     if (collides) { break out; }
                 }
             }
@@ -219,52 +219,60 @@ public class IslandGenerator {
         }
     }
 
-    public static class PlayerIsland extends Island {
-        private static final char[][][] tree = new char[][][]{
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', 'L', ' ', ' '},
-                        {' ', 'L', 'L', 'L', ' '},
-                        {' ', ' ', 'L', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', 'L', 'L', 'L', ' '},
-                        {' ', 'L', 'W', 'L', ' '},
-                        {' ', 'L', 'L', 'L', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                        {' ', 'L', 'L', 'L', ' '},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'W', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {' ', 'L', 'L', 'L', ' '}
-                },
-                {
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'W', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'},
-                        {'L', 'L', 'L', 'L', 'L'}
-                },
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', 'W', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                },
-                {
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', 'W', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '},
-                        {' ', ' ', ' ', ' ', ' '}
-                }
-        };
+    public static int islandTop() {
+        return Config.INSTANCE.worldGen.MAIN_ISLAND_Y + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + getTree().length;
+    }
 
+    public static char[][][] getTree() {
+        return Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? OAK_TREE : new char[][][]{};
+    }
+
+    private static final char[][][] OAK_TREE = new char[][][]{
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', 'L', ' ', ' '},
+                    {' ', 'L', 'L', 'L', ' '},
+                    {' ', ' ', 'L', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            },
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', 'L', 'L', 'L', ' '},
+                    {' ', 'L', 'W', 'L', ' '},
+                    {' ', 'L', 'L', 'L', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            },
+            {
+                    {' ', 'L', 'L', 'L', ' '},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'W', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {' ', 'L', 'L', 'L', ' '}
+            },
+            {
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'W', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'},
+                    {'L', 'L', 'L', 'L', 'L'}
+            },
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', 'W', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            },
+            {
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', 'W', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' '}
+            }
+    };
+
+    public static class PlayerIsland extends Island {
         public PlayerIsland(String uuid, int x, int y, int z) {
             super(uuid, x, y, z);
         }
@@ -307,26 +315,24 @@ public class IslandGenerator {
 
             int offset = -2;
 
-            if(Config.INSTANCE.worldGen.MAIN_ISLAND_TREE) {
-                for (int i = 0; i < tree.length; i++) {
-                    for (int j = 0; j < tree[i].length; j++) {
-                        for (int k = 0; k < tree[i][j].length; k++) {
-                            switch (tree[i][j][k]) {
-                                case 'L' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
-                                case 'W' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
-                            }
+            char[][][] tree = getTree();
+            for (int i = 0; i < tree.length; i++) {
+                for (int j = 0; j < tree[i].length; j++) {
+                    for (int k = 0; k < tree[i][j].length; k++) {
+                        switch (tree[i][j][k]) {
+                            case 'L' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
+                            case 'W' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
                         }
                     }
                 }
             }
 
-            int treeHeight = Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? tree.length : 0;
             int r = Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS;
             for (int i = 0, d = Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; i < d; ++i) {
                 for (int j = -r + i; j <= r - i; ++j) {
                     for (int k = -r + i; k <= r - i; ++k) {
-                        if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - i, 2)) {
-                            region.setBlockAndUpdate(new BlockPos(x + j, y - treeHeight - 1 - i, z + k), i == 0 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState());
+                        if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + i, 2)) {
+                            region.setBlockAndUpdate(new BlockPos(x + j, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + i, z + k), i == Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - 1 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState());
                         }
                     }
                 }
@@ -338,10 +344,10 @@ public class IslandGenerator {
         public BoundingBox boundingBox() {
             return new BoundingBox(
                     x - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
-                    y - (Config.INSTANCE.worldGen.MAIN_ISLAND_TREE ? PlayerIsland.tree.length : 0) - 1 - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH,
+                    y,
                     z - Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
                     x + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS,
-                    y,
+                    y + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + getTree().length,
                     z + Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS
             );
         }
