@@ -329,9 +329,9 @@ public class IslandGenerator {
 
             int r = Config.INSTANCE.worldGen.MAIN_ISLAND_RADIUS;
             for (int i = 0, d = Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH; i < d; ++i) {
-                for (int j = -r + i; j <= r - i; ++j) {
-                    for (int k = -r + i; k <= r - i; ++k) {
-                        if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + i, 2)) {
+                for (int j = -r; j <= r; ++j) {
+                    for (int k = -r; k <= r; ++k) {
+                        if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + i + 0.5, 2)) {
                             region.setBlockAndUpdate(new BlockPos(x + j, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + i, z + k), i == Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - 1 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState());
                         }
                     }
