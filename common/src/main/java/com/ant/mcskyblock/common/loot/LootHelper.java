@@ -87,11 +87,21 @@ public class LootHelper {
                     new LootHelper.LootPoolBuilder().setRolls(ConstantValue.exactly(1f))
                             .with(LootItem.lootTableItem(Items.ANCIENT_DEBRIS).build())
                             .conditionally(LootItemKilledByPlayerCondition.killedByPlayer().build())
-                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
+                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.5f, 0.5f).build())
                             .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f) ).build()).build());
 
         } else {
             LootHelper.newLootPools.remove(EntityType.PIGLIN_BRUTE.getDefaultLootTable());
+        }
+
+        if (Config.INSTANCE.drops.WITCH_NETHER_WART && id.equals(EntityType.WITCH.getDefaultLootTable())) {
+            LootHelper.newLootPools.put(EntityType.WITCH.getDefaultLootTable(),
+                    new LootHelper.LootPoolBuilder().setRolls(ConstantValue.exactly(1f))
+                            .with(LootItem.lootTableItem(Items.NETHER_WART).build())
+                            .conditionally(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.05f, 0.05f).build())
+                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1f)).build()).build());
+        } else {
+            LootHelper.newLootPools.remove(EntityType.WITCH.getDefaultLootTable());
         }
 
         if (Config.INSTANCE.drops.TROPICAL_FISH_CORAL && id.equals(EntityType.TROPICAL_FISH.getDefaultLootTable())) {

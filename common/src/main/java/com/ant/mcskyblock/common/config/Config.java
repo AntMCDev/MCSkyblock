@@ -77,6 +77,7 @@ public class Config implements Serializable {
         public boolean BRUTE_ANCIENT_DEBRIS                 = true;
         public boolean FISHING_COCOA_BEANS                  = true;
         public boolean CONDITIONAL_CREEPER_DISCS            = true;
+        public boolean WITCH_NETHER_WART                    = true;
     }
 
     public Trading trading = new Trading();
