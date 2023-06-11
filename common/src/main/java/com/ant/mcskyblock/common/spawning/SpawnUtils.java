@@ -24,18 +24,18 @@ public class SpawnUtils {
     }
 
     public static Optional<BlockPos> findValidBoundingBox(ServerLevel serverLevel, BoundingBox boundingBox) {
-        for (int x = boundingBox.minX(), xm = boundingBox.maxX(); x <= xm; x++) {
-            for (int y = boundingBox.maxY(), ym = boundingBox.minY(); y >= ym; y--) {
-                for (int z = boundingBox.minZ(), zm = boundingBox.maxZ(); z <= zm; z++) {
-                    if (
-                            serverLevel.getBlockState(new BlockPos(x, y, z)).getBlock().isPossibleToRespawnInThis() &&
-                            serverLevel.getBlockState(new BlockPos(x, y+1, z)).getBlock().isPossibleToRespawnInThis() &&
-                            !serverLevel.getBlockState(new BlockPos(x, y-1, z)).is(Blocks.AIR)
-                    ) {
-                        return Optional.of(new BlockPos(x, y, z));
+        for (int y = boundingBox.minY(), ym = boundingBox.maxY(); y <= ym; y++) {
+            for (int x = boundingBox.minX(), xm = boundingBox.maxX(); x <= xm; x++) {
+                    for (int z = boundingBox.minZ(), zm = boundingBox.maxZ(); z <= zm; z++) {
+                        if (
+                                serverLevel.getBlockState(new BlockPos(x, y+2, z)).getBlock().isPossibleToRespawnInThis() &&
+                                serverLevel.getBlockState(new BlockPos(x, y+1, z)).getBlock().isPossibleToRespawnInThis() &&
+                                !serverLevel.getBlockState(new BlockPos(x, y, z)).is(Blocks.AIR)
+                        ) {
+                            return Optional.of(new BlockPos(x, y, z));
+                        }
                     }
                 }
-            }
         }
         return Optional.empty();
     }

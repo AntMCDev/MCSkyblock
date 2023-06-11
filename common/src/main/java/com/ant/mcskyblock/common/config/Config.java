@@ -27,6 +27,7 @@ public class Config implements Serializable {
         public boolean IS_NETHER_SKYBLOCK       = true;
         public boolean IS_END_SKYBLOCK          = true;
         public boolean GENERATE_MAIN_ISLAND     = true;
+        public int MAIN_ISLAND_Y                = 64;
         public int MAIN_ISLAND_RADIUS           = 4;
         public int MAIN_ISLAND_DEPTH            = 3;
         public int MAIN_ISLAND_DISTANCE          = 128;
@@ -76,6 +77,7 @@ public class Config implements Serializable {
         public boolean BRUTE_ANCIENT_DEBRIS                 = true;
         public boolean FISHING_COCOA_BEANS                  = true;
         public boolean CONDITIONAL_CREEPER_DISCS            = true;
+        public boolean WITCH_NETHER_WART                    = true;
     }
 
     public Trading trading = new Trading();
