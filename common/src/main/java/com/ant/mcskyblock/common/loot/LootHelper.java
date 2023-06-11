@@ -10,9 +10,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootDataManager;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.level.storage.loot.LootDataManager;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
@@ -254,7 +255,7 @@ public class LootHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static void register(LootTables lootManager, ResourceLocation id, LootTable.Builder tableBuilder) {
+    public static void register(LootDataManager lootManager, ResourceLocation id, LootTable.Builder tableBuilder) {
         resync(id);
 
         if (LootHelper.newLootPools.containsKey(id)) {
@@ -262,7 +263,7 @@ public class LootHelper {
         }
 
         if (LootHelper.existingLootPools.containsKey(id)) {
-            Optional<Field> tablesField = Arrays.stream(LootTables.class.getDeclaredFields()).peek(AccessibleObject::trySetAccessible).filter(f -> f.getType().isAssignableFrom(Map.class)).findFirst();
+            Optional<Field> tablesField = Arrays.stream(LootDataManager.class.getDeclaredFields()).peek(AccessibleObject::trySetAccessible).filter(f -> f.getType().isAssignableFrom(Map.class)).findFirst();
             Optional<Field> poolsField = Arrays.stream(LootTable.class.getDeclaredFields()).peek(AccessibleObject::trySetAccessible).filter(f -> f.getType().isArray() && f.getType().getComponentType().isAssignableFrom(LootPool.class)).findFirst();
             boolean poolsList = false;
             if (poolsField.isEmpty()) {

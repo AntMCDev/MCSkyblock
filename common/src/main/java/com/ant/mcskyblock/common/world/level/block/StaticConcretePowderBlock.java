@@ -11,9 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 /**
  * [COMMON] BLOCK - This is a floating variation of the regular concrete powder blocks
@@ -25,8 +24,8 @@ public class StaticConcretePowderBlock extends Block {
      *
      * @param block
      */
-    StaticConcretePowderBlock(Block block) {
-        super(BlockBehaviour.Properties.of(Material.SAND, DyeColor.WHITE).strength(0.5f).sound(SoundType.SAND));
+    StaticConcretePowderBlock(Block block, DyeColor color) {
+        super(Properties.of().mapColor(color).instrument(NoteBlockInstrument.SNARE).strength(0.5F).sound(SoundType.SAND));
         this.concrete = block.defaultBlockState();
     }
 
