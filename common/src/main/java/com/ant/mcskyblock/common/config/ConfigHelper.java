@@ -22,6 +22,7 @@ public interface ConfigHelper {
             case "MAIN_ISLAND_DEPTH", "SUB_ISLAND_DEPTH" -> { return new IntData(true, 1, 5); }
             case "MAIN_ISLAND_DISTANCE", "SUB_ISLAND_DISTANCE" -> { return new IntData(false, 32, null); }
             case "TAIGA_SPAWN_RADIUS" -> { return new IntData(true, 0, 64); }
+            case "MAIN_ISLAND_Y" -> { return new IntData(true, -64, 128); }
         }
         if (f.getName().contains("_WEIGHT")) { return new IntData(true, 0, 100); }
         return new IntData(false, null, null);

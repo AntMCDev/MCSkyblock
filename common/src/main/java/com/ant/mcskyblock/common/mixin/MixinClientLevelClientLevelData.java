@@ -13,7 +13,7 @@ public class MixinClientLevelClientLevelData {
     @Inject(at = @At("HEAD"), method = "getHorizonHeight", cancellable = true)
     public void getHorizonHeight(LevelHeightAccessor levelHeightAccessor, CallbackInfoReturnable<Double> cir) {
         if (SkyBlock.IS_CLIENT_SKYBLOCK) {
-            cir.setReturnValue(0d);
+            cir.setReturnValue(-64d);
         }
     }
     @Inject(at = @At("HEAD"), method = "getClearColorScale", cancellable = true)

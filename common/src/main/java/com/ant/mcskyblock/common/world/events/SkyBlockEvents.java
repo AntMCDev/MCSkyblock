@@ -21,8 +21,9 @@ public abstract class SkyBlockEvents {
         // If not generating main islands, or player already has an island - no further logic needed
         if (Config.INSTANCE.worldGen.GENERATE_MAIN_ISLAND && !IslandGenerator.hasPlayerIsland(player.getStringUUID()) && player.getServer() != null && player.getServer().overworld().getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator && !((SkyBlockChunkGenerator) player.getServer().overworld().getChunkSource().getGenerator()).doSuper()) {
             // Default spawn co-ords
+            double spawnOffsetY = 1.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0);
             double[] pos = new double[] {
-                    0, 64, 0
+                    0, Config.INSTANCE.worldGen.MAIN_ISLAND_Y, 0
             };
 
             for (long i = IslandGenerator.playerIslandCount(), j = Config.INSTANCE.worldGen.MAIN_ISLAND_COUNT; i < j; i++) {
@@ -31,9 +32,9 @@ public abstract class SkyBlockEvents {
                 pos[2] = Math.floor(Math.sin(angle) * Config.INSTANCE.worldGen.MAIN_ISLAND_DISTANCE) - 0.5;
                 if (IslandGenerator.generatePlayerIsland(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]), player.getStringUUID())) {
                     if (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST) {
-                        SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], pos[1], pos[2]));
+                        SpawnUtils.spawnChest(player.getServer().overworld(), new BlockPos(pos[0], IslandGenerator.islandTop(), pos[2]));
                     }
-                    player.teleportTo(pos[0], pos[1] + 1.6 + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), pos[2]);
+                    player.teleportTo(pos[0], IslandGenerator.islandTop() + spawnOffsetY + (Config.INSTANCE.worldGen.MAIN_ISLAND_CHEST ? 1 : 0), pos[2]);
                     return;
                 }
             }
@@ -46,13 +47,14 @@ public abstract class SkyBlockEvents {
                 Optional<BlockPos> bPos = SpawnUtils.findValidBoundingBox(level, ((IslandGenerator.PlayerIsland)i).boundingBox());
                 if (bPos.isPresent()) {
                     player.teleportTo(bPos.get().getX(), bPos.get().getY() + 1.6, bPos.get().getZ());
-                    break;
+                    return;
                 }
             }
+
             if (!otherIslandFound) {
                 // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
-                level.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
-                player.teleportTo(0.5, 65.6, 0.5);
+                level.setBlockAndUpdate(new BlockPos(0, Config.INSTANCE.worldGen.MAIN_ISLAND_Y, 0), Blocks.spawnBlock().defaultBlockState());
+                player.teleportTo(0.5, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + 1.6, 0.5);
             }
         }
     }
