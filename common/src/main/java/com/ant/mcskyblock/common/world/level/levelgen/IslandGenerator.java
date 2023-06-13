@@ -320,8 +320,8 @@ public class IslandGenerator {
                 for (int j = 0; j < tree[i].length; j++) {
                     for (int k = 0; k < tree[i][j].length; k++) {
                         switch (tree[i][j][k]) {
-                            case 'L' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
-                            case 'W' -> region.setBlockAndUpdate(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
+                            case 'L' -> region.setBlock(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState(), 2);
+                            case 'W' -> region.setBlock(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState(), 2);
                         }
                     }
                 }
@@ -332,7 +332,7 @@ public class IslandGenerator {
                 for (int j = -r; j <= r; ++j) {
                     for (int k = -r; k <= r; ++k) {
                         if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + i + 0.5, 2)) {
-                            region.setBlockAndUpdate(new BlockPos(x + j, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + i, z + k), i == Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - 1 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState());
+                            region.setBlock(new BlockPos(x + j, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + i, z + k), i == Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - 1 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState(), 2);
                         }
                     }
                 }
