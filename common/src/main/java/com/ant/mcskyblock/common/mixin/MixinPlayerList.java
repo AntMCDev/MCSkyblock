@@ -56,7 +56,7 @@ public class MixinPlayerList {
                         if (!otherIslandFound) {
                             // If in here, ALL starter islands are mined, so generate a non-lootable spawn block at the world origin
                             serverLevel.setBlockAndUpdate(new BlockPos(0, 64, 0), Blocks.spawnBlock().defaultBlockState());
-                            serverPlayer.setRespawnPosition(serverLevel.dimension(), new BlockPos(0.5, 65.6, 0.5), 0, true, false);
+                            serverPlayer.setRespawnPosition(serverLevel.dimension(), BlockPos.containing(0.5, 65.6, 0.5), 0, true, false);
                         }
                     }
                 }

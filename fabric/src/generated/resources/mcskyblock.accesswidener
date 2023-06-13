@@ -9,15 +9,6 @@ accessible    method    net/minecraft/world/level/levelgen/NoiseChunk           
 accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  biomeSource                 Lnet/minecraft/world/level/biome/BiomeSource;
 accessible    field     net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator     settings                    Lnet/minecraft/core/Holder;
 
-##
-accessible    class     net/minecraft/world/level/biome/MultiNoiseBiomeSource$PresetInstance
-accessible    method    net/minecraft/world/level/biome/MultiNoiseBiomeSource           <init>                      (Lnet/minecraft/world/level/biome/Climate$ParameterList;Ljava/util/Optional;)V
-accessible    method    net/minecraft/world/level/biome/OverworldBiomeBuilder           addBiomes                   (Ljava/util/function/Consumer;)V
-accessible    method    net/minecraft/world/level/biome/MultiNoiseBiomeSource           preset                      ()Ljava/util/Optional;
-accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource           parameters                  Lnet/minecraft/world/level/biome/Climate$ParameterList;
-accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource$Preset    name                        Lnet/minecraft/resources/ResourceLocation;
-accessible    field     net/minecraft/world/level/biome/MultiNoiseBiomeSource$Preset    parameterSource             Ljava/util/function/Function;
-
 # ChunkGenerator - extended by SkyBlockChunkGenerator
 accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  featuresPerStep             Ljava/util/function/Supplier;
 accessible    field     net/minecraft/world/level/chunk/ChunkGenerator                  generationSettingsGetter    Ljava/util/function/Function;
@@ -26,3 +17,4 @@ accessible    class     net/minecraft/world/entity/SpawnPlacements$Type
 accessible    method    net/minecraft/world/entity/SpawnPlacements                      register                    (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacements$Type;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V
 
 accessible    method    net/minecraft/world/level/biome/TheEndBiomeSource               <init>                      (Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;)V
+accessible    field     net/minecraft/world/level/levelgen/feature/EndPodiumFeature     END_PODIUM_LOCATION         Lnet/minecraft/core/BlockPos;

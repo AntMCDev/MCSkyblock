@@ -30,7 +30,7 @@ public class MixinEndDragonFight {
         if (level.getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator) {
             EndPodiumFeature endPortalFeature = new EndPodiumFeature(bl);
             if (this.portalLocation == null) {
-                for (this.portalLocation = this.level.getHeightmapPos( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,  EndPodiumFeature.END_PODIUM_LOCATION ).below();
+                for (this.portalLocation = this.level.getHeightmapPos( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,  EndPodiumFeature.END_PODIUM_LOCATION).below();
                      this.level.getBlockState(this.portalLocation).is(Blocks.BEDROCK) && this.portalLocation.getY() > this.level.getSeaLevel();
                      this.portalLocation = this.portalLocation.below() ) {
 

@@ -309,7 +309,7 @@ public class IslandGenerator {
                 for (ChunkAccess c : list) {
                     c.fillBiomesFromNoise(BiomeUtils.makeResolver(mutableInt, c, boundingBox, biomeHolder, (holder) -> true), ((ServerLevel)region).getChunkSource().randomState().sampler());
                     c.setUnsaved(true);
-                    ((ServerLevel)region).getChunkSource().chunkMap.resendChunk(c);
+                    //((ServerLevel)region).getChunkSource().chunkMap.resendChunk(c);
                 }
             }
 

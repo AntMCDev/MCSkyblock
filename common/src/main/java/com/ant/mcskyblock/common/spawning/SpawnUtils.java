@@ -28,8 +28,8 @@ public class SpawnUtils {
             for (int x = boundingBox.minX(), xm = boundingBox.maxX(); x <= xm; x++) {
                     for (int z = boundingBox.minZ(), zm = boundingBox.maxZ(); z <= zm; z++) {
                         if (
-                                serverLevel.getBlockState(new BlockPos(x, y+2, z)).getBlock().isPossibleToRespawnInThis() &&
-                                serverLevel.getBlockState(new BlockPos(x, y+1, z)).getBlock().isPossibleToRespawnInThis() &&
+                                serverLevel.getBlockState(new BlockPos(x, y+2, z)).getBlock().isPossibleToRespawnInThis(serverLevel.getBlockState(new BlockPos(x, y+2, z))) &&
+                                serverLevel.getBlockState(new BlockPos(x, y+1, z)).getBlock().isPossibleToRespawnInThis(serverLevel.getBlockState(new BlockPos(x, y+1, z))) &&
                                 !serverLevel.getBlockState(new BlockPos(x, y, z)).is(Blocks.AIR)
                         ) {
                             return Optional.of(new BlockPos(x, y, z));
