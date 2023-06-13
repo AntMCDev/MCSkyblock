@@ -9,10 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootDataManager;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.LootDataManager;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
@@ -275,7 +272,7 @@ public class LootHelper {
             if (tablesField.isPresent() && poolsField.isPresent() && entriesField.isPresent()) {
                 try {
                     Map<ResourceLocation, LootTable> tables = (Map<ResourceLocation, LootTable>)tablesField.get().get(lootManager);
-                    LootPool pool = poolsList ? ((List<LootPool>)poolsField.get().get(tables.get(id))).get(LootHelper.existingLootPools.get(id).getPoolIndex()) : ((LootPool[])poolsField.get().get(tables.get(id)))[LootHelper.existingLootPools.get(id).getPoolIndex()];
+                    LootPool pool = poolsList ? ((List<LootPool>)poolsField.get().get(tables.get(new LootDataId<>(LootDataType.TABLE, id)))).get(LootHelper.existingLootPools.get(id).getPoolIndex()) : ((LootPool[])poolsField.get().get(tables.get(new LootDataId<>(LootDataType.TABLE, id))))[LootHelper.existingLootPools.get(id).getPoolIndex()];
                     LootPoolEntryContainer[] entries = (LootPoolEntryContainer[])entriesField.get().get(pool);
                     LootPoolEntryContainer[] newEntries = new LootPoolEntryContainer[entries.length + LootHelper.existingLootPools.get(id).getEntries().size()];
                     System.arraycopy(entries, 0, newEntries, 0, entries.length);
@@ -283,8 +280,8 @@ public class LootHelper {
                         newEntries[entries.length + i] = LootHelper.existingLootPools.get(id).getEntries().get(i);
                     }
                     entriesField.get().set(poolsList ?
-                            ((List<LootPool>)poolsField.get().get(((Map<ResourceLocation, LootTable>)tablesField.get().get(lootManager)).get(id))).get(LootHelper.existingLootPools.get(id).getPoolIndex()) :
-                            ((LootPool[]) poolsField.get().get(((Map<ResourceLocation, LootTable>) tablesField.get().get(lootManager)).get(id)))[LootHelper.existingLootPools.get(id).getPoolIndex()], newEntries
+                            ((List<LootPool>)poolsField.get().get(((Map<ResourceLocation, LootTable>)tablesField.get().get(lootManager)).get(new LootDataId<>(LootDataType.TABLE, id)))).get(LootHelper.existingLootPools.get(id).getPoolIndex()) :
+                            ((LootPool[]) poolsField.get().get(((Map<ResourceLocation, LootTable>) tablesField.get().get(lootManager)).get(new LootDataId<>(LootDataType.TABLE, id))))[LootHelper.existingLootPools.get(id).getPoolIndex()], newEntries
                     );
                 } catch (IllegalAccessException ignore) {}
             }
