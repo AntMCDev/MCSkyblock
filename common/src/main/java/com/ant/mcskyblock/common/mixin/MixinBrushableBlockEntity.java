@@ -53,7 +53,11 @@ public abstract class MixinBrushableBlockEntity extends BlockEntity {
                 ((ServerLevel)level).getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator
         ) {
             if (LocationUtils.hasStructureAtPos((ServerLevel)level, getBlockPos(), BuiltinStructures.DESERT_PYRAMID)) {
-                setLootTable(BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY, getBlockPos().asLong());
+                if (RandomSource.create().nextIntBetweenInclusive(1, 2) == 1) {
+                    setLootTable(BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY, getBlockPos().asLong());
+                } else {
+                    setLootTable(BuiltInLootTables.DESERT_WELL_ARCHAEOLOGY, getBlockPos().asLong());
+                }
             } else if (LocationUtils.hasStructureAtPos((ServerLevel)level, getBlockPos(), BuiltinStructures.OCEAN_RUIN_COLD)) {
                 setLootTable(BuiltInLootTables.OCEAN_RUIN_COLD_ARCHAEOLOGY, getBlockPos().asLong());
             } else if (LocationUtils.hasStructureAtPos((ServerLevel)level, getBlockPos(), BuiltinStructures.OCEAN_RUIN_WARM)) {
