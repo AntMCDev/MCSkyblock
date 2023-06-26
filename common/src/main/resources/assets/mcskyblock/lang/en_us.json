@@ -47,6 +47,7 @@
   "config.mcskyblock.option.structures.GEN_SWAMP_HUT"                           : "Witch Huts",
   "config.mcskyblock.option.structures.GEN_VILLAGE"                             : "Village",
   "config.mcskyblock.option.structures.GEN_WOODLAND_MANSION"                    : "Woodland Mansion",
+  "config.mcskyblock.option.structures.GEN_TRAIL_RUINS"                         : "Trail Ruins",
   "config.mcskyblock.option.structures.GEN_ICEBERGS"                            : "Iceberg",
   "config.mcskyblock.option.structures.GEODE_WEIGHT"                            : "Geode Spawn Weight",
   "config.mcskyblock.option.structures.CUSTOM_STRUCTURES"                       : "List of Custom Structures",
