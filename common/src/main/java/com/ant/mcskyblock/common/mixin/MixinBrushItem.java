@@ -1,6 +1,7 @@
 package com.ant.mcskyblock.common.mixin;
 
 import com.ant.mcskyblock.common.SkyBlock;
+import com.ant.mcskyblock.common.utils.LocationUtils;
 import com.ant.mcskyblock.common.world.level.levelgen.SkyBlockChunkGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -31,6 +32,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Mixin(BrushItem.class)
 public abstract class MixinBrushItem {
@@ -87,17 +91,23 @@ public abstract class MixinBrushItem {
 
             if (
                     level instanceof ServerLevel &&
-                    ((ServerLevel)level).getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator &&
-                    ((ServerLevel)level).structureManager().getAllStructuresAt(blockPos).containsKey(
-                            level.registryAccess().lookupOrThrow(Registries.STRUCTURE).get(BuiltinStructures.TRAIL_RUINS
-                    ).get().value())
+                    ((ServerLevel)level).getChunkSource().getGenerator() instanceof SkyBlockChunkGenerator
             ) {
                 BlockState bs = level.getBlockState(blockPos);
-                if (bs.is(Blocks.SAND) && !bs.is(Blocks.SUSPICIOUS_SAND)) {
-                    level.setBlockAndUpdate(blockPos, Blocks.SUSPICIOUS_SAND.defaultBlockState());
-                }
-                if (bs.is(Blocks.GRAVEL) && !bs.is(Blocks.SUSPICIOUS_GRAVEL)) {
-                    level.setBlockAndUpdate(blockPos, Blocks.SUSPICIOUS_GRAVEL.defaultBlockState());
+                if (LocationUtils.hasStructuresAtPos((ServerLevel)level, blockPos, Stream.of(
+                        BuiltinStructures.DESERT_PYRAMID,
+                        BuiltinStructures.OCEAN_RUIN_WARM
+                ).collect(Collectors.toList()))) {
+                    if (bs.is(Blocks.SAND) && !bs.is(Blocks.SUSPICIOUS_SAND)) {
+                        level.setBlockAndUpdate(blockPos, Blocks.SUSPICIOUS_SAND.defaultBlockState());
+                    }
+                } else if (LocationUtils.hasStructuresAtPos((ServerLevel)level, blockPos, Stream.of(
+                        BuiltinStructures.TRAIL_RUINS,
+                        BuiltinStructures.OCEAN_RUIN_COLD
+                ).collect(Collectors.toList()))) {
+                    if (bs.is(Blocks.GRAVEL) && !bs.is(Blocks.SUSPICIOUS_GRAVEL)) {
+                        level.setBlockAndUpdate(blockPos, Blocks.SUSPICIOUS_GRAVEL.defaultBlockState());
+                    }
                 }
             }
 
