@@ -58,6 +58,7 @@ public class SkyBlockStructureTracker {
         enabledMap.put( "minecraft:ruined_portal_ocean",     Config.INSTANCE.structures.GEN_RUINED_PORTAL);
         enabledMap.put( "minecraft:ruined_portal_nether",    Config.INSTANCE.structures.GEN_RUINED_PORTAL);
         enabledMap.put( "minecraft:ancient_city",            Config.INSTANCE.structures.GEN_ANCIENT_CITY);
+        enabledMap.put( "minecraft:trail_ruins",             Config.INSTANCE.structures.GEN_TRAIL_RUINS);
 
         importModdedStructures();
     }

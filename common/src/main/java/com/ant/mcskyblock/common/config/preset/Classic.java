@@ -34,6 +34,7 @@ public class Classic extends Config {
         structures.GEN_SWAMP_HUT        = false;
         structures.GEN_VILLAGE          = false;
         structures.GEN_WOODLAND_MANSION = false;
+        structures.GEN_TRAIL_RUINS      = false;
         structures.GEODE_WEIGHT         = 0;
 
         drops.HUSK_SAND                 = false;
