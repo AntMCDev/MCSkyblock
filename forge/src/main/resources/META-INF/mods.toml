@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[46,)"
+loaderVersion="[47,)"
 license="MIT"
 issueTrackerURL="https://github.com/AntMCDev/MCSkyblockFabric/issues"
 
@@ -17,13 +17,13 @@ Create a skyblock world with all the settings you can handle
 [[dependencies.mcskyblock]]
    modId="forge"
    mandatory=true
-   versionRange="[46,)"
+   versionRange="[47,)"
    ordering="NONE"
    side="BOTH"
 
 [[dependencies.mcskyblock]]
    modId="minecraft"
    mandatory=true
-   versionRange="[1.20,1.21)"
+   versionRange="[1.20.1,1.21)"
    ordering="NONE"
    side="BOTH"

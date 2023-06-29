@@ -19,6 +19,7 @@ import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -188,7 +189,7 @@ public class IslandGenerator {
                     for (int j = -r + i; j <= r - i; ++j) {
                         for (int k = -r + i; k <= r - i; ++k) {
                             if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - i, 2)) {
-                                region.setBlock(new BlockPos(x + j, y - i, z + k), base, 0);
+                                setBlock(region, new BlockPos(x + j, y - i, z + k), base);
                             }
                         }
                     }
@@ -200,22 +201,30 @@ public class IslandGenerator {
                 for (int i = -r; i <= r; ++i) {
                     for (int j = -r; j <= r; ++j) {
                         if (Math.pow(i, 2) + Math.pow(j, 2) < Math.pow(r, 2)) {
-                            region.setBlock(new BlockPos(x + i, y, z + j), fluid, 0);
+                            setBlock(region, new BlockPos(x + i, y, z + j), fluid);
                         }
                     }
                 }
             }
 
             if (!(accessory.is(Blocks.AIR))) {
-                region.setBlock(new BlockPos(x, y, z), base, 0);
+                setBlock(region, new BlockPos(x, y, z), base);
                 if (accessory.getBlock() instanceof DoublePlantBlock) {
                     DoublePlantBlock.placeAt(region, accessory, new BlockPos(x, y + 1, z), 0);
                 } else {
-                    region.setBlock(new BlockPos(x, y + 1, z), accessory, 0);
+                    setBlock(region, new BlockPos(x, y + 1, z), accessory);
                 }
             }
 
             return this;
+        }
+
+        public void setBlock(WorldGenRegion region, BlockPos blockPos, BlockState blockState) {
+            setBlock(region.getLevel(), blockPos, blockState);
+        }
+        public void setBlock(Level level, BlockPos blockPos, BlockState blockState) {
+            level.setBlock(blockPos, Block.updateFromNeighbourShapes(blockState, level, blockPos), 2);
+            level.blockUpdated(blockPos, blockState.getBlock());
         }
     }
 
@@ -320,8 +329,8 @@ public class IslandGenerator {
                 for (int j = 0; j < tree[i].length; j++) {
                     for (int k = 0; k < tree[i][j].length; k++) {
                         switch (tree[i][j][k]) {
-                            case 'L' -> region.setBlock(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState(), 2);
-                            case 'W' -> region.setBlock(new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState(), 2);
+                            case 'L' -> setBlock(region, new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LEAVES.defaultBlockState());
+                            case 'W' -> setBlock(region, new BlockPos(x - j - offset, y + tree.length + Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - i - 1, z - k - offset), Blocks.OAK_LOG.defaultBlockState());
                         }
                     }
                 }
@@ -332,7 +341,7 @@ public class IslandGenerator {
                 for (int j = -r; j <= r; ++j) {
                     for (int k = -r; k <= r; ++k) {
                         if (Math.pow(j, 2) + Math.pow(k, 2) < Math.pow(r - Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH + i + 0.5, 2)) {
-                            region.setBlock(new BlockPos(x + j, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + i, z + k), i == Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - 1 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState(), 2);
+                            setBlock(region, new BlockPos(x + j, Config.INSTANCE.worldGen.MAIN_ISLAND_Y + i, z + k), i == Config.INSTANCE.worldGen.MAIN_ISLAND_DEPTH - 1 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState());
                         }
                     }
                 }
